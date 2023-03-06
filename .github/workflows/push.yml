@@ -1,0 +1,32 @@
+name: The CI workflow on push
+on:
+  push:
+permissions:
+  contents: read
+jobs:
+  build:
+    name: The build process
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stages the pushed branch
+        uses: actions/checkout@v3
+      - name: Prepare the Node.js version ${{ matrix.node-version }} environment
+        uses: actions/setup-node@v3
+        with:
+          cache: ${{ !env.ACT && 'yarn' || '' }}
+          node-version: ${{ matrix.node-version }}
+      - name: Enable the corepack because of the Yarn 3
+        run: corepack enable
+      - env:
+          HUSKY: 0
+        name: Install the dependencies
+        run: yarn install --inline-builds
+      - name: Run the tests
+        run: yarn run test
+    strategy:
+      matrix:
+        node-version:
+          - 14.x
+          - 16.x
+          - 18.x
+          - 19.x

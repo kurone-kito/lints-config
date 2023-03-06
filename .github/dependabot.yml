@@ -1,0 +1,14 @@
+version: 2
+updates:
+  - directory: /
+    labels:
+      - dependencies
+    package-ecosystem: npm
+    reviewers:
+      - kurone-kito
+    assignees:
+      - kurone-kito
+    schedule:
+      # The Dependabot does not support Yarn berry,
+      # so lower priority as an interim measure.
+      interval: monthly

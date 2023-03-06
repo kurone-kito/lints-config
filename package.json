@@ -1,0 +1,66 @@
+{
+  "name": "@kurone-kito/yarn-project-boilerplate",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The boilerplate project of the Node.js / Yarn",
+  "keywords": [
+    "boilerplate"
+  ],
+  "homepage": "https://github.com/kurone-kito/yarn-project-boilerplate#readme",
+  "bugs": "https://github.com/kurone-kito/yarn-project-boilerplate/issues",
+  "repository": "github:kurone-kito/yarn-project-boilerplate",
+  "license": "MIT",
+  "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
+  "type": "module",
+  "files": [],
+  "scripts": {
+    "clean": "rimraf -g \".eslintcache\" \"*.tgz\" \"*.tsbuildinfo\"",
+    "postinstall": "husky install",
+    "lint": "conc -m 1 \"yarn:lint:*:check\"",
+    "lint:eslint:check": "eslint --cache --cache-strategy=content -f codeframe \"./**/*\"",
+    "lint:eslint:fix": "yarn run lint:eslint:check --fix",
+    "lint:fix": "conc -m 1 \"yarn:lint:*:fix\"",
+    "lint:prettier:check": "yarn run prettier -cu",
+    "lint:prettier:fix": "yarn run prettier -uw",
+    "prettier": "prettier --cache --loglevel=warn \"$@\" \"./**/*\"",
+    "test": "yarn run lint"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@cspell/eslint-plugin": "^6.28.0",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
+    "@yarnpkg/sdks": "^3.0.0-rc.40",
+    "concurrently": "^7.6.0",
+    "eslint": "^8.35.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-formatter-codeframe": "^7.32.1",
+    "eslint-import-resolver-node": "^0.3.7",
+    "eslint-import-resolver-typescript": "^3.5.3",
+    "eslint-plugin-editorconfig": "^4.0.2",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsdoc": "^40.0.1",
+    "eslint-plugin-lodash": "^7.4.0",
+    "eslint-plugin-markdown": "^3.0.0",
+    "eslint-plugin-yaml": "^0.5.0",
+    "husky": "^8.0.3",
+    "prettier": "^2.8.4",
+    "prettier-plugin-packagejson": "^2.4.3",
+    "prettier-plugin-sh": "^0.12.8",
+    "prettier-plugin-sort-json": "^1.0.0",
+    "pretty-quick": "^3.1.3",
+    "rimraf": "^4.3.0",
+    "typescript": "~4.9.5",
+    "typescript-eslint-language-service": "^5.0.0"
+  },
+  "packageManager": "yarn@3.4.1",
+  "engines": {
+    "node": ">=14.21",
+    "yarn": ">=2.4.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -755,9 +755,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kurone-kito/yarn-project-boilerplate@workspace:.":
+"@kurone-kito/lints-config@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@kurone-kito/yarn-project-boilerplate@workspace:."
+  resolution: "@kurone-kito/lints-config@workspace:."
   dependencies:
     "@commitlint/cli": ^17.4.4
     "@commitlint/config-conventional": ^17.4.4

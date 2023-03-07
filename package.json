@@ -1,14 +1,18 @@
 {
-  "name": "@kurone-kito/yarn-project-boilerplate",
+  "name": "@kurone-kito/lints-config",
   "version": "0.1.0",
   "private": true,
-  "description": "The boilerplate project of the Node.js / Yarn",
+  "description": "My configuration for the ESLint / Prettier / TypeScript",
   "keywords": [
-    "boilerplate"
+    "config",
+    "eslint",
+    "eslintconfig",
+    "prettier",
+    "typescript"
   ],
-  "homepage": "https://github.com/kurone-kito/yarn-project-boilerplate#readme",
-  "bugs": "https://github.com/kurone-kito/yarn-project-boilerplate/issues",
-  "repository": "github:kurone-kito/yarn-project-boilerplate",
+  "homepage": "https://github.com/kurone-kito/lints-config#readme",
+  "bugs": "https://github.com/kurone-kito/lints-config/issues",
+  "repository": "github:kurone-kito/lints-config",
   "license": "MIT",
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",

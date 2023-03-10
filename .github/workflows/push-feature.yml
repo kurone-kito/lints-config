@@ -1,6 +1,9 @@
-name: The CI workflow on push
+name: The CI workflow on push as a feature branch
 on:
   push:
+    branches:
+      - '*'
+      - '!main'
 permissions:
   contents: read
 jobs:

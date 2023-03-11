@@ -17,6 +17,11 @@
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
   "files": [],
+  "workspaces": {
+    "packages": [
+      "./packages/*"
+    ]
+  },
   "scripts": {
     "clean": "rimraf -g \".eslintcache\" \"*.tgz\" \"*.tsbuildinfo\"",
     "postinstall": "husky install",

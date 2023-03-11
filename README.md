@@ -1,6 +1,13 @@
 # ⚙️ lints-config
 
-My configuration for the esbuild / ESLint / Prettier / TypeScript
+My configuration for the ESLint / Prettier / TypeScript
+
+## Structure of the monorepo
+
+- `packages/eslint-config-base`: My ESLint configuration for general projects.
+- `packages/eslint-config-react`: My ESLint configuration for React projects.
+- `packages/prettier-config`: My Prettier configuration for general projects.
+- `packages/tsconfig`: My TypeScript configuration for general projects.
 
 ## Rules for Development
 

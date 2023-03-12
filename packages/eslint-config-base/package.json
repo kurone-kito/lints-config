@@ -18,6 +18,9 @@
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
   "files": [],
+  "devDependencies": {
+    "typescript": "~4.9.5"
+  },
   "engines": {
     "node": ">=14.21"
   },

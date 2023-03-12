@@ -1,10 +1,17 @@
 {
   "eslint.nodePath": ".yarn/sdks",
+  "eslint.packageManager": "yarn",
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
   "files.watcherExclude": {
     "**/.eslintcache": true,
     "**/.pnp.*": true,
     "**/.yarn/cache/**": true,
-    "**/.yarn/unplugged/**": true
+    "**/.yarn/unplugged/**": true,
+    "**/packages/**/*.tsbuildinfo": true
   },
   "json.schemas": [
     {

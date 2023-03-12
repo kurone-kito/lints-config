@@ -32,6 +32,7 @@ parserOptions:
     impliedStrict: true
   project:
     - './tsconfig.json'
+    - packages/*/tsconfig.json
   sourceType: module
 root: true
 rules:

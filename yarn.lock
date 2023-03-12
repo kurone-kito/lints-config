@@ -758,12 +758,16 @@ __metadata:
 "@kurone-kito/eslint-config-base@workspace:packages/eslint-config-base":
   version: 0.0.0-use.local
   resolution: "@kurone-kito/eslint-config-base@workspace:packages/eslint-config-base"
+  dependencies:
+    typescript: ~4.9.5
   languageName: unknown
   linkType: soft
 
 "@kurone-kito/eslint-config-react@workspace:packages/eslint-config-react":
   version: 0.0.0-use.local
   resolution: "@kurone-kito/eslint-config-react@workspace:packages/eslint-config-react"
+  dependencies:
+    typescript: ~4.9.5
   languageName: unknown
   linkType: soft
 
@@ -805,12 +809,16 @@ __metadata:
 "@kurone-kito/prettier-config@workspace:packages/prettier-config":
   version: 0.0.0-use.local
   resolution: "@kurone-kito/prettier-config@workspace:packages/prettier-config"
+  dependencies:
+    typescript: ~4.9.5
   languageName: unknown
   linkType: soft
 
 "@kurone-kito/typescript-config@workspace:packages/typescript-config":
   version: 0.0.0-use.local
   resolution: "@kurone-kito/typescript-config@workspace:packages/typescript-config"
+  dependencies:
+    typescript: ~4.9.5
   languageName: unknown
   linkType: soft
 

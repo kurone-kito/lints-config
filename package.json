@@ -23,7 +23,10 @@
     ]
   },
   "scripts": {
-    "clean": "rimraf -g \".eslintcache\" \"*.tgz\" \"*.tsbuildinfo\"",
+    "build": "yarn run sub run build",
+    "clean": "conc \"yarn:clean:*\"",
+    "clean:root": "rimraf -g \".eslintcache\" \"*.tgz\" \"*.tsbuildinfo\"",
+    "clean:sub": "yarn run sub run clean",
     "postinstall": "husky install",
     "lint": "conc -m 1 \"yarn:lint:*:check\"",
     "lint:eslint:check": "eslint --cache --cache-strategy=content -f codeframe \"./**/*\"",
@@ -32,6 +35,9 @@
     "lint:prettier:check": "yarn run prettier -cu",
     "lint:prettier:fix": "yarn run prettier -uw",
     "prettier": "prettier --cache --loglevel=warn \"$@\" \"./**/*\"",
+    "publish": "yarn workspaces foreach --no-private -t -j 1 npm publish",
+    "start": "yarn run sub -j 5 run start",
+    "sub": "yarn workspaces foreach --no-private -ipv",
     "test": "yarn run lint"
   },
   "devDependencies": {

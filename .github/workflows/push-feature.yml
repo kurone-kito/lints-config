@@ -24,6 +24,8 @@ jobs:
           HUSKY: 0
         name: Install the dependencies
         run: yarn install --inline-builds
+      - name: Run the build
+        run: yarn run build
       - name: Run the tests
         run: yarn run test
     strategy:

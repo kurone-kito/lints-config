@@ -1,0 +1,29 @@
+name: The CI/CD workflow on push as a main branch
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: read
+jobs:
+  build:
+    name: The build process
+    runs-on: ubuntu-latest
+    steps:
+      - name: Stages the pushed branch
+        uses: actions/checkout@v3
+      - name: Prepare the Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          cache: ${{ !env.ACT && 'yarn' || '' }}
+          node-version-file: .node-version
+      - name: Enable the corepack because of the Yarn 3
+        run: corepack enable
+      - env:
+          HUSKY: 0
+        name: Install the dependencies
+        run: yarn install --inline-builds
+      - env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        name: Publish the packages
+        run: yarn run publish

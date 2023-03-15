@@ -305,3 +305,7 @@ $RECYCLE.BIN/
 .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/linux,macos,node,sublimetext,vim,visualstudiocode,windows,yarn
+
+### THE PROJECT SPECIFIES #################################################
+
+packages/prettier-config/.prettierrc.json

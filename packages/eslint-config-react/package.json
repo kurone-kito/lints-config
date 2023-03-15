@@ -19,7 +19,13 @@
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
   "files": [],
+  "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
+    "@kurone-kito/prettier-config": "workspace:*",
+    "prettier": "^2.8.4",
+    "prettier-plugin-packagejson": "^2.4.3",
+    "prettier-plugin-sh": "^0.12.8",
+    "prettier-plugin-sort-json": "^1.0.0",
     "typescript": "~4.9.5"
   },
   "engines": {

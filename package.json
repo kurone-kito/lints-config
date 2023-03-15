@@ -40,10 +40,12 @@
     "sub": "yarn workspaces foreach --no-private -ipv",
     "test": "yarn run lint"
   },
+  "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
     "@cspell/eslint-plugin": "^6.28.0",
+    "@kurone-kito/prettier-config": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
     "@yarnpkg/sdks": "^3.0.0-rc.40",

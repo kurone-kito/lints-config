@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/prettier-config",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "My Prettier configuration for general projects",
   "keywords": [
     "config",
@@ -17,9 +17,36 @@
   },
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
-  "files": [],
+  "exports": {
+    ".": "./.prettierrc.json",
+    "./.prettierrc.json": "./.prettierrc.json"
+  },
+  "main": ".prettierrc.json",
+  "files": [
+    ".prettierrc.json"
+  ],
+  "scripts": {
+    "build": "js-yaml .prettierrc.yml > .prettierrc.json",
+    "clean": "rimraf \".prettierrc.json\"",
+    "lint": "yarn run prettier -cu",
+    "lint:fix": "yarn run prettier -uw",
+    "prepack": "yarn run clean && yarn run build",
+    "prettier": "prettier --cache --loglevel=warn \"$@\" \"./**/*\""
+  },
   "devDependencies": {
+    "js-yaml": "^4.1.0",
+    "prettier": "^2.8.4",
+    "prettier-plugin-packagejson": "^2.4.3",
+    "prettier-plugin-sh": "^0.12.8",
+    "prettier-plugin-sort-json": "^1.0.0",
+    "rimraf": "^4.3.0",
     "typescript": "~4.9.5"
+  },
+  "peerDependencies": {
+    "prettier": "^2.8.4",
+    "prettier-plugin-packagejson": "^2.4.3",
+    "prettier-plugin-sh": "^0.12.8",
+    "prettier-plugin-sort-json": "^1.0.0"
   },
   "engines": {
     "node": ">=14.21"

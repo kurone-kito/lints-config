@@ -789,6 +789,7 @@ __metadata:
     "@commitlint/config-conventional": ^17.4.4
     "@cspell/eslint-plugin": ^6.28.0
     "@kurone-kito/prettier-config": "workspace:*"
+    "@kurone-kito/typescript-config": "workspace:*"
     "@typescript-eslint/eslint-plugin": ^5.54.0
     "@typescript-eslint/parser": ^5.54.0
     "@yarnpkg/sdks": ^3.0.0-rc.40
@@ -836,16 +837,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@kurone-kito/typescript-config@workspace:packages/typescript-config":
+"@kurone-kito/typescript-config@workspace:*, @kurone-kito/typescript-config@workspace:packages/typescript-config":
   version: 0.0.0-use.local
   resolution: "@kurone-kito/typescript-config@workspace:packages/typescript-config"
   dependencies:
     "@kurone-kito/prettier-config": "workspace:*"
+    "@typescript-eslint/parser": ^5.54.0
+    eslint: ^8.35.0
     prettier: ^2.8.4
     prettier-plugin-packagejson: ^2.4.3
     prettier-plugin-sh: ^0.12.8
     prettier-plugin-sort-json: ^1.0.0
     typescript: ~4.9.5
+    typescript-eslint-language-service: ^5.0.0
+  peerDependencies:
+    typescript: ~4.9.5
+    typescript-eslint-language-service: ^5.0.0
   languageName: unknown
   linkType: soft
 

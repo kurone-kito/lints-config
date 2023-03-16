@@ -1,33 +1,7 @@
 {
   "compilerOptions": {
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
     "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "emitDecoratorMetadata": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
-    "incremental": true,
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "newLine": "LF",
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noUncheckedIndexedAccess": true,
-    "noUnusedParameters": true,
-    "plugins": [
-      {
-        "name": "typescript-eslint-language-service"
-      }
-    ],
-    "preserveWatchOutput": true,
-    "resolveJsonModule": true,
-    "sourceMap": true,
-    "strict": true,
-    "target": "ES2019"
-  }
+    "noEmit": true
+  },
+  "extends": "./packages/typescript-config/tsconfig"
 }

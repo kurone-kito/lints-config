@@ -1,3 +1,11 @@
+<!-- markdownlint-disable MD041 -->
+<!-- markdownlint-disable MD045 -->
+
+![](logo.png)
+
+<!-- markdownlint-enable MD041 -->
+<!-- markdownlint-enable MD045 -->
+
 # ⚙️ lints-config
 
 My configuration for the ESLint / Prettier / TypeScript

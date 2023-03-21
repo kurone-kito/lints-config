@@ -1,0 +1,93 @@
+env:
+  es2022: true
+  node: true
+extends:
+  - plugin:markdown/recommended
+  - plugin:yaml/recommended
+  - plugin:json/recommended
+  - plugin:editorconfig/noconflict
+  - plugin:@cspell/recommended
+  - plugin:jsdoc/recommended
+  - plugin:lodash/recommended
+  - eslint:recommended
+  - plugin:import/recommended
+  - plugin:import/typescript
+  - plugin:@typescript-eslint/recommended
+  # Because we want to apply the Airbnb rules as much as possible,
+  # we have placed them closer to the end.
+  - airbnb-typescript/base
+  - prettier
+overrides:
+  - env:
+      jest: true
+    files:
+      - '**/*.spec.?([cm])[jt]s'
+  - files:
+      - '*.?(c)js'
+    rules:
+      # Allow `require` syntax only for JavaScript. By default,
+      # it is completely prohibited.
+      # There are many situations where JavaScript is used outside the
+      # scope of transpiling, such as in various configuration files,
+      # making the `import` syntax challenging to use.
+      '@typescript-eslint/no-var-requires': 'off'
+parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaFeatures:
+    impliedStrict: true
+  extraFileExtensions:
+    - .json
+  project:
+    - tsconfig.json
+  sourceType: module
+rules:
+  # With a warning, allow use standard import syntax to import for type-
+  # only. The default is to enable it unconditionally. Tree shaking at
+  # build time needs to work correctly to reduce bundle size, and active
+  # use of the type import syntax can contribute significantly to this.
+  '@typescript-eslint/consistent-type-imports': warn
+  # Prohibit dependencies on `devDependencies`, except for specific
+  # files. By default, this is a total ban. There is no need for
+  # strict separation of dependent packages since they are internally
+  # tree shaken by bundlers. Still, some packages are separated into
+  # `devDependencies` to make it easier to organize.
+  import/no-extraneous-dependencies:
+    - error
+    - devDependencies:
+        - '**/*.spec.?([cm])[jt]s'
+  # Allow with a warning that the arbitrary reordering in the
+  # import syntax. The default is to allow it unconditionally.
+  # in order to deal with the snowballing problem of the import part.
+  import/order: warn
+  # Allow unconditional type specification of the arguments in JSDoc.
+  # The default is a blanket ban. Because in TypeScript projects,
+  # it can be inferred from the type definitions in the code.
+  # TODO: If there are any inconveniences in document generation,
+  # TODO: the below rule will be removed.
+  jsdoc/require-param-type: 'off'
+  # Allow unconditional type specification of the return value in JSDoc.
+  # The default is a blanket ban. Because in TypeScript projects,
+  # it can be inferred from the type definitions in the code.
+  # TODO: If there are any inconveniences in document generation,
+  # TODO: the below rule will be removed.
+  jsdoc/require-returns-type: 'off'
+  # Allow unconditional native function substitution in Lodash func-
+  # tions. They are prohibited by default. In modern web browsers, diff-
+  # erences in standard function specifications are considered unlikely.
+  lodash/prefer-lodash-method: 'off'
+  # Allow arbitrary reordering of multiple exports in the import syntax,
+  # with a warning. The default is to allow it unconditionally.
+  # in order to deal with the snowballing problem of the import part.
+  sort-imports:
+    - warn
+    - ignoreCase: true
+      ignoreDeclarationSort: true
+settings:
+  # ? I've installed `eslint-import-resolver-node`, but
+  # ? if I don't put it directly in `devDependencies`, Linter
+  # ? gives me some inexplicable errors. Also, if you include `node: {}`
+  # ? in the configuration, it provides another inexplicable error.
+  # ? see: https:#github.com/airbnb/javascript/issues/1730
+  import/resolver:
+    typescript:
+      alwaysTryTypes: true

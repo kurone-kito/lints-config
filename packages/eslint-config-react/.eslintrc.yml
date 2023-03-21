@@ -1,0 +1,80 @@
+extends:
+  - '@kurone-kito/base'
+  - airbnb-typescript
+  - prettier
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+overrides:
+  - env:
+      jest: true
+    files:
+      - '**/*.spec.?([cm])[jt]s?(x)'
+  - files:
+      - '**/*.stories.?([cm])[jt]s?(x)'
+      - src/utils/tests/*.?([cm])[jt]s?(x)
+    rules:
+      # Unconditionally allow export to `default`. The default is unknown,
+      # but since Storybook component definitions are structurally
+      # dependent on export to `default`, this permission is explicitly
+      # stated to prevent influence by later configuration reviews.
+      import/no-anonymous-default-export: off
+      # Exporting code that depends on `devDependencies` is allowed only
+      # for specific packages on an exception basis, and by default, it is
+      # prohibited.
+      # To organize dependencies, only packages that directly depend on the
+      # product code should be listed in the `dependencies` list, so
+      # Storybook component definitions not included in the product code
+      # are exceptionally allowed to depend on `devDependencies`.
+      node/no-unpublished-import:
+        - error
+        - allowModules:
+            - '@storybook/react'
+            - '@storybook/testing-library'
+  - files:
+      - '**/*.spec.?([cm])[jt]s?(x)'
+      - '**/*.test.?([cm])[jt]s?(x)'
+      - '**/setupTests.?([cm])[jt]s?(x)'
+    rules:
+      # Exporting code that depends on `devDependencies` is allowed only
+      # for specific packages on an exception basis, and by default, it is
+      # prohibited. To organize dependencies, only packages that directly
+      # depend on the product code should be listed in the `dependencies`
+      # list, so test codes not included in the product code are
+      # exceptionally allowed to depend on `devDependencies`.
+      node/no-unpublished-import:
+        - error
+        - allowModules:
+            - '@testing-library/jest-dom'
+            - '@testing-library/react'
+            - '@testing-library/user-event'
+rules:
+  # Prohibit dependencies on `devDependencies`, except for specific
+  # files. By default, this is a total ban. There is no need for
+  # strict separation of dependent packages since they are internally
+  # tree shaken by bundlers. Still, some packages are separated into
+  # `devDependencies` to make it easier to organize.
+  import/no-extraneous-dependencies:
+    - error
+    - devDependencies:
+        - '**/*.spec.?([cm])[jt]s?(x)'
+  # Allows explicit notation of `true` in JSX notation with a warning.
+  # It is unconditionally permitted by default.
+  # Because `true` is optional, the intent is to improve readability by
+  # reducing the amount of code and keeping it simple.
+  react/jsx-boolean-value: warn
+  # Allows explicit string value notation in JSX notation with a warning.
+  # The default is unconditional permission.
+  # String values can be described simply as constant attributes,
+  # intending to reduce code and improve readability.
+  react/jsx-curly-brace-presence: warn
+  # Starting with React 17, the `React` import in JSX/TSX is no longer
+  # required, and this rule is no longer necessary.
+  # The default is to force it in JSX/TSX.
+  # See: https:#ja.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html#eslint
+  react/react-in-jsx-scope: 'off'
+  # Allows explicit notation of the absence of child elements in JSX
+  # notation with a warning. The default is unconditional permission.
+  # Self-contained tags are intended to reduce the amount of code,
+  # keep things more straightforward, and improve readability.
+  react/self-closing-comp: warn

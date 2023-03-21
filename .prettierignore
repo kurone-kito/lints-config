@@ -318,3 +318,8 @@ $RECYCLE.BIN/
 # Yarn v2
 .yarn
 yarn.lock
+
+### THE PROJECT SPECIFIES #################################################
+
+packages/eslint-config-*/.eslintrc.json
+packages/prettier-config/.prettierrc.json

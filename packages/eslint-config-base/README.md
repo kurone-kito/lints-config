@@ -1,0 +1,24 @@
+# `@kurone-kito/eslint-config-base`
+
+My ESLint configuration for general Node.js projects.
+
+## Usage
+
+First, install this package and its peer dependencies:
+
+```sh
+npm install --save-dev @kurone-kito/eslint-config-base
+npm install --save-dev @cspell/eslint-plugin @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-config-airbnb-typescript eslint-config-prettier eslint-formatter-codeframe eslint-import-resolver-node eslint-import-resolver-typescript eslint-plugin-editorconfig eslint-plugin-import eslint-plugin-jsdoc eslint-plugin-json eslint-plugin-lodash eslint-plugin-markdown eslint-plugin-yaml
+```
+
+Then, create a `.eslintrc.yml` file. If exists, merge the following configuration into it:
+
+```yaml
+extends:
+  - '@kurone-kito/eslint-config-base'
+root: true
+```
+
+## License
+
+MIT

@@ -1,0 +1,94 @@
+{
+  "name": "@kurone-kito/eslint-config-react",
+  "version": "0.1.0",
+  "description": "My ESLint configuration for React projects",
+  "keywords": [
+    "config",
+    "eslint",
+    "eslintconfig",
+    "eslintrc",
+    "react"
+  ],
+  "homepage": "https://github.com/kurone-kito/lints-config#readme",
+  "bugs": "https://github.com/kurone-kito/lints-config/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kurone-kito/lints-config.git",
+    "directory": "packages/eslint-config-react"
+  },
+  "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
+  "type": "module",
+  "exports": {
+    ".": "./.eslintrc.json",
+    "./.eslintrc.json": "./.eslintrc.json"
+  },
+  "main": ".eslintrc.json",
+  "files": [
+    ".eslintrc.json"
+  ],
+  "scripts": {
+    "build": "js-yaml .eslintrc.yml > .eslintrc.json",
+    "clean": "rimraf \".eslintrc.json\"",
+    "prepack": "yarn run clean && yarn run build"
+  },
+  "prettier": "@kurone-kito/prettier-config",
+  "devDependencies": {
+    "@cspell/eslint-plugin": "^6.30.2",
+    "@kurone-kito/eslint-config-base": "workspace:*",
+    "@kurone-kito/prettier-config": "workspace:*",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "eslint": "^8.36.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-formatter-codeframe": "^7.32.1",
+    "eslint-import-resolver-node": "^0.3.7",
+    "eslint-import-resolver-typescript": "^3.5.3",
+    "eslint-plugin-editorconfig": "^4.0.2",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsdoc": "^40.1.0",
+    "eslint-plugin-json": "^3.1.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-lodash": "^7.4.0",
+    "eslint-plugin-markdown": "^3.0.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-storybook": "^0.6.11",
+    "eslint-plugin-yaml": "^0.5.0",
+    "js-yaml": "^4.1.0",
+    "prettier": "^2.8.6",
+    "prettier-plugin-packagejson": "^2.4.3",
+    "prettier-plugin-sh": "^0.12.8",
+    "prettier-plugin-sort-json": "^1.0.0",
+    "rimraf": "^4.4.0",
+    "typescript": "~5.0.2"
+  },
+  "peerDependencies": {
+    "@cspell/eslint-plugin": "^6.30.2",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "eslint": "^8.36.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-formatter-codeframe": "^7.32.1",
+    "eslint-import-resolver-node": "^0.3.7",
+    "eslint-import-resolver-typescript": "^3.5.3",
+    "eslint-plugin-editorconfig": "^4.0.2",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsdoc": "^40.1.0",
+    "eslint-plugin-json": "^3.1.0",
+    "eslint-plugin-jsx-a11y": "^6.7.0",
+    "eslint-plugin-lodash": "^7.4.0",
+    "eslint-plugin-markdown": "^3.0.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-storybook": "^0.6.11",
+    "eslint-plugin-yaml": "^0.5.0"
+  },
+  "engines": {
+    "node": ">=14.21"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  }
+}

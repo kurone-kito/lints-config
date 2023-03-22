@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/lints-config",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "private": true,
   "description": "My configuration for the ESLint / Prettier / TypeScript",
   "keywords": [
@@ -42,7 +42,7 @@
   },
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
-    "@commitlint/cli": "^17.4.4",
+    "@commitlint/cli": "^17.5.0",
     "@commitlint/config-conventional": "^17.4.4",
     "@cspell/eslint-plugin": "^6.30.2",
     "@kurone-kito/eslint-config-base": "workspace:*",

@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/eslint-config-react",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "My ESLint configuration for React projects",
   "keywords": [
     "config",

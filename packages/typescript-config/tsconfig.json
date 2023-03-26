@@ -1,32 +1,44 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "declaration": true,
+    "assumeChangesOnlyAffectDirectDependencies": true,
+    "checkJs": true,
+    "composite": true,
     "declarationMap": true,
-    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
-    "experimentalDecorators": true,
+    "exactOptionalPropertyTypes": true,
     "forceConsistentCasingInFileNames": true,
+    "importsNotUsedAsValues": "error",
     "incremental": true,
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "isolatedModules": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "newLine": "LF",
+    "noEmitOnError": true,
+    "noErrorTruncation": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
     "noUnusedParameters": true,
     "plugins": [
       {
         "name": "typescript-eslint-language-service"
       }
     ],
+    "preserveValueImports": true,
     "preserveWatchOutput": true,
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
+    "stripInternal": true,
     "target": "ES2019"
+  },
+  "typeAcquisition": {
+    "enable": true
   }
 }

@@ -55,10 +55,25 @@ rules:
     - error
     - devDependencies:
         - '**/*.spec.?([cm])[jt]s'
+        - '**/jest.*.?([cm])[jt]s'
+        - '**/scripts/*.?([cm])[jt]s'
   # Allow with a warning that the arbitrary reordering in the
   # import syntax. The default is to allow it unconditionally.
   # in order to deal with the snowballing problem of the import part.
-  import/order: warn
+  import/order:
+    - warn
+    - alphabetize:
+        order: asc
+        caseInsensitive: true
+      groups:
+        - builtin
+        - external
+        - internal
+        - parent
+        - sibling
+        - index
+        - object
+      newlines-between: never
   # Allow unconditional type specification of the arguments in JSDoc.
   # The default is a blanket ban. Because in TypeScript projects,
   # it can be inferred from the type definitions in the code.

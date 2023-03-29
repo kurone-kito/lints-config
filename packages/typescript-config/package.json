@@ -24,14 +24,14 @@
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
     "@kurone-kito/prettier-config": "workspace:*",
-    "@typescript-eslint/parser": "^5.56.0",
-    "eslint": "^8.36.0",
-    "prettier": "^2.8.6",
+    "@typescript-eslint/parser": "^5.57.0",
+    "eslint": "^8.37.0",
+    "prettier": "^2.8.7",
     "prettier-plugin-packagejson": "^2.4.3",
     "prettier-plugin-sh": "^0.12.8",
     "prettier-plugin-sort-json": "^1.0.0",
     "typescript": "~5.0.2",
-    "typescript-eslint-language-service": "^5.0.0"
+    "typescript-eslint-language-service": "^5.0.3"
   },
   "peerDependencies": {
     "typescript": "~5.0.2",

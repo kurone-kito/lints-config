@@ -40,7 +40,7 @@
     "prettier-plugin-sh": "^0.12.8",
     "prettier-plugin-sort-json": "^1.0.0",
     "rimraf": "^4.4.1",
-    "typescript": "~5.0.2"
+    "typescript": "~5.0.3"
   },
   "peerDependencies": {
     "prettier": "^2.8.5",

@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/eslint-config-react",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "My ESLint configuration for React projects",
   "keywords": [
     "config",
@@ -46,7 +46,7 @@
     "eslint-import-resolver-typescript": "^3.5.4",
     "eslint-plugin-editorconfig": "^4.0.2",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsdoc": "^40.1.0",
+    "eslint-plugin-jsdoc": "^40.1.1",
     "eslint-plugin-json": "^3.1.0",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-lodash": "^7.4.0",
@@ -61,7 +61,7 @@
     "prettier-plugin-sh": "^0.12.8",
     "prettier-plugin-sort-json": "^1.0.0",
     "rimraf": "^4.4.1",
-    "typescript": "~5.0.2"
+    "typescript": "~5.0.3"
   },
   "peerDependencies": {
     "@cspell/eslint-plugin": "^6.30.2",

@@ -50,7 +50,7 @@
     "@kurone-kito/typescript-config": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",
-    "@yarnpkg/sdks": "^3.0.0-rc.41",
+    "@yarnpkg/sdks": "^3.0.0-rc.42",
     "concurrently": "^8.0.1",
     "eslint": "^8.37.0",
     "eslint-config-airbnb-typescript": "^17.0.0",

@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/eslint-config-base",
-  "version": "0.2.1",
+  "version": "0.2.5",
   "description": "My ESLint configuration for general Node.js projects",
   "keywords": [
     "config",
@@ -79,6 +79,6 @@
     "node": ">=14.21"
   },
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   }
 }

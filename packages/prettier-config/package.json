@@ -27,7 +27,7 @@
   ],
   "scripts": {
     "build": "js-yaml .prettierrc.yml > .prettierrc.json",
-    "clean": "rimraf \".prettierrc.json\"",
+    "clean": "rimraf -g \".prettierrc.json\" \"*.tgz\" \"undefined\"",
     "lint": "yarn run prettier -cu",
     "lint:fix": "yarn run prettier -uw",
     "prepack": "yarn run clean && yarn run build",

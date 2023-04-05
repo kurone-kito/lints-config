@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "build": "js-yaml .eslintrc.yml > .eslintrc.json",
-    "clean": "rimraf \".eslintrc.json\"",
+    "clean": "rimraf -g \".eslintcache\" \".eslintrc.json\" \"*.tgz\" \"*.tsbuildinfo\" \"undefined\"",
     "prepack": "yarn run clean && yarn run build"
   },
   "prettier": "@kurone-kito/prettier-config",

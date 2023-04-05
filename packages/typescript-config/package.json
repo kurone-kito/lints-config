@@ -21,6 +21,9 @@
   "files": [
     "tsconfig.json"
   ],
+  "scripts": {
+    "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" \"undefined\""
+  },
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
     "@kurone-kito/prettier-config": "workspace:*",

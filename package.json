@@ -36,7 +36,7 @@
     "lint:prettier:fix": "yarn run prettier -uw",
     "prettier": "prettier --cache --loglevel=warn \"$@\" \"./**/*\"",
     "publish": "yarn workspaces foreach --no-private -t -j 1 npm publish",
-    "start": "yarn run sub -j 5 run start",
+    "start": "yarn run sub -j unlimited run start",
     "sub": "yarn workspaces foreach --no-private -ipv",
     "test": "yarn run lint"
   },

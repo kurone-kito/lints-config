@@ -31,6 +31,15 @@ overrides:
       # scope of transpiling, such as in various configuration files,
       # making the `import` syntax challenging to use.
       '@typescript-eslint/no-var-requires': 'off'
+  - files:
+      - '*.?([cm])js'
+    rules:
+      # Allow type inference of return values of exported functions, etc.,
+      # only for JavaScript. By default, it is allowed with a warning.
+      # There are many situations where JavaScript is used outside the
+      # scope of transpiling, such as in various configuration files,
+      # making the `import` syntax challenging to use.
+      '@typescript-eslint/explicit-module-boundary-types': 'off'
 parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaFeatures:
@@ -46,6 +55,18 @@ rules:
   # build time needs to work correctly to reduce bundle size, and active
   # use of the type import syntax can contribute significantly to this.
   '@typescript-eslint/consistent-type-imports': warn
+  # With a warning, allow type inference for return values of functions
+  # and methods referenced from other files, including public methods
+  # in exported functions and classes. Default is unconditional allow.
+  # Allowing this may cause TypeScript to chain type inference from the
+  # wrong type if it does not read the type definition correctly,
+  # resulting in type errors in the wrong places.
+  '@typescript-eslint/explicit-module-boundary-types': warn
+  # Permit explicit statements in Arrow functions, even when the block is
+  # optional, with a warning. The default is unconditional allow.
+  # The intent is to reduce the amount of code and keep it simple,
+  # thereby improving readability.
+  arrow-body-style: warn
   # Prohibit dependencies on `devDependencies`, except for specific
   # files. By default, this is a total ban. There is no need for
   # strict separation of dependent packages since they are internally

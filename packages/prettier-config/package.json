@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/prettier-config",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "My Prettier configuration for general projects",
   "keywords": [
     "config",
@@ -27,7 +27,7 @@
   ],
   "scripts": {
     "build": "js-yaml .prettierrc.yml > .prettierrc.json",
-    "clean": "rimraf \".prettierrc.json\"",
+    "clean": "rimraf -g \".prettierrc.json\" \"*.tgz\" \"undefined\"",
     "lint": "yarn run prettier -cu",
     "lint:fix": "yarn run prettier -uw",
     "prepack": "yarn run clean && yarn run build",

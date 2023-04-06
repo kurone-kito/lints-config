@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/lints-config",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "private": true,
   "description": "My configuration for the ESLint / Prettier / TypeScript",
   "keywords": [
@@ -25,7 +25,7 @@
   "scripts": {
     "build": "yarn run sub run build",
     "clean": "conc \"yarn:clean:*\"",
-    "clean:root": "rimraf -g \".eslintcache\" \"*.tgz\" \"*.tsbuildinfo\"",
+    "clean:root": "rimraf -g \".eslintcache\" \"*.tgz\" \"*.tsbuildinfo\" \"undefined\"",
     "clean:sub": "yarn run sub run clean",
     "postinstall": "husky install",
     "lint": "conc -m 1 \"yarn:lint:*:check\"",
@@ -36,7 +36,7 @@
     "lint:prettier:fix": "yarn run prettier -uw",
     "prettier": "prettier --cache --loglevel=warn \"$@\" \"./**/*\"",
     "publish": "yarn workspaces foreach --no-private -t -j 1 npm publish",
-    "start": "yarn run sub -j 5 run start",
+    "start": "yarn run sub -j unlimited run start",
     "sub": "yarn workspaces foreach --no-private -ipv",
     "test": "yarn run lint"
   },

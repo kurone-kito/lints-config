@@ -1,5 +1,0 @@
-undecided:
-  - "@kurone-kito/lints-config"
-  - "@kurone-kito/eslint-config-base"
-  - "@kurone-kito/eslint-config-react"
-  - "@kurone-kito/prettier-config"

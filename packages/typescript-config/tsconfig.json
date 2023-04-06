@@ -9,9 +9,6 @@
     "declarationMap": true,
     "esModuleInterop": true,
     "exactOptionalPropertyTypes": true,
-    "forceConsistentCasingInFileNames": true,
-    "importsNotUsedAsValues": "error",
-    "incremental": true,
     "isolatedModules": true,
     "module": "nodenext",
     "moduleResolution": "nodenext",
@@ -30,7 +27,6 @@
         "name": "typescript-eslint-language-service"
       }
     ],
-    "preserveValueImports": true,
     "preserveWatchOutput": true,
     "resolveJsonModule": true,
     "sourceMap": true,

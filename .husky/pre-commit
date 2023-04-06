@@ -4,4 +4,10 @@
 
 . "$(dirname "$0")/_/husky.sh"
 
+if [ ! -e packages/prettier-config/.prettierrc.json ]; then
+  echo 'ERROR: Prettier config not found.' 1>&2
+  echo 'Please run "yarn install && yarn run build" in the project root directory before committing.' 1>&2
+  exit 1
+fi
+
 yarn exec pretty-quick --staged

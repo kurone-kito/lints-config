@@ -48,7 +48,7 @@
     "prettier-plugin-sort-json": "^1.0.0"
   },
   "engines": {
-    "node": ">=14.21"
+    "node": ">=16.20"
   },
   "publishConfig": {
     "access": "public"

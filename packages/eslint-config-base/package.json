@@ -76,7 +76,7 @@
     "eslint-plugin-yaml": "^0.5.0"
   },
   "engines": {
-    "node": ">=14.21"
+    "node": ">=16.20"
   },
   "publishConfig": {
     "access": "public"

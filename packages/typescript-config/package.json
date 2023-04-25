@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/typescript-config",
-  "version": "0.2.8",
+  "version": "0.3.0",
   "description": "My TypeScript configuration for general projects",
   "keywords": [
     "config",
@@ -27,9 +27,9 @@
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
     "@kurone-kito/prettier-config": "workspace:*",
-    "@typescript-eslint/parser": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.1",
     "eslint": "^8.39.0",
-    "prettier": "^2.8.7",
+    "prettier": "^2.8.8",
     "prettier-plugin-packagejson": "^2.4.3",
     "prettier-plugin-sh": "^0.12.8",
     "prettier-plugin-sort-json": "^1.0.0",
@@ -37,11 +37,11 @@
     "typescript-eslint-language-service": "^5.0.5"
   },
   "peerDependencies": {
-    "typescript": "~5.0.3",
-    "typescript-eslint-language-service": "^5.0.0"
+    "typescript": "~5.0.4",
+    "typescript-eslint-language-service": "^5.0.5"
   },
   "engines": {
-    "node": ">=14.21"
+    "node": ">=16.20"
   },
   "publishConfig": {
     "access": "public"

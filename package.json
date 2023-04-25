@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/lints-config",
-  "version": "0.2.8",
+  "version": "0.3.0",
   "private": true,
   "description": "My configuration for the ESLint / Prettier / TypeScript",
   "keywords": [
@@ -48,8 +48,8 @@
     "@kurone-kito/eslint-config-base": "workspace:*",
     "@kurone-kito/prettier-config": "workspace:*",
     "@kurone-kito/typescript-config": "workspace:*",
-    "@typescript-eslint/eslint-plugin": "^5.59.0",
-    "@typescript-eslint/parser": "^5.59.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.1",
+    "@typescript-eslint/parser": "^5.59.1",
     "@yarnpkg/sdks": "^3.0.0-rc.42",
     "concurrently": "^8.0.1",
     "eslint": "^8.39.0",
@@ -60,13 +60,13 @@
     "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-plugin-editorconfig": "^4.0.2",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsdoc": "^43.0.7",
+    "eslint-plugin-jsdoc": "^43.1.1",
     "eslint-plugin-json": "^3.1.0",
     "eslint-plugin-lodash": "^7.4.0",
     "eslint-plugin-markdown": "^3.0.0",
     "eslint-plugin-yaml": "^0.5.0",
     "husky": "^8.0.3",
-    "prettier": "^2.8.7",
+    "prettier": "^2.8.8",
     "prettier-plugin-packagejson": "^2.4.3",
     "prettier-plugin-sh": "^0.12.8",
     "prettier-plugin-sort-json": "^1.0.0",
@@ -77,7 +77,7 @@
   },
   "packageManager": "yarn@3.5.0",
   "engines": {
-    "node": ">=14.21",
+    "node": ">=16.20",
     "yarn": ">=2.4.3"
   },
   "publishConfig": {

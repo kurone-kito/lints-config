@@ -7,8 +7,10 @@ My TypeScript configuration for general Node.js projects.
 First, install this package and its peer dependencies:
 
 ```sh
-npm install --save-dev @kurone-kito/typescript-config
-npm install --save-dev typescript typescript-eslint-language-service
+npm install --save-dev \
+  @kurone-kito/typescript-config \
+  typescript \
+  typescript-eslint-language-service
 ```
 
 Then, create a `tsconfig.json` file. If exists, merge the following configuration into it:

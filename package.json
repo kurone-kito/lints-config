@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/lints-config",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "description": "My configuration for the ESLint / Prettier / TypeScript",
   "keywords": [
@@ -48,9 +48,9 @@
     "@kurone-kito/eslint-config-base": "workspace:*",
     "@kurone-kito/prettier-config": "workspace:*",
     "@kurone-kito/typescript-config": "workspace:*",
-    "@typescript-eslint/eslint-plugin": "^5.59.1",
-    "@typescript-eslint/parser": "^5.59.1",
-    "@yarnpkg/sdks": "^3.0.0-rc.42",
+    "@typescript-eslint/eslint-plugin": "^5.59.2",
+    "@typescript-eslint/parser": "^5.59.2",
+    "@yarnpkg/sdks": "^3.0.0-rc.43",
     "concurrently": "^8.0.1",
     "eslint": "^8.39.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
@@ -75,7 +75,7 @@
     "typescript": "~5.0.4",
     "typescript-eslint-language-service": "^5.0.5"
   },
-  "packageManager": "yarn@3.5.0",
+  "packageManager": "yarn@3.5.1",
   "engines": {
     "node": ">=16.20",
     "yarn": ">=2.4.3"

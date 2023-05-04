@@ -42,8 +42,8 @@
   },
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
-    "@commitlint/cli": "^17.6.1",
-    "@commitlint/config-conventional": "^17.6.1",
+    "@commitlint/cli": "^17.6.3",
+    "@commitlint/config-conventional": "^17.6.3",
     "@cspell/eslint-plugin": "^6.31.1",
     "@kurone-kito/eslint-config-base": "workspace:*",
     "@kurone-kito/prettier-config": "workspace:*",

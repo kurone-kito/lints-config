@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/eslint-config-react",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "My ESLint configuration for React projects",
   "keywords": [
     "config",
@@ -32,9 +32,11 @@
     "prepack": "yarn run clean && yarn run build"
   },
   "prettier": "@kurone-kito/prettier-config",
+  "dependencies": {
+    "@kurone-kito/eslint-config-base": "workspace:*"
+  },
   "devDependencies": {
     "@cspell/eslint-plugin": "^6.31.1",
-    "@kurone-kito/eslint-config-base": "workspace:*",
     "@kurone-kito/prettier-config": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^5.59.2",
     "@typescript-eslint/parser": "^5.59.2",
@@ -53,7 +55,7 @@
     "eslint-plugin-markdown": "^3.0.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-storybook": "^0.6.11",
+    "eslint-plugin-storybook": "^0.6.12",
     "eslint-plugin-yaml": "^0.5.0",
     "js-yaml": "^4.1.0",
     "prettier": "^2.8.8",

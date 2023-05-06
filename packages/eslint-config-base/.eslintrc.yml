@@ -9,6 +9,7 @@ extends:
   - plugin:@cspell/recommended
   - plugin:jsdoc/recommended
   - plugin:lodash/recommended
+  - plugin:node/recommended
   - eslint:recommended
   - plugin:import/recommended
   - plugin:import/typescript
@@ -111,6 +112,14 @@ rules:
   # tions. They are prohibited by default. In modern web browsers, diff-
   # erences in standard function specifications are considered unlikely.
   lodash/prefer-lodash-method: 'off'
+  # Unconditional permission to import modules that do not exist. The
+  # default is total prohibition, a temporary measure to support ESM-style
+  # module resolution in TypeScript.
+  node/no-missing-import: off
+  # Allows the use of unsupported Node.js notation.
+  # Unconditional prohibition by default. All Node.js versions prohibit
+  # dynamic imports, and the rule is already obsoleted.
+  node/no-unsupported-features/es-syntax: off
   # Allow arbitrary reordering of multiple exports in the import syntax,
   # with a warning. The default is to allow it unconditionally.
   # in order to deal with the snowballing problem of the import part.

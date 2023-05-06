@@ -1,5 +1,6 @@
 extends:
   - '@kurone-kito/eslint-config-base'
+  - plugin:react/recommended
   - airbnb-typescript
   - prettier
 parserOptions:
@@ -48,6 +49,15 @@ overrides:
             - '@testing-library/jest-dom'
             - '@testing-library/react'
             - '@testing-library/user-event'
+  - files:
+      - '*.?([cm])js?(x)'
+    rules:
+      # Allow type inference of return values of exported functions, etc.,
+      # only for JavaScript. By default, it is allowed with a warning.
+      # There are many situations where JavaScript is used outside the
+      # scope of transpiling, such as in various configuration files,
+      # making the `import` syntax challenging to use.
+      '@typescript-eslint/explicit-module-boundary-types': 'off'
 rules:
   # Prohibit dependencies on `devDependencies`, except for specific
   # files. By default, this is a total ban. There is no need for

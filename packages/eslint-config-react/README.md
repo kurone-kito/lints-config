@@ -24,6 +24,7 @@ npm install --save-dev \
   eslint-plugin-json \
   eslint-plugin-lodash \
   eslint-plugin-markdown \
+  eslint-plugin-node \
   eslint-plugin-react \
   eslint-plugin-react-hooks \
   eslint-plugin-storybook \

@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/typescript-config",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "My TypeScript configuration for general projects",
   "keywords": [
     "config",

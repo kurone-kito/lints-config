@@ -68,6 +68,14 @@ rules:
   # The intent is to reduce the amount of code and keep it simple,
   # thereby improving readability.
   arrow-body-style: warn
+  # Forces import without extensions for internal modules only. The default
+  # is full enforcement. Because it interferes with imports such as
+  # lodash-es in the ES modules environment.
+  import/extensions:
+    - error
+    - never
+    - js: ignorePackages
+      json: ignorePackages
   # Prohibit dependencies on `devDependencies`, except for specific
   # files. By default, this is a total ban. There is no need for
   # strict separation of dependent packages since they are internally
@@ -77,6 +85,7 @@ rules:
     - error
     - devDependencies:
         - '**/*.spec.?([cm])[jt]s'
+        - '**/*.test.?([cm])[jt]s'
         - '**/jest.*.?([cm])[jt]s'
         - '**/scripts/*.?([cm])[jt]s'
   # Allow with a warning that the arbitrary reordering in the

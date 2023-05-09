@@ -68,6 +68,9 @@ rules:
     - error
     - devDependencies:
         - '**/*.spec.?([cm])[jt]s?(x)'
+        - '**/*.test.?([cm])[jt]s?(x)'
+        - '**/jest.*.?([cm])[jt]s'
+        - '**/scripts/*.?([cm])[jt]s'
   # Allows explicit notation of `true` in JSX notation with a warning.
   # It is unconditionally permitted by default.
   # Because `true` is optional, the intent is to improve readability by

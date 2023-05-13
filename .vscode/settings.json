@@ -15,7 +15,7 @@
   },
   "json.schemas": [
     {
-      "fileMatch": [".cspell.yml"],
+      "fileMatch": ["cspell.config.yml"],
       "url": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/packages/cspell-types/cspell.schema.json"
     }
   ],

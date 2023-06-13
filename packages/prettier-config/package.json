@@ -47,6 +47,20 @@
     "prettier-plugin-sh": "^0.12.8",
     "prettier-plugin-sort-json": "^1.0.0"
   },
+  "peerDependenciesMeta": {
+    "prettier": {
+      "optional": true
+    },
+    "prettier-plugin-packagejson": {
+      "optional": true
+    },
+    "prettier-plugin-sh": {
+      "optional": true
+    },
+    "prettier-plugin-sort-json": {
+      "optional": true
+    }
+  },
   "engines": {
     "node": ">=16.20"
   },

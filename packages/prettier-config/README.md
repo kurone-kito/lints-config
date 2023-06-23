@@ -11,7 +11,6 @@ npm install --save-dev \
   @kurone-kito/prettier-config \
   prettier \
   prettier-plugin-packagejson \
-  prettier-plugin-sh \
   prettier-plugin-sort-json
 ```
 

@@ -4,6 +4,7 @@ cache:
   cacheStrategy: metadata
   useCache: true
 dictionaries:
+  - cpp
   - node
   - npm
   - typescript

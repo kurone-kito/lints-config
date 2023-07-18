@@ -29,7 +29,7 @@
     "clean:sub": "yarn run sub run clean",
     "postinstall": "husky install",
     "lint": "conc -m 1 \"yarn:lint:*:check\"",
-    "lint:cspell:check": "cspell lint --show-suggestions -u \"./**/*\"",
+    "lint:cspell:check": "cspell lint --no-progress --show-suggestions -u \"./**/*\"",
     "lint:eslint:check": "eslint --cache --cache-strategy=content -f codeframe \"./**/*\"",
     "lint:eslint:fix": "yarn run lint:eslint:check --fix",
     "lint:fix": "conc -m 1 \"yarn:lint:cspell:check\" \"yarn:lint:*:fix\"",

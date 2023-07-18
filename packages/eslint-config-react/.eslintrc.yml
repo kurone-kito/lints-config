@@ -84,7 +84,7 @@ rules:
   # Starting with React 17, the `React` import in JSX/TSX is no longer
   # required, and this rule is no longer necessary.
   # The default is to force it in JSX/TSX.
-  # See: https:#ja.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html#eslint
+  # See: https://ja.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html#eslint
   react/react-in-jsx-scope: 'off'
   # Allows explicit notation of the absence of child elements in JSX
   # notation with a warning. The default is unconditional permission.

@@ -5,7 +5,4 @@ overrides:
       - yarn.lock
     options:
       singleQuote: false
-plugins:
-  - prettier-plugin-packagejson
-  - prettier-plugin-sort-json
 singleQuote: true

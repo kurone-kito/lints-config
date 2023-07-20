@@ -35,7 +35,7 @@
     "lint:fix": "conc -m 1 \"yarn:lint:cspell:check\" \"yarn:lint:*:fix\"",
     "lint:prettier:check": "yarn run prettier -cu",
     "lint:prettier:fix": "yarn run prettier -uw",
-    "prettier": "prettier --cache --loglevel=warn \"$@\" \"./**/*\"",
+    "prettier": "prettier --cache --log-level=warn \"$@\" \"./**/*\"",
     "publish": "yarn workspaces foreach --no-private -t -j 1 npm publish",
     "start": "yarn run sub -j unlimited run start",
     "sub": "yarn workspaces foreach --no-private -ipv",

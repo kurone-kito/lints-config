@@ -10,4 +10,4 @@ if [ ! -e packages/prettier-config/.prettierrc.json ]; then
   exit 1
 fi
 
-yarn exec pretty-quick --staged
+yarn exec lint-staged

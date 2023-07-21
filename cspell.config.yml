@@ -8,6 +8,7 @@ dictionaries:
   - node
   - npm
   - typescript
+enableGlobDot: true
 language: en,ja
 languageSettings:
   - allowCompoundWords: true
@@ -16,9 +17,10 @@ languageSettings:
     languageId: '*'
     locale: en,ja
 ignorePaths:
-  - .*rc.*
-  - .git/objects
+  - .*ignore
+  - .git
   - .github/CODE_OF_CONDUCT.*
+  - .vscode/extensions.json
   - .yarn
   - cspell.config.yml
   - yarn.lock
@@ -26,5 +28,6 @@ ignoreWords:
   - kito
   - kurone
   - Kuroné
+  - noconflict
 useGitignore: true
 version: '0.2'

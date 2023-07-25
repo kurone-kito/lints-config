@@ -1,8 +1,9 @@
-name: The CI/CD workflow on push as a main branch
+name: Publish the packages
+run-name: Publish by @${{ github.actor }}
 on:
-  push:
-    branches:
-      - main
+  release:
+    types:
+      - published
 permissions:
   contents: read
 jobs:

@@ -1,4 +1,5 @@
 name: The CI workflow on push as a feature branch
+run-name: Push the feature branch by @${{ github.actor }}
 on:
   push:
     branches:
@@ -6,6 +7,9 @@ on:
       - '!main'
 permissions:
   contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 jobs:
   build:
     defaults:
@@ -51,3 +55,4 @@ jobs:
           - os: windows-latest
             shell: powershell
       fail-fast: false
+    timeout-minutes: 30

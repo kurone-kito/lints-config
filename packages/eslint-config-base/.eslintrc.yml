@@ -13,7 +13,7 @@ extends:
   - eslint:recommended
   - plugin:import/recommended
   - plugin:import/typescript
-  - plugin:@typescript-eslint/strict-type-checked
+  - plugin:@typescript-eslint/recommended-type-checked
   - plugin:@typescript-eslint/stylistic-type-checked
   # Because we want to apply the Airbnb rules as much as possible,
   # we have placed them closer to the end.
@@ -24,6 +24,7 @@ overrides:
       jest: true
     files:
       - '**/*.spec.?([cm])[jt]s'
+      - '**/*.test.?([cm])[jt]s'
   - files:
       - '*.?(c)js'
     rules:

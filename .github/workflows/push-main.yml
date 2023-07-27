@@ -1,29 +1,25 @@
-name: The CI/CD workflow on push as a main branch
+name: The CI workflow on merge as a main branch
+run-name: Merged the main branch by @${{ github.actor }}
 on:
   push:
     branches:
       - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+    branches:
+      - main
 permissions:
-  contents: read
+  contents: write
 jobs:
-  build:
-    name: The build process
+  update_release_draft:
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - name: Stages the pushed branch
-        uses: actions/checkout@v3
-      - name: Prepare the Node.js environment
-        uses: actions/setup-node@v3
-        with:
-          cache: ${{ !env.ACT && 'yarn' || '' }}
-          node-version-file: .node-version
-      - name: Enable the corepack because of the Yarn 3
-        run: corepack enable
-      - env:
-          HUSKY: 0
-        name: Install the dependencies
-        run: yarn install --inline-builds
-      - env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        name: Publish the packages
-        run: yarn run publish
+      - uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

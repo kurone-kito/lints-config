@@ -47,7 +47,7 @@
     "eslint-plugin-jsdoc": "^46.4.5",
     "eslint-plugin-json": "^3.1.0",
     "eslint-plugin-lodash": "^7.4.0",
-    "eslint-plugin-markdown": "^3.0.0",
+    "eslint-plugin-markdown": "^3.0.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-yaml": "^0.5.0",
     "js-yaml": "^4.1.0",

@@ -27,7 +27,7 @@
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
     "@kurone-kito/prettier-config": "workspace:*",
-    "@typescript-eslint/parser": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.1",
     "eslint": "^8.45.0",
     "prettier": "^3.0.0",
     "typescript": "~5.1.6",

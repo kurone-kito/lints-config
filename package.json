@@ -52,7 +52,7 @@
     "@kurone-kito/prettier-config": "workspace:*",
     "@kurone-kito/typescript-config": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
-    "@typescript-eslint/parser": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.1",
     "@yarnpkg/sdks": "^3.0.0-rc.48",
     "concurrently": "^8.2.0",
     "cspell": "^6.31.2",

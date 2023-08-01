@@ -38,7 +38,7 @@
   "devDependencies": {
     "@cspell/eslint-plugin": "^6.31.2",
     "@kurone-kito/prettier-config": "workspace:*",
-    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.0",
     "eslint": "^8.45.0",
     "eslint-config-airbnb-typescript": "^17.1.0",

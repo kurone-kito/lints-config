@@ -23,6 +23,7 @@
     "./.eslintrc.json": "./.eslintrc.json"
   },
   "main": ".eslintrc.json",
+  "module": ".eslintrc.json",
   "files": [
     ".eslintrc.json"
   ],

@@ -22,6 +22,7 @@
     "./.prettierrc.json": "./.prettierrc.json"
   },
   "main": ".prettierrc.json",
+  "module": ".prettierrc.json",
   "files": [
     ".prettierrc.json"
   ],

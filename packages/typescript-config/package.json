@@ -27,10 +27,10 @@
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
     "@kurone-kito/prettier-config": "workspace:*",
-    "@typescript-eslint/parser": "^6.3.0",
-    "eslint": "^8.46.0",
-    "prettier": "^3.0.1",
-    "typescript": "~5.1.6",
+    "@typescript-eslint/parser": "^6.4.1",
+    "eslint": "^8.47.0",
+    "prettier": "^3.0.2",
+    "typescript": "~5.2.2",
     "typescript-eslint-language-service": "^5.0.5"
   },
   "peerDependencies": {

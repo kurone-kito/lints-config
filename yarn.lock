@@ -733,6 +733,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@dqbd/tiktoken@npm:^1.0.2":
+  version: 1.0.7
+  resolution: "@dqbd/tiktoken@npm:1.0.7"
+  checksum: 81049797dcffa101c57b68a78be19b11958edf6e6cfffab7ccd3ec2e5290e3b27bc25f1060a1c34e1cb94f22e0f46d9aafa925d383fb4559738b644aa01c0fb1
+  languageName: node
+  linkType: hard
+
 "@es-joy/jsdoccomment@npm:~0.40.1":
   version: 0.40.1
   resolution: "@es-joy/jsdoccomment@npm:0.40.1"
@@ -1045,6 +1052,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^6.4.1
     "@typescript-eslint/parser": ^6.4.1
     "@yarnpkg/sdks": ^3.0.0-rc.50
+    aicommits: ^1.11.0
     concurrently: ^8.2.1
     cspell: ^7.0.1
     eslint: ^8.47.0
@@ -1659,6 +1667,18 @@ __metadata:
   bin:
     acorn: bin/acorn
   checksum: 538ba38af0cc9e5ef983aee196c4b8b4d87c0c94532334fa7e065b2c8a1f85863467bb774231aae91613fcda5e68740c15d97b1967ae3394d20faddddd8af61d
+  languageName: node
+  linkType: hard
+
+"aicommits@npm:^1.11.0":
+  version: 1.11.0
+  resolution: "aicommits@npm:1.11.0"
+  dependencies:
+    "@dqbd/tiktoken": ^1.0.2
+  bin:
+    aic: dist/cli.mjs
+    aicommits: dist/cli.mjs
+  checksum: ed5ea724e2f5f4845f6054f104aa235740f01dbaedf1443b8fcc9fec002e6b0c3776727fd2a988f96969c5afca037f1dff75c0084d004b1aaa6e7874711e41e7
   languageName: node
   linkType: hard
 

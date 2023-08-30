@@ -25,6 +25,7 @@ ignorePaths:
   - cspell.config.yml
   - yarn.lock
 ignoreWords:
+  - aicommits
   - kito
   - kurone
   - Kuroné

@@ -51,7 +51,7 @@
     "@kurone-kito/eslint-config-react": "workspace:*",
     "@kurone-kito/prettier-config": "workspace:*",
     "@kurone-kito/typescript-config": "workspace:*",
-    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.4.1",
     "@yarnpkg/sdks": "^3.0.0-rc.50",
     "concurrently": "^8.2.1",

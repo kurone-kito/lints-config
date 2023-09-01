@@ -37,7 +37,7 @@
     "@kurone-kito/prettier-config": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
-    "eslint": "^8.47.0",
+    "eslint": "^8.48.0",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-formatter-codeframe": "^7.32.1",

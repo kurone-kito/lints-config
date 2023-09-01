@@ -45,7 +45,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
-    "@cspell/cspell-types": "^7.0.1",
+    "@cspell/cspell-types": "^7.3.1",
     "@cspell/eslint-plugin": "^7.0.1",
     "@kurone-kito/eslint-config-base": "workspace:*",
     "@kurone-kito/eslint-config-react": "workspace:*",

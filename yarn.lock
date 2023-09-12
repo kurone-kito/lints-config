@@ -856,6 +856,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kurone-kito/cspell-config@workspace:packages/cspell-config":
+  version: 0.0.0-use.local
+  resolution: "@kurone-kito/cspell-config@workspace:packages/cspell-config"
+  dependencies:
+    "@cspell/cspell-types": ^7.3.6
+    cspell: ^7.3.6
+    js-yaml: ^4.1.0
+  peerDependenciesMeta:
+    "@cspell/cspell-types":
+      optional: true
+    cspell:
+      optional: true
+  languageName: unknown
+  linkType: soft
+
 "@kurone-kito/eslint-config-base@workspace:*, @kurone-kito/eslint-config-base@workspace:packages/eslint-config-base":
   version: 0.0.0-use.local
   resolution: "@kurone-kito/eslint-config-base@workspace:packages/eslint-config-base"

@@ -13,6 +13,13 @@ npm install --save-dev \
   cspell
 ```
 
+Then, create a `cspell.config.yml` file. If exists, merge the following configuration into it:
+
+```yaml
+import:
+  - '@kurone-kito/cspell-config/cspell.config.json'
+```
+
 ## License
 
 MIT

@@ -1,0 +1,27 @@
+allowCompoundWords: true
+dictionaries:
+  - cpp
+  - node
+  - npm
+  - typescript
+enableGlobDot: true
+features:
+  weighted-suggestions: true
+globRoot: ${cwd}
+id: kurone-kito
+language: en,ja
+ignorePaths:
+  - .*ignore
+  - .git
+  - .github/CODE_OF_CONDUCT.*
+  - .vscode/extensions.json
+  - .yarn
+  - cspell.config.yml
+  - yarn.lock
+words:
+  - aicommits
+  - kito
+  - Kuroné
+  - noconflict
+useGitignore: true
+version: '0.2'

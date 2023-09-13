@@ -15,6 +15,29 @@
   },
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
+  "exports": {
+    ".": "./cspell.config.json",
+    "./.cspell.json": "./cspell.config.json",
+    "./cspell.json": "./cspell.config.json",
+    "./.cSpell.json": "./cspell.config.json",
+    "./cSpell.json": "./cspell.config.json",
+    "./cspell.config.json": "./cspell.config.json",
+    "./cspell.config.yaml": "./cspell.config.yml",
+    "./cspell.config.yml": "./cspell.config.yml",
+    "./cspell.yaml": "./cspell.config.yml",
+    "./cspell.yml": "./cspell.config.yml"
+  },
+  "main": "cspell.config.json",
+  "module": "cspell.config.json",
+  "files": [
+    "cspell.config.json",
+    "cspell.config.yml"
+  ],
+  "scripts": {
+    "build": "js-yaml cspell.config.yml > cspell.config.json",
+    "clean": "rimraf -g \"cspell.config.json\" \"*.tgz\" \"undefined\"",
+    "prepack": "yarn run clean && yarn run build"
+  },
   "devDependencies": {
     "@cspell/cspell-types": "^7.3.6",
     "cspell": "^7.3.6",

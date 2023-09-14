@@ -856,7 +856,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kurone-kito/cspell-config@workspace:packages/cspell-config":
+"@kurone-kito/cspell-config@workspace:*, @kurone-kito/cspell-config@workspace:packages/cspell-config":
   version: 0.0.0-use.local
   resolution: "@kurone-kito/cspell-config@workspace:packages/cspell-config"
   dependencies:
@@ -1060,6 +1060,7 @@ __metadata:
     "@commitlint/config-conventional": ^17.7.0
     "@cspell/cspell-types": ^7.0.1
     "@cspell/eslint-plugin": ^7.0.1
+    "@kurone-kito/cspell-config": "workspace:*"
     "@kurone-kito/eslint-config-base": "workspace:*"
     "@kurone-kito/eslint-config-react": "workspace:*"
     "@kurone-kito/prettier-config": "workspace:*"

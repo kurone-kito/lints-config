@@ -12,6 +12,7 @@ My configuration for the ESLint / Prettier / TypeScript
 
 ## Structure of the monorepo
 
+- [`packages/cspell-config`](packages/cspell-config/README.md): My CSpell configuration for general projects.
 - [`packages/eslint-config-base`](packages/eslint-config-base/README.md): My ESLint configuration for general projects.
 - [`packages/eslint-config-react`](packages/eslint-config-base/README.md): My ESLint configuration for React projects.
 - [`packages/prettier-config`](packages/prettier-config/README.md): My Prettier configuration for general projects.

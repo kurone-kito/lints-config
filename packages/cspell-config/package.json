@@ -41,7 +41,8 @@
   "devDependencies": {
     "@cspell/cspell-types": "^7.3.6",
     "cspell": "^7.3.6",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "rimraf": "^5.0.1"
   },
   "peerDependenciesMeta": {
     "@cspell/cspell-types": {

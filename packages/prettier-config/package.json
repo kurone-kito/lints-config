@@ -31,10 +31,11 @@
     "clean": "rimraf -g \".prettierrc.json\" \"*.tgz\" \"undefined\"",
     "lint": "yarn run prettier -cu",
     "lint:fix": "yarn run prettier -uw",
-    "prepack": "yarn run clean && yarn run build",
+    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\"",
     "prettier": "prettier --cache --loglevel=warn \"$@\" \"./**/*\""
   },
   "devDependencies": {
+    "concurrently": "^8.2.1",
     "js-yaml": "^4.1.0",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.1"

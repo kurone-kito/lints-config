@@ -861,6 +861,7 @@ __metadata:
   resolution: "@kurone-kito/cspell-config@workspace:packages/cspell-config"
   dependencies:
     "@cspell/cspell-types": ^7.3.6
+    concurrently: ^8.2.1
     cspell: ^7.3.6
     js-yaml: ^4.1.0
     rimraf: ^5.0.1
@@ -880,6 +881,7 @@ __metadata:
     "@kurone-kito/prettier-config": "workspace:*"
     "@typescript-eslint/eslint-plugin": ^6.7.2
     "@typescript-eslint/parser": ^6.7.2
+    concurrently: ^8.2.1
     eslint: ^8.49.0
     eslint-config-airbnb-typescript: ^17.1.0
     eslint-config-prettier: ^9.0.0
@@ -963,6 +965,7 @@ __metadata:
     "@kurone-kito/prettier-config": "workspace:*"
     "@typescript-eslint/eslint-plugin": ^6.7.2
     "@typescript-eslint/parser": ^6.7.2
+    concurrently: ^8.2.1
     eslint: ^8.49.0
     eslint-config-airbnb-typescript: ^17.1.0
     eslint-config-prettier: ^9.0.0
@@ -1100,6 +1103,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@kurone-kito/prettier-config@workspace:packages/prettier-config"
   dependencies:
+    concurrently: ^8.2.1
     js-yaml: ^4.1.0
     prettier: ^3.0.3
     rimraf: ^5.0.1

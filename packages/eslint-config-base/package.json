@@ -29,7 +29,7 @@
   "scripts": {
     "build": "js-yaml .eslintrc.yml > .eslintrc.json",
     "clean": "rimraf -g \".eslintcache\" \".eslintrc.json\" \"*.tgz\" \"*.tsbuildinfo\" \"undefined\"",
-    "prepack": "yarn run clean && yarn run build"
+    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
@@ -37,6 +37,7 @@
     "@kurone-kito/prettier-config": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
+    "concurrently": "^8.2.1",
     "eslint": "^8.49.0",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^9.0.0",

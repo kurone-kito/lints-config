@@ -34,13 +34,16 @@
     "cspell.config.yml"
   ],
   "scripts": {
-    "build": "js-yaml cspell.config.yml > cspell.config.json",
+    "build": "conc \"yarn:build:*\"",
+    "build:json": "js-yaml cspell.config.yml > cspell.config.json",
+    "build:license": "cpy \"../../LICENSE\" \"cspell-config/LICENSE\"",
     "clean": "rimraf -g \"cspell.config.json\" \"*.tgz\" \"undefined\"",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
     "@cspell/cspell-types": "^7.3.6",
     "concurrently": "^8.2.1",
+    "cpy-cli": "^5.0.0",
     "cspell": "^7.3.6",
     "js-yaml": "^4.1.0",
     "rimraf": "^5.0.1"

@@ -20,12 +20,13 @@
   "type": "module",
   "exports": {
     ".": "./.eslintrc.json",
-    "./.eslintrc.json": "./.eslintrc.json"
+    "./.eslintrc.json": "./.eslintrc.json",
+    "./.eslintrc.yml": "./.eslintrc.yml"
   },
   "main": ".eslintrc.json",
   "module": ".eslintrc.json",
   "files": [
-    ".eslintrc.json"
+    ".eslintrc.*"
   ],
   "scripts": {
     "build": "conc \"yarn:build:*\"",

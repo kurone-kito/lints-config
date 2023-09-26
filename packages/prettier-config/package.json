@@ -19,12 +19,13 @@
   "type": "module",
   "exports": {
     ".": "./.prettierrc.json",
-    "./.prettierrc.json": "./.prettierrc.json"
+    "./.prettierrc.json": "./.prettierrc.json",
+    "./.prettierrc.yml": "./.prettierrc.yml"
   },
   "main": ".prettierrc.json",
   "module": ".prettierrc.json",
   "files": [
-    ".prettierrc.json"
+    ".prettierrc.*"
   ],
   "scripts": {
     "build": "conc \"yarn:build:*\"",

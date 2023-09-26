@@ -30,8 +30,7 @@
   "main": "cspell.config.json",
   "module": "cspell.config.json",
   "files": [
-    "cspell.config.json",
-    "cspell.config.yml"
+    "cspell.config.*"
   ],
   "scripts": {
     "build": "conc \"yarn:build:*\"",

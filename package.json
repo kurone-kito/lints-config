@@ -56,7 +56,7 @@
     "@kurone-kito/typescript-config": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
-    "@yarnpkg/sdks": "^3.0.0-rc.51",
+    "@yarnpkg/sdks": "^3.0.0-rc.52",
     "aicommits": "^1.11.0",
     "concurrently": "^8.2.1",
     "cspell": "^7.3.6",

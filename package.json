@@ -59,7 +59,7 @@
     "@yarnpkg/sdks": "^3.0.0-rc.51",
     "aicommits": "^1.11.0",
     "concurrently": "^8.2.1",
-    "cspell": "^7.3.6",
+    "cspell": "^7.3.7",
     "eslint": "^8.49.0",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^9.0.0",

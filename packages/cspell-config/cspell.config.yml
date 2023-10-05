@@ -1,8 +1,15 @@
 allowCompoundWords: true
 dictionaries:
+  - bash
+  - companies
   - cpp
+  - en_US
+  - filetypes
+  - git
+  - misc
   - node
   - npm
+  - softwareTerms
   - typescript
 enableGlobDot: true
 features:

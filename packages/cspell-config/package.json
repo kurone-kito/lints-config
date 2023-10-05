@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/cspell-config",
-  "version": "0.7.5",
+  "version": "0.7.6",
   "description": "My CSpell configuration for general projects",
   "keywords": [
     "config",
@@ -30,18 +30,22 @@
   "main": "cspell.config.json",
   "module": "cspell.config.json",
   "files": [
-    "cspell.config.json",
-    "cspell.config.yml"
+    "cspell.config.*"
   ],
   "scripts": {
-    "build": "js-yaml cspell.config.yml > cspell.config.json",
+    "build": "conc \"yarn:build:*\"",
+    "build:json": "js-yaml cspell.config.yml > cspell.config.json",
+    "build:license": "cpy \"../../LICENSE\" \"cspell-config/LICENSE\"",
     "clean": "rimraf -g \"cspell.config.json\" \"*.tgz\" \"undefined\"",
-    "prepack": "yarn run clean && yarn run build"
+    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
-    "@cspell/cspell-types": "^7.3.6",
-    "cspell": "^7.3.6",
-    "js-yaml": "^4.1.0"
+    "@cspell/cspell-types": "^7.3.7",
+    "concurrently": "^8.2.1",
+    "cpy-cli": "^5.0.0",
+    "cspell": "^7.3.7",
+    "js-yaml": "^4.1.0",
+    "rimraf": "^5.0.5"
   },
   "peerDependenciesMeta": {
     "@cspell/cspell-types": {

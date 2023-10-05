@@ -18,6 +18,7 @@ Then, create a `cspell.config.yml` file. If exists, merge the following configur
 ```yaml
 import:
   - '@kurone-kito/cspell-config/cspell.config.json'
+usePnP: true # If you use Yarn Plug'n'Play
 ```
 
 ## License

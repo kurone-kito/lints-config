@@ -17,7 +17,10 @@ ignorePaths:
   - .vscode/extensions.json
   - .yarn
   - cspell.config.yml
+  - node_modules
   - yarn.lock
+ignoreRegExpList:
+  - '@[a-zA-Z0-9_-]+/'
 words:
   - aicommits
   - kito

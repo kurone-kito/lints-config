@@ -4,6 +4,6 @@ cache:
   cacheStrategy: metadata
   useCache: true
 import:
-  - '@kurone-kito/cspell-config/cspell.config.json'
+  - '@kurone-kito/cspell-config'
 usePnP: true
 version: '0.2'

@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/eslint-config-base",
-  "version": "0.7.6",
+  "version": "0.8.0",
   "description": "My ESLint configuration for general Node.js projects",
   "keywords": [
     "config",
@@ -36,13 +36,13 @@
   },
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
-    "@cspell/eslint-plugin": "^7.3.7",
+    "@cspell/eslint-plugin": "^7.3.8",
     "@kurone-kito/prettier-config": "workspace:*",
-    "@typescript-eslint/eslint-plugin": "^6.7.4",
-    "@typescript-eslint/parser": "^6.7.4",
-    "concurrently": "^8.2.1",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
+    "@typescript-eslint/parser": "^6.8.0",
+    "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
-    "eslint": "^8.50.0",
+    "eslint": "^8.52.0",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-formatter-codeframe": "^7.32.1",

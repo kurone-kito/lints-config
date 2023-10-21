@@ -43,15 +43,14 @@ overrides:
       # scope of transpiling, such as in various configuration files,
       # making the `import` syntax challenging to use.
       '@typescript-eslint/explicit-module-boundary-types': 'off'
-parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaFeatures:
     impliedStrict: true
+  ecmaVersion: 2022
   extraFileExtensions:
     - .json
   project:
     - tsconfig.json
-  sourceType: module
 rules:
   # With a warning, allow use standard import syntax to import for type-
   # only. The default is to enable it unconditionally. Tree shaking at
@@ -86,6 +85,7 @@ rules:
   import/no-extraneous-dependencies:
     - error
     - devDependencies:
+        - '**/*.config.?([cm])[jt]s'
         - '**/*.spec.?([cm])[jt]s'
         - '**/*.test.?([cm])[jt]s'
         - '**/jest.*.?([cm])[jt]s'

@@ -38,9 +38,9 @@
     "lint:prettier:check": "yarn run prettier -cu",
     "lint:prettier:fix": "yarn run prettier -uw",
     "prettier": "prettier --cache --log-level=warn \"$@\" \"./**/*\"",
-    "publish": "yarn workspaces foreach --no-private -t -j 1 npm publish",
+    "publish": "yarn workspaces foreach --no-private -tA -j 1 npm publish",
     "start": "yarn run sub -j unlimited run start",
-    "sub": "yarn workspaces foreach --no-private -ipv",
+    "sub": "yarn workspaces foreach --no-private -ipvA",
     "test": "yarn run lint"
   },
   "prettier": "@kurone-kito/prettier-config",
@@ -82,10 +82,9 @@
     "typescript": "~5.2.2",
     "typescript-eslint-language-service": "^5.0.5"
   },
-  "packageManager": "yarn@3.6.4",
+  "packageManager": "yarn@4.0.1",
   "engines": {
-    "node": ">=18",
-    "yarn": ">=2.4.3"
+    "node": ">=18"
   },
   "publishConfig": {
     "access": "public"

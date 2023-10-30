@@ -19,6 +19,19 @@
   "license": "MIT",
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cpy-cli": "^5.0.0",
+    "js-yaml": "^4.1.0",
+    "rimraf": "^5.0.5"
+  },
+  "peerDependencies": {
+    "cspell": ">=5.7.x",
+    "eslint": ">=8.x.x",
+    "eslint-formatter-codeframe": "*",
+    "lint-staged": ">=12.1.0",
+    "prettier": ">=3.0.x"
+  },
   "engines": {
     "node": ">=18"
   },

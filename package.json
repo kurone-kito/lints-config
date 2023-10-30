@@ -8,6 +8,7 @@
     "cspell",
     "eslint",
     "eslintconfig",
+    "lint-staged",
     "prettier",
     "typescript"
   ],

@@ -1059,6 +1059,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@kurone-kito/lint-staged-config@workspace:packages/lint-staged-config":
+  version: 0.0.0-use.local
+  resolution: "@kurone-kito/lint-staged-config@workspace:packages/lint-staged-config"
+  languageName: unknown
+  linkType: soft
+
 "@kurone-kito/lints-config@workspace:.":
   version: 0.0.0-use.local
   resolution: "@kurone-kito/lints-config@workspace:."

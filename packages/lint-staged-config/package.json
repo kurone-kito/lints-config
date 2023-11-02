@@ -19,6 +19,13 @@
   "license": "MIT",
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
+  "scripts": {
+    "build": "conc \"yarn:build:*\"",
+    "build:json": "js-yaml lint-staged.config.yml > lint-staged.config.json",
+    "build:license": "cpy \"../../LICENSE\" \"cspell-config/LICENSE\"",
+    "clean": "rimraf -g \"lint-staged.config.json\" \"*.tgz\"",
+    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
+  },
   "devDependencies": {
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",

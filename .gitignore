@@ -312,6 +312,7 @@ $RECYCLE.BIN/
 # Built files
 packages/cspell-config/cspell.config.json
 packages/eslint-config-*/.eslintrc.json
+packages/lint-staged-config/lint-staged.config.json
 packages/prettier-config/.prettierrc.json
 
 ### Others ###

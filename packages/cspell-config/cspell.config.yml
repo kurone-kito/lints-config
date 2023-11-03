@@ -37,6 +37,7 @@ words:
   - hoge
   - kito
   - Kuroné
+  - lintstagedrc
   - piyo
   - noconflict
 useGitignore: true

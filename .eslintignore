@@ -381,5 +381,6 @@ $RECYCLE.BIN/
 .yarn/
 yarn.lock
 
-### Others ###
+### Text ###
+*.md
 LICENSE

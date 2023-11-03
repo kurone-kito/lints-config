@@ -19,6 +19,18 @@
   "license": "MIT",
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
+  "exports": {
+    ".": "./lint-staged.config.json",
+    "./.lintstagedrc.json": "./lint-staged.config.json",
+    "./.lintstagedrc.yml": "./lint-staged.config.yml",
+    "./lint-staged.config.json": "./lint-staged.config.json",
+    "./lint-staged.config.yml": "./lint-staged.config.yml"
+  },
+  "main": "lint-staged.config.json",
+  "module": "lint-staged.config.json",
+  "files": [
+    "lint-staged.config.*"
+  ],
   "scripts": {
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml lint-staged.config.yml > lint-staged.config.json",

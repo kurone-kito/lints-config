@@ -16,6 +16,13 @@ npm install --save-dev \
   prettier
 ```
 
+Then, create a `.lintstagedrc.mjs` file.
+If exists, merge the following configuration into it:
+
+```js
+export { default } from '@kurone-kito/lint-staged-config/.lintstagedrc.json' assert { type: 'json' };
+```
+
 ## License
 
 MIT

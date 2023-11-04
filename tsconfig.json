@@ -3,5 +3,6 @@
     "composite": true,
     "noEmit": true
   },
-  "extends": "./packages/typescript-config/tsconfig"
+  "extends": "./packages/typescript-config/tsconfig",
+  "include": ["**/*", ".*.mjs"]
 }

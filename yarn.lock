@@ -1059,7 +1059,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@kurone-kito/lint-staged-config@workspace:packages/lint-staged-config":
+"@kurone-kito/lint-staged-config@workspace:*, @kurone-kito/lint-staged-config@workspace:packages/lint-staged-config":
   version: 0.0.0-use.local
   resolution: "@kurone-kito/lint-staged-config@workspace:packages/lint-staged-config"
   dependencies:
@@ -1087,6 +1087,7 @@ __metadata:
     "@kurone-kito/cspell-config": "workspace:*"
     "@kurone-kito/eslint-config-base": "workspace:*"
     "@kurone-kito/eslint-config-react": "workspace:*"
+    "@kurone-kito/lint-staged-config": "workspace:*"
     "@kurone-kito/prettier-config": "workspace:*"
     "@kurone-kito/typescript-config": "workspace:*"
     "@typescript-eslint/eslint-plugin": "npm:^6.8.0"

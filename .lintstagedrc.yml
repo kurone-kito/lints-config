@@ -1,4 +1,0 @@
-'*':
-  - yarn exec cspell lint --no-must-find-files --no-progress --show-suggestions -u
-  - yarn exec eslint --cache --cache-strategy=content -f codeframe
-  - yarn exec prettier --cache --log-level=warn -uw

@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/eslint-config-base",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "My ESLint configuration for general Node.js projects",
   "keywords": [
     "config",

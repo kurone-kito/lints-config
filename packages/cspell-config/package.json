@@ -41,10 +41,10 @@
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
-    "@cspell/cspell-types": "^7.3.8",
+    "@cspell/cspell-types": "^8.0.0",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
-    "cspell": "^7.3.8",
+    "cspell": "^8.0.0",
     "js-yaml": "^4.1.0",
     "rimraf": "^5.0.5"
   },

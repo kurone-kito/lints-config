@@ -3,8 +3,11 @@ dictionaries:
   - bash
   - companies
   - cpp
+  - docker
   - en_US
+  - en-gb
   - filetypes
+  - fullstack
   - git
   - misc
   - node
@@ -30,8 +33,12 @@ ignoreRegExpList:
   - '@[a-zA-Z0-9_-]+/'
 words:
   - aicommits
+  - fuga
+  - hoge
   - kito
   - Kuroné
+  - lintstagedrc
+  - piyo
   - noconflict
 useGitignore: true
 version: '0.2'

@@ -12,7 +12,7 @@
     "**/.yarn/unplugged/**": true,
     "**/packages/**/*.tsbuildinfo": true
   },
-  "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
+  "prettier.prettierPath": ".yarn/sdks/prettier/index.cjs",
   "search.exclude": {
     "**/.pnp.*": true,
     "**/.yarn": true

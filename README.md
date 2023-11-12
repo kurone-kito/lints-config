@@ -15,6 +15,7 @@ My configuration for the ESLint / Prettier / TypeScript
 - [`packages/cspell-config`](packages/cspell-config/README.md): My CSpell configuration for general projects.
 - [`packages/eslint-config-base`](packages/eslint-config-base/README.md): My ESLint configuration for general projects.
 - [`packages/eslint-config-react`](packages/eslint-config-base/README.md): My ESLint configuration for React projects.
+- [`packages/lint-staged-config`](packages/lint-staged-config/README.md): My lint-staged configuration for general projects.
 - [`packages/prettier-config`](packages/prettier-config/README.md): My Prettier configuration for general projects.
 - [`packages/typescript-config`](packages/typescript-config/README.md): My TypeScript configuration for general projects.
 

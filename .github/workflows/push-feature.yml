@@ -23,13 +23,13 @@ jobs:
           git config --global core.autocrlf false
           git config --global core.eol lf
       - name: Stages the pushed branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Prepare the Node.js version ${{ matrix.node-version }} environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: ${{ !env.ACT && 'yarn' || '' }}
           node-version: ${{ matrix.node-version }}
-      - name: Enable the corepack because of the Yarn 3
+      - name: Enable the corepack because of the Yarn berry
         run: corepack enable
       - env:
           HUSKY: 0

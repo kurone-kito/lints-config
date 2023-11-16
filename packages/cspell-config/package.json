@@ -37,7 +37,7 @@
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml cspell.config.yml > cspell.config.json",
     "build:license": "cpy \"../../LICENSE\" \"cspell-config/LICENSE\"",
-    "clean": "rimraf -g \"cspell.config.json\" \"*.tgz\" \"undefined\"",
+    "clean": "rimraf -g LICENSE cspell.config.json \"*.tgz\"",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {

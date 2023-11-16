@@ -32,7 +32,7 @@
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml .eslintrc.yml > .eslintrc.json",
     "build:license": "cpy \"../../LICENSE\" \"eslint-config-base/LICENSE\"",
-    "clean": "rimraf -g \".eslintcache\" \".eslintrc.json\" \"*.tgz\" \"*.tsbuildinfo\" \"undefined\"",
+    "clean": "rimraf -g .eslintcache .eslintrc.json LICENSE \"*.tgz\" \"*.tsbuildinfo\"",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "prettier": "@kurone-kito/prettier-config",

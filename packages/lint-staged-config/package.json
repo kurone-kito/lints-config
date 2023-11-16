@@ -35,7 +35,7 @@
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml lint-staged.config.yml > lint-staged.config.json",
     "build:license": "cpy \"../../LICENSE\" \"cspell-config/LICENSE\"",
-    "clean": "rimraf -g \"lint-staged.config.json\" \"*.tgz\"",
+    "clean": "rimraf -g LICENSE lint-staged.config.json \"*.tgz\"",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {

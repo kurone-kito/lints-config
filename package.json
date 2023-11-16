@@ -27,7 +27,7 @@
   "scripts": {
     "build": "yarn run sub run build",
     "clean": "conc \"yarn:clean:*\"",
-    "clean:root": "rimraf -g \".eslintcache\" \"*.tgz\" \"*.tsbuildinfo\" \"undefined\"",
+    "clean:root": "rimraf -g .eslintcache \"*.tgz\" \"*.tsbuildinfo\"",
     "clean:sub": "yarn run sub run clean",
     "commit": "aicommits -t conventional",
     "postinstall": "husky install",

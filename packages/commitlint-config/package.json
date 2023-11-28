@@ -16,6 +16,16 @@
   "license": "MIT",
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
+  "exports": {
+    ".": "./.commitlintrc.json",
+    "./.commitlintrc.json": "./.commitlintrc.json",
+    "./.commitlintrc.yml": "./.commitlintrc.yml"
+  },
+  "main": ".commitlintrc.json",
+  "module": ".commitlintrc.json",
+  "files": [
+    ".commitlintrc.*"
+  ],
   "scripts": {
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml .commitlintrc.yml > .commitlintrc.json",
@@ -24,10 +34,16 @@
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
+    "@commitlint/config-conventional": "^18.4.3",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
     "rimraf": "^5.0.5"
+  },
+  "peerDependenciesMeta": {
+    "@commitlint/config-conventional": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=18"

@@ -832,6 +832,11 @@ __metadata:
 "@kurone-kito/commitlint-config@workspace:packages/commitlint-config":
   version: 0.0.0-use.local
   resolution: "@kurone-kito/commitlint-config@workspace:packages/commitlint-config"
+  dependencies:
+    concurrently: "npm:^8.2.2"
+    cpy-cli: "npm:^5.0.0"
+    js-yaml: "npm:^4.1.0"
+    rimraf: "npm:^5.0.5"
   languageName: unknown
   linkType: soft
 

@@ -1,0 +1,23 @@
+extends:
+  - '@commitlint/config-conventional'
+rules:
+  # Permission to capitalize the first letter of the body text is granted
+  # with a warning; the default rule for Conventional Commits prohibits it.
+  # In English commits, it is common for the subject to be a verb, as in
+  # `added the ...` in Japanese commits, however, nouns are commonly used
+  # as the subject, and prohibiting this may result in unnatural commit
+  # messages in Japanese.
+  body-case:
+    - 1
+    - always
+    - lower-case
+  # Permits capitalization of the first letter of the main text with a
+  # warning; the default rule for Conventional Commits prohibits it. In
+  # English commits, it is common for the subject to be a verb, as in
+  # `added the ...` In Japanese commits, however, nouns are commonly used
+  # as the subject, and prohibiting this may result in unnatural commit
+  # messages in Japanese.
+  subject-case:
+    - 1
+    - always
+    - lower-case

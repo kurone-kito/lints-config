@@ -310,6 +310,7 @@ $RECYCLE.BIN/
 
 ### Node ###
 # Built files
+packages/commitlint-config/.commitlintrc.json
 packages/cspell-config/cspell.config.json
 packages/eslint-config-*/.eslintrc.json
 packages/lint-staged-config/lint-staged.config.json

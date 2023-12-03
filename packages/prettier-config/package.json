@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/prettier-config",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "My Prettier configuration for general projects",
   "keywords": [
     "config",
@@ -32,7 +32,7 @@
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml .prettierrc.yml > .prettierrc.json",
     "build:license": "cpy \"../../LICENSE\" \"prettier-config/LICENSE\"",
-    "clean": "rimraf -g \".prettierrc.json\" \"*.tgz\" \"undefined\"",
+    "clean": "rimraf -g .prettierrc.json LICENSE \"*.tgz\"",
     "lint": "yarn run prettier -cu",
     "lint:fix": "yarn run prettier -uw",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\"",
@@ -42,7 +42,7 @@
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
-    "prettier": "^3.0.3",
+    "prettier": "^3.1.0",
     "rimraf": "^5.0.5"
   },
   "peerDependencies": {

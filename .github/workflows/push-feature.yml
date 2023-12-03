@@ -24,13 +24,13 @@ jobs:
           git config --global core.eol lf
       - name: Stages the pushed branch
         uses: actions/checkout@v4
-      - name: Prepare the Node.js version ${{ matrix.node-version }} environment
+      - name: Pre-prepare the Node.js version ${{ matrix.node-version }} environment
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: Enable the corepack because of the Yarn berry
         run: corepack enable
-      - name: Prepare the Node.js version ${{ matrix.node-version }} environment
+      - name: Post-prepare the Node.js version ${{ matrix.node-version }} environment
         uses: actions/setup-node@v4
         with:
           cache: ${{ !env.ACT && 'yarn' || '' }}

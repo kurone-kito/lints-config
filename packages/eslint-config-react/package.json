@@ -41,10 +41,10 @@
     "@kurone-kito/eslint-config-base": "workspace:*"
   },
   "devDependencies": {
-    "@cspell/eslint-plugin": "^8.1.0",
+    "@cspell/eslint-plugin": "^8.1.2",
     "@kurone-kito/prettier-config": "workspace:*",
-    "@typescript-eslint/eslint-plugin": "^6.13.1",
-    "@typescript-eslint/parser": "^6.13.1",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "eslint": "^8.55.0",

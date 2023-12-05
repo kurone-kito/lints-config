@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/cspell-config",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "My CSpell configuration for general projects",
   "keywords": [
     "config",
@@ -41,10 +41,10 @@
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
-    "@cspell/cspell-types": "^8.1.0",
+    "@cspell/cspell-types": "^8.1.2",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
-    "cspell": "^8.1.0",
+    "cspell": "^8.1.2",
     "js-yaml": "^4.1.0",
     "rimraf": "^5.0.5"
   },

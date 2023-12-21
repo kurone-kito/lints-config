@@ -1,13 +1,6 @@
 ### THE PROJECT SPECIFIES #################################################
 
 ### Node ###
-# Built files
-packages/eslint-config-*/.eslintrc.json
-packages/prettier-config/.prettierrc.json
-
-# Husky
-.husky/_
-
 # Ignorefiles
 .*ignore
 

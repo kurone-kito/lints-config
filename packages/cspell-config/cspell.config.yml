@@ -30,6 +30,7 @@ ignorePaths:
   - node_modules
   - yarn.lock
 ignoreRegExpList:
+  # Ignore the scope name of the packages.
   - '@[a-zA-Z0-9_-]+/'
 words:
   - aicommits

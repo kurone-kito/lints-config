@@ -20,6 +20,17 @@ My configuration for the ESLint / Prettier / TypeScript
 - [`packages/prettier-config`](packages/prettier-config/README.md): My Prettier configuration for general projects.
 - [`packages/typescript-config`](packages/typescript-config/README.md): My TypeScript configuration for general projects.
 
+## System Requirements
+
+- Node.js v18 (LTS Hydrogen) or later
+
+## Initialization
+
+```sh
+corepack enable && yarn -v # check 4.0.2 or later
+yarn install
+```
+
 ## Rules for Development
 
 Introduce commit message validation at commit time.

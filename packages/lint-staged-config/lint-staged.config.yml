@@ -1,4 +1,4 @@
 '*':
   - cspell lint --no-must-find-files --no-progress --show-suggestions -u
-  - eslint --cache --cache-strategy=content -f codeframe
+  - eslint --cache --cache-location node_modules/.cache/eslint/ --cache-strategy=content -f codeframe
   - prettier --cache --log-level=warn -uw

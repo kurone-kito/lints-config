@@ -24,17 +24,17 @@
     "noUnusedParameters": true,
     "plugins": [
       {
-        "name": "typescript-eslint-language-service"
-      }
+        "name": "typescript-eslint-language-service",
+      },
     ],
     "preserveWatchOutput": true,
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
     "stripInternal": true,
-    "target": "ES2022"
+    "target": "ES2022",
   },
   "typeAcquisition": {
-    "enable": true
-  }
+    "enable": true,
+  },
 }

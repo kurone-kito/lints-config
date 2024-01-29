@@ -2,8 +2,6 @@
 # -*- mode: sh -*-
 # vim: set ft=sh :
 
-. "$(dirname "$0")/_/husky.sh"
-
 if [ ! -e packages/prettier-config/.prettierrc.json ]; then
   echo 'ERROR: Prettier config not found.' 1>&2
   echo 'Please run "yarn install && yarn run build" in the project root directory before committing.' 1>&2

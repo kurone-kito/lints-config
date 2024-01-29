@@ -1,2 +1,6 @@
-/.husky export-ignore
 /.yarn/** linguist-vendored
+
+.github/** export-ignore
+.gitattributes export-ignore
+.husky/** export-ignore
+reviewpad.yml export-ignore

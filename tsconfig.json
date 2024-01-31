@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "composite": true,
-    "noEmit": true,
+    "noEmit": true
   },
   "extends": "./packages/typescript-config/tsconfig",
-  "include": ["**/*", ".*.mjs"],
+  "include": ["**/*", ".*.mjs"]
 }

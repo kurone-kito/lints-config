@@ -5,4 +5,9 @@ overrides:
       - yarn.lock
     options:
       singleQuote: false
+  - files:
+      - '*.json'
+      - '*.jsonc'
+    options:
+      trailingComma: none
 singleQuote: true

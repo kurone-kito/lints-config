@@ -85,7 +85,7 @@
     "typescript": "~5.3.3",
     "typescript-eslint-language-service": "^5.0.5"
   },
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "yarn@4.1.0",
   "engines": {
     "node": ">=18"
   },

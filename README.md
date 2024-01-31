@@ -27,7 +27,7 @@ My configuration for the ESLint / Prettier / TypeScript
 ## Initialization
 
 ```sh
-corepack enable && yarn -v # check 4.0.2 or later
+corepack enable && yarn -v # check 4.1.0 or later
 yarn install
 ```
 

@@ -3,15 +3,24 @@ dictionaries:
   - bash
   - companies
   - cpp
+  - csharp
   - docker
+  - dotnet
   - en_US
   - en-gb
+  - eo
   - filetypes
+  - fonts
   - fullstack
   - git
+  - html
+  - lorem-ipsum
+  - markdown
   - misc
   - node
   - npm
+  - powershell
+  - shell
   - softwareTerms
   - typescript
 enableGlobDot: true

@@ -1,0 +1,9 @@
+chat:
+  auto_reply: true
+early_access: true
+language: en
+reviews:
+  auto_review:
+    enabled: true
+  path_filters:
+    - '!.yarn/**/*'

@@ -17,6 +17,7 @@ My configuration for the ESLint / Prettier / TypeScript
 - [`packages/eslint-config-base`](packages/eslint-config-base/README.md): My ESLint configuration for general projects.
 - [`packages/eslint-config-react`](packages/eslint-config-base/README.md): My ESLint configuration for React projects.
 - [`packages/lint-staged-config`](packages/lint-staged-config/README.md): My lint-staged configuration for general projects.
+- [`packages/markdownlint-config`](packages/markdownlint-config/README.md): My Markdownlint configuration for general projects.
 - [`packages/prettier-config`](packages/prettier-config/README.md): My Prettier configuration for general projects.
 - [`packages/typescript-config`](packages/typescript-config/README.md): My TypeScript configuration for general projects.
 

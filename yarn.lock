@@ -1108,6 +1108,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@kurone-kito/markdownlint-config@workspace:packages/markdownlint-config":
+  version: 0.0.0-use.local
+  resolution: "@kurone-kito/markdownlint-config@workspace:packages/markdownlint-config"
+  languageName: unknown
+  linkType: soft
+
 "@kurone-kito/prettier-config@workspace:*, @kurone-kito/prettier-config@workspace:packages/prettier-config":
   version: 0.0.0-use.local
   resolution: "@kurone-kito/prettier-config@workspace:packages/prettier-config"

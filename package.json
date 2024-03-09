@@ -9,6 +9,7 @@
     "eslint",
     "eslintconfig",
     "lint-staged",
+    "markdownlint",
     "prettier",
     "typescript"
   ],

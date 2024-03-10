@@ -16,6 +16,16 @@
   "license": "MIT",
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
+  "files": [
+    ".markdownlint.*"
+  ],
+  "scripts": {
+    "build": "conc \"yarn:build:*\"",
+    "build:json": "js-yaml .markdownlint.yml > .markdownlint.json",
+    "build:license": "cpy \"../../LICENSE\" \"cspell-config/LICENSE\"",
+    "clean": "rimraf -g LICENSE .markdownlint.json \"*.tgz\"",
+    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
+  },
   "devDependencies": {
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",

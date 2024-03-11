@@ -12,7 +12,8 @@ npm install --save-dev \
   @kurone-kito/commitlint-config
 ```
 
-Then, create a `.commitlintrc.yml` file. If exists, merge the following configuration into it:
+Then, create a `.commitlintrc.yml` file.
+If exists, merge the following configuration into it:
 
 ```yaml
 extends:

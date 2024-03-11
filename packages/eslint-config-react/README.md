@@ -31,7 +31,8 @@ npm install --save-dev \
   eslint-plugin-yaml
 ```
 
-Then, create a `.eslintrc.yml` file. If exists, merge the following configuration into it:
+Then, create a `.eslintrc.yml` file.
+If exists, merge the following configuration into it:
 
 ```yaml
 extends:

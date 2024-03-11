@@ -16,6 +16,13 @@
   "license": "MIT",
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
+  "exports": {
+    ".": "./.markdownlint.json",
+    "./.markdownlint.json": "./.markdownlint.json",
+    "./.markdownlint.yml": "./.markdownlint.yml"
+  },
+  "main": ".markdownlint.json",
+  "module": ".markdownlint.json",
   "files": [
     ".markdownlint.*"
   ],

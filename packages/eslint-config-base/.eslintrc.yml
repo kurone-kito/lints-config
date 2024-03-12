@@ -1,8 +1,9 @@
 env:
-  es2022: true
+  es2024: true
   node: true
 extends:
-  - plugin:markdown/recommended
+  # see: https://github.com/eslint/eslint-plugin-markdown/issues/243
+  - plugin:markdown/recommended-legacy
   - plugin:yaml/recommended
   - plugin:json/recommended
   - plugin:editorconfig/noconflict
@@ -43,10 +44,13 @@ overrides:
       # scope of transpiling, such as in various configuration files,
       # making the `import` syntax challenging to use.
       '@typescript-eslint/explicit-module-boundary-types': 'off'
+  - extends:
+      - plugin:markdownlint/recommended
+    files:
+      - '*.md'
 parserOptions:
   ecmaFeatures:
     impliedStrict: true
-  ecmaVersion: 2022
   extraFileExtensions:
     - .json
   project:

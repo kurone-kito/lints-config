@@ -883,6 +883,7 @@ __metadata:
     eslint-plugin-json: "npm:^3.1.0"
     eslint-plugin-lodash: "npm:^7.4.0"
     eslint-plugin-markdown: "npm:^3.0.1"
+    eslint-plugin-markdownlint: "npm:^0.5.0"
     eslint-plugin-node: "npm:^11.1.0"
     eslint-plugin-yaml: "npm:^0.5.0"
     js-yaml: "npm:^4.1.0"
@@ -905,6 +906,7 @@ __metadata:
     eslint-plugin-json: ">=3.x.x"
     eslint-plugin-lodash: ">=7.x.x"
     eslint-plugin-markdown: ">=3.x.x"
+    eslint-plugin-markdownlint: ">=0.5.x"
     eslint-plugin-node: ">=11.x.x"
     eslint-plugin-yaml: ">=0.5.x"
   peerDependenciesMeta:
@@ -938,6 +940,8 @@ __metadata:
       optional: true
     eslint-plugin-markdown:
       optional: true
+    eslint-plugin-markdownlint:
+      optional: true
     eslint-plugin-node:
       optional: true
     eslint-plugin-yaml:
@@ -969,6 +973,7 @@ __metadata:
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
     eslint-plugin-lodash: "npm:^7.4.0"
     eslint-plugin-markdown: "npm:^3.0.1"
+    eslint-plugin-markdownlint: "npm:^0.5.0"
     eslint-plugin-node: "npm:^11.1.0"
     eslint-plugin-react: "npm:^7.33.2"
     eslint-plugin-react-hooks: "npm:^4.6.0"
@@ -995,6 +1000,7 @@ __metadata:
     eslint-plugin-jsx-a11y: ">=6.x.x"
     eslint-plugin-lodash: ">=7.x.x"
     eslint-plugin-markdown: ">=3.x.x"
+    eslint-plugin-markdownlint: ">=0.5.x"
     eslint-plugin-node: ">=11.x.0"
     eslint-plugin-react: ">=7.2.x"
     eslint-plugin-react-hooks: ">=4.3.x"
@@ -1032,6 +1038,8 @@ __metadata:
     eslint-plugin-lodash:
       optional: true
     eslint-plugin-markdown:
+      optional: true
+    eslint-plugin-markdownlint:
       optional: true
     eslint-plugin-node:
       optional: true
@@ -1097,6 +1105,7 @@ __metadata:
     eslint-plugin-json: "npm:^3.1.0"
     eslint-plugin-lodash: "npm:^7.4.0"
     eslint-plugin-markdown: "npm:^3.0.1"
+    eslint-plugin-markdownlint: "npm:^0.5.0"
     eslint-plugin-node: "npm:^11.1.0"
     eslint-plugin-react: "npm:^7.33.2"
     eslint-plugin-yaml: "npm:^0.5.0"
@@ -2975,6 +2984,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"entities@npm:~3.0.1":
+  version: 3.0.1
+  resolution: "entities@npm:3.0.1"
+  checksum: 10/3706e0292ea3f3679720b3d3b1ed6290b164aaeb11116691a922a3acea144503871e0de2170b47671c3b735549b8b7f4741d0d3c2987e8f985ccaa0dd3762eba
+  languageName: node
+  linkType: hard
+
 "error-ex@npm:^1.3.1":
   version: 1.3.2
   resolution: "error-ex@npm:1.3.2"
@@ -3353,6 +3369,17 @@ __metadata:
   peerDependencies:
     eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
   checksum: 10/1408ccd48f6358dfc528a0fe7abc1f468c913144c74392cc3ed4926ed6556e7c87524a0a1b8a40174135e872979d213d05dcd3edc90a3ad555f12feb31c3c87d
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-markdownlint@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "eslint-plugin-markdownlint@npm:0.5.0"
+  dependencies:
+    markdownlint: "npm:0.29.0"
+  peerDependencies:
+    eslint: ">=7.5.0"
+  checksum: 10/9f39ce862a818fc45de828e1a1c6cf51a8f0c38f0ad5d85ae9148c369e3b50a54e022a65db8d1b2dcdb2e7f9816ccd373c0cc02ab16c8adeb961f742e5e8a990
   languageName: node
   linkType: hard
 
@@ -4923,6 +4950,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"linkify-it@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "linkify-it@npm:4.0.1"
+  dependencies:
+    uc.micro: "npm:^1.0.1"
+  checksum: 10/d0a786d2e3f02f46b6f4a9b466af9eb936fb68e86b7cd305933d5457b12fdc53a4d0e0b697b02dc2e7d84a51d2425d719598bb7b47af7e01911e492e07a97957
+  languageName: node
+  linkType: hard
+
 "linkify-it@npm:^5.0.0":
   version: 5.0.0
   resolution: "linkify-it@npm:5.0.0"
@@ -5122,6 +5158,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"markdown-it@npm:13.0.1":
+  version: 13.0.1
+  resolution: "markdown-it@npm:13.0.1"
+  dependencies:
+    argparse: "npm:^2.0.1"
+    entities: "npm:~3.0.1"
+    linkify-it: "npm:^4.0.1"
+    mdurl: "npm:^1.0.1"
+    uc.micro: "npm:^1.0.5"
+  bin:
+    markdown-it: bin/markdown-it.js
+  checksum: 10/ebe2cfd515c23d2d88692efac41e4070fcd2e932af15e5455e73e1a47f1f86298a4aacb2de3b5cc647a409bed5951739980c02dbf7d34f78e25554d8742751db
+  languageName: node
+  linkType: hard
+
 "markdown-it@npm:14.0.0":
   version: 14.0.0
   resolution: "markdown-it@npm:14.0.0"
@@ -5163,10 +5214,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"markdownlint-micromark@npm:0.1.5":
+  version: 0.1.5
+  resolution: "markdownlint-micromark@npm:0.1.5"
+  checksum: 10/48a69a987c6cd3936126a8c68cc3ac8580a1b342e52853d0dc617ceb82d6c3cb96e3ce3cc9e6f827da61eaa9ab273ebcb7dcc519311ebea45383212ad8b5e6cd
+  languageName: node
+  linkType: hard
+
 "markdownlint-micromark@npm:0.1.8":
   version: 0.1.8
   resolution: "markdownlint-micromark@npm:0.1.8"
   checksum: 10/3473fff50f4917c6fb2094cea1ade05a722f91e883dc7994a2ac2e4e8af13dabe285a56b316170ee0bfcd34191ce1134d5944a3098a70f617ec2a1e752e1d8a3
+  languageName: node
+  linkType: hard
+
+"markdownlint@npm:0.29.0":
+  version: 0.29.0
+  resolution: "markdownlint@npm:0.29.0"
+  dependencies:
+    markdown-it: "npm:13.0.1"
+    markdownlint-micromark: "npm:0.1.5"
+  checksum: 10/9fca9faf3cf1619acb554f8352500e9f5fe108b21968dd63b65a8b32622c7f44c0e1fc6aaadfd6ccd5e5b48f6bed8046a0626b8c642c5cae1c9aed033a9adc5e
   languageName: node
   linkType: hard
 
@@ -5197,6 +5265,13 @@ __metadata:
   version: 2.0.0
   resolution: "mdast-util-to-string@npm:2.0.0"
   checksum: 10/0b2113ada10e002fbccb014170506dabe2f2ddacaacbe4bc1045c33f986652c5a162732a2c057c5335cdb58419e2ad23e368e5be226855d4d4e280b81c4e9ec2
+  languageName: node
+  linkType: hard
+
+"mdurl@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "mdurl@npm:1.0.1"
+  checksum: 10/ada367d01c9e81d07328101f187d5bd8641b71f33eab075df4caed935a24fa679e625f07108801d8250a5e4a99e5cd4be7679957a11424a3aa3e740d2bb2d5cb
   languageName: node
   linkType: hard
 
@@ -6944,6 +7019,13 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10/c93786fcc9a70718ba1e3819bab56064ead5817004d1b8186f8ca66165f3a2d0100fee91fa64c840dcd45f994ca5d615d8e1f566d39a7470fc1e014dbb4cf15d
+  languageName: node
+  linkType: hard
+
+"uc.micro@npm:^1.0.1, uc.micro@npm:^1.0.5":
+  version: 1.0.6
+  resolution: "uc.micro@npm:1.0.6"
+  checksum: 10/6898bb556319a38e9cf175e3628689347bd26fec15fc6b29fa38e0045af63075ff3fea4cf1fdba9db46c9f0cbf07f2348cd8844889dd31ebd288c29fe0d27e7a
   languageName: node
   linkType: hard
 

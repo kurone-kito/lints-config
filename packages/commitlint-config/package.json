@@ -34,7 +34,7 @@
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^18.6.2",
+    "@commitlint/config-conventional": "^19.1.0",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",

@@ -34,11 +34,11 @@
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
     "@kurone-kito/prettier-config": "workspace:*",
-    "@typescript-eslint/parser": "^7.0.2",
+    "@typescript-eslint/parser": "^7.2.0",
     "cpy-cli": "^5.0.0",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "prettier": "^3.2.5",
-    "typescript": "~5.3.3",
+    "typescript": "~5.4.2",
     "typescript-eslint-language-service": "^5.0.5"
   },
   "peerDependencies": {

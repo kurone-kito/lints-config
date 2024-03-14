@@ -1,49 +1,43 @@
 {
-  "name": "@kurone-kito/commitlint-config",
+  "name": "@kurone-kito/markdownlint-config",
   "version": "0.9.0",
-  "description": "My commitlint configuration for general projects",
+  "description": "My Markdownlint configuration for general projects",
   "keywords": [
-    "commitlint",
-    "config"
+    "config",
+    "markdownlint"
   ],
   "homepage": "https://github.com/kurone-kito/lints-config#readme",
   "bugs": "https://github.com/kurone-kito/lints-config/issues",
   "repository": {
     "type": "git",
     "url": "https://github.com/kurone-kito/lints-config.git",
-    "directory": "packages/commitlint-config"
+    "directory": "packages/markdownlint-config"
   },
   "license": "MIT",
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
   "exports": {
-    ".": "./.commitlintrc.json",
-    "./.commitlintrc.json": "./.commitlintrc.json",
-    "./.commitlintrc.yml": "./.commitlintrc.yml"
+    ".": "./.markdownlint.json",
+    "./.markdownlint.json": "./.markdownlint.json",
+    "./.markdownlint.yml": "./.markdownlint.yml"
   },
-  "main": ".commitlintrc.json",
-  "module": ".commitlintrc.json",
+  "main": ".markdownlint.json",
+  "module": ".markdownlint.json",
   "files": [
-    ".commitlintrc.*"
+    ".markdownlint.*"
   ],
   "scripts": {
     "build": "conc \"yarn:build:*\"",
-    "build:json": "js-yaml .commitlintrc.yml > .commitlintrc.json",
+    "build:json": "js-yaml .markdownlint.yml > .markdownlint.json",
     "build:license": "cpy \"../../LICENSE\" \"cspell-config/LICENSE\"",
-    "clean": "rimraf -g LICENSE .commitlintrc.json \"*.tgz\"",
+    "clean": "rimraf -g LICENSE .markdownlint.json \"*.tgz\"",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^19.1.0",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
     "rimraf": "^5.0.5"
-  },
-  "peerDependenciesMeta": {
-    "@commitlint/config-conventional": {
-      "optional": true
-    }
   },
   "engines": {
     "node": ">=18"

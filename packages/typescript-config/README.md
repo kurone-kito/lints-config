@@ -13,7 +13,8 @@ npm install --save-dev \
   typescript-eslint-language-service
 ```
 
-Then, create a `tsconfig.json` file. If exists, merge the following configuration into it:
+Then, create a `tsconfig.json` file.
+If exists, merge the following configuration into it:
 
 ```json
 {

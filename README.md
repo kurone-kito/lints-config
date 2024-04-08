@@ -34,11 +34,14 @@ My configuration for the ESLint / Prettier / TypeScript
 ## Initialization
 
 ```sh
-corepack enable && yarn -v # check 4.1.0 or later
-yarn install
+corepack enable
+corepack up
 ```
 
-## Rules for Development
+## Contributing
+
+Welcome to contribute to this repository! For more details,
+please refer to [CONTRIBUTING.md](.github/CONTRIBUTING.md).
 
 Introduce commit message validation at commit time.
 “**[Conventional Commits](https://www.conventionalcommits.org/ja/)**”

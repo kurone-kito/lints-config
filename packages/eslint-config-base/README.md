@@ -22,7 +22,6 @@ npm install --save-dev \
   eslint-plugin-import \
   eslint-plugin-jsdoc \
   eslint-plugin-json \
-  eslint-plugin-lodash \
   eslint-plugin-node \
   eslint-plugin-markdown \
   eslint-plugin-yaml

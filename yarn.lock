@@ -894,7 +894,6 @@ __metadata:
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsdoc: "npm:^48.2.1"
     eslint-plugin-json: "npm:^3.1.0"
-    eslint-plugin-lodash: "npm:^7.4.0"
     eslint-plugin-markdown: "npm:^4.0.1"
     eslint-plugin-markdownlint: "npm:^0.5.0"
     eslint-plugin-node: "npm:^11.1.0"
@@ -917,7 +916,6 @@ __metadata:
     eslint-plugin-import: ">=2.27.x"
     eslint-plugin-jsdoc: ">=46.x.x"
     eslint-plugin-json: ">=3.x.x"
-    eslint-plugin-lodash: ">=7.x.x"
     eslint-plugin-markdown: ">=3.x.x"
     eslint-plugin-markdownlint: ">=0.5.x"
     eslint-plugin-node: ">=11.x.x"
@@ -948,8 +946,6 @@ __metadata:
     eslint-plugin-jsdoc:
       optional: true
     eslint-plugin-json:
-      optional: true
-    eslint-plugin-lodash:
       optional: true
     eslint-plugin-markdown:
       optional: true
@@ -984,7 +980,6 @@ __metadata:
     eslint-plugin-jsdoc: "npm:^48.2.1"
     eslint-plugin-json: "npm:^3.1.0"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
-    eslint-plugin-lodash: "npm:^7.4.0"
     eslint-plugin-markdown: "npm:^4.0.1"
     eslint-plugin-markdownlint: "npm:^0.5.0"
     eslint-plugin-node: "npm:^11.1.0"
@@ -1011,7 +1006,6 @@ __metadata:
     eslint-plugin-jsdoc: ">=46.x.x"
     eslint-plugin-json: ">=3.x.x"
     eslint-plugin-jsx-a11y: ">=6.x.x"
-    eslint-plugin-lodash: ">=7.x.x"
     eslint-plugin-markdown: ">=3.x.x"
     eslint-plugin-markdownlint: ">=0.5.x"
     eslint-plugin-node: ">=11.x.0"
@@ -1047,8 +1041,6 @@ __metadata:
     eslint-plugin-json:
       optional: true
     eslint-plugin-jsx-a11y:
-      optional: true
-    eslint-plugin-lodash:
       optional: true
     eslint-plugin-markdown:
       optional: true
@@ -1115,7 +1107,6 @@ __metadata:
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsdoc: "npm:^48.2.1"
     eslint-plugin-json: "npm:^3.1.0"
-    eslint-plugin-lodash: "npm:^7.4.0"
     eslint-plugin-markdown: "npm:^4.0.1"
     eslint-plugin-markdownlint: "npm:^0.5.0"
     eslint-plugin-node: "npm:^11.1.0"
@@ -3417,17 +3408,6 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
   checksum: 10/7a8e4498531a43d988ce2f12502a3f5ce96eacfec13f956cf927f24bb041b724fb7fc0f0306ea19d143bfc79e138bf25e25acca0822847206ac6bf5ce095e846
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-lodash@npm:^7.4.0":
-  version: 7.4.0
-  resolution: "eslint-plugin-lodash@npm:7.4.0"
-  dependencies:
-    lodash: "npm:^4.17.21"
-  peerDependencies:
-    eslint: ">=2"
-  checksum: 10/32093e260a7be14f64e8baf86d1dc15771d302a34dc0e7c700c3b4d2c7ea684274056241c99caf86ca34813fa8b6982e09902d26242b6fc346ad3c4719557777
   languageName: node
   linkType: hard
 

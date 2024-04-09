@@ -1,5 +1,3 @@
-/.yarn/** linguist-vendored
-
 .coderabbit.yaml export-ignore
 .github/** export-ignore
 .gitattributes export-ignore

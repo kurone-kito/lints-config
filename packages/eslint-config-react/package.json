@@ -29,11 +29,10 @@
     ".eslintrc.*"
   ],
   "scripts": {
-    "build": "conc \"yarn:build:*\"",
-    "build:json": "js-yaml .eslintrc.yml > .eslintrc.json",
-    "build:license": "cpy --flat ../../LICENSE .",
+    "build": "js-yaml .eslintrc.yml > .eslintrc.json",
     "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" .eslintcache .eslintrc.json LICENSE",
-    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
+    "prebuild": "cpy --flat ../../LICENSE .",
+    "prepack": "pnpm run clean && pnpm run build"
   },
   "dependencies": {
     "@kurone-kito/eslint-config-base": "workspace:^"
@@ -42,7 +41,6 @@
     "@cspell/eslint-plugin": "^8.13.1",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
-    "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-typescript": "^18.0.0",

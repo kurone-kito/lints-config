@@ -31,14 +31,12 @@
     "lint-staged.config.*"
   ],
   "scripts": {
-    "build": "conc \"yarn:build:*\"",
-    "build:json": "js-yaml lint-staged.config.yml > lint-staged.config.json",
-    "build:license": "cpy --flat ../../LICENSE .",
+    "build": "js-yaml lint-staged.config.yml > lint-staged.config.json",
     "clean": "rimraf -g \"*.tgz\" LICENSE lint-staged.config.json",
-    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
+    "prebuild": "cpy --flat ../../LICENSE .",
+    "prepack": "pnpm run clean && pnpm run build"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
     "rimraf": "^5.0.10"

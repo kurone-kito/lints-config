@@ -8,12 +8,10 @@
     ".eslintrc*": ".eslintignore",
     ".gitattributes": ".gitignore",
     ".markdownlint.*": ".markdownlint-cli2.*",
-    ".pnp.loader.mjs": ".pnp.cjs",
     ".tool-versions": ".node-version, .nvmrc",
-    "package.json": ".yarnrc.yml, yarn.lock",
+    "package.json": ".npmrc, pnpm-lock.yaml, pnpm-workspace.yaml",
     "tsconfig.json": "${capture}.tsbuildinfo"
   },
-  "eslint.nodePath": ".yarn/sdks",
   "eslint.workingDirectories": [
     {
       "mode": "auto"
@@ -24,21 +22,14 @@
     "LICENSE": "plaintext"
   },
   "files.watcherExclude": {
-    "**/.eslintcache": true,
-    "**/.pnp.*": true,
-    "**/.yarn/cache/**": true,
-    "**/.yarn/unplugged/**": true,
+    "**/node_modules/**/*": true,
     "**/packages/**/*.tsbuildinfo": true
   },
   "git.branchProtection": ["main"],
-  "npm.packageManager": "yarn",
-  "prettier.prettierPath": ".yarn/sdks/prettier/index.cjs",
   "search.exclude": {
-    "**/.pnp.*": true,
-    "**/.yarn": true
+    "**/node_modules/**/*": true
   },
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "yaml.schemas": {
     "https://coderabbit.ai/integrations/coderabbit-overrides.v2.json": [
       ".coderabbit.yaml"

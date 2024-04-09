@@ -5,7 +5,7 @@
 if [ ! -e packages/prettier-config/.prettierrc.json ]; then
   corepack enable
   corepack up
-  yarn run build
+  pnpm run build
 fi
 
-yarn exec lint-staged
+pnpm exec lint-staged

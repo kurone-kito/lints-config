@@ -29,11 +29,10 @@
   "scripts": {
     "build": "cpy --flat ../../LICENSE .",
     "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" LICENSE",
-    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
+    "prepack": "pnpm run clean && pnpm run build"
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^8.0.0",
-    "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "eslint": "^8.57.0",
     "typescript": "~5.5.4",

@@ -28,7 +28,7 @@ features:
   weighted-suggestions: true
 globRoot: ${cwd}
 id: kurone-kito
-language: en,ja
+language: en,eo,ja
 ignorePaths:
   - .*ignore
   - .git
@@ -37,12 +37,14 @@ ignorePaths:
   - .yarn
   - cspell.config.yml
   - node_modules
+  - pnpm-lock.yaml
   - yarn.lock
 ignoreRegExpList:
   # Ignore the scope name of the packages.
   - '@[a-zA-Z0-9_-]+/'
+useGitignore: true
+version: '0.2'
 words:
-  - aicommits
   - fuga
   - hoge
   - kito
@@ -50,5 +52,3 @@ words:
   - lintstagedrc
   - piyo
   - noconflict
-useGitignore: true
-version: '0.2'

@@ -28,15 +28,13 @@
     "commitlint.config.*"
   ],
   "scripts": {
-    "build": "conc \"yarn:build:*\"",
-    "build:json": "js-yaml .commitlintrc.yml > .commitlintrc.json",
-    "build:license": "cpy --flat ../../LICENSE .",
+    "build": "js-yaml .commitlintrc.yml > .commitlintrc.json",
     "clean": "rimraf -g \"*.tgz\" .commitlintrc.json LICENSE",
-    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
+    "prebuild": "cpy --flat ../../LICENSE .",
+    "prepack": "pnpm run clean && pnpm run build"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^19.2.2",
-    "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
     "rimraf": "^5.0.7"

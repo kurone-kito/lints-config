@@ -28,17 +28,15 @@
     ".prettierrc.*"
   ],
   "scripts": {
-    "build": "conc \"yarn:build:*\"",
-    "build:json": "js-yaml .prettierrc.yml > .prettierrc.json",
-    "build:license": "cpy --flat ../../LICENSE .",
+    "build": "js-yaml .prettierrc.yml > .prettierrc.json",
     "clean": "rimraf -g \"*.tgz\" .prettierrc.json LICENSE",
-    "lint": "yarn run prettier -cu",
-    "lint:fix": "yarn run prettier -uw",
-    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\"",
+    "lint": "pnpm run prettier -cu",
+    "lint:fix": "pnpm run prettier -uw",
+    "prebuild": "cpy --flat ../../LICENSE .",
+    "prepack": "pnpm run clean && pnpm run build",
     "prettier": "prettier --cache --loglevel=warn \"$@\" \"./**/*\""
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
     "prettier": "^3.3.2",

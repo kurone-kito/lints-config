@@ -1,1 +1,1 @@
-extends: './packages/markdownlint-config/.markdownlint.yml'
+extends: '@kurone-kito/markdownlint-config'

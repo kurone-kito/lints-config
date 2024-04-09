@@ -26,14 +26,12 @@
     ".markdownlint.*"
   ],
   "scripts": {
-    "build": "conc \"yarn:build:*\"",
-    "build:json": "js-yaml .markdownlint.yml > .markdownlint.json",
-    "build:license": "cpy --flat ../../LICENSE .",
+    "build": "js-yaml .markdownlint.yml > .markdownlint.json",
     "clean": "rimraf -g \"*.tgz\" .markdownlint.json LICENSE",
-    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
+    "prebuild": "cpy --flat ../../LICENSE .",
+    "prepack": "pnpm run clean && pnpm run build"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
     "rimraf": "^5.0.7"

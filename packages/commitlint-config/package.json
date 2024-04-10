@@ -22,7 +22,6 @@
     "./.commitlintrc.yml": "./.commitlintrc.yml"
   },
   "main": ".commitlintrc.json",
-  "module": ".commitlintrc.json",
   "files": [
     ".commitlintrc.*"
   ],

@@ -29,7 +29,6 @@
     "./cspell.yml": "./cspell.config.yml"
   },
   "main": "cspell.config.json",
-  "module": "cspell.config.json",
   "files": [
     "cspell.config.*"
   ],

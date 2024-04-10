@@ -24,7 +24,6 @@
     "./.prettierrc.yml": "./.prettierrc.yml"
   },
   "main": ".prettierrc.json",
-  "module": ".prettierrc.json",
   "files": [
     ".prettierrc.*"
   ],

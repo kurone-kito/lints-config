@@ -23,7 +23,6 @@
     "./tsconfig.json": "./tsconfig.json"
   },
   "main": "tsconfig.json",
-  "module": "tsconfig.json",
   "files": [
     "tsconfig.json"
   ],

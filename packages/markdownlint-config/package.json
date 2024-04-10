@@ -22,7 +22,6 @@
     "./.markdownlint.yml": "./.markdownlint.yml"
   },
   "main": ".markdownlint.json",
-  "module": ".markdownlint.json",
   "files": [
     ".markdownlint.*"
   ],

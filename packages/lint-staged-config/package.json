@@ -27,7 +27,6 @@
     "./lint-staged.config.yml": "./lint-staged.config.yml"
   },
   "main": "lint-staged.config.json",
-  "module": "lint-staged.config.json",
   "files": [
     "lint-staged.config.*"
   ],

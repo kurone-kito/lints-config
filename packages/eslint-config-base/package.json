@@ -24,7 +24,6 @@
     "./.eslintrc.yml": "./.eslintrc.yml"
   },
   "main": ".eslintrc.json",
-  "module": ".eslintrc.json",
   "files": [
     ".eslintrc.*"
   ],

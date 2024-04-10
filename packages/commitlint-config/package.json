@@ -17,13 +17,15 @@
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
   "exports": {
-    ".": "./.commitlintrc.json",
+    ".": "./commitlint.config.mjs",
     "./.commitlintrc.json": "./.commitlintrc.json",
-    "./.commitlintrc.yml": "./.commitlintrc.yml"
+    "./.commitlintrc.yml": "./.commitlintrc.yml",
+    "./commitlint.config.mjs": "./commitlint.config.mjs"
   },
   "main": ".commitlintrc.json",
   "files": [
-    ".commitlintrc.*"
+    ".commitlintrc.*",
+    "commitlint.config.*"
   ],
   "scripts": {
     "build": "conc \"yarn:build:*\"",

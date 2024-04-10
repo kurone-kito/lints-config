@@ -29,7 +29,7 @@
   "scripts": {
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml .commitlintrc.yml > .commitlintrc.json",
-    "build:license": "cpy \"../../LICENSE\" \"cspell-config/LICENSE\"",
+    "build:license": "cpy \"../../LICENSE\" \"commitlint-config/LICENSE\"",
     "clean": "rimraf -g LICENSE .commitlintrc.json \"*.tgz\"",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },

@@ -28,12 +28,12 @@
   "scripts": {
     "build": "yarn run sub run build",
     "clean": "conc \"yarn:clean:*\"",
-    "clean:root": "rimraf -g .eslintcache \"*.tgz\" \"*.tsbuildinfo\"",
+    "clean:root": "rimraf -g node_modules/.cache \"*.tgz\" \"*.tsbuildinfo\"",
     "clean:sub": "yarn run sub run clean",
     "postinstall": "husky",
     "lint": "conc -m 1 \"yarn:lint:*:check\"",
     "lint:cspell:check": "cspell lint --no-progress --show-suggestions -u \"./**/*\"",
-    "lint:eslint:check": "eslint --cache --cache-strategy=content -f codeframe \"./**/*\"",
+    "lint:eslint:check": "eslint --cache --cache-location node_modules/.cache/eslint/ --cache-strategy=content -f codeframe \"./**/*\"",
     "lint:eslint:fix": "yarn run lint:eslint:check --fix",
     "lint:fix": "conc -m 1 \"yarn:lint:cspell:check\" \"yarn:lint:*:fix\"",
     "lint:markdown:check": "markdownlint-cli2 \"**/*.md\"",
@@ -42,7 +42,6 @@
     "lint:prettier:fix": "yarn run prettier -uw",
     "prettier": "prettier --cache --log-level=warn \"$@\" \"./**/*\"",
     "publish": "yarn workspaces foreach --no-private -tA -j 1 npm publish",
-    "start": "yarn run sub -j unlimited run start",
     "sub": "yarn workspaces foreach --no-private -ipvA",
     "test": "yarn run lint"
   },

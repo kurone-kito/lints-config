@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/commitlint-config",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "My commitlint configuration for general projects",
   "keywords": [
     "commitlint",
@@ -17,19 +17,20 @@
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
   "exports": {
-    ".": "./.commitlintrc.json",
+    ".": "./commitlint.config.mjs",
     "./.commitlintrc.json": "./.commitlintrc.json",
-    "./.commitlintrc.yml": "./.commitlintrc.yml"
+    "./.commitlintrc.yml": "./.commitlintrc.yml",
+    "./commitlint.config.mjs": "./commitlint.config.mjs"
   },
   "main": ".commitlintrc.json",
-  "module": ".commitlintrc.json",
   "files": [
-    ".commitlintrc.*"
+    ".commitlintrc.*",
+    "commitlint.config.*"
   ],
   "scripts": {
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml .commitlintrc.yml > .commitlintrc.json",
-    "build:license": "cpy \"../../LICENSE\" \"cspell-config/LICENSE\"",
+    "build:license": "cpy \"../../LICENSE\" \"commitlint-config/LICENSE\"",
     "clean": "rimraf -g LICENSE .commitlintrc.json \"*.tgz\"",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },

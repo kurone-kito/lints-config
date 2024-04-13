@@ -9,7 +9,6 @@ extends:
   - plugin:editorconfig/noconflict
   - plugin:@cspell/recommended
   - plugin:jsdoc/recommended
-  - plugin:lodash/recommended
   - plugin:node/recommended
   - eslint:recommended
   - plugin:import/recommended
@@ -123,10 +122,6 @@ rules:
   # TODO: If there are any inconveniences in document generation,
   # TODO: the below rule will be removed.
   jsdoc/require-returns-type: 'off'
-  # Allow unconditional native function substitution in Lodash functions.
-  # They are prohibited by default. In modern web browsers, differences
-  # in standard function specifications are considered unlikely.
-  lodash/prefer-lodash-method: 'off'
   # Unconditional permission to import modules that do not exist. The
   # default is total prohibition, a temporary measure to support ESM-style
   # module resolution in TypeScript.

@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/lint-staged-config",
-  "version": "0.8.4",
+  "version": "0.10.0",
   "description": "My lint-staged configuration for general projects",
   "keywords": [
     "config",
@@ -27,14 +27,13 @@
     "./lint-staged.config.yml": "./lint-staged.config.yml"
   },
   "main": "lint-staged.config.json",
-  "module": "lint-staged.config.json",
   "files": [
     "lint-staged.config.*"
   ],
   "scripts": {
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml lint-staged.config.yml > lint-staged.config.json",
-    "build:license": "cpy \"../../LICENSE\" \"cspell-config/LICENSE\"",
+    "build:license": "cpy \"../../LICENSE\" \"lint-staged-config/LICENSE\"",
     "clean": "rimraf -g LICENSE lint-staged.config.json \"*.tgz\"",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },

@@ -43,7 +43,7 @@
     "@cspell/cspell-types": "^8.6.1",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
-    "cspell": "^8.6.1",
+    "cspell": "^8.7.0",
     "js-yaml": "^4.1.0",
     "rimraf": "^5.0.5"
   },

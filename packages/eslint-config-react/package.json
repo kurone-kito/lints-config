@@ -40,7 +40,7 @@
     "@kurone-kito/eslint-config-base": "workspace:^"
   },
   "devDependencies": {
-    "@cspell/eslint-plugin": "^8.6.1",
+    "@cspell/eslint-plugin": "^8.7.0",
     "@kurone-kito/prettier-config": "workspace:^",
     "@typescript-eslint/eslint-plugin": "^7.6.0",
     "@typescript-eslint/parser": "^7.6.0",

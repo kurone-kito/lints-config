@@ -50,7 +50,7 @@
     "@commitlint/cli": "^19.2.1",
     "@commitlint/config-conventional": "^19.1.0",
     "@cspell/cspell-types": "^8.6.1",
-    "@cspell/eslint-plugin": "^8.6.1",
+    "@cspell/eslint-plugin": "^8.7.0",
     "@kurone-kito/commitlint-config": "workspace:^",
     "@kurone-kito/cspell-config": "workspace:^",
     "@kurone-kito/eslint-config-base": "workspace:^",

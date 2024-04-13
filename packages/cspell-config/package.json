@@ -40,7 +40,7 @@
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
-    "@cspell/cspell-types": "^8.6.1",
+    "@cspell/cspell-types": "^8.7.0",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "cspell": "^8.6.1",

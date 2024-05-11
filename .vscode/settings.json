@@ -5,6 +5,10 @@
       "mode": "auto"
     }
   ],
+  "files.associations": {
+    ".imgbotconfig": "json",
+    "LICENSE": "plaintext"
+  },
   "files.watcherExclude": {
     "**/.eslintcache": true,
     "**/.pnp.*": true,

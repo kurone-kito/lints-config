@@ -59,7 +59,7 @@
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-markdown": "^4.0.1",
     "eslint-plugin-markdownlint": "^0.5.0",
-    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-n": "^17.6.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-storybook": "^0.8.0",
@@ -86,7 +86,7 @@
     "eslint-plugin-jsx-a11y": ">=6.x.x",
     "eslint-plugin-markdown": ">=3.x.x",
     "eslint-plugin-markdownlint": ">=0.5.x",
-    "eslint-plugin-node": ">=11.x.0",
+    "eslint-plugin-n": ">=17.x.x",
     "eslint-plugin-react": ">=7.2.x",
     "eslint-plugin-react-hooks": ">=4.3.x",
     "eslint-plugin-storybook": ">=0.6.x",
@@ -141,7 +141,7 @@
     "eslint-plugin-markdownlint": {
       "optional": true
     },
-    "eslint-plugin-node": {
+    "eslint-plugin-n": {
       "optional": true
     },
     "eslint-plugin-react": {

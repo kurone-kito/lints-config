@@ -9,7 +9,7 @@ extends:
   - plugin:editorconfig/noconflict
   - plugin:@cspell/recommended
   - plugin:jsdoc/recommended
-  - plugin:node/recommended
+  - plugin:n/recommended
   - eslint:recommended
   - plugin:import/recommended
   - plugin:import/typescript

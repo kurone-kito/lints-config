@@ -18,6 +18,7 @@ extends:
   # Because we want to apply the Airbnb rules as much as possible,
   # we have placed them closer to the end.
   - airbnb-typescript/base
+  - plugin:oxlint/recommended
   - prettier
 overrides:
   - env:

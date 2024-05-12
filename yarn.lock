@@ -892,6 +892,7 @@ __metadata:
     eslint-plugin-markdown: "npm:^4.0.1"
     eslint-plugin-markdownlint: "npm:^0.5.0"
     eslint-plugin-n: "npm:^17.6.0"
+    eslint-plugin-oxlint: "npm:^0.2.9"
     eslint-plugin-yaml: "npm:^0.5.0"
     js-yaml: "npm:^4.1.0"
     prettier: "npm:^3.2.5"
@@ -914,6 +915,7 @@ __metadata:
     eslint-plugin-markdown: ">=3.x.x"
     eslint-plugin-markdownlint: ">=0.5.x"
     eslint-plugin-n: ">=17.x.x"
+    eslint-plugin-oxlint: ">=0.2.x"
     eslint-plugin-yaml: ">=0.5.x"
   peerDependenciesMeta:
     "@cspell/eslint-plugin":
@@ -948,6 +950,8 @@ __metadata:
       optional: true
     eslint-plugin-n:
       optional: true
+    eslint-plugin-oxlint:
+      optional: true
     eslint-plugin-yaml:
       optional: true
   languageName: unknown
@@ -978,6 +982,7 @@ __metadata:
     eslint-plugin-markdown: "npm:^4.0.1"
     eslint-plugin-markdownlint: "npm:^0.5.0"
     eslint-plugin-n: "npm:^17.6.0"
+    eslint-plugin-oxlint: "npm:^0.2.9"
     eslint-plugin-react: "npm:^7.34.1"
     eslint-plugin-react-hooks: "npm:^4.6.0"
     eslint-plugin-storybook: "npm:^0.8.0"
@@ -1004,6 +1009,7 @@ __metadata:
     eslint-plugin-markdown: ">=3.x.x"
     eslint-plugin-markdownlint: ">=0.5.x"
     eslint-plugin-n: ">=17.x.x"
+    eslint-plugin-oxlint: ">=0.2.x"
     eslint-plugin-react: ">=7.2.x"
     eslint-plugin-react-hooks: ">=4.3.x"
     eslint-plugin-storybook: ">=0.6.x"
@@ -1042,6 +1048,8 @@ __metadata:
     eslint-plugin-markdownlint:
       optional: true
     eslint-plugin-n:
+      optional: true
+    eslint-plugin-oxlint:
       optional: true
     eslint-plugin-react:
       optional: true
@@ -1105,11 +1113,13 @@ __metadata:
     eslint-plugin-markdown: "npm:^4.0.1"
     eslint-plugin-markdownlint: "npm:^0.5.0"
     eslint-plugin-n: "npm:^17.6.0"
+    eslint-plugin-oxlint: "npm:^0.2.9"
     eslint-plugin-react: "npm:^7.34.1"
     eslint-plugin-yaml: "npm:^0.5.0"
     husky: "npm:^9.0.11"
     lint-staged: "npm:^15.2.2"
     markdownlint-cli2: "npm:^0.13.0"
+    oxlint: "npm:^0.3.4"
     prettier: "npm:^3.2.5"
     rimraf: "npm:^5.0.5"
     typescript: "npm:~5.4.4"
@@ -1198,6 +1208,62 @@ __metadata:
   version: 0.1.1
   resolution: "@one-ini/wasm@npm:0.1.1"
   checksum: 10/673c11518dba2e582e42415cbefe928513616f3af25e12f6e4e6b1b98b52b3e6c14bc251a361654af63cd64f208f22a1f7556fa49da2bf7efcf28cb14f16f807
+  languageName: node
+  linkType: hard
+
+"@oxlint/darwin-arm64@npm:0.3.4":
+  version: 0.3.4
+  resolution: "@oxlint/darwin-arm64@npm:0.3.4"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@oxlint/darwin-x64@npm:0.3.4":
+  version: 0.3.4
+  resolution: "@oxlint/darwin-x64@npm:0.3.4"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@oxlint/linux-arm64-gnu@npm:0.3.4":
+  version: 0.3.4
+  resolution: "@oxlint/linux-arm64-gnu@npm:0.3.4"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@oxlint/linux-arm64-musl@npm:0.3.4":
+  version: 0.3.4
+  resolution: "@oxlint/linux-arm64-musl@npm:0.3.4"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@oxlint/linux-x64-gnu@npm:0.3.4":
+  version: 0.3.4
+  resolution: "@oxlint/linux-x64-gnu@npm:0.3.4"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@oxlint/linux-x64-musl@npm:0.3.4":
+  version: 0.3.4
+  resolution: "@oxlint/linux-x64-musl@npm:0.3.4"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@oxlint/win32-arm64@npm:0.3.4":
+  version: 0.3.4
+  resolution: "@oxlint/win32-arm64@npm:0.3.4"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@oxlint/win32-x64@npm:0.3.4":
+  version: 0.3.4
+  resolution: "@oxlint/win32-x64@npm:0.3.4"
+  conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
@@ -3397,6 +3463,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-oxlint@npm:^0.2.9":
+  version: 0.2.9
+  resolution: "eslint-plugin-oxlint@npm:0.2.9"
+  checksum: 10/97536de70c876819eb04a961ffe3221b38cdb2c7e5e5e91e2468faca45f91ddcf2ad1139bbc67f5450c07d4013b965ceb67efc6b901fe56187d721247ace0e19
+  languageName: node
+  linkType: hard
+
 "eslint-plugin-react-hooks@npm:^4.6.0":
   version: 4.6.0
   resolution: "eslint-plugin-react-hooks@npm:4.6.0"
@@ -5479,6 +5552,41 @@ __metadata:
     prelude-ls: "npm:^1.2.1"
     type-check: "npm:^0.4.0"
   checksum: 10/fa28d3016395974f7fc087d6bbf0ac7f58ac3489f4f202a377e9c194969f329a7b88c75f8152b33fb08794a30dcd5c079db6bb465c28151357f113d80bbf67da
+  languageName: node
+  linkType: hard
+
+"oxlint@npm:^0.3.4":
+  version: 0.3.4
+  resolution: "oxlint@npm:0.3.4"
+  dependencies:
+    "@oxlint/darwin-arm64": "npm:0.3.4"
+    "@oxlint/darwin-x64": "npm:0.3.4"
+    "@oxlint/linux-arm64-gnu": "npm:0.3.4"
+    "@oxlint/linux-arm64-musl": "npm:0.3.4"
+    "@oxlint/linux-x64-gnu": "npm:0.3.4"
+    "@oxlint/linux-x64-musl": "npm:0.3.4"
+    "@oxlint/win32-arm64": "npm:0.3.4"
+    "@oxlint/win32-x64": "npm:0.3.4"
+  dependenciesMeta:
+    "@oxlint/darwin-arm64":
+      optional: true
+    "@oxlint/darwin-x64":
+      optional: true
+    "@oxlint/linux-arm64-gnu":
+      optional: true
+    "@oxlint/linux-arm64-musl":
+      optional: true
+    "@oxlint/linux-x64-gnu":
+      optional: true
+    "@oxlint/linux-x64-musl":
+      optional: true
+    "@oxlint/win32-arm64":
+      optional: true
+    "@oxlint/win32-x64":
+      optional: true
+  bin:
+    oxlint: bin/oxlint
+  checksum: 10/0f7da5c77805a35655ef15c990dc75e912a937bfae3e33794f0a7f8c3ec207846545fb9788c42204601b4090f15574090ec82534afdacc3d0527fafe478e53a8
   languageName: node
   linkType: hard
 

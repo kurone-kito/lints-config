@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/eslint-config-base",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "My ESLint configuration for general Node.js projects",
   "keywords": [
     "config",
@@ -36,10 +36,10 @@
   },
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
-    "@cspell/eslint-plugin": "^8.6.1",
+    "@cspell/eslint-plugin": "^8.8.1",
     "@kurone-kito/prettier-config": "workspace:^",
-    "@typescript-eslint/eslint-plugin": "^7.6.0",
-    "@typescript-eslint/parser": "^7.6.0",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "eslint": "^8.57.0",
@@ -50,16 +50,17 @@
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-editorconfig": "^4.0.3",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsdoc": "^48.2.3",
+    "eslint-plugin-jsdoc": "^48.2.4",
     "eslint-plugin-json": "^3.1.0",
-    "eslint-plugin-markdown": "^4.0.1",
-    "eslint-plugin-markdownlint": "^0.5.0",
-    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-markdown": "^5.0.0",
+    "eslint-plugin-markdownlint": "^0.6.0",
+    "eslint-plugin-n": "^17.6.0",
+    "eslint-plugin-oxlint": "^0.2.9",
     "eslint-plugin-yaml": "^0.5.0",
     "js-yaml": "^4.1.0",
     "prettier": "^3.2.5",
-    "rimraf": "^5.0.5",
-    "typescript": "~5.4.4"
+    "rimraf": "^5.0.7",
+    "typescript": "~5.4.5"
   },
   "peerDependencies": {
     "@cspell/eslint-plugin": ">=6.x.x",
@@ -77,7 +78,8 @@
     "eslint-plugin-json": ">=3.x.x",
     "eslint-plugin-markdown": ">=3.x.x",
     "eslint-plugin-markdownlint": ">=0.5.x",
-    "eslint-plugin-node": ">=11.x.x",
+    "eslint-plugin-n": ">=17.x.x",
+    "eslint-plugin-oxlint": ">=0.2.x",
     "eslint-plugin-yaml": ">=0.5.x"
   },
   "peerDependenciesMeta": {
@@ -126,7 +128,10 @@
     "eslint-plugin-markdownlint": {
       "optional": true
     },
-    "eslint-plugin-node": {
+    "eslint-plugin-n": {
+      "optional": true
+    },
+    "eslint-plugin-oxlint": {
       "optional": true
     },
     "eslint-plugin-yaml": {

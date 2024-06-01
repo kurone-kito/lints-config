@@ -344,10 +344,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cspell/cspell-types@npm:8.8.1, @cspell/cspell-types@npm:^8.8.1":
+"@cspell/cspell-types@npm:8.8.1":
   version: 8.8.1
   resolution: "@cspell/cspell-types@npm:8.8.1"
   checksum: 10/e6519ca8ceff3c55b51933036b4b645f53d4affdde925925c42536f7a6f8717f2d49ea218e26378c9eddbfda72eb7b606c36e2494bb465ac2452e40201abce9a
+  languageName: node
+  linkType: hard
+
+"@cspell/cspell-types@npm:^8.8.3":
+  version: 8.8.3
+  resolution: "@cspell/cspell-types@npm:8.8.3"
+  checksum: 10/a2a317beac19dc731ef3438f4e9bee33d84f64fb264c2e4c9da02b4f2e30a256b4cc344f0e5ca0db9fd501788a31d6fe2391472a68c65f93618a1df8d9477bc4
   languageName: node
   linkType: hard
 
@@ -861,7 +868,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@kurone-kito/cspell-config@workspace:packages/cspell-config"
   dependencies:
-    "@cspell/cspell-types": "npm:^8.8.1"
+    "@cspell/cspell-types": "npm:^8.8.3"
     concurrently: "npm:^8.2.2"
     cpy-cli: "npm:^5.0.0"
     cspell: "npm:^8.8.1"
@@ -1091,7 +1098,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": "npm:^19.3.0"
     "@commitlint/config-conventional": "npm:^19.2.2"
-    "@cspell/cspell-types": "npm:^8.8.1"
+    "@cspell/cspell-types": "npm:^8.8.3"
     "@cspell/eslint-plugin": "npm:^8.8.1"
     "@kurone-kito/commitlint-config": "workspace:^"
     "@kurone-kito/cspell-config": "workspace:^"

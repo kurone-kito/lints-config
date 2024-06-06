@@ -22,8 +22,10 @@ npm install --save-dev \
   eslint-plugin-import \
   eslint-plugin-jsdoc \
   eslint-plugin-json \
-  eslint-plugin-node \
   eslint-plugin-markdown \
+  eslint-plugin-markdownlint \
+  eslint-plugin-n \
+  eslint-plugin-oxlint \
   eslint-plugin-yaml
 ```
 

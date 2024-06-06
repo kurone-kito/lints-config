@@ -22,8 +22,11 @@ npm install --save-dev \
   eslint-plugin-import \
   eslint-plugin-jsdoc \
   eslint-plugin-json \
+  eslint-plugin-jsx-a11y \
   eslint-plugin-markdown \
-  eslint-plugin-node \
+  eslint-plugin-markdownlint \
+  eslint-plugin-n \
+  eslint-plugin-oxlint \
   eslint-plugin-react \
   eslint-plugin-react-hooks \
   eslint-plugin-storybook \

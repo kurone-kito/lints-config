@@ -5,7 +5,7 @@ extends:
   # see: https://github.com/eslint/eslint-plugin-markdown/issues/243
   - plugin:markdown/recommended-legacy
   - plugin:yaml/recommended
-  - plugin:json/recommended
+  - plugin:json/recommended-legacy
   - plugin:editorconfig/noconflict
   - plugin:@cspell/recommended
   - plugin:jsdoc/recommended

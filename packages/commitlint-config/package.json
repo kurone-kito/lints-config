@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/commitlint-config",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "My commitlint configuration for general projects",
   "keywords": [
     "commitlint",

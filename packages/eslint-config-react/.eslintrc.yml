@@ -27,7 +27,7 @@ overrides:
       # product code should be listed in the `dependencies` list, so
       # Storybook component definitions not included in the product code
       # are exceptionally allowed to depend on `devDependencies`.
-      node/no-unpublished-import:
+      n/no-unpublished-import:
         - error
         - allowModules:
             - '@storybook/react'
@@ -43,7 +43,7 @@ overrides:
       # depend on the product code should be listed in the `dependencies`
       # list, so test codes not included in the product code are
       # exceptionally allowed to depend on `devDependencies`.
-      node/no-unpublished-import:
+      n/no-unpublished-import:
         - error
         - allowModules:
             - '@testing-library/jest-dom'

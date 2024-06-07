@@ -5,7 +5,7 @@ extends:
   # see: https://github.com/eslint/eslint-plugin-markdown/issues/243
   - plugin:markdown/recommended-legacy
   - plugin:yaml/recommended
-  - plugin:json/recommended
+  - plugin:json/recommended-legacy
   - plugin:editorconfig/noconflict
   - plugin:@cspell/recommended
   - plugin:jsdoc/recommended
@@ -126,11 +126,11 @@ rules:
   # Unconditional permission to import modules that do not exist. The
   # default is total prohibition, a temporary measure to support ESM-style
   # module resolution in TypeScript.
-  node/no-missing-import: off
+  n/no-missing-import: off
   # Allows the use of unsupported Node.js notation.
   # Unconditional prohibition by default. All Node.js versions prohibit
   # dynamic imports, and the rule is already obsoleted.
-  node/no-unsupported-features/es-syntax: off
+  n/no-unsupported-features/es-syntax: off
   # Allow arbitrary reordering of multiple exports in the import syntax,
   # with a warning. The default is to allow it unconditionally.
   # in order to deal with the snowballing problem of the import part.

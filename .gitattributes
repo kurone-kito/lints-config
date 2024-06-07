@@ -4,3 +4,4 @@
 .gitattributes export-ignore
 .husky/** export-ignore
 .coderabbit.yaml export-ignore
+.imgbotconfig export-ignore

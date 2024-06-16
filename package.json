@@ -44,6 +44,7 @@
     "lint:prettier:fix": "yarn run prettier -uw",
     "prettier": "prettier --cache --log-level=warn \"$@\" \"./**/*\"",
     "publish": "yarn workspaces foreach --no-private -tA -j 1 npm publish",
+    "publish:next": "yarn run publish --tag next",
     "sub": "yarn workspaces foreach --no-private -ipvA",
     "test": "yarn run lint"
   },

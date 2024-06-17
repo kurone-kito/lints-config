@@ -27,13 +27,15 @@
     "tsconfig.json"
   ],
   "scripts": {
+    "build": "cpy \"../../LICENSE\" \"typescript-config/LICENSE\"",
     "clean": "rimraf -g LICENSE \"*.tgz\" \"*.tsbuildinfo\"",
-    "prepack": "cpy \"../../LICENSE\" \"typescript-config/LICENSE\""
+    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
     "@kurone-kito/prettier-config": "workspace:^",
     "@typescript-eslint/parser": "^7.12.0",
+    "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "eslint": "^8.57.0",
     "prettier": "^3.3.1",

@@ -907,7 +907,7 @@ __metadata:
     eslint-plugin-markdownlint: "npm:^0.6.0"
     eslint-plugin-n: "npm:^17.8.1"
     eslint-plugin-oxlint: "npm:^0.4.0"
-    eslint-plugin-yaml: "npm:^0.5.0"
+    eslint-plugin-yaml: "npm:^1.0.0"
     js-yaml: "npm:^4.1.0"
     prettier: "npm:^3.3.1"
     rimraf: "npm:^5.0.7"
@@ -1000,7 +1000,7 @@ __metadata:
     eslint-plugin-react: "npm:^7.34.2"
     eslint-plugin-react-hooks: "npm:^4.6.2"
     eslint-plugin-storybook: "npm:^0.8.0"
-    eslint-plugin-yaml: "npm:^0.5.0"
+    eslint-plugin-yaml: "npm:^1.0.0"
     js-yaml: "npm:^4.1.0"
     prettier: "npm:^3.3.1"
     rimraf: "npm:^5.0.7"
@@ -1129,7 +1129,7 @@ __metadata:
     eslint-plugin-n: "npm:^17.8.1"
     eslint-plugin-oxlint: "npm:^0.4.0"
     eslint-plugin-react: "npm:^7.34.2"
-    eslint-plugin-yaml: "npm:^0.5.0"
+    eslint-plugin-yaml: "npm:^1.0.0"
     husky: "npm:^9.0.11"
     lint-staged: "npm:^15.2.5"
     markdownlint-cli2: "npm:^0.13.0"
@@ -3498,13 +3498,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-yaml@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "eslint-plugin-yaml@npm:0.5.0"
+"eslint-plugin-yaml@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "eslint-plugin-yaml@npm:1.0.0"
   dependencies:
     js-yaml: "npm:^4.1.0"
-    jshint: "npm:^2.13.0"
-  checksum: 10/e577faf4fa6d87c63c07d6da5cfa2584fe642c72e92b48d70a80c8b2934ebb8a8334776bb4fd8ef6a69effc7cb41d6dbada2700c1af964d22f38ed1b4e8c6eea
+    jshint: "npm:^2.13.6"
+  checksum: 10/778a07e0228dfa1646a851854e16c4b95593e327b769676ddba99b535ec79b5e08d17f46111f4d826dcf3cf522bcc87bea2e272f37430528d6162c81c5f07196
   languageName: node
   linkType: hard
 
@@ -4726,7 +4726,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jshint@npm:^2.13.0":
+"jshint@npm:^2.13.6":
   version: 2.13.6
   resolution: "jshint@npm:2.13.6"
   dependencies:

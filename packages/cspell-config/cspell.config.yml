@@ -28,7 +28,6 @@ features:
   weighted-suggestions: true
 globRoot: ${cwd}
 id: kurone-kito
-language: en,eo,ja
 ignorePaths:
   - .*ignore
   - .git
@@ -42,6 +41,7 @@ ignorePaths:
 ignoreRegExpList:
   # Ignore the scope name of the packages.
   - '@[a-zA-Z0-9_-]+/'
+language: en,eo,ja
 useGitignore: true
 version: '0.2'
 words:

@@ -27,8 +27,8 @@
     "tsconfig.json"
   ],
   "scripts": {
-    "build": "cpy \"../../LICENSE\" \"typescript-config/LICENSE\"",
-    "clean": "rimraf -g LICENSE \"*.tgz\" \"*.tsbuildinfo\"",
+    "build": "cpy --flat ../../LICENSE .",
+    "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" LICENSE",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "prettier": "@kurone-kito/prettier-config",

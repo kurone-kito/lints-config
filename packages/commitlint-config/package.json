@@ -30,8 +30,8 @@
   "scripts": {
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml .commitlintrc.yml > .commitlintrc.json",
-    "build:license": "cpy \"../../LICENSE\" \"commitlint-config/LICENSE\"",
-    "clean": "rimraf -g LICENSE .commitlintrc.json \"*.tgz\"",
+    "build:license": "cpy --flat ../../LICENSE .",
+    "clean": "rimraf -g \"*.tgz\" .commitlintrc.json LICENSE",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {

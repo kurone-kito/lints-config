@@ -30,8 +30,8 @@
   "scripts": {
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml .prettierrc.yml > .prettierrc.json",
-    "build:license": "cpy \"../../LICENSE\" \"prettier-config/LICENSE\"",
-    "clean": "rimraf -g .prettierrc.json LICENSE \"*.tgz\"",
+    "build:license": "cpy --flat ../../LICENSE .",
+    "clean": "rimraf -g \"*.tgz\" .prettierrc.json LICENSE",
     "lint": "yarn run prettier -cu",
     "lint:fix": "yarn run prettier -uw",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\"",

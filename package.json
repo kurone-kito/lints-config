@@ -28,7 +28,7 @@
   "scripts": {
     "build": "yarn run sub run build",
     "clean": "conc \"yarn:clean:*\"",
-    "clean:root": "rimraf -g node_modules/.cache \"*.tgz\" \"*.tsbuildinfo\"",
+    "clean:root": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" node_modules/.cache",
     "clean:sub": "yarn run sub run clean",
     "postinstall": "husky",
     "lint": "conc -m 1 \"yarn:lint:*:check\"",

@@ -33,8 +33,8 @@
   "scripts": {
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml lint-staged.config.yml > lint-staged.config.json",
-    "build:license": "cpy \"../../LICENSE\" \"lint-staged-config/LICENSE\"",
-    "clean": "rimraf -g LICENSE lint-staged.config.json \"*.tgz\"",
+    "build:license": "cpy --flat ../../LICENSE .",
+    "clean": "rimraf -g \"*.tgz\" LICENSE lint-staged.config.json",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {

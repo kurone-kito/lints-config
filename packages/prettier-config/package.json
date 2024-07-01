@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/prettier-config",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "My Prettier configuration for general projects",
   "keywords": [
     "config",

@@ -37,7 +37,7 @@
     "@typescript-eslint/parser": "^7.13.1",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.6.0",
     "prettier": "^3.3.2",
     "typescript": "~5.4.5",
     "typescript-eslint-language-service": "^5.0.5"

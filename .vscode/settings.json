@@ -1,4 +1,18 @@
 {
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "*": "${capture}.meta, ${capture}.md5",
+    "*.md": "${capture}.*.md",
+    "*.yml": "${capture}.json",
+    ".eslintrc*": ".eslintignore",
+    ".gitattributes": ".gitignore",
+    ".markdownlint.*": ".markdownlint-cli2.*",
+    ".pnp.loader.mjs": ".pnp.cjs",
+    ".tool-versions": ".node-version, .nvmrc",
+    "package.json": ".yarnrc.yml, yarn.lock",
+    "tsconfig.json": "${capture}.tsbuildinfo"
+  },
   "eslint.nodePath": ".yarn/sdks",
   "eslint.workingDirectories": [
     {

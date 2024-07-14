@@ -4,6 +4,7 @@ dictionaries:
   - companies
   - cpp
   - csharp
+  - css
   - docker
   - dotnet
   - en_US
@@ -11,6 +12,7 @@ dictionaries:
   - eo
   - filetypes
   - fonts
+  - fsharp
   - fullstack
   - git
   - html
@@ -20,6 +22,7 @@ dictionaries:
   - node
   - npm
   - powershell
+  - php
   - shell
   - softwareTerms
   - typescript
@@ -28,7 +31,6 @@ features:
   weighted-suggestions: true
 globRoot: ${cwd}
 id: kurone-kito
-language: en,eo,ja
 ignorePaths:
   - .*ignore
   - .git
@@ -42,6 +44,7 @@ ignorePaths:
 ignoreRegExpList:
   # Ignore the scope name of the packages.
   - '@[a-zA-Z0-9_-]+/'
+language: en,eo,ja
 useGitignore: true
 version: '0.2'
 words:

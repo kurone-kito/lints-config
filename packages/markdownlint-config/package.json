@@ -28,8 +28,8 @@
   "scripts": {
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml .markdownlint.yml > .markdownlint.json",
-    "build:license": "cpy \"../../LICENSE\" \"markdownlint-config/LICENSE\"",
-    "clean": "rimraf -g LICENSE .markdownlint.json \"*.tgz\"",
+    "build:license": "cpy --flat ../../LICENSE .",
+    "clean": "rimraf -g \"*.tgz\" .markdownlint.json LICENSE",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {

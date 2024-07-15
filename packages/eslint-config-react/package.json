@@ -31,8 +31,8 @@
   "scripts": {
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml .eslintrc.yml > .eslintrc.json",
-    "build:license": "cpy \"../../LICENSE\" \"eslint-config-react/LICENSE\"",
-    "clean": "rimraf -g .eslintcache .eslintrc.json LICENSE \"*.tgz\" \"*.tsbuildinfo\"",
+    "build:license": "cpy --flat ../../LICENSE .",
+    "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" .eslintcache .eslintrc.json LICENSE",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "prettier": "@kurone-kito/prettier-config",

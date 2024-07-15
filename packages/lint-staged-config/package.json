@@ -41,7 +41,7 @@
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
-    "rimraf": "^5.0.7"
+    "rimraf": "^5.0.9"
   },
   "peerDependencies": {
     "cspell": ">=5.7.x",

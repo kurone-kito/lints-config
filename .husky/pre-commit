@@ -3,9 +3,9 @@
 # vim: set ft=sh :
 
 if [ ! -e packages/prettier-config/.prettierrc.json ]; then
-  echo 'ERROR: Prettier config not found.' 1>&2
-  echo 'Please run "yarn install && yarn run build" in the project root directory before committing.' 1>&2
-  exit 1
+  corepack enable
+  corepack up
+  yarn run build
 fi
 
 yarn exec lint-staged

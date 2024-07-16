@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/typescript-config",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "My TypeScript configuration for general projects",
   "keywords": [
     "config",
@@ -27,23 +27,23 @@
     "tsconfig.json"
   ],
   "scripts": {
-    "build": "cpy \"../../LICENSE\" \"typescript-config/LICENSE\"",
-    "clean": "rimraf -g LICENSE \"*.tgz\" \"*.tsbuildinfo\"",
+    "build": "cpy --flat ../../LICENSE .",
+    "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" LICENSE",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
     "@kurone-kito/prettier-config": "workspace:^",
-    "@typescript-eslint/parser": "^7.13.1",
+    "@typescript-eslint/parser": "^7.16.1",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "eslint": "^8.57.0",
-    "prettier": "^3.3.2",
-    "typescript": "~5.4.5",
+    "prettier": "^3.3.3",
+    "typescript": "~5.5.3",
     "typescript-eslint-language-service": "^5.0.5"
   },
   "peerDependencies": {
-    "typescript": ">=4.7.x",
+    "typescript": ">=5.x.x",
     "typescript-eslint-language-service": ">=5.x.x"
   },
   "peerDependenciesMeta": {

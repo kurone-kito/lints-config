@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/markdownlint-config",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "My Markdownlint configuration for general projects",
   "keywords": [
     "config",
@@ -28,15 +28,15 @@
   "scripts": {
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml .markdownlint.yml > .markdownlint.json",
-    "build:license": "cpy \"../../LICENSE\" \"markdownlint-config/LICENSE\"",
-    "clean": "rimraf -g LICENSE .markdownlint.json \"*.tgz\"",
+    "build:license": "cpy --flat ../../LICENSE .",
+    "clean": "rimraf -g \"*.tgz\" .markdownlint.json LICENSE",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
-    "rimraf": "^5.0.7"
+    "rimraf": "^5.0.9"
   },
   "engines": {
     "node": ">=18"

@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/commitlint-config",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "My commitlint configuration for general projects",
   "keywords": [
     "commitlint",
@@ -30,8 +30,8 @@
   "scripts": {
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml .commitlintrc.yml > .commitlintrc.json",
-    "build:license": "cpy \"../../LICENSE\" \"commitlint-config/LICENSE\"",
-    "clean": "rimraf -g LICENSE .commitlintrc.json \"*.tgz\"",
+    "build:license": "cpy --flat ../../LICENSE .",
+    "clean": "rimraf -g \"*.tgz\" .commitlintrc.json LICENSE",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
@@ -39,7 +39,7 @@
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
-    "rimraf": "^5.0.7"
+    "rimraf": "^5.0.9"
   },
   "peerDependenciesMeta": {
     "@commitlint/config-conventional": {

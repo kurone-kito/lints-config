@@ -12,7 +12,6 @@
     "isolatedModules": true,
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "newLine": "LF",
     "noEmitOnError": true,
     "noErrorTruncation": true,
     "noFallthroughCasesInSwitch": true,

@@ -4,29 +4,39 @@ My ESLint configuration for general Node.js projects.
 
 ## Usage
 
+### Use the flat config (recommended)
+
+First, install this package and its peer dependencies:
+
+```sh
+npm install --save-dev @kurone-kito/eslint-config-base eslint typescript
+```
+
+Then, create a `eslint.config.mjs` file.
+If exists, merge the following configuration into it:
+
+```js
+export { default } from '@kurone-kito/eslint-config-base';
+```
+
+### for legacy configuration (deprecated)
+
+⚠️ **DEPRECATED**: The legacy configuration is no longer maintained.
+
 First, install this package and its peer dependencies:
 
 ```sh
 npm install --save-dev \
   @kurone-kito/eslint-config-base \
   @cspell/eslint-plugin \
-  @typescript-eslint/eslint-plugin \
-  @typescript-eslint/parser \
   eslint \
   eslint-config-airbnb-typescript \
-  eslint-config-prettier \
-  eslint-formatter-codeframe \
   eslint-import-resolver-node \
   eslint-import-resolver-typescript \
   eslint-plugin-editorconfig \
   eslint-plugin-import \
-  eslint-plugin-jsdoc \
-  eslint-plugin-json \
-  eslint-plugin-markdown \
   eslint-plugin-markdownlint \
-  eslint-plugin-n \
-  eslint-plugin-oxlint \
-  eslint-plugin-yaml
+  eslint-plugin-n
 ```
 
 Then, create a `.eslintrc.yml` file.

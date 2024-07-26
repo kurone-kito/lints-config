@@ -40,7 +40,7 @@
     "typescript-eslint-language-service": "^5.0.5"
   },
   "peerDependencies": {
-    "@typescript-eslint/parser": ">=6.x.x",
+    "@typescript-eslint/parser": ">=7.17.x",
     "typescript": ">=5.x.x",
     "typescript-eslint-language-service": ">=5.x.x"
   },

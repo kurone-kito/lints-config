@@ -40,12 +40,14 @@
     "start": "tsc --watch"
   },
   "dependencies": {
+    "@eslint/compat": "^1.1.1",
     "eslint-plugin-yaml": "^1.0.3"
   },
   "devDependencies": {
     "@cspell/eslint-plugin": "^8.13.1",
     "@kurone-kito/typescript-config": "workspace:^",
     "@types/eslint": "^8.56.11",
+    "@types/node": "^22.1.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "concurrently": "^8.2.2",

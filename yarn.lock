@@ -859,6 +859,7 @@ __metadata:
   resolution: "@kurone-kito/commitlint-config@workspace:packages/commitlint-config"
   dependencies:
     "@commitlint/config-conventional": "npm:^19.2.2"
+    "@kurone-kito/typescript-config": "workspace:^"
     concurrently: "npm:^8.2.2"
     cpy-cli: "npm:^5.0.0"
     js-yaml: "npm:^4.1.0"

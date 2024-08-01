@@ -1,5 +1,5 @@
 extends:
-  - '@kurone-kito/eslint-config-base'
+  - '@kurone-kito/eslint-config-base/.eslintrc.yml'
   - plugin:react/recommended
   - airbnb-typescript
   - prettier
@@ -7,13 +7,8 @@ parserOptions:
   ecmaFeatures:
     jsx: true
 overrides:
-  - env:
-      jest: true
-    files:
-      - '**/*.spec.?([cm])[jt]s?(x)'
   - files:
       - '**/*.stories.?([cm])[jt]s?(x)'
-      - src/utils/tests/*.?([cm])[jt]s?(x)
     rules:
       # Unconditionally allow export to `default`. The default is unknown,
       # but since Storybook component definitions are structurally
@@ -46,31 +41,10 @@ overrides:
       n/no-unpublished-import:
         - error
         - allowModules:
-            - '@testing-library/jest-dom'
             - '@testing-library/react'
             - '@testing-library/user-event'
-  - files:
-      - '*.?([cm])js?(x)'
-    rules:
-      # Allow type inference of return values of exported functions, etc.,
-      # only for JavaScript. By default, it is allowed with a warning.
-      # There are many situations where JavaScript is used outside the
-      # scope of transpiling, such as in various configuration files,
-      # making the `import` syntax challenging to use.
-      '@typescript-eslint/explicit-module-boundary-types': 'off'
+root: true
 rules:
-  # Prohibit dependencies on `devDependencies`, except for specific
-  # files. By default, this is a total ban. There is no need for
-  # strict separation of dependent packages since they are internally
-  # tree shaken by bundlers. Still, some packages are separated into
-  # `devDependencies` to make it easier to organize.
-  import/no-extraneous-dependencies:
-    - error
-    - devDependencies:
-        - '**/*.spec.?([cm])[jt]s?(x)'
-        - '**/*.test.?([cm])[jt]s?(x)'
-        - '**/jest.*.?([cm])[jt]s'
-        - '**/scripts/*.?([cm])[jt]s'
   # Allows explicit notation of `true` in JSX notation with a warning.
   # It is unconditionally permitted by default.
   # Because `true` is optional, the intent is to improve readability by

@@ -35,13 +35,11 @@
     "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" .eslintcache .eslintrc.json LICENSE",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
-  "prettier": "@kurone-kito/prettier-config",
   "dependencies": {
     "@kurone-kito/eslint-config-base": "workspace:^"
   },
   "devDependencies": {
     "@cspell/eslint-plugin": "^8.10.4",
-    "@kurone-kito/prettier-config": "workspace:^",
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "@typescript-eslint/parser": "^7.16.1",
     "concurrently": "^8.2.2",

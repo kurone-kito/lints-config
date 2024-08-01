@@ -32,10 +32,7 @@
     "build:json": "js-yaml .prettierrc.yml > .prettierrc.json",
     "build:license": "cpy --flat ../../LICENSE .",
     "clean": "rimraf -g \"*.tgz\" .prettierrc.json LICENSE",
-    "lint": "yarn run prettier -cu",
-    "lint:fix": "yarn run prettier -uw",
-    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\"",
-    "prettier": "prettier --cache --loglevel=warn \"$@\" \"./**/*\""
+    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

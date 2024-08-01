@@ -26,7 +26,7 @@
     ]
   },
   "scripts": {
-    "build": "yarn run sub run build",
+    "build": "yarn workspaces foreach --no-private --topological-dev -Aiv run build",
     "clean": "conc \"yarn:clean:*\"",
     "clean:root": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" node_modules/.cache",
     "clean:sub": "yarn run sub run clean",

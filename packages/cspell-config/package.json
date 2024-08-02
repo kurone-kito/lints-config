@@ -40,20 +40,10 @@
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
-    "@cspell/cspell-types": "^8.10.4",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
-    "cspell": "^8.10.4",
     "js-yaml": "^4.1.0",
-    "rimraf": "^5.0.9"
-  },
-  "peerDependenciesMeta": {
-    "@cspell/cspell-types": {
-      "optional": true
-    },
-    "cspell": {
-      "optional": true
-    }
+    "rimraf": "^5.0.10"
   },
   "engines": {
     "node": ">=18"

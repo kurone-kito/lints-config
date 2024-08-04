@@ -1,7 +1,8 @@
 /.yarn/** linguist-vendored
 
+.coderabbit.yaml export-ignore
 .github/** export-ignore
 .gitattributes export-ignore
+.gitignore export-ignore
 .husky/** export-ignore
-.coderabbit.yaml export-ignore
 .imgbotconfig export-ignore

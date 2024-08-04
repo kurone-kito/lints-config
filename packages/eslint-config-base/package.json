@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/eslint-config-base",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "My ESLint configuration for general Node.js projects",
   "keywords": [
     "config",
@@ -34,12 +34,10 @@
     "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" .eslintcache .eslintrc.json LICENSE",
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
-  "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
-    "@cspell/eslint-plugin": "^8.10.4",
-    "@kurone-kito/prettier-config": "workspace:^",
-    "@typescript-eslint/eslint-plugin": "^7.16.1",
-    "@typescript-eslint/parser": "^7.16.1",
+    "@cspell/eslint-plugin": "^8.13.1",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "eslint": "^8.57.0",
@@ -50,17 +48,17 @@
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-editorconfig": "^4.0.3",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsdoc": "^48.7.0",
+    "eslint-plugin-jsdoc": "^48.11.0",
     "eslint-plugin-json": "^4.0.0",
     "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-markdownlint": "^0.6.0",
-    "eslint-plugin-n": "^17.9.0",
+    "eslint-plugin-n": "^17.10.1",
     "eslint-plugin-oxlint": "^0.5.0",
     "eslint-plugin-yaml": "^1.0.3",
     "js-yaml": "^4.1.0",
     "prettier": "^3.3.3",
-    "rimraf": "^5.0.9",
-    "typescript": "~5.5.3"
+    "rimraf": "^5.0.10",
+    "typescript": "~5.5.4"
   },
   "peerDependencies": {
     "@cspell/eslint-plugin": ">=6.x.x",

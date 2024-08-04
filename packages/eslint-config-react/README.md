@@ -38,9 +38,19 @@ If exists, merge the following configuration into it:
 
 ```yaml
 extends:
-  - '@kurone-kito/eslint-config-react'
+  - '@kurone-kito/eslint-config-react/.eslintrc.yml'
 root: true
 ```
+
+### ⚠️ Migration warning
+
+Starting with the next version, the default export file will move to the
+**Flat Config** format. Therefore, you can still use the existing
+configuration by explicitly specifying `.eslintrc.yml` or `.eslintrc.json`
+for import. (See the above example)
+
+Also, from 0.16.0 onwards, we'll support only the Flat Config format and
+remove the traditional configuration files.
 
 ## License
 

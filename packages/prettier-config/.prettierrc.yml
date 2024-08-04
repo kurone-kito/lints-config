@@ -11,3 +11,4 @@ overrides:
     options:
       trailingComma: none
 singleQuote: true
+trailingComma: all

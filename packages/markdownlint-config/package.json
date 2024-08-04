@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/markdownlint-config",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "My Markdownlint configuration for general projects",
   "keywords": [
     "config",
@@ -36,7 +36,7 @@
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
-    "rimraf": "^5.0.9"
+    "rimraf": "^5.0.10"
   },
   "engines": {
     "node": ">=18"

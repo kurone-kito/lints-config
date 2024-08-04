@@ -1,3 +1,6 @@
 {
-  "extends": "../../tsconfig"
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "extends": "@kurone-kito/typescript-config/tsconfig.json"
 }

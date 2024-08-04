@@ -1,5 +1,5 @@
 extends:
-  - '@kurone-kito/eslint-config-base'
+  - '@kurone-kito/eslint-config-base/.eslintrc.yml'
 parserOptions:
   project:
     - './tsconfig.json'

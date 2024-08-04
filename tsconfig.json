@@ -3,6 +3,6 @@
     "composite": true,
     "noEmit": true
   },
-  "extends": "./packages/typescript-config/tsconfig",
+  "extends": "@kurone-kito/typescript-config/tsconfig.json",
   "include": ["**/*", ".*.mjs"]
 }

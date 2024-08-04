@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/commitlint-config",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "My commitlint configuration for general projects",
   "keywords": [
     "commitlint",
@@ -36,10 +36,11 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^19.2.2",
+    "@kurone-kito/typescript-config": "workspace:^",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
-    "rimraf": "^5.0.9"
+    "rimraf": "^5.0.10"
   },
   "peerDependenciesMeta": {
     "@commitlint/config-conventional": {

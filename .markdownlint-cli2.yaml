@@ -1,4 +1,4 @@
 ignores:
   - .github/CODE_OF_CONDUCT*
   - .yarn
-  - node_modules
+  - '**/node_modules/**'

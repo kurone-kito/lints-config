@@ -451,9 +451,9 @@ __metadata:
   linkType: hard
 
 "@cspell/dict-en-common-misspellings@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@cspell/dict-en-common-misspellings@npm:2.0.3"
-  checksum: 10/8ea5f6843635089a82f135ca4302b8ed0c208254cda83b56fa72a72a30ee983452a1abaf003f5ccf76a8f1faf9596da91dfe4441f2bbd00145b305a2e501311e
+  version: 2.0.4
+  resolution: "@cspell/dict-en-common-misspellings@npm:2.0.4"
+  checksum: 10/06319ddc791f4ac3d466e0810f013264cbffa97daa87675878ec70dc6ce1fb53f5c2f19c040894633bb6f584dcefaa64554054a42be67e2cd11e5250161c8183
   languageName: node
   linkType: hard
 
@@ -677,16 +677,16 @@ __metadata:
   linkType: hard
 
 "@cspell/dict-software-terms@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@cspell/dict-software-terms@npm:4.0.3"
-  checksum: 10/31a4cb73b855b57b7896265ff9e571b46f2d553eddaa094c54e2dd8f3e1d5244dfd079df94f5db0e872e5abe950a7bb59b93f82fe207cc9d306e0ef7c5b301e0
+  version: 4.0.4
+  resolution: "@cspell/dict-software-terms@npm:4.0.4"
+  checksum: 10/8cfa02fedaf925cc4718a2096d75e8b138eebc845534697d1d09ce34f807124d7f343c30e5b9345b770579ceaf2caec05d883d56e4b5ed8e92d64fecca4475c0
   languageName: node
   linkType: hard
 
 "@cspell/dict-sql@npm:^2.1.3":
-  version: 2.1.3
-  resolution: "@cspell/dict-sql@npm:2.1.3"
-  checksum: 10/a435812cc697d4c453f11efa49962992150702518e49808381ea34548b8a8ed81432a10cca36682007912b013c28e9ce3c6c183341c6cde58c8af0eef25cddc3
+  version: 2.1.4
+  resolution: "@cspell/dict-sql@npm:2.1.4"
+  checksum: 10/e405ce06674e733bb0e3d2a1d725bb9619830c13a50be0024a501f6654ee62a13e630b3dac2876d0304631f29af36498bec54ec5616adeb1542f8d39ee0f707e
   languageName: node
   linkType: hard
 
@@ -902,7 +902,7 @@ __metadata:
     eslint-plugin-json: "npm:^4.0.0"
     eslint-plugin-markdown: "npm:^5.1.0"
     eslint-plugin-markdownlint: "npm:^0.6.0"
-    eslint-plugin-n: "npm:^17.10.1"
+    eslint-plugin-n: "npm:^17.10.2"
     eslint-plugin-oxlint: "npm:^0.5.0"
     eslint-plugin-yaml: "npm:^1.0.3"
     js-yaml: "npm:^4.1.0"
@@ -991,7 +991,7 @@ __metadata:
     eslint-plugin-jsx-a11y: "npm:^6.9.0"
     eslint-plugin-markdown: "npm:^5.1.0"
     eslint-plugin-markdownlint: "npm:^0.6.0"
-    eslint-plugin-n: "npm:^17.10.1"
+    eslint-plugin-n: "npm:^17.10.2"
     eslint-plugin-oxlint: "npm:^0.5.0"
     eslint-plugin-react: "npm:^7.35.0"
     eslint-plugin-react-hooks: "npm:^4.6.2"
@@ -1122,7 +1122,7 @@ __metadata:
     eslint-plugin-json: "npm:^4.0.0"
     eslint-plugin-markdown: "npm:^5.1.0"
     eslint-plugin-markdownlint: "npm:^0.6.0"
-    eslint-plugin-n: "npm:^17.10.1"
+    eslint-plugin-n: "npm:^17.10.2"
     eslint-plugin-oxlint: "npm:^0.5.0"
     eslint-plugin-react: "npm:^7.35.0"
     eslint-plugin-yaml: "npm:^1.0.3"
@@ -3440,9 +3440,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-n@npm:^17.10.1":
-  version: 17.10.1
-  resolution: "eslint-plugin-n@npm:17.10.1"
+"eslint-plugin-n@npm:^17.10.2":
+  version: 17.10.2
+  resolution: "eslint-plugin-n@npm:17.10.2"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.4.0"
     enhanced-resolve: "npm:^5.17.0"
@@ -3454,7 +3454,7 @@ __metadata:
     semver: "npm:^7.5.3"
   peerDependencies:
     eslint: ">=8.23.0"
-  checksum: 10/d1f58da4d0cf2b22426abda227c8ceb793fca7b510ef4c728cd33b9b943a74f323160feb1bb22380951a7b232856a09570d3323d87bba792b95ee39c5d2f0b86
+  checksum: 10/c360e745b63d0dffddcd040cd6907bb50d259b5d92e9f4b71b98d9dcbc592d818885b6938956657bdad5bd076a7658c66daac164ed9e7d5abacb25ffc5de971b
   languageName: node
   linkType: hard
 

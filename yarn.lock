@@ -929,7 +929,6 @@ __metadata:
     eslint-plugin-markdownlint: ">=0.5.x"
     eslint-plugin-n: ">=17.x.x"
     eslint-plugin-oxlint: ">=0.2.x"
-    eslint-plugin-yaml: ">=0.5.x"
   peerDependenciesMeta:
     "@cspell/eslint-plugin":
       optional: true
@@ -964,8 +963,6 @@ __metadata:
     eslint-plugin-n:
       optional: true
     eslint-plugin-oxlint:
-      optional: true
-    eslint-plugin-yaml:
       optional: true
   languageName: unknown
   linkType: soft

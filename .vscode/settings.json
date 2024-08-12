@@ -3,6 +3,7 @@
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
     "*": "${capture}.meta, ${capture}.md5",
+    "*.d.mts": "${capture}.d.mts*, ${capture}.mjs*",
     "*.md": "${capture}.*.md",
     "*.yml": "${capture}.json",
     ".eslintrc*": ".eslintignore",
@@ -20,6 +21,7 @@
     }
   ],
   "files.associations": {
+    "*.map": "json",
     ".imgbotconfig": "json",
     "LICENSE": "plaintext"
   },

@@ -20,26 +20,32 @@
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
   "exports": {
-    ".": "./.eslintrc.json",
+    ".": "./dist/index.mjs",
     "./.eslintrc.json": "./.eslintrc.json",
     "./.eslintrc.yml": "./.eslintrc.yml"
   },
-  "main": ".eslintrc.json",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "files": [
-    ".eslintrc.*"
+    ".eslintrc.*",
+    "dist"
   ],
   "scripts": {
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml .eslintrc.yml > .eslintrc.json",
     "build:license": "cpy --flat ../../LICENSE .",
-    "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" .eslintcache .eslintrc.json LICENSE",
-    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
+    "build:ts": "tsc",
+    "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" .eslintcache .eslintrc.json dist LICENSE",
+    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\"",
+    "start": "tsc --watch"
   },
   "dependencies": {
     "@kurone-kito/eslint-config-base": "workspace:^"
   },
   "devDependencies": {
     "@cspell/eslint-plugin": "^8.13.1",
+    "@kurone-kito/typescript-config": "workspace:^",
+    "@types/eslint": "^8.56.11",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "concurrently": "^8.2.2",

@@ -3,7 +3,8 @@
     "lib": ["ESNext"],
     "outDir": "dist",
     "rootDir": "src",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["node"]
   },
   "extends": "@kurone-kito/typescript-config/tsconfig.json"
 }

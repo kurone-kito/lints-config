@@ -6,7 +6,6 @@
     "*.d.mts": "${capture}.d.mts*, ${capture}.mjs*",
     "*.md": "${capture}.*.md",
     "*.yml": "${capture}.json",
-    ".eslintrc*": ".eslintignore",
     ".gitattributes": ".gitignore",
     ".markdownlint.*": ".markdownlint-cli2.*",
     ".pnp.loader.mjs": ".pnp.cjs",

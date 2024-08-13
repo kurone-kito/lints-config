@@ -2,7 +2,8 @@
   "compilerOptions": {
     "lib": ["ESNext"],
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "skipLibCheck": true
   },
   "extends": "@kurone-kito/typescript-config/tsconfig.json"
 }

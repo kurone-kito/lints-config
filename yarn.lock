@@ -929,7 +929,7 @@ __metadata:
     eslint-plugin-markdownlint: ">=0.5.x"
     eslint-plugin-n: ">=17.x.x"
     eslint-plugin-oxlint: ">=0.2.x"
-    eslint-plugin-yaml: ">=0.5.x"
+    eslint-plugin-yaml: ">=1.0.3"
   peerDependenciesMeta:
     "@cspell/eslint-plugin":
       optional: true
@@ -982,7 +982,6 @@ __metadata:
     "@typescript-eslint/parser": "npm:^8.0.0"
     concurrently: "npm:^8.2.2"
     cpy-cli: "npm:^5.0.0"
-    eslint: "npm:^8.57.0"
     eslint-config-airbnb-typescript: "npm:^18.0.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-formatter-codeframe: "npm:^7.32.1"
@@ -1009,7 +1008,6 @@ __metadata:
     "@cspell/eslint-plugin": ">=6.x.x"
     "@typescript-eslint/eslint-plugin": ">=6.0.x"
     "@typescript-eslint/parser": ">=6.0.x"
-    eslint: ">=8.2.x"
     eslint-config-airbnb-typescript: ">=17.x.x"
     eslint-config-prettier: ">=8.x.x"
     eslint-formatter-codeframe: ">=7.x.x"
@@ -1027,15 +1025,13 @@ __metadata:
     eslint-plugin-react: ">=7.2.x"
     eslint-plugin-react-hooks: ">=4.3.x"
     eslint-plugin-storybook: ">=0.6.x"
-    eslint-plugin-yaml: ">=0.5.x"
+    eslint-plugin-yaml: ">=1.0.3"
   peerDependenciesMeta:
     "@cspell/eslint-plugin":
       optional: true
     "@typescript-eslint/eslint-plugin":
       optional: true
     "@typescript-eslint/parser":
-      optional: true
-    eslint:
       optional: true
     eslint-config-airbnb-typescript:
       optional: true

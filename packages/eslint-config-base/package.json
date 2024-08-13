@@ -39,6 +39,10 @@
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\"",
     "start": "tsc --watch"
   },
+  "dependencies": {
+    "eslint": "^8.57.0",
+    "eslint-plugin-yaml": "^1.0.3"
+  },
   "devDependencies": {
     "@cspell/eslint-plugin": "^8.13.1",
     "@kurone-kito/typescript-config": "workspace:^",
@@ -47,7 +51,6 @@
     "@typescript-eslint/parser": "^8.0.0",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
-    "eslint": "^8.57.0",
     "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-formatter-codeframe": "^7.32.1",
@@ -61,7 +64,6 @@
     "eslint-plugin-markdownlint": "^0.6.0",
     "eslint-plugin-n": "^17.10.1",
     "eslint-plugin-oxlint": "^0.5.0",
-    "eslint-plugin-yaml": "^1.0.3",
     "js-yaml": "^4.1.0",
     "prettier": "^3.3.3",
     "rimraf": "^5.0.10",
@@ -85,7 +87,7 @@
     "eslint-plugin-markdownlint": ">=0.5.x",
     "eslint-plugin-n": ">=17.x.x",
     "eslint-plugin-oxlint": ">=0.2.x",
-    "eslint-plugin-yaml": ">=0.5.x"
+    "eslint-plugin-yaml": ">=1.0.3"
   },
   "peerDependenciesMeta": {
     "@cspell/eslint-plugin": {

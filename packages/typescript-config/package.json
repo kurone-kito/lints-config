@@ -32,7 +32,7 @@
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^8.0.0",
+    "@typescript-eslint/parser": "^8.1.0",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "eslint": "^9.9.0",
@@ -40,7 +40,7 @@
     "typescript-eslint-language-service": "^5.0.5"
   },
   "peerDependencies": {
-    "@typescript-eslint/parser": ">=6.x.x",
+    "@typescript-eslint/parser": ">=7.17.x",
     "typescript": ">=5.x.x",
     "typescript-eslint-language-service": ">=5.x.x"
   },

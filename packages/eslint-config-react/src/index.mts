@@ -1,7 +1,17 @@
 import baseConfig from '@kurone-kito/eslint-config-base';
-import type { Linter } from 'eslint';
+import tsEslint from 'typescript-eslint';
+import { additionalReactConfig, reactConfig } from './react.mjs';
+import { storybookConfig } from './storybook.mjs';
+import { compat } from './utils.mjs';
 
-/** ESLint configuration for generic React projects. */
-const config: readonly Linter.Config[] = [...baseConfig];
-
-export default config;
+export default tsEslint.config(
+  ...([
+    ...reactConfig,
+    ...compat.extends('airbnb'),
+    ...compat.extends('airbnb-typescript'),
+    ...baseConfig,
+    ...additionalReactConfig,
+    ...storybookConfig,
+    { languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
+  ] as tsEslint.ConfigWithExtends[]),
+);

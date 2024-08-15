@@ -4,7 +4,7 @@ import { includeIgnoreFile } from '@eslint/compat';
 import type { Linter } from 'eslint';
 
 /** The configuration for ESLint to ignore files and directories. */
-export const ignoreConfig: readonly Linter.FlatConfig[] = [
+export const ignoreConfig: readonly Linter.Config[] = [
   ...['.gitignore', '.eslintignore']
     .map((file) => resolve(process.cwd(), file))
     .filter((file) => existsSync(file))

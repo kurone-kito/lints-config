@@ -45,7 +45,7 @@
   "devDependencies": {
     "@cspell/eslint-plugin": "^8.13.1",
     "@kurone-kito/typescript-config": "workspace:^",
-    "@types/eslint": "^8.56.11",
+    "@types/eslint": "^9.6.0",
     "@types/node": "^22.2.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
@@ -76,8 +76,9 @@
   },
   "peerDependencies": {
     "@cspell/eslint-plugin": ">=6.x.x",
-    "@typescript-eslint/eslint-plugin": ">=6.0.x",
-    "@typescript-eslint/parser": ">=6.0.x",
+    "@typescript-eslint/eslint-plugin": ">=8.0.x",
+    "@typescript-eslint/parser": ">=8.0.x",
+    "eslint": ">=9.x.x",
     "eslint-config-airbnb-typescript": ">=17.x.x",
     "eslint-config-prettier": ">=8.x.x",
     "eslint-formatter-codeframe": ">=7.x.x",

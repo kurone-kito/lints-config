@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/cspell-config",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "My CSpell configuration for general projects",
   "keywords": [
     "config",

@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/eslint-config-react",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "My ESLint configuration for React projects",
   "keywords": [
     "config",
@@ -20,77 +20,78 @@
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
   "exports": {
-    ".": "./.eslintrc.json",
+    ".": "./dist/index.mjs",
     "./.eslintrc.json": "./.eslintrc.json",
     "./.eslintrc.yml": "./.eslintrc.yml"
   },
-  "main": ".eslintrc.json",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "files": [
-    ".eslintrc.*"
+    ".eslintrc.*",
+    "dist"
   ],
   "scripts": {
     "build": "conc \"yarn:build:*\"",
     "build:json": "js-yaml .eslintrc.yml > .eslintrc.json",
     "build:license": "cpy --flat ../../LICENSE .",
-    "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" .eslintcache .eslintrc.json LICENSE",
-    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
+    "build:ts": "tsc",
+    "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" .eslintcache .eslintrc.json dist LICENSE",
+    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\"",
+    "start": "tsc --watch"
   },
   "dependencies": {
-    "@kurone-kito/eslint-config-base": "workspace:^"
-  },
-  "devDependencies": {
-    "@cspell/eslint-plugin": "^8.13.1",
-    "@typescript-eslint/eslint-plugin": "^8.0.0",
-    "@typescript-eslint/parser": "^8.0.0",
-    "concurrently": "^8.2.2",
-    "cpy-cli": "^5.0.0",
-    "eslint": "^8.57.0",
+    "@cspell/eslint-plugin": "^8.13.3",
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.9.0",
+    "@kurone-kito/eslint-config-base": "workspace:^",
+    "@typescript-eslint/eslint-plugin": "^8.1.0",
+    "@typescript-eslint/parser": "^8.1.0",
+    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^18.0.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-formatter-codeframe": "^7.32.1",
-    "eslint-import-resolver-node": "^0.3.9",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-editorconfig": "^4.0.3",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsdoc": "^48.11.0",
-    "eslint-plugin-json": "^4.0.0",
     "eslint-plugin-jsx-a11y": "^6.9.0",
-    "eslint-plugin-markdown": "^5.1.0",
-    "eslint-plugin-markdownlint": "^0.6.0",
-    "eslint-plugin-n": "^17.10.1",
-    "eslint-plugin-oxlint": "^0.5.0",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-storybook": "^0.8.0",
-    "eslint-plugin-yaml": "^1.0.3",
+    "typescript-eslint": "^8.1.0"
+  },
+  "devDependencies": {
+    "@kurone-kito/typescript-config": "workspace:^",
+    "@types/eslint": "^9.6.0",
+    "@types/eslint__eslintrc": "^2.1.2",
+    "@types/eslint__js": "^8.42.3",
+    "@types/node": "^22.4.0",
+    "@typescript-eslint/utils": "^8.1.0",
+    "concurrently": "^8.2.2",
+    "cpy-cli": "^5.0.0",
+    "eslint": "^9.9.0",
+    "eslint-formatter-codeframe": "^7.32.1",
     "js-yaml": "^4.1.0",
-    "prettier": "^3.3.3",
     "rimraf": "^5.0.10",
     "typescript": "~5.5.4"
   },
   "peerDependencies": {
-    "@cspell/eslint-plugin": ">=6.x.x",
-    "@typescript-eslint/eslint-plugin": ">=6.0.x",
-    "@typescript-eslint/parser": ">=6.0.x",
-    "eslint": ">=8.2.x",
-    "eslint-config-airbnb-typescript": ">=17.x.x",
-    "eslint-config-prettier": ">=8.x.x",
-    "eslint-formatter-codeframe": ">=7.x.x",
-    "eslint-import-resolver-node": ">=0.3.x",
-    "eslint-import-resolver-typescript": ">=3.x.x",
-    "eslint-plugin-editorconfig": ">=4.x.x",
-    "eslint-plugin-import": ">=2.27.x",
-    "eslint-plugin-jsdoc": ">=46.x.x",
+    "@cspell/eslint-plugin": ">=8.13.1",
+    "@typescript-eslint/eslint-plugin": ">=8.x.x",
+    "@typescript-eslint/parser": ">=8.x.x",
+    "eslint": ">=9.x.x",
+    "eslint-config-airbnb-typescript": ">=18.x.x",
+    "eslint-config-prettier": ">=9.1.x",
+    "eslint-import-resolver-node": ">=0.3.9",
+    "eslint-import-resolver-typescript": ">=3.6.1",
+    "eslint-plugin-editorconfig": ">=4.0.3",
+    "eslint-plugin-import": ">=2.29.1",
+    "eslint-plugin-jsdoc": ">=48.11.x",
     "eslint-plugin-json": ">=4.x.x",
-    "eslint-plugin-jsx-a11y": ">=6.x.x",
-    "eslint-plugin-markdown": ">=3.x.x",
-    "eslint-plugin-markdownlint": ">=0.5.x",
-    "eslint-plugin-n": ">=17.x.x",
-    "eslint-plugin-oxlint": ">=0.2.x",
-    "eslint-plugin-react": ">=7.2.x",
-    "eslint-plugin-react-hooks": ">=4.3.x",
-    "eslint-plugin-storybook": ">=0.6.x",
-    "eslint-plugin-yaml": ">=0.5.x"
+    "eslint-plugin-jsx-a11y": ">=6.9.x",
+    "eslint-plugin-markdown": ">=5.1.x",
+    "eslint-plugin-markdownlint": ">=0.6.x",
+    "eslint-plugin-n": ">=17.10.1",
+    "eslint-plugin-oxlint": ">=0.5.x",
+    "eslint-plugin-react": ">=7.35.x",
+    "eslint-plugin-react-hooks": ">=4.6.2",
+    "eslint-plugin-storybook": ">=0.8.x",
+    "eslint-plugin-yaml": ">=1.0.3"
   },
   "peerDependenciesMeta": {
     "@cspell/eslint-plugin": {
@@ -100,9 +101,6 @@
       "optional": true
     },
     "@typescript-eslint/parser": {
-      "optional": true
-    },
-    "eslint": {
       "optional": true
     },
     "eslint-config-airbnb-typescript": {

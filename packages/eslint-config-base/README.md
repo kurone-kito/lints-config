@@ -21,13 +21,14 @@ export { default } from '@kurone-kito/eslint-config-base';
 
 ### for legacy configuration (deprecated)
 
-⚠️ **DEPRECATED**: The legacy configuration is no longer maintained.
+⚠️ **DEPRECATED**: The legacy configuration is removed.
+When you prefer to use the legacy configuration, please use the previous version.
 
 First, install this package and its peer dependencies:
 
 ```sh
 npm install --save-dev \
-  @kurone-kito/eslint-config-base \
+  @kurone-kito/eslint-config-base@~0.15.0 \
   @cspell/eslint-plugin \
   eslint \
   eslint-config-airbnb-typescript \
@@ -47,16 +48,6 @@ extends:
   - '@kurone-kito/eslint-config-base/.eslintrc.yml'
 root: true
 ```
-
-### ⚠️ Migration warning
-
-Starting with the next version, the default export file will move to the
-**Flat Config** format. Therefore, you can still use the existing
-configuration by explicitly specifying `.eslintrc.yml` or `.eslintrc.json`
-for import. (See the above example)
-
-Also, from 0.16.0 onwards, we'll support only the Flat Config format and
-remove the traditional configuration files.
 
 ## License
 

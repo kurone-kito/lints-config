@@ -961,7 +961,6 @@ __metadata:
     eslint-config-airbnb-base: "npm:^15.0.0"
     eslint-config-airbnb-typescript: "npm:^18.0.0"
     eslint-config-prettier: "npm:^9.1.0"
-    eslint-formatter-codeframe: "npm:^7.32.1"
     eslint-import-resolver-node: "npm:^0.3.9"
     eslint-import-resolver-typescript: "npm:^3.6.1"
     eslint-plugin-editorconfig: "npm:^4.0.3"
@@ -974,65 +973,11 @@ __metadata:
     eslint-plugin-oxlint: "npm:^0.7.2"
     eslint-plugin-yaml: "npm:^1.0.3"
     globals: "npm:^15.9.0"
-    js-yaml: "npm:^4.1.0"
     rimraf: "npm:^5.0.10"
     typescript: "npm:~5.5.4"
     typescript-eslint: "npm:^8.1.0"
   peerDependencies:
-    "@cspell/eslint-plugin": ">=8.13.1"
-    "@typescript-eslint/eslint-plugin": ">=8.x.x"
-    "@typescript-eslint/parser": ">=8.x.x"
     eslint: ">=9.x.x"
-    eslint-config-airbnb-typescript: ">=18.x.x"
-    eslint-config-prettier: ">=9.1.x"
-    eslint-import-resolver-node: ">=0.3.9"
-    eslint-import-resolver-typescript: ">=3.6.1"
-    eslint-plugin-editorconfig: ">=4.0.3"
-    eslint-plugin-import: ">=2.29.1"
-    eslint-plugin-jsdoc: ">=48.11.x"
-    eslint-plugin-json: ">=4.x.x"
-    eslint-plugin-markdown: ">=5.1.x"
-    eslint-plugin-markdownlint: ">=0.6.x"
-    eslint-plugin-n: ">=17.10.1"
-    eslint-plugin-oxlint: ">=0.5.x"
-    eslint-plugin-yaml: ">=1.0.3"
-  peerDependenciesMeta:
-    "@cspell/eslint-plugin":
-      optional: true
-    "@typescript-eslint/eslint-plugin":
-      optional: true
-    "@typescript-eslint/parser":
-      optional: true
-    eslint:
-      optional: true
-    eslint-config-airbnb-typescript:
-      optional: true
-    eslint-config-prettier:
-      optional: true
-    eslint-formatter-codeframe:
-      optional: true
-    eslint-import-resolver-node:
-      optional: true
-    eslint-import-resolver-typescript:
-      optional: true
-    eslint-plugin-editorconfig:
-      optional: true
-    eslint-plugin-import:
-      optional: true
-    eslint-plugin-jsdoc:
-      optional: true
-    eslint-plugin-json:
-      optional: true
-    eslint-plugin-markdown:
-      optional: true
-    eslint-plugin-markdownlint:
-      optional: true
-    eslint-plugin-n:
-      optional: true
-    eslint-plugin-oxlint:
-      optional: true
-    eslint-plugin-yaml:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -1057,80 +1002,18 @@ __metadata:
     eslint: "npm:^9.9.0"
     eslint-config-airbnb: "npm:^19.0.4"
     eslint-config-airbnb-typescript: "npm:^18.0.0"
-    eslint-formatter-codeframe: "npm:^7.32.1"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.9.0"
     eslint-plugin-react: "npm:^7.35.0"
     eslint-plugin-react-hooks: "npm:^4.6.2"
     eslint-plugin-storybook: "npm:^0.8.0"
-    js-yaml: "npm:^4.1.0"
     rimraf: "npm:^5.0.10"
     typescript: "npm:~5.5.4"
     typescript-eslint: "npm:^8.1.0"
   peerDependencies:
-    "@cspell/eslint-plugin": ">=8.13.1"
-    "@typescript-eslint/eslint-plugin": ">=8.x.x"
-    "@typescript-eslint/parser": ">=8.x.x"
     eslint: ">=9.x.x"
-    eslint-config-airbnb-typescript: ">=18.x.x"
-    eslint-config-prettier: ">=9.1.x"
-    eslint-import-resolver-node: ">=0.3.9"
-    eslint-import-resolver-typescript: ">=3.6.1"
-    eslint-plugin-editorconfig: ">=4.0.3"
-    eslint-plugin-import: ">=2.29.1"
-    eslint-plugin-jsdoc: ">=48.11.x"
-    eslint-plugin-json: ">=4.x.x"
-    eslint-plugin-jsx-a11y: ">=6.9.x"
-    eslint-plugin-markdown: ">=5.1.x"
-    eslint-plugin-markdownlint: ">=0.6.x"
-    eslint-plugin-n: ">=17.10.1"
-    eslint-plugin-oxlint: ">=0.5.x"
-    eslint-plugin-react: ">=7.35.x"
-    eslint-plugin-react-hooks: ">=4.6.2"
-    eslint-plugin-storybook: ">=0.8.x"
-    eslint-plugin-yaml: ">=1.0.3"
   peerDependenciesMeta:
-    "@cspell/eslint-plugin":
-      optional: true
-    "@typescript-eslint/eslint-plugin":
-      optional: true
-    "@typescript-eslint/parser":
-      optional: true
-    eslint-config-airbnb-typescript:
-      optional: true
-    eslint-config-prettier:
-      optional: true
-    eslint-formatter-codeframe:
-      optional: true
-    eslint-import-resolver-node:
-      optional: true
-    eslint-import-resolver-typescript:
-      optional: true
-    eslint-plugin-editorconfig:
-      optional: true
-    eslint-plugin-import:
-      optional: true
-    eslint-plugin-jsdoc:
-      optional: true
-    eslint-plugin-json:
-      optional: true
-    eslint-plugin-jsx-a11y:
-      optional: true
-    eslint-plugin-markdown:
-      optional: true
-    eslint-plugin-markdownlint:
-      optional: true
-    eslint-plugin-n:
-      optional: true
-    eslint-plugin-oxlint:
-      optional: true
-    eslint-plugin-react:
-      optional: true
-    eslint-plugin-react-hooks:
-      optional: true
-    eslint-plugin-storybook:
-      optional: true
-    eslint-plugin-yaml:
+    eslint:
       optional: true
   languageName: unknown
   linkType: soft

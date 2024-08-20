@@ -33,12 +33,12 @@
     "start": "tsc --watch"
   },
   "dependencies": {
-    "@cspell/eslint-plugin": "^8.13.3",
+    "@cspell/eslint-plugin": "^8.14.1",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.9.0",
     "@kurone-kito/eslint-config-base": "workspace:^",
-    "@typescript-eslint/eslint-plugin": "^8.1.0",
-    "@typescript-eslint/parser": "^8.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.2.0",
+    "@typescript-eslint/parser": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-plugin-import": "^2.29.1",
@@ -46,15 +46,15 @@
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-storybook": "^0.8.0",
-    "typescript-eslint": "^8.1.0"
+    "typescript-eslint": "^8.2.0"
   },
   "devDependencies": {
     "@kurone-kito/typescript-config": "workspace:^",
     "@types/eslint": "^9.6.0",
     "@types/eslint__eslintrc": "^2.1.2",
     "@types/eslint__js": "^8.42.3",
-    "@types/node": "^22.4.0",
-    "@typescript-eslint/utils": "^8.1.0",
+    "@types/node": "^22.4.1",
+    "@typescript-eslint/utils": "^8.2.0",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
     "eslint": "^9.9.0",

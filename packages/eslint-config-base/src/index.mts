@@ -1,3 +1,4 @@
+import type { TSESLint } from '@typescript-eslint/utils';
 import tsEslint from 'typescript-eslint';
 import { airbnbConfig } from './airbnb.mjs';
 import { dataConfig } from './data.mjs';
@@ -9,7 +10,12 @@ import { additionalNodeConfig, nodeConfig } from './node.mjs';
 import { additionalStyleConfig, styleConfig } from './style.mjs';
 import { additionalTsConfig, tsConfig } from './ts.mjs';
 
-export default tsEslint.config(
+/**
+ * The ESLint configuration for the base rules.
+ *
+ * @see {@link https://github.com/microsoft/TypeScript/issues/47663}
+ */
+const config: TSESLint.FlatConfig.ConfigArray = tsEslint.config(
   ...([
     ...ignoreConfig,
     ...markdownConfig,
@@ -27,3 +33,5 @@ export default tsEslint.config(
     ...additionalTsConfig,
   ] as tsEslint.ConfigWithExtends[]),
 );
+
+export default config;

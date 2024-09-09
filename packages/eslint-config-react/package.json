@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/eslint-config-react",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "My ESLint configuration for React projects",
   "keywords": [
     "config",
@@ -33,31 +33,31 @@
     "start": "tsc --watch"
   },
   "dependencies": {
-    "@cspell/eslint-plugin": "^8.14.1",
+    "@cspell/eslint-plugin": "^8.14.2",
     "@eslint/eslintrc": "^3.1.0",
-    "@eslint/js": "^9.9.0",
+    "@eslint/js": "^9.10.0",
     "@kurone-kito/eslint-config-base": "workspace:^",
-    "@typescript-eslint/eslint-plugin": "^8.2.0",
-    "@typescript-eslint/parser": "^8.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.4.0",
+    "@typescript-eslint/parser": "^8.4.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^18.0.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsx-a11y": "^6.9.0",
-    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-react": "^7.35.2",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-storybook": "^0.8.0",
-    "typescript-eslint": "^8.2.0"
+    "typescript-eslint": "^8.4.0"
   },
   "devDependencies": {
     "@kurone-kito/typescript-config": "workspace:^",
-    "@types/eslint": "^9.6.0",
+    "@types/eslint": "^9.6.1",
     "@types/eslint__eslintrc": "^2.1.2",
     "@types/eslint__js": "^8.42.3",
-    "@types/node": "^22.4.1",
-    "@typescript-eslint/utils": "^8.2.0",
-    "concurrently": "^8.2.2",
+    "@types/node": "^22.5.4",
+    "@typescript-eslint/utils": "^8.4.0",
+    "concurrently": "^9.0.0",
     "cpy-cli": "^5.0.0",
-    "eslint": "^9.9.0",
+    "eslint": "^9.10.0",
     "rimraf": "^5.0.10",
     "typescript": "~5.5.4"
   },
@@ -70,7 +70,7 @@
     }
   },
   "engines": {
-    "node": ">=18"
+    "node": "^18.20 || ^20.10 || >=22"
   },
   "publishConfig": {
     "access": "public"

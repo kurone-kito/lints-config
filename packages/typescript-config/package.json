@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/typescript-config",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "My TypeScript configuration for general projects",
   "keywords": [
     "config",
@@ -32,10 +32,10 @@
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^8.2.0",
-    "concurrently": "^8.2.2",
+    "@typescript-eslint/parser": "^8.4.0",
+    "concurrently": "^9.0.0",
     "cpy-cli": "^5.0.0",
-    "eslint": "^9.9.0",
+    "eslint": "^9.10.0",
     "typescript": "~5.5.4",
     "typescript-eslint-language-service": "^5.0.5"
   },
@@ -56,7 +56,7 @@
     }
   },
   "engines": {
-    "node": ">=18"
+    "node": "^18.20 || ^20.10 || >=22"
   },
   "publishConfig": {
     "access": "public"

@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/lints-config",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "private": true,
   "description": "My configuration for the ESLint / Prettier / TypeScript",
   "keywords": [
@@ -50,9 +50,9 @@
   },
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
-    "@commitlint/cli": "^19.4.0",
-    "@commitlint/config-conventional": "^19.2.2",
-    "@cspell/cspell-types": "^8.14.1",
+    "@commitlint/cli": "^19.4.1",
+    "@commitlint/config-conventional": "^19.4.1",
+    "@cspell/cspell-types": "^8.14.2",
     "@kurone-kito/commitlint-config": "workspace:^",
     "@kurone-kito/cspell-config": "workspace:^",
     "@kurone-kito/eslint-config-base": "workspace:^",
@@ -61,25 +61,25 @@
     "@kurone-kito/markdownlint-config": "workspace:^",
     "@kurone-kito/prettier-config": "workspace:^",
     "@kurone-kito/typescript-config": "workspace:^",
-    "@types/eslint": "^9.6.0",
-    "@typescript-eslint/parser": "^8.2.0",
+    "@types/eslint": "^9.6.1",
+    "@typescript-eslint/parser": "^8.4.0",
     "@yarnpkg/sdks": "^3.2.0",
-    "concurrently": "^8.2.2",
-    "cspell": "^8.14.1",
-    "eslint": "^9.9.0",
+    "concurrently": "^9.0.0",
+    "cspell": "^8.14.2",
+    "eslint": "^9.10.0",
     "eslint-formatter-codeframe": "^7.32.1",
-    "husky": "^9.1.4",
-    "lint-staged": "^15.2.9",
-    "markdownlint-cli2": "^0.13.0",
-    "oxlint": "^0.7.2",
+    "husky": "^9.1.5",
+    "lint-staged": "^15.2.10",
+    "markdownlint-cli2": "^0.14.0",
+    "oxlint": "^0.9.3",
     "prettier": "^3.3.3",
     "rimraf": "^5.0.10",
     "typescript": "~5.5.4",
     "typescript-eslint-language-service": "^5.0.5"
   },
-  "packageManager": "yarn@4.4.0+sha512.91d93b445d9284e7ed52931369bc89a663414e5582d00eea45c67ddc459a2582919eece27c412d6ffd1bd0793ff35399381cb229326b961798ce4f4cc60ddfdb",
+  "packageManager": "yarn@4.4.1+sha512.f825273d0689cc9ead3259c14998037662f1dcd06912637b21a450e8da7cfeb4b1965bbee73d16927baa1201054126bc385c6f43ff4aa705c8631d26e12460f1",
   "engines": {
-    "node": ">=18"
+    "node": "^18.20 || ^20.10 || >=22"
   },
   "publishConfig": {
     "access": "public"

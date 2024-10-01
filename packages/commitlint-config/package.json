@@ -35,7 +35,7 @@
     "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^19.4.1",
+    "@commitlint/config-conventional": "^19.5.0",
     "@kurone-kito/typescript-config": "workspace:^",
     "concurrently": "^9.0.0",
     "cpy-cli": "^5.0.0",

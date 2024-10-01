@@ -1067,7 +1067,7 @@ __metadata:
     husky: "npm:^9.1.5"
     lint-staged: "npm:^15.2.10"
     markdownlint-cli2: "npm:^0.14.0"
-    oxlint: "npm:^0.9.3"
+    oxlint: "npm:^0.9.9"
     prettier: "npm:^3.3.3"
     rimraf: "npm:^5.0.10"
     typescript: "npm:~5.5.4"
@@ -1162,58 +1162,58 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oxlint/darwin-arm64@npm:0.9.3":
-  version: 0.9.3
-  resolution: "@oxlint/darwin-arm64@npm:0.9.3"
+"@oxlint/darwin-arm64@npm:0.9.9":
+  version: 0.9.9
+  resolution: "@oxlint/darwin-arm64@npm:0.9.9"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@oxlint/darwin-x64@npm:0.9.3":
-  version: 0.9.3
-  resolution: "@oxlint/darwin-x64@npm:0.9.3"
+"@oxlint/darwin-x64@npm:0.9.9":
+  version: 0.9.9
+  resolution: "@oxlint/darwin-x64@npm:0.9.9"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@oxlint/linux-arm64-gnu@npm:0.9.3":
-  version: 0.9.3
-  resolution: "@oxlint/linux-arm64-gnu@npm:0.9.3"
+"@oxlint/linux-arm64-gnu@npm:0.9.9":
+  version: 0.9.9
+  resolution: "@oxlint/linux-arm64-gnu@npm:0.9.9"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@oxlint/linux-arm64-musl@npm:0.9.3":
-  version: 0.9.3
-  resolution: "@oxlint/linux-arm64-musl@npm:0.9.3"
+"@oxlint/linux-arm64-musl@npm:0.9.9":
+  version: 0.9.9
+  resolution: "@oxlint/linux-arm64-musl@npm:0.9.9"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@oxlint/linux-x64-gnu@npm:0.9.3":
-  version: 0.9.3
-  resolution: "@oxlint/linux-x64-gnu@npm:0.9.3"
+"@oxlint/linux-x64-gnu@npm:0.9.9":
+  version: 0.9.9
+  resolution: "@oxlint/linux-x64-gnu@npm:0.9.9"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@oxlint/linux-x64-musl@npm:0.9.3":
-  version: 0.9.3
-  resolution: "@oxlint/linux-x64-musl@npm:0.9.3"
+"@oxlint/linux-x64-musl@npm:0.9.9":
+  version: 0.9.9
+  resolution: "@oxlint/linux-x64-musl@npm:0.9.9"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@oxlint/win32-arm64@npm:0.9.3":
-  version: 0.9.3
-  resolution: "@oxlint/win32-arm64@npm:0.9.3"
+"@oxlint/win32-arm64@npm:0.9.9":
+  version: 0.9.9
+  resolution: "@oxlint/win32-arm64@npm:0.9.9"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@oxlint/win32-x64@npm:0.9.3":
-  version: 0.9.3
-  resolution: "@oxlint/win32-x64@npm:0.9.3"
+"@oxlint/win32-x64@npm:0.9.9":
+  version: 0.9.9
+  resolution: "@oxlint/win32-x64@npm:0.9.9"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -5634,18 +5634,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"oxlint@npm:^0.9.3":
-  version: 0.9.3
-  resolution: "oxlint@npm:0.9.3"
+"oxlint@npm:^0.9.9":
+  version: 0.9.9
+  resolution: "oxlint@npm:0.9.9"
   dependencies:
-    "@oxlint/darwin-arm64": "npm:0.9.3"
-    "@oxlint/darwin-x64": "npm:0.9.3"
-    "@oxlint/linux-arm64-gnu": "npm:0.9.3"
-    "@oxlint/linux-arm64-musl": "npm:0.9.3"
-    "@oxlint/linux-x64-gnu": "npm:0.9.3"
-    "@oxlint/linux-x64-musl": "npm:0.9.3"
-    "@oxlint/win32-arm64": "npm:0.9.3"
-    "@oxlint/win32-x64": "npm:0.9.3"
+    "@oxlint/darwin-arm64": "npm:0.9.9"
+    "@oxlint/darwin-x64": "npm:0.9.9"
+    "@oxlint/linux-arm64-gnu": "npm:0.9.9"
+    "@oxlint/linux-arm64-musl": "npm:0.9.9"
+    "@oxlint/linux-x64-gnu": "npm:0.9.9"
+    "@oxlint/linux-x64-musl": "npm:0.9.9"
+    "@oxlint/win32-arm64": "npm:0.9.9"
+    "@oxlint/win32-x64": "npm:0.9.9"
   dependenciesMeta:
     "@oxlint/darwin-arm64":
       optional: true
@@ -5664,8 +5664,9 @@ __metadata:
     "@oxlint/win32-x64":
       optional: true
   bin:
+    oxc_language_server: bin/oxc_language_server
     oxlint: bin/oxlint
-  checksum: 10/bcd57c04765506b473f8281eeae83dd0950c204d2d973fa947eefcd4d87057afd2b16efaa5ad1d78a7140c3573ea0e495ec0663b1683a15835ccc65882ee106e
+  checksum: 10/7c5e1fb92bc6ae8dbab49f5c13a902fae12abee2dadee31173d8218d9ae14e0bfc667c848cd31307c3da287780f250f02fd750393af39e442ec0fe5bfece202b
   languageName: node
   linkType: hard
 

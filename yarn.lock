@@ -336,10 +336,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cspell/cspell-types@npm:8.14.2, @cspell/cspell-types@npm:^8.14.2":
+"@cspell/cspell-types@npm:8.14.2":
   version: 8.14.2
   resolution: "@cspell/cspell-types@npm:8.14.2"
   checksum: 10/6ebfa743ab429014d9e091652e48d00746645a64a305e4d05b4add696f0f804de326ce767f0be3e9b8ff39b23c6035e08756f937e6ac2e6778160c717738f361
+  languageName: node
+  linkType: hard
+
+"@cspell/cspell-types@npm:^8.15.5":
+  version: 8.15.5
+  resolution: "@cspell/cspell-types@npm:8.15.5"
+  checksum: 10/b61c3c0b32c8985e257f6dbdb52f3cdecc89a5ee281d2f19b64ac7e9145743be094830887c19d3f114ca3a435f25007b78a7f26284f6c756b5ea037d763537f1
   languageName: node
   linkType: hard
 
@@ -1048,7 +1055,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": "npm:^19.4.1"
     "@commitlint/config-conventional": "npm:^19.4.1"
-    "@cspell/cspell-types": "npm:^8.14.2"
+    "@cspell/cspell-types": "npm:^8.15.5"
     "@kurone-kito/commitlint-config": "workspace:^"
     "@kurone-kito/cspell-config": "workspace:^"
     "@kurone-kito/eslint-config-base": "workspace:^"

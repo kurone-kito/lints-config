@@ -42,6 +42,9 @@
     "js-yaml": "^4.1.0",
     "rimraf": "^5.0.10"
   },
+  "peerDependencies": {
+    "@commitlint/config-conventional": ">=19.x.x"
+  },
   "peerDependenciesMeta": {
     "@commitlint/config-conventional": {
       "optional": true

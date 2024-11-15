@@ -40,6 +40,14 @@
     "js-yaml": "^4.1.0",
     "rimraf": "^5.0.10"
   },
+  "peerDependencies": {
+    "prettier": ">=3.x.x"
+  },
+  "peerDependenciesMeta": {
+    "prettier": {
+      "optional": true
+    }
+  },
   "engines": {
     "node": "^18.20 || ^20.10 || >=22"
   },

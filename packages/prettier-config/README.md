@@ -9,9 +9,7 @@ First, install this package and its peer dependencies:
 ```sh
 npm install --save-dev \
   @kurone-kito/prettier-config \
-  prettier \
-  prettier-plugin-packagejson \
-  prettier-plugin-sort-json
+  prettier
 ```
 
 Then, merge the following configuration into the `package.json`:

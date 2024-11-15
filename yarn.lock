@@ -927,6 +927,8 @@ __metadata:
     cpy-cli: "npm:^5.0.0"
     js-yaml: "npm:^4.1.0"
     rimraf: "npm:^5.0.10"
+  peerDependencies:
+    "@commitlint/config-conventional": ">=19.x.x"
   peerDependenciesMeta:
     "@commitlint/config-conventional":
       optional: true
@@ -941,6 +943,11 @@ __metadata:
     cpy-cli: "npm:^5.0.0"
     js-yaml: "npm:^4.1.0"
     rimraf: "npm:^5.0.10"
+  peerDependencies:
+    cspell: "*"
+  peerDependenciesMeta:
+    cspell:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -985,6 +992,9 @@ __metadata:
     typescript-eslint: "npm:^8.4.0"
   peerDependencies:
     eslint: ">=9.x.x"
+  peerDependenciesMeta:
+    eslint:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -1035,10 +1045,21 @@ __metadata:
     rimraf: "npm:^5.0.10"
   peerDependencies:
     cspell: ">=5.7.x"
-    eslint: ">=8.x.x"
+    eslint: ">=9.x.x"
     eslint-formatter-codeframe: "*"
     lint-staged: ">=12.1.0"
     prettier: ">=3.0.x"
+  peerDependenciesMeta:
+    cspell:
+      optional: true
+    eslint:
+      optional: true
+    eslint-formatter-codeframe:
+      optional: true
+    lint-staged:
+      optional: true
+    prettier:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -1094,6 +1115,11 @@ __metadata:
     cpy-cli: "npm:^5.0.0"
     js-yaml: "npm:^4.1.0"
     rimraf: "npm:^5.0.10"
+  peerDependencies:
+    prettier: ">=3.x.x"
+  peerDependenciesMeta:
+    prettier:
+      optional: true
   languageName: unknown
   linkType: soft
 

@@ -45,10 +45,27 @@
   },
   "peerDependencies": {
     "cspell": ">=5.7.x",
-    "eslint": ">=8.x.x",
+    "eslint": ">=9.x.x",
     "eslint-formatter-codeframe": "*",
     "lint-staged": ">=12.1.0",
     "prettier": ">=3.0.x"
+  },
+  "peerDependenciesMeta": {
+    "cspell": {
+      "optional": true
+    },
+    "eslint": {
+      "optional": true
+    },
+    "eslint-formatter-codeframe": {
+      "optional": true
+    },
+    "lint-staged": {
+      "optional": true
+    },
+    "prettier": {
+      "optional": true
+    }
   },
   "engines": {
     "node": "^18.20 || ^20.10 || >=22"

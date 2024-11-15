@@ -73,6 +73,11 @@
   "peerDependencies": {
     "eslint": ">=9.x.x"
   },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    }
+  },
   "engines": {
     "node": "^18.20 || ^20.10 || >=22"
   },

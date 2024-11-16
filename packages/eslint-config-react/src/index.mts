@@ -14,7 +14,7 @@ const config: TSESLint.FlatConfig.ConfigArray = tsEslint.config(
   ...([
     ...reactConfig,
     ...compat.extends('airbnb'),
-    ...compat.extends('airbnb-typescript'),
+    ...compat.extends('@kesills/airbnb-typescript'),
     ...baseConfig,
     ...additionalReactConfig,
     ...storybookConfig,

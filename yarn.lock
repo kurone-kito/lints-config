@@ -1115,7 +1115,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@kurone-kito/eslint-config-react@workspace:^, @kurone-kito/eslint-config-react@workspace:packages/eslint-config-react":
+"@kurone-kito/eslint-config-react@workspace:packages/eslint-config-react":
   version: 0.0.0-use.local
   resolution: "@kurone-kito/eslint-config-react@workspace:packages/eslint-config-react"
   dependencies:
@@ -1152,6 +1152,45 @@ __metadata:
     eslint: ">=9.x.x"
   peerDependenciesMeta:
     eslint:
+      optional: true
+  languageName: unknown
+  linkType: soft
+
+"@kurone-kito/eslint-config-solid@workspace:packages/eslint-config-solid":
+  version: 0.0.0-use.local
+  resolution: "@kurone-kito/eslint-config-solid@workspace:packages/eslint-config-solid"
+  dependencies:
+    "@cspell/eslint-plugin": "npm:^8.16.0"
+    "@eslint/eslintrc": "npm:^3.2.0"
+    "@eslint/js": "npm:^9.15.0"
+    "@kurone-kito/eslint-config-base": "workspace:^"
+    "@kurone-kito/typescript-config": "workspace:^"
+    "@types/eslint": "npm:^9.6.1"
+    "@types/eslint-plugin-tailwindcss": "npm:^3.17.0"
+    "@types/eslint__eslintrc": "npm:^2.1.2"
+    "@types/eslint__js": "npm:^8.42.3"
+    "@types/node": "npm:^22.9.0"
+    "@typescript-eslint/eslint-plugin": "npm:^8.14.0"
+    "@typescript-eslint/parser": "npm:^8.14.0"
+    "@typescript-eslint/utils": "npm:^8.14.0"
+    concurrently: "npm:^9.1.0"
+    cpy-cli: "npm:^5.0.0"
+    eslint: "npm:^9.15.0"
+    eslint-config-stylelint: "npm:^23.0.0"
+    eslint-plugin-import: "npm:^2.31.0"
+    eslint-plugin-solid: "npm:^0.14.4"
+    eslint-plugin-storybook: "npm:^0.11.0"
+    eslint-plugin-tailwindcss: "npm:^3.17.5"
+    rimraf: "npm:^5.0.10"
+    typescript: "npm:~5.6.3"
+    typescript-eslint: "npm:^8.14.0"
+  peerDependencies:
+    eslint: ">=9.x.x"
+    tailwindcss: "*"
+  peerDependenciesMeta:
+    eslint:
+      optional: true
+    tailwindcss:
       optional: true
   languageName: unknown
   linkType: soft
@@ -1194,7 +1233,6 @@ __metadata:
     "@kurone-kito/commitlint-config": "workspace:^"
     "@kurone-kito/cspell-config": "workspace:^"
     "@kurone-kito/eslint-config-base": "workspace:^"
-    "@kurone-kito/eslint-config-react": "workspace:^"
     "@kurone-kito/lint-staged-config": "workspace:^"
     "@kurone-kito/markdownlint-config": "workspace:^"
     "@kurone-kito/prettier-config": "workspace:^"
@@ -1698,7 +1736,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:8.14.0, @typescript-eslint/utils@npm:^8.12.2, @typescript-eslint/utils@npm:^8.14.0, @typescript-eslint/utils@npm:^8.8.1":
+"@typescript-eslint/utils@npm:8.14.0, @typescript-eslint/utils@npm:^7.13.1 || ^8.0.0, @typescript-eslint/utils@npm:^8.12.2, @typescript-eslint/utils@npm:^8.14.0, @typescript-eslint/utils@npm:^8.8.1":
   version: 8.14.0
   resolution: "@typescript-eslint/utils@npm:8.14.0"
   dependencies:
@@ -3613,6 +3651,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-solid@npm:^0.14.4":
+  version: 0.14.4
+  resolution: "eslint-plugin-solid@npm:0.14.4"
+  dependencies:
+    "@typescript-eslint/utils": "npm:^7.13.1 || ^8.0.0"
+    estraverse: "npm:^5.3.0"
+    is-html: "npm:^2.0.0"
+    kebab-case: "npm:^1.0.2"
+    known-css-properties: "npm:^0.30.0"
+    style-to-object: "npm:^1.0.6"
+  peerDependencies:
+    eslint: ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
+  checksum: 10/a791068535d2c2990a4b35ca786e8a3eb8fd88defbff2685e32af41dfe8341a5c5eebe435f75ae204ad524898a9265ce879d2850dbe25e7e0dc308ab2e4728f9
+  languageName: node
+  linkType: hard
+
 "eslint-plugin-storybook@npm:^0.11.0":
   version: 0.11.0
   resolution: "eslint-plugin-storybook@npm:0.11.0"
@@ -4431,6 +4485,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"html-tags@npm:^3.0.0":
+  version: 3.3.1
+  resolution: "html-tags@npm:3.3.1"
+  checksum: 10/d0e808544b92d8b999cbcc86d539577255a2f0f2f4f73110d10749d1d36e6fe6ad706a0355a8477afb6e000ecdc93d8455b3602951f9a2b694ac9e28f1b52878
+  languageName: node
+  linkType: hard
+
 "htmlparser2@npm:3.8.x":
   version: 3.8.3
   resolution: "htmlparser2@npm:3.8.3"
@@ -4536,6 +4597,13 @@ __metadata:
   version: 4.1.1
   resolution: "ini@npm:4.1.1"
   checksum: 10/64c7102301742a7527bb17257d18451410eacf63b4b5648a20e108816c355c21c4e8a1761bbcbf3fe8c4ded3297f1b832b885d5e3e485d781e293ebfaf56fea6
+  languageName: node
+  linkType: hard
+
+"inline-style-parser@npm:0.2.4":
+  version: 0.2.4
+  resolution: "inline-style-parser@npm:0.2.4"
+  checksum: 10/80814479d1f3c9cbd102f9de4cd6558cf43cc2e48640e81c4371c3634f1e8b6dfeb2f21063cfa31d46cc83e834c20cd59ed9eeed9bfd45ef5bc02187ad941faf
   languageName: node
   linkType: hard
 
@@ -4692,6 +4760,15 @@ __metadata:
   dependencies:
     is-extglob: "npm:^2.1.1"
   checksum: 10/3ed74f2b0cdf4f401f38edb0442ddfde3092d79d7d35c9919c86641efdbcbb32e45aa3c0f70ce5eecc946896cd5a0f26e4188b9f2b881876f7cb6c505b82da11
+  languageName: node
+  linkType: hard
+
+"is-html@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "is-html@npm:2.0.0"
+  dependencies:
+    html-tags: "npm:^3.0.0"
+  checksum: 10/0cc233e3851453913023560bcd2411a9294bfa18f994d4428f2692d2cfb7f90e5521a42cd4c6a62bf1bc7d42301cb214de442766cbd12a9aa52398d34ab5a2a7
   languageName: node
   linkType: hard
 
@@ -5023,6 +5100,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"kebab-case@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "kebab-case@npm:1.0.2"
+  checksum: 10/bf01164e11c544ee9b3aa1a91c2e7d6aa6b3356b834a5e885d43f36db14aae5d347cd4a298a566133321b82fde6bac6b597f148ac19bfd3d3fc81e1034a79729
+  languageName: node
+  linkType: hard
+
 "keyv@npm:^4.0.0, keyv@npm:^4.5.3, keyv@npm:^4.5.4":
   version: 4.5.4
   resolution: "keyv@npm:4.5.4"
@@ -5036,6 +5120,13 @@ __metadata:
   version: 2.0.6
   resolution: "klona@npm:2.0.6"
   checksum: 10/ed7e2c9af58cb646e758e60b75dec24bf72466066290f78c515a2bae23a06fa280f11ff3210c43b94a18744954aa5358f9d46583d5e4c36da073ecc3606355c4
+  languageName: node
+  linkType: hard
+
+"known-css-properties@npm:^0.30.0":
+  version: 0.30.0
+  resolution: "known-css-properties@npm:0.30.0"
+  checksum: 10/baed51f1c6baf0a904d0c5a041ebdc3a33a22af65a8dcdf7c2ecc22f80360ee44d2992737b745ed2e16a74f37cbb668a27d1e469d776286688921d0b8f0d3c04
   languageName: node
   linkType: hard
 
@@ -7108,6 +7199,15 @@ __metadata:
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
   checksum: 10/492f73e27268f9b1c122733f28ecb0e7e8d8a531a6662efbd08e22cccb3f9475e90a1b82cab06a392f6afae6d2de636f977e231296400d0ec5304ba70f166443
+  languageName: node
+  linkType: hard
+
+"style-to-object@npm:^1.0.6":
+  version: 1.0.8
+  resolution: "style-to-object@npm:1.0.8"
+  dependencies:
+    inline-style-parser: "npm:0.2.4"
+  checksum: 10/530b067325e3119bfaf75bdbe25cc86b02b559db00d881a74b98a2d5bb10ac953d1b455ed90c825963cf3b4bdaa1bda45f406d78d987391434b8d8ab3835df4e
   languageName: node
   linkType: hard
 

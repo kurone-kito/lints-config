@@ -1,0 +1,81 @@
+{
+  "name": "@kurone-kito/eslint-config-solid",
+  "version": "0.16.1",
+  "description": "My ESLint configuration for Solid.js projects",
+  "keywords": [
+    "config",
+    "eslint",
+    "eslintconfig",
+    "eslintrc",
+    "solid-js"
+  ],
+  "homepage": "https://github.com/kurone-kito/lints-config#readme",
+  "bugs": "https://github.com/kurone-kito/lints-config/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kurone-kito/lints-config.git",
+    "directory": "packages/eslint-config-solid"
+  },
+  "license": "MIT",
+  "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "conc \"yarn:build:*\"",
+    "build:license": "cpy --flat ../../LICENSE .",
+    "build:ts": "tsc",
+    "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" dist LICENSE",
+    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\"",
+    "start": "tsc --watch"
+  },
+  "dependencies": {
+    "@cspell/eslint-plugin": "^8.16.0",
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.15.0",
+    "@kurone-kito/eslint-config-base": "workspace:^",
+    "@typescript-eslint/eslint-plugin": "^8.14.0",
+    "@typescript-eslint/parser": "^8.14.0",
+    "eslint-config-stylelint": "^23.0.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-solid": "^0.14.4",
+    "eslint-plugin-storybook": "^0.11.0",
+    "eslint-plugin-tailwindcss": "^3.17.5",
+    "typescript-eslint": "^8.14.0"
+  },
+  "devDependencies": {
+    "@kurone-kito/typescript-config": "workspace:^",
+    "@types/eslint": "^9.6.1",
+    "@types/eslint-plugin-tailwindcss": "^3.17.0",
+    "@types/eslint__eslintrc": "^2.1.2",
+    "@types/eslint__js": "^8.42.3",
+    "@types/node": "^22.9.0",
+    "@typescript-eslint/utils": "^8.14.0",
+    "concurrently": "^9.1.0",
+    "cpy-cli": "^5.0.0",
+    "eslint": "^9.15.0",
+    "rimraf": "^5.0.10",
+    "typescript": "~5.6.3"
+  },
+  "peerDependencies": {
+    "eslint": ">=9.x.x",
+    "tailwindcss": "*"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    },
+    "tailwindcss": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": "^18.20 || ^20.10 || >=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

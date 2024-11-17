@@ -56,7 +56,6 @@
     "@kurone-kito/commitlint-config": "workspace:^",
     "@kurone-kito/cspell-config": "workspace:^",
     "@kurone-kito/eslint-config-base": "workspace:^",
-    "@kurone-kito/eslint-config-react": "workspace:^",
     "@kurone-kito/lint-staged-config": "workspace:^",
     "@kurone-kito/markdownlint-config": "workspace:^",
     "@kurone-kito/prettier-config": "workspace:^",

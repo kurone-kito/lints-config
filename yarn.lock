@@ -1126,6 +1126,7 @@ __metadata:
     "@kurone-kito/typescript-config": "workspace:^"
     "@stylistic/eslint-plugin": "npm:^2.10.1"
     "@types/eslint": "npm:^9.6.1"
+    "@types/eslint-plugin-tailwindcss": "npm:^3.17.0"
     "@types/eslint__eslintrc": "npm:^2.1.2"
     "@types/eslint__js": "npm:^8.42.3"
     "@types/node": "npm:^22.9.0"
@@ -1143,6 +1144,7 @@ __metadata:
     eslint-plugin-react: "npm:^7.37.2"
     eslint-plugin-react-hooks: "npm:^5.0.0"
     eslint-plugin-storybook: "npm:^0.11.0"
+    eslint-plugin-tailwindcss: "npm:^3.17.5"
     rimraf: "npm:^5.0.10"
     typescript: "npm:~5.6.3"
     typescript-eslint: "npm:^8.14.0"
@@ -1472,6 +1474,15 @@ __metadata:
   version: 6.11.3
   resolution: "@types/eslint-config-prettier@npm:6.11.3"
   checksum: 10/b69ad5d7452f614450fcaf78b4055cfb11afb632f1ef292a3229cb5ac9a7041106a85cf634c570fbd3bb9db59c8fee7ca0e32a059e6fcad2477e22d81d5c3ef3
+  languageName: node
+  linkType: hard
+
+"@types/eslint-plugin-tailwindcss@npm:^3.17.0":
+  version: 3.17.0
+  resolution: "@types/eslint-plugin-tailwindcss@npm:3.17.0"
+  dependencies:
+    "@types/eslint": "npm:*"
+  checksum: 10/d1a0f3a9afadfd56e3d9a2d3443ef9008be35ac386971a5bcabb1fd508b9f57dfd7496eb56e84303d66fa054a7d11be3aba64028c28d7c0c159f212a5736637a
   languageName: node
   linkType: hard
 
@@ -3615,6 +3626,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-plugin-tailwindcss@npm:^3.17.5":
+  version: 3.17.5
+  resolution: "eslint-plugin-tailwindcss@npm:3.17.5"
+  dependencies:
+    fast-glob: "npm:^3.2.5"
+    postcss: "npm:^8.4.4"
+  peerDependencies:
+    tailwindcss: ^3.4.0
+  checksum: 10/6d3dd00c65873064fd7e3c3146b289e4ca67fd3ab5140f4bc0fb6d618e822e71361fdc9d600be2658c04251a3e0d9ac7c50173fecb58ff825577faaa7b01fe44
+  languageName: node
+  linkType: hard
+
 "eslint-plugin-yaml@npm:^1.0.3":
   version: 1.0.3
   resolution: "eslint-plugin-yaml@npm:1.0.3"
@@ -3865,7 +3888,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.2.2, fast-glob@npm:^3.3.0, fast-glob@npm:^3.3.2":
+"fast-glob@npm:^3.2.2, fast-glob@npm:^3.2.5, fast-glob@npm:^3.3.0, fast-glob@npm:^3.3.2":
   version: 3.3.2
   resolution: "fast-glob@npm:3.3.2"
   dependencies:
@@ -5953,6 +5976,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nanoid@npm:^3.3.7":
+  version: 3.3.7
+  resolution: "nanoid@npm:3.3.7"
+  bin:
+    nanoid: bin/nanoid.cjs
+  checksum: 10/ac1eb60f615b272bccb0e2b9cd933720dad30bf9708424f691b8113826bb91aca7e9d14ef5d9415a6ba15c266b37817256f58d8ce980c82b0ba3185352565679
+  languageName: node
+  linkType: hard
+
 "natural-compare@npm:^1.4.0":
   version: 1.4.0
   resolution: "natural-compare@npm:1.4.0"
@@ -6351,7 +6383,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"picocolors@npm:^1.0.0":
+"picocolors@npm:^1.0.0, picocolors@npm:^1.1.1":
   version: 1.1.1
   resolution: "picocolors@npm:1.1.1"
   checksum: 10/e1cf46bf84886c79055fdfa9dcb3e4711ad259949e3565154b004b260cd356c5d54b31a1437ce9782624bf766272fe6b0154f5f0c744fb7af5d454d2b60db045
@@ -6385,6 +6417,17 @@ __metadata:
   version: 1.0.0
   resolution: "possible-typed-array-names@npm:1.0.0"
   checksum: 10/8ed3e96dfeea1c5880c1f4c9cb707e5fb26e8be22f14f82ef92df20fd2004e635c62ba47fbe8f2bb63bfd80dac1474be2fb39798da8c2feba2815435d1f749af
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8.4.4":
+  version: 8.4.49
+  resolution: "postcss@npm:8.4.49"
+  dependencies:
+    nanoid: "npm:^3.3.7"
+    picocolors: "npm:^1.1.1"
+    source-map-js: "npm:^1.2.1"
+  checksum: 10/28fe1005b1339870e0a5006375ba5ac1213fd69800f79e7db09c398e074421ba6e162898e94f64942fed554037fd292db3811d87835d25ab5ef7f3c9daacb6ca
   languageName: node
   linkType: hard
 
@@ -6850,6 +6893,13 @@ __metadata:
     ansi-styles: "npm:^6.2.1"
     is-fullwidth-code-point: "npm:^5.0.0"
   checksum: 10/10313dd3cf7a2e4b265f527b1684c7c568210b09743fd1bd74f2194715ed13ffba653dc93a5fa79e3b1711518b8990a732cb7143aa01ddafe626e99dfa6474b2
+  languageName: node
+  linkType: hard
+
+"source-map-js@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "source-map-js@npm:1.2.1"
+  checksum: 10/ff9d8c8bf096d534a5b7707e0382ef827b4dd360a577d3f34d2b9f48e12c9d230b5747974ee7c607f0df65113732711bb701fe9ece3c7edbd43cb2294d707df3
   languageName: node
   linkType: hard
 

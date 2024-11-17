@@ -1,5 +1,7 @@
 import baseConfig from '@kurone-kito/eslint-config-base';
 import type { TSESLint } from '@typescript-eslint/utils';
+// @ts-expect-error
+import stylelintConfig from 'eslint-config-stylelint';
 import tsEslint from 'typescript-eslint';
 import { additionalReactConfig, reactConfig } from './react.mjs';
 import { storybookConfig } from './storybook.mjs';
@@ -13,6 +15,7 @@ import { compat } from './utils.mjs';
 const config: TSESLint.FlatConfig.ConfigArray = tsEslint.config(
   ...([
     ...reactConfig,
+    ...stylelintConfig,
     ...compat.extends('airbnb'),
     ...compat.extends('@kesills/airbnb-typescript'),
     ...baseConfig,

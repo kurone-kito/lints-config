@@ -1,12 +1,11 @@
 import baseConfig from '@kurone-kito/eslint-config-base';
 import type { TSESLint } from '@typescript-eslint/utils';
+import solid from 'eslint-plugin-solid/configs/typescript';
 // @ts-expect-error
 import stylelintConfig from 'eslint-config-stylelint';
 import tailwind from 'eslint-plugin-tailwindcss';
 import tsEslint from 'typescript-eslint';
-import { additionalReactConfig, reactConfig } from './react.mjs';
 import { storybookConfig } from './storybook.mjs';
-import { compat } from './utils.mjs';
 
 /**
  * The ESLint configuration for the base rules.
@@ -15,14 +14,11 @@ import { compat } from './utils.mjs';
  */
 const config: TSESLint.FlatConfig.ConfigArray = tsEslint.config(
   ...([
-    ...reactConfig,
-    ...stylelintConfig,
-    ...tailwind.configs['flat/recommended'],
-    ...compat.extends('airbnb'),
-    ...compat.extends('@kesills/airbnb-typescript'),
     ...baseConfig,
-    ...additionalReactConfig,
+    solid,
     ...storybookConfig,
+    ...tailwind.configs['flat/recommended'],
+    ...stylelintConfig,
     { languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
   ] as tsEslint.ConfigWithExtends[]),
 );

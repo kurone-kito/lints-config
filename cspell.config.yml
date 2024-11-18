@@ -8,4 +8,5 @@ import:
 usePnP: true
 version: '0.2'
 words:
+  - mdast
   - TSES

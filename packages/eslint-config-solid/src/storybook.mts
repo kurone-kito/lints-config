@@ -26,7 +26,7 @@ export const storybookConfig: readonly Linter.Config[] = [
        */
       'n/no-unpublished-import': [
         'error',
-        { allowModules: ['@storybook/react', '@storybook/testing-library'] },
+        { allowModules: ['@storybook/testing-library'] },
       ],
     },
   },

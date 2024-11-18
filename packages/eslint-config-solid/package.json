@@ -1,20 +1,20 @@
 {
-  "name": "@kurone-kito/eslint-config-react",
+  "name": "@kurone-kito/eslint-config-solid",
   "version": "0.17.0-alpha.5",
-  "description": "My ESLint configuration for React projects",
+  "description": "My ESLint configuration for Solid.js projects",
   "keywords": [
     "config",
     "eslint",
     "eslintconfig",
     "eslintrc",
-    "react"
+    "solid-js"
   ],
   "homepage": "https://github.com/kurone-kito/lints-config#readme",
   "bugs": "https://github.com/kurone-kito/lints-config/issues",
   "repository": {
     "type": "git",
     "url": "https://github.com/kurone-kito/lints-config.git",
-    "directory": "packages/eslint-config-react"
+    "directory": "packages/eslint-config-solid"
   },
   "license": "MIT",
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
@@ -33,20 +33,15 @@
     "start": "tsc --watch"
   },
   "dependencies": {
+    "@cspell/eslint-plugin": "^8.16.0",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.15.0",
-    "@kesills/eslint-config-airbnb-typescript": "^20.0.0",
     "@kurone-kito/eslint-config-base": "workspace:^",
-    "@stylistic/eslint-plugin": "^2.10.1",
     "@typescript-eslint/eslint-plugin": "^8.14.0",
     "@typescript-eslint/parser": "^8.14.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-stylelint": "^23.0.0",
     "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-react": "^7.37.2",
-    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-solid": "^0.14.4",
     "eslint-plugin-storybook": "^0.11.0",
     "eslint-plugin-tailwindcss": "^3.17.5",
     "typescript-eslint": "^8.14.0"
@@ -66,10 +61,14 @@
     "typescript": "~5.6.3"
   },
   "peerDependencies": {
-    "eslint": ">=9.x.x"
+    "eslint": ">=9.x.x",
+    "tailwindcss": "*"
   },
   "peerDependenciesMeta": {
     "eslint": {
+      "optional": true
+    },
+    "tailwindcss": {
       "optional": true
     }
   },

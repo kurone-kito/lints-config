@@ -1,5 +1,6 @@
 import type { Linter } from 'eslint';
-import { compat } from './utils.mjs';
+// @ts-expect-error
+import importPlugin from 'eslint-plugin-import';
 
 /** Additional configuration for the `import` plugin. */
 export const additionalImportConfig: readonly Linter.Config[] = [
@@ -99,9 +100,12 @@ export const additionalImportConfig: readonly Linter.Config[] = [
   },
 ];
 
+// ! Key "plugins": Cannot redefine plugin "import".
+const { rules } = importPlugin.flatConfigs.recommended;
+
 /** The ESLint configuration for the `import` plugin. */
 export const importConfig: readonly Linter.Config[] = [
-  ...compat.extends('plugin:import/recommended'),
-  ...compat.extends('plugin:import/typescript'),
+  { rules },
+  importPlugin.flatConfigs.typescript,
   ...additionalImportConfig,
 ];

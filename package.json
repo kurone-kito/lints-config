@@ -52,7 +52,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
-    "@cspell/cspell-types": "^8.16.0",
+    "@cspell/cspell-types": "^8.16.1",
     "@kurone-kito/commitlint-config": "workspace:^",
     "@kurone-kito/cspell-config": "workspace:^",
     "@kurone-kito/eslint-config-base": "workspace:^",

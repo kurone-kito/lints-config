@@ -51,7 +51,7 @@
   "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0",
+    "@commitlint/config-conventional": "^19.6.0",
     "@cspell/cspell-types": "^8.16.0",
     "@kurone-kito/commitlint-config": "workspace:^",
     "@kurone-kito/cspell-config": "workspace:^",

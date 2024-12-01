@@ -1149,7 +1149,7 @@ __metadata:
     eslint-plugin-jsdoc: "npm:^50.5.0"
     eslint-plugin-markdownlint: "npm:^0.6.0"
     eslint-plugin-n: "npm:^17.13.2"
-    eslint-plugin-oxlint: "npm:^0.11.1"
+    eslint-plugin-oxlint: "npm:^0.13.2"
     eslint-plugin-yaml: "npm:^1.0.3"
     globals: "npm:^15.12.0"
     mdast: "npm:^3.0.0"
@@ -3817,12 +3817,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-oxlint@npm:^0.11.1":
-  version: 0.11.1
-  resolution: "eslint-plugin-oxlint@npm:0.11.1"
+"eslint-plugin-oxlint@npm:^0.13.2":
+  version: 0.13.2
+  resolution: "eslint-plugin-oxlint@npm:0.13.2"
   dependencies:
     jsonc-parser: "npm:^3.3.1"
-  checksum: 10/6c69d891c653facc6ac0e60f819ef1dbdd2279c00692cb4341ef068b7b4fec96386f1e014755147ea73b51942eb4537be5a7db59857c5c11754aaf2d3aa96711
+  checksum: 10/23e8e6b0d5b09875691a9154ba3baa2cc2c7ca799b9106f0d7bc06a03b186d566de1071fd9d9543451e9ccb9d735cf854aeeb032b9849d8ec236ab5592b8d266
   languageName: node
   linkType: hard
 

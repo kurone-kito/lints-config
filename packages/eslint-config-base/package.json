@@ -51,7 +51,7 @@
     "eslint-plugin-jsdoc": "^50.5.0",
     "eslint-plugin-markdownlint": "^0.6.0",
     "eslint-plugin-n": "^17.13.2",
-    "eslint-plugin-oxlint": "^0.11.1",
+    "eslint-plugin-oxlint": "^0.13.2",
     "eslint-plugin-yaml": "^1.0.3",
     "globals": "^15.12.0",
     "mdast": "^3.0.0",

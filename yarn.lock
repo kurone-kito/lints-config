@@ -903,13 +903,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/json@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "@eslint/json@npm:0.6.0"
+"@eslint/json@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "@eslint/json@npm:0.8.0"
   dependencies:
-    "@eslint/plugin-kit": "npm:^0.2.0"
-    "@humanwhocodes/momoa": "npm:^3.3.0"
-  checksum: 10/51b688b72dc7447b7cec6372824ce139dfb0a9da3de9ecb03fc3a7937d393e399c042ad98e7e3c3334e9e0d9a3bc6ea07115da430448640bbbeb5669d92b5803
+    "@eslint/plugin-kit": "npm:^0.2.3"
+    "@humanwhocodes/momoa": "npm:^3.3.3"
+  checksum: 10/3629fe43d0bcb5714893ba9239f3b2495dd7b990e44504e2852393eaf542dad91f8ccdf847b56dff4a948918f78eb345c7b1eb43219f3e87f9cca2a59cacc20e
   languageName: node
   linkType: hard
 
@@ -976,7 +976,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@humanwhocodes/momoa@npm:^3.3.0":
+"@humanwhocodes/momoa@npm:^3.3.3":
   version: 3.3.3
   resolution: "@humanwhocodes/momoa@npm:3.3.3"
   checksum: 10/ad7202b0f94cecb12c08e9b557dc749d90123f423e6af7f435748bd6d5fef2c2a943213fb4249d375ecae4703620762a8651ba72edaa0d151e14532f384818a8
@@ -1123,7 +1123,7 @@ __metadata:
     "@eslint/compat": "npm:^1.2.3"
     "@eslint/eslintrc": "npm:^3.2.0"
     "@eslint/js": "npm:^9.15.0"
-    "@eslint/json": "npm:^0.6.0"
+    "@eslint/json": "npm:^0.8.0"
     "@eslint/markdown": "npm:^6.2.1"
     "@kesills/eslint-config-airbnb-typescript": "npm:^20.0.0"
     "@kurone-kito/typescript-config": "workspace:^"

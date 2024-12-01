@@ -36,7 +36,7 @@
     "@eslint/compat": "^1.2.3",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.15.0",
-    "@eslint/json": "^0.6.0",
+    "@eslint/json": "^0.8.0",
     "@eslint/markdown": "^6.2.1",
     "@kesills/eslint-config-airbnb-typescript": "^20.0.0",
     "@stylistic/eslint-plugin": "^2.10.1",

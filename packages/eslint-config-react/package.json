@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/eslint-config-react",
-  "version": "0.17.0-alpha.5",
+  "version": "0.17.1",
   "description": "My ESLint configuration for React projects",
   "keywords": [
     "config",
@@ -25,31 +25,30 @@
     "dist"
   ],
   "scripts": {
-    "build": "conc \"yarn:build:*\"",
-    "build:license": "cpy --flat ../../LICENSE .",
-    "build:ts": "tsc",
+    "build": "tsc",
     "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" dist LICENSE",
-    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\"",
+    "prebuild": "cpy --flat ../../LICENSE .",
+    "prepack": "pnpm run clean && pnpm run build",
     "start": "tsc --watch"
   },
   "dependencies": {
     "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.15.0",
+    "@eslint/js": "^9.17.0",
     "@kesills/eslint-config-airbnb-typescript": "^20.0.0",
     "@kurone-kito/eslint-config-base": "workspace:^",
-    "@stylistic/eslint-plugin": "^2.10.1",
-    "@typescript-eslint/eslint-plugin": "^8.14.0",
-    "@typescript-eslint/parser": "^8.14.0",
+    "@stylistic/eslint-plugin": "^2.12.1",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-stylelint": "^23.0.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.2",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-storybook": "^0.11.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-storybook": "^0.11.1",
     "eslint-plugin-tailwindcss": "^3.17.5",
-    "typescript-eslint": "^8.14.0"
+    "typescript-eslint": "^8.18.0"
   },
   "devDependencies": {
     "@kurone-kito/typescript-config": "workspace:^",
@@ -57,13 +56,13 @@
     "@types/eslint-plugin-tailwindcss": "^3.17.0",
     "@types/eslint__eslintrc": "^2.1.2",
     "@types/eslint__js": "^8.42.3",
-    "@types/node": "^22.9.0",
-    "@typescript-eslint/utils": "^8.14.0",
+    "@types/node": "^22.10.2",
+    "@typescript-eslint/utils": "^8.18.0",
     "concurrently": "^9.1.0",
     "cpy-cli": "^5.0.0",
-    "eslint": "^9.15.0",
+    "eslint": "^9.17.0",
     "rimraf": "^5.0.10",
-    "typescript": "~5.6.3"
+    "typescript": "~5.7.2"
   },
   "peerDependencies": {
     "eslint": ">=9.x.x"

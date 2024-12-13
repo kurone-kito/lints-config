@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/typescript-config",
-  "version": "0.17.0-alpha.5",
+  "version": "0.17.1",
   "description": "My TypeScript configuration for general projects",
   "keywords": [
     "config",
@@ -29,18 +29,17 @@
   "scripts": {
     "build": "cpy --flat ../../LICENSE .",
     "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" LICENSE",
-    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
+    "prepack": "pnpm run clean && pnpm run build"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^8.14.0",
-    "concurrently": "^9.1.0",
+    "@typescript-eslint/parser": "^8.18.0",
     "cpy-cli": "^5.0.0",
-    "eslint": "^9.15.0",
-    "typescript": "~5.6.3",
+    "eslint": "^9.17.0",
+    "typescript": "~5.7.2",
     "typescript-eslint-language-service": "^5.0.5"
   },
   "peerDependencies": {
-    "@typescript-eslint/parser": ">=7.17.x",
+    "@typescript-eslint/parser": ">=8.x.x",
     "typescript": ">=5.x.x",
     "typescript-eslint-language-service": ">=5.x.x"
   },

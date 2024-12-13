@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/commitlint-config",
-  "version": "0.17.0-alpha.5",
+  "version": "0.17.1",
   "description": "My commitlint configuration for general projects",
   "keywords": [
     "commitlint",
@@ -28,20 +28,18 @@
     "commitlint.config.*"
   ],
   "scripts": {
-    "build": "conc \"yarn:build:*\"",
-    "build:json": "js-yaml .commitlintrc.yml > .commitlintrc.json",
-    "build:license": "cpy --flat ../../LICENSE .",
+    "build": "js-yaml .commitlintrc.yml > .commitlintrc.json",
     "clean": "rimraf -g \"*.tgz\" .commitlintrc.json LICENSE",
-    "prepack": "conc -m 1 \"yarn:clean\" \"yarn:build\""
+    "prebuild": "cpy --flat ../../LICENSE .",
+    "prepack": "pnpm run clean && pnpm run build"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^19.5.0",
+    "@commitlint/config-conventional": "^19.6.0",
     "@kurone-kito/typescript-config": "workspace:^",
-    "concurrently": "^9.1.0",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
     "rimraf": "^5.0.10",
-    "typescript": "~5.6.3"
+    "typescript": "~5.7.2"
   },
   "peerDependencies": {
     "@commitlint/config-conventional": ">=19.x.x"

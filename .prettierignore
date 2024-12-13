@@ -4,6 +4,5 @@
 # Ignorefiles
 .*ignore
 
-# Yarn v2
-.yarn
-yarn.lock
+# pnpm
+pnpm-lock.yaml

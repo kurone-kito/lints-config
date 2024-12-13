@@ -1,4 +1,10 @@
 {
+  "eslint.nodePath": ".yarn/sdks",
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
@@ -13,12 +19,6 @@
     "package.json": ".yarnrc.yml, yarn.lock",
     "tsconfig.json": "${capture}.tsbuildinfo"
   },
-  "eslint.nodePath": ".yarn/sdks",
-  "eslint.workingDirectories": [
-    {
-      "mode": "auto"
-    }
-  ],
   "files.associations": {
     "*.map": "json",
     ".imgbotconfig": "json",

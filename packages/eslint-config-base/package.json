@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/eslint-config-base",
-  "version": "0.17.2",
+  "version": "0.17.3",
   "description": "My ESLint configuration for general Node.js projects",
   "keywords": [
     "config",
@@ -50,7 +50,7 @@
     "eslint-plugin-jsdoc": "^50.6.1",
     "eslint-plugin-markdownlint": "^0.6.0",
     "eslint-plugin-n": "^17.15.0",
-    "eslint-plugin-oxlint": "^0.15.1",
+    "eslint-plugin-oxlint": "^0.15.2",
     "eslint-plugin-yaml": "^1.0.3",
     "globals": "^15.13.0",
     "mdast": "^3.0.0",

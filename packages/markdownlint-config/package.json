@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/markdownlint-config",
-  "version": "0.17.2",
+  "version": "0.17.3",
   "description": "My Markdownlint configuration for general projects",
   "keywords": [
     "config",

@@ -36,6 +36,8 @@ jobs:
             @kurone-kito:registry=https://registry.npmjs.org/
             //registry.npmjs.org/:_authToken=$NPM_TOKEN
           EOF
+      - name: Build the project explicitly. The workaround is provisional because the publish command does not perform topological sorting.
+        run: pnpm run build
       - env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         name: Publish the packages

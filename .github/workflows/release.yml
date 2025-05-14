@@ -30,5 +30,13 @@ jobs:
         run: pnpm install
       - env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        name: Setting the token
+        run: |
+          cat << EOF > "${HOME}/.npmrc"
+            @kurone-kito:registry=https://registry.npmjs.org/
+            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          EOF
+      - env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         name: Publish the packages
         run: pnpm run publish --no-git-check

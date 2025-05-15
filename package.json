@@ -26,10 +26,10 @@
     ]
   },
   "scripts": {
-    "build": "pnpm run -r build",
+    "build": "pnpm run --workspace-concurrency=Infinity -r build",
     "clean": "pnpm run --no-bail \"/^clean:.+/\"",
     "clean:root": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" node_modules/.cache",
-    "clean:sub": "pnpm run --parallel -r clean",
+    "clean:sub": "pnpm run --parallel --workspace-concurrency=Infinity -r clean",
     "prepare": "husky",
     "lint": "pnpm run \"/^lint:.+:check/\"",
     "lint:cspell:check": "cspell lint --no-progress --show-suggestions -u \"./**/*\"",

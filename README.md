@@ -33,13 +33,6 @@ My configuration for the ESLint / Prettier / TypeScript
 
 - Node.js v18 (LTS Hydrogen) or later
 
-## Initialization
-
-```sh
-corepack enable
-corepack up
-```
-
 ## Contributing
 
 Welcome to contribute to this repository! For more details,

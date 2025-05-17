@@ -42,13 +42,11 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-solid": "^0.14.5",
     "eslint-plugin-storybook": "^0.11.1",
-    "eslint-plugin-tailwindcss": "^3.17.5",
     "typescript-eslint": "^8.18.0"
   },
   "devDependencies": {
     "@kurone-kito/typescript-config": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "@types/eslint-plugin-tailwindcss": "^3.17.0",
     "@types/eslint__eslintrc": "^2.1.2",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^22.10.2",

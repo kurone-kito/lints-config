@@ -1,9 +1,8 @@
 import baseConfig from '@kurone-kito/eslint-config-base';
 import type { TSESLint } from '@typescript-eslint/utils';
-import solid from 'eslint-plugin-solid/configs/typescript';
 // @ts-expect-error
 import stylelintConfig from 'eslint-config-stylelint';
-import tailwind from 'eslint-plugin-tailwindcss';
+import solid from 'eslint-plugin-solid/configs/typescript';
 import tsEslint from 'typescript-eslint';
 import { storybookConfig } from './storybook.mjs';
 
@@ -31,7 +30,6 @@ const config: TSESLint.FlatConfig.ConfigArray = tsEslint.config(
     ...baseConfig,
     solid,
     ...storybookConfig,
-    ...tailwind.configs['flat/recommended'],
     ...exceptedStylelintConfig,
     { languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
   ] as tsEslint.ConfigWithExtends[]),

@@ -8,6 +8,20 @@ import tsEslint from 'typescript-eslint';
 import { storybookConfig } from './storybook.mjs';
 
 /**
+ * The stylelint configuration which is used to remove the
+ * `@stylistic` plugin from the configuration.
+ *
+ * The process suppresses the following error:
+ * `Key "plugins": Cannot redefine plugin "@stylistic"`
+ */
+const exceptedStylelintConfig = (
+  stylelintConfig as TSESLint.FlatConfig.ConfigArray
+).map<TSESLint.FlatConfig.Config>((cfg) => {
+  const { '@stylistic': __, ...restPlugins } = cfg.plugins ?? {};
+  return { ...cfg, plugins: { ...restPlugins } };
+});
+
+/**
  * The ESLint configuration for the base rules.
  *
  * @see {@link https://github.com/microsoft/TypeScript/issues/47663}
@@ -18,7 +32,7 @@ const config: TSESLint.FlatConfig.ConfigArray = tsEslint.config(
     solid,
     ...storybookConfig,
     ...tailwind.configs['flat/recommended'],
-    ...stylelintConfig,
+    ...exceptedStylelintConfig,
     { languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
   ] as tsEslint.ConfigWithExtends[]),
 );

@@ -9,8 +9,7 @@ First, install this package and its peer dependencies:
 ```sh
 npm install --save-dev \
   @kurone-kito/typescript-config \
-  typescript \
-  typescript-eslint-language-service
+  typescript
 ```
 
 Then, create a `tsconfig.json` file.

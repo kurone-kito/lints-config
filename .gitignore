@@ -293,6 +293,7 @@ $RECYCLE.BIN/
 
 ### Node ###
 # Built files
+packages/biome-config/biome.json
 packages/commitlint-config/.commitlintrc.json
 packages/cspell-config/cspell.config.json
 packages/lint-staged-config/lint-staged.config.json

@@ -15,7 +15,35 @@
   },
   "license": "MIT",
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
-  "files": [],
+  "type": "module",
+  "exports": {
+    ".": "./biome.json",
+    "./biome.json": "./biome.json",
+    "./biome.yml": "./biome.yml"
+  },
+  "main": "biome.json",
+  "files": [
+    "biome.*"
+  ],
+  "scripts": {
+    "build": "js-yaml biome.yml > biome.json",
+    "clean": "rimraf -g \"*.tgz\" biome.json LICENSE",
+    "prebuild": "cpy --flat ../../LICENSE .",
+    "prepack": "pnpm run clean && pnpm run build"
+  },
+  "devDependencies": {
+    "cpy-cli": "^5.0.0",
+    "js-yaml": "^4.1.0",
+    "rimraf": "^6.0.1"
+  },
+  "peerDependencies": {
+    "@biomejs/biome": "*"
+  },
+  "peerDependenciesMeta": {
+    "@biomejs/biome": {
+      "optional": true
+    }
+  },
   "engines": {
     "node": "^20.11 || >=22"
   },

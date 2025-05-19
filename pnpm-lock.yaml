@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@biomejs/biome':
+        specifier: ^1.9.4
+        version: 1.9.4
       '@commitlint/cli':
         specifier: ^19.6.0
         version: 19.8.0(@types/node@22.10.2)(typescript@5.7.2)
@@ -17,6 +20,9 @@ importers:
       '@cspell/cspell-types':
         specifier: ^8.16.1
         version: 8.16.1
+      '@kurone-kito/biome-config':
+        specifier: workspace:^
+        version: link:packages/biome-config
       '@kurone-kito/commitlint-config':
         specifier: workspace:^
         version: link:packages/commitlint-config

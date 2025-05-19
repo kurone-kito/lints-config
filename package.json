@@ -21,9 +21,7 @@
   "type": "module",
   "files": [],
   "workspaces": {
-    "packages": [
-      "./packages/*"
-    ]
+    "packages": ["./packages/*"]
   },
   "scripts": {
     "build": "pnpm run --workspace-concurrency=Infinity -r build",
@@ -32,26 +30,22 @@
     "clean:sub": "pnpm run --parallel --workspace-concurrency=Infinity -r clean",
     "prepare": "husky",
     "lint": "pnpm run \"/^lint:.+:check/\"",
+    "lint:biome:check": "biome check",
+    "lint:biome:fix": "biome check --write",
     "lint:cspell:check": "cspell lint --no-progress --show-suggestions -u \"./**/*\"",
-    "lint:eslint:check": "eslint --cache --cache-location node_modules/.cache/eslint/ --cache-strategy=content -f codeframe \"./**/*\"",
-    "lint:eslint:fix": "pnpm run lint:eslint:check --fix",
     "lint:fix": "pnpm run \"lint:cspell:check\" && pnpm run \"/^lint:.+:fix/\"",
     "lint:markdown:check": "markdownlint-cli2 \"**/*.md\"",
     "lint:markdown:fix": "markdownlint-cli2 --fix \"**/*.md\"",
-    "lint:oxlint:check": "oxlint",
-    "lint:oxlint:fix": "oxlint --fix",
-    "lint:prettier:check": "pnpm run prettier -cu",
-    "lint:prettier:fix": "pnpm run prettier -uw",
-    "prettier": "prettier --cache --log-level=warn \"./**/*\"",
     "publish": "pnpm -r publish",
     "publish:next": "pnpm -r publish --tag next",
     "test": "pnpm run lint"
   },
-  "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@commitlint/cli": "^19.6.0",
     "@commitlint/config-conventional": "^19.6.0",
     "@cspell/cspell-types": "^8.16.1",
+    "@kurone-kito/biome-config": "workspace:^",
     "@kurone-kito/commitlint-config": "workspace:^",
     "@kurone-kito/cspell-config": "workspace:^",
     "@kurone-kito/eslint-config-base": "workspace:^",

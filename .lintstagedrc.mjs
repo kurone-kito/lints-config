@@ -1,3 +1,3 @@
-import { useEslint } from '@kurone-kito/lint-staged-config';
+import { useBiome } from '@kurone-kito/lint-staged-config';
 
-export default useEslint;
+export default useBiome;

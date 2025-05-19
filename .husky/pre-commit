@@ -2,7 +2,7 @@
 # -*- mode: sh -*-
 # vim: set ft=sh :
 
-if [ ! -e packages/prettier-config/.prettierrc.json ]; then
+if [ ! -e packages/biome-config/biome.json ]; then
   corepack enable
   corepack up
   pnpm run build

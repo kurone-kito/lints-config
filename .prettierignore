@@ -1,8 +1,0 @@
-### THE PROJECT SPECIFIES #################################################
-
-### Node ###
-# Ignorefiles
-.*ignore
-
-# pnpm
-pnpm-lock.yaml

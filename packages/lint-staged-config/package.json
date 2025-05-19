@@ -19,49 +19,32 @@
   "license": "MIT",
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
-  "exports": {
-    ".": "./lint-staged.config.json",
-    "./.lintstagedrc.json": "./lint-staged.config.json",
-    "./.lintstagedrc.yml": "./lint-staged.config.yml",
-    "./lint-staged.config.json": "./lint-staged.config.json",
-    "./lint-staged.config.yml": "./lint-staged.config.yml"
-  },
-  "main": "lint-staged.config.json",
+  "main": "dist/index.mjs",
   "files": [
-    "lint-staged.config.*"
+    "dist"
   ],
   "scripts": {
-    "build": "js-yaml lint-staged.config.yml > lint-staged.config.json",
-    "clean": "rimraf -g \"*.tgz\" LICENSE lint-staged.config.json",
+    "build": "tsc",
+    "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" dist LICENSE lint-staged.config.json",
     "prebuild": "cpy --flat ../../LICENSE .",
-    "prepack": "pnpm run clean && pnpm run build"
+    "prepack": "pnpm run clean && pnpm run build",
+    "start": "tsc --watch"
   },
   "devDependencies": {
+    "@kurone-kito/typescript-config": "workspace:^",
     "cpy-cli": "^5.0.0",
-    "js-yaml": "^4.1.0",
-    "rimraf": "^5.0.10"
+    "rimraf": "^5.0.10",
+    "typescript": "~5.8.3"
   },
   "peerDependencies": {
     "cspell": ">=5.7.x",
-    "eslint": ">=9.x.x",
-    "eslint-formatter-codeframe": "*",
-    "lint-staged": ">=12.1.0",
-    "prettier": ">=3.0.x"
+    "lint-staged": ">=12.1.0"
   },
   "peerDependenciesMeta": {
     "cspell": {
       "optional": true
     },
-    "eslint": {
-      "optional": true
-    },
-    "eslint-formatter-codeframe": {
-      "optional": true
-    },
     "lint-staged": {
-      "optional": true
-    },
-    "prettier": {
       "optional": true
     }
   },

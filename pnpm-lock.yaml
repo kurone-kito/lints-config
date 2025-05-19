@@ -415,28 +415,22 @@ importers:
       cspell:
         specifier: '>=5.7.x'
         version: 8.16.1
-      eslint:
-        specifier: '>=9.x.x'
-        version: 9.17.0(jiti@2.4.2)
-      eslint-formatter-codeframe:
-        specifier: '*'
-        version: 7.32.1
       lint-staged:
         specifier: '>=12.1.0'
         version: 15.2.11
-      prettier:
-        specifier: '>=3.0.x'
-        version: 3.4.2
     devDependencies:
+      '@kurone-kito/typescript-config':
+        specifier: workspace:^
+        version: link:../typescript-config
       cpy-cli:
         specifier: ^5.0.0
         version: 5.0.0
-      js-yaml:
-        specifier: ^4.1.0
-        version: 4.1.0
       rimraf:
         specifier: ^5.0.10
         version: 5.0.10
+      typescript:
+        specifier: ~5.8.3
+        version: 5.8.3
 
   packages/markdownlint-config:
     devDependencies:
@@ -3402,6 +3396,11 @@ packages:
 
   typescript@5.7.2:
     resolution: {integrity: sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+  typescript@5.8.3:
+    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -6955,6 +6954,8 @@ snapshots:
       - supports-color
 
   typescript@5.7.2: {}
+
+  typescript@5.8.3: {}
 
   uc.micro@2.1.0: {}
 

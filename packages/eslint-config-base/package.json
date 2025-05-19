@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/eslint-config-base",
-  "version": "0.17.3",
+  "version": "0.18.0-alpha.6",
   "description": "My ESLint configuration for general Node.js projects",
   "keywords": ["config", "eslint", "eslintconfig", "eslintrc"],
   "homepage": "https://github.com/kurone-kito/lints-config#readme",

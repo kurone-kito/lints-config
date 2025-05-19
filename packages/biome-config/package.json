@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/biome-config",
-  "version": "0.18.0-alpha.3",
+  "version": "0.18.0-alpha.6",
   "description": "My Biome configuration for general projects",
   "keywords": ["biome", "config"],
   "homepage": "https://github.com/kurone-kito/lints-config#readme",

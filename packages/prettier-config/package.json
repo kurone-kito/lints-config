@@ -29,7 +29,7 @@
   "devDependencies": {
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
-    "rimraf": "^5.0.10"
+    "rimraf": "^6.0.1"
   },
   "peerDependencies": {
     "prettier": ">=3.x.x"

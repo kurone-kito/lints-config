@@ -1,13 +1,8 @@
 {
   "name": "@kurone-kito/eslint-config-base",
-  "version": "0.17.3",
+  "version": "0.18.0-alpha.6",
   "description": "My ESLint configuration for general Node.js projects",
-  "keywords": [
-    "config",
-    "eslint",
-    "eslintconfig",
-    "eslintrc"
-  ],
+  "keywords": ["config", "eslint", "eslintconfig", "eslintrc"],
   "homepage": "https://github.com/kurone-kito/lints-config#readme",
   "bugs": "https://github.com/kurone-kito/lints-config/issues",
   "repository": {
@@ -20,9 +15,7 @@
   "type": "module",
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "tsc",
     "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" dist LICENSE",
@@ -31,45 +24,43 @@
     "start": "tsc --watch"
   },
   "dependencies": {
-    "@cspell/eslint-plugin": "^8.16.1",
-    "@eslint/compat": "^1.2.4",
-    "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.17.0",
-    "@eslint/json": "^0.9.0",
-    "@eslint/markdown": "^6.2.1",
+    "@cspell/eslint-plugin": "^9.0.2",
+    "@eslint/compat": "^1.2.9",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.27.0",
+    "@eslint/json": "^0.12.0",
+    "@eslint/markdown": "^6.4.0",
     "@kesills/eslint-config-airbnb-typescript": "^20.0.0",
-    "@stylistic/eslint-plugin": "^2.12.1",
-    "@typescript-eslint/eslint-plugin": "^8.18.0",
-    "@typescript-eslint/parser": "^8.18.0",
+    "@stylistic/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-prettier": "^10.1.5",
     "eslint-import-resolver-node": "^0.3.9",
-    "eslint-import-resolver-typescript": "^3.7.0",
+    "eslint-import-resolver-typescript": "^4.3.5",
     "eslint-plugin-editorconfig": "^4.0.3",
     "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-jsdoc": "^50.6.1",
+    "eslint-plugin-jsdoc": "^50.6.17",
     "eslint-plugin-markdownlint": "^0.6.0",
-    "eslint-plugin-n": "^17.15.0",
-    "eslint-plugin-oxlint": "^0.15.2",
-    "eslint-plugin-yaml": "^1.0.3",
-    "globals": "^15.13.0",
+    "eslint-plugin-n": "^17.18.0",
+    "eslint-plugin-oxlint": "^0.16.11",
+    "eslint-plugin-yaml": "~1.0.3",
+    "globals": "^16.1.0",
     "mdast": "^3.0.0",
-    "typescript-eslint": "^8.18.0"
+    "typescript-eslint": "^8.32.1"
   },
   "devDependencies": {
     "@kurone-kito/typescript-config": "workspace:^",
     "@types/eslint": "^9.6.1",
     "@types/eslint-config-prettier": "^6.11.3",
-    "@types/eslint__eslintrc": "^2.1.2",
-    "@types/eslint__js": "^8.42.3",
     "@types/mdast": "^4.0.4",
-    "@types/node": "^22.10.2",
-    "@typescript-eslint/utils": "^8.18.0",
-    "concurrently": "^9.1.0",
+    "@types/node": "^22.15.19",
+    "@typescript-eslint/utils": "^8.32.1",
+    "concurrently": "^9.1.2",
     "cpy-cli": "^5.0.0",
-    "eslint": "^9.17.0",
-    "rimraf": "^5.0.10",
-    "typescript": "~5.7.2"
+    "eslint": "^9.27.0",
+    "rimraf": "^6.0.1",
+    "typescript": "~5.8.3"
   },
   "peerDependencies": {
     "eslint": ">=9.x.x"
@@ -80,7 +71,7 @@
     }
   },
   "engines": {
-    "node": "^18.20 || ^20.10 || >=22"
+    "node": "^20.11 || >=22"
   },
   "publishConfig": {
     "access": "public"

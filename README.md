@@ -31,14 +31,9 @@ My configuration for the ESLint / Prettier / TypeScript
 
 ## System Requirements
 
-- Node.js v18 (LTS Hydrogen) or later
-
-## Initialization
-
-```sh
-corepack enable
-corepack up
-```
+- Node.js: Any of the following versions
+  - Iron LTS (`^20.11.x`)
+  - Jod LTS or latest (`>=22.x.x`)
 
 ## Contributing
 

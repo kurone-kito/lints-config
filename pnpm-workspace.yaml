@@ -1,2 +1,5 @@
+onlyBuiltDependencies:
+  - '@biomejs/biome'
+  - unrs-resolver
 packages:
-  - 'packages/*'
+  - packages/*

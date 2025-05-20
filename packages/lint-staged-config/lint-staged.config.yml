@@ -1,5 +1,0 @@
-'*':
-  - cspell lint --no-must-find-files --no-progress --show-suggestions -u
-  - eslint --cache --cache-location node_modules/.cache/eslint/ --cache-strategy=content --fix -f codeframe
-  - oxlint --fix
-  - prettier --cache --log-level=warn -uw

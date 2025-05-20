@@ -1,0 +1,26 @@
+'$schema': https://biomejs.dev/schemas/1.9.4/schema.json
+files:
+  ignore:
+    - .*ignore
+    - biome.json
+    - package-lock.json
+    - pnpm-lock.yaml
+    - yarn.lock
+  ignoreUnknown: true
+formatter:
+  indentStyle: space
+javascript:
+  formatter:
+    quoteStyle: single
+linter:
+  enabled: true
+  rules:
+    complexity:
+      useLiteralKeys: warn
+    recommended: true
+organizeImports:
+  enabled: true
+vcs:
+  clientKind: git
+  enabled: true
+  useIgnoreFile: true

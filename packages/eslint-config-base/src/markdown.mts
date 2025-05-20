@@ -4,8 +4,7 @@ import { compat } from './utils.mjs';
 
 /** The ESLint configuration for Markdown files. */
 export const markdownConfig: readonly Linter.Config[] = [
-  // @ts-expect-error
-  ...markdown.configs['recommended'],
+  ...markdown.configs.recommended,
   ...compat.config({
     overrides: [
       {

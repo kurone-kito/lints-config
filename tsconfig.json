@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
     "composite": true,
-    "noEmit": true
+    "noEmit": true,
+    "plugins": [
+      {
+        "name": "typescript-eslint-language-service"
+      }
+    ]
   },
   "extends": "@kurone-kito/typescript-config/tsconfig.json",
   "include": ["**/*", ".*.mjs"]

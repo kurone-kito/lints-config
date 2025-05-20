@@ -1,28 +1,28 @@
 {
-  "name": "@kurone-kito/markdownlint-config",
+  "name": "@kurone-kito/biome-config",
   "version": "0.18.0-alpha.6",
-  "description": "My Markdownlint configuration for general projects",
-  "keywords": ["config", "markdownlint"],
+  "description": "My Biome configuration for general projects",
+  "keywords": ["biome", "config"],
   "homepage": "https://github.com/kurone-kito/lints-config#readme",
   "bugs": "https://github.com/kurone-kito/lints-config/issues",
   "repository": {
     "type": "git",
     "url": "https://github.com/kurone-kito/lints-config.git",
-    "directory": "packages/markdownlint-config"
+    "directory": "packages/biome-config"
   },
   "license": "MIT",
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
   "exports": {
-    ".": "./.markdownlint.json",
-    "./.markdownlint.json": "./.markdownlint.json",
-    "./.markdownlint.yml": "./.markdownlint.yml"
+    ".": "./biome.json",
+    "./biome.json": "./biome.json",
+    "./biome.yml": "./biome.yml"
   },
-  "main": ".markdownlint.json",
-  "files": [".markdownlint.*"],
+  "main": "biome.json",
+  "files": ["biome.*"],
   "scripts": {
-    "build": "js-yaml .markdownlint.yml > .markdownlint.json",
-    "clean": "rimraf -g \"*.tgz\" .markdownlint.json LICENSE",
+    "build": "js-yaml biome.yml > biome.json",
+    "clean": "rimraf -g \"*.tgz\" biome.json LICENSE",
     "prebuild": "cpy --flat ../../LICENSE .",
     "prepack": "pnpm run clean && pnpm run build"
   },
@@ -30,6 +30,14 @@
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
     "rimraf": "^6.0.1"
+  },
+  "peerDependencies": {
+    "@biomejs/biome": "*"
+  },
+  "peerDependenciesMeta": {
+    "@biomejs/biome": {
+      "optional": true
+    }
   },
   "engines": {
     "node": "^20.11 || >=22"

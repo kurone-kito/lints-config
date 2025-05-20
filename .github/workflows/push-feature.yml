@@ -28,6 +28,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Install the latest corepack explicitly
+        run: npm install --force -g corepack@latest
       - name: Enable the corepack
         run: corepack enable
       - name: Post-prepare the Node.js version ${{ matrix.node-version }} environment
@@ -46,10 +48,10 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 18.x
           - 20.x
           - 22.x
           - 23.x
+          - 24.x
         platform:
           - os: ubuntu-latest
             shell: bash

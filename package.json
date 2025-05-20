@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/lints-config",
-  "version": "0.17.3",
+  "version": "0.18.0-alpha.6",
   "private": true,
   "description": "My configuration for the ESLint / Prettier / TypeScript",
   "keywords": [
@@ -21,37 +21,31 @@
   "type": "module",
   "files": [],
   "workspaces": {
-    "packages": [
-      "./packages/*"
-    ]
+    "packages": ["./packages/*"]
   },
   "scripts": {
-    "build": "pnpm run -r build",
+    "build": "pnpm run --workspace-concurrency=Infinity -r build",
     "clean": "pnpm run --no-bail \"/^clean:.+/\"",
     "clean:root": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" node_modules/.cache",
-    "clean:sub": "pnpm run --parallel -r clean",
+    "clean:sub": "pnpm run --parallel --workspace-concurrency=Infinity -r clean",
     "prepare": "husky",
     "lint": "pnpm run \"/^lint:.+:check/\"",
+    "lint:biome:check": "biome check",
+    "lint:biome:fix": "biome check --write",
     "lint:cspell:check": "cspell lint --no-progress --show-suggestions -u \"./**/*\"",
-    "lint:eslint:check": "eslint --cache --cache-location node_modules/.cache/eslint/ --cache-strategy=content -f codeframe \"./**/*\"",
-    "lint:eslint:fix": "pnpm run lint:eslint:check --fix",
     "lint:fix": "pnpm run \"lint:cspell:check\" && pnpm run \"/^lint:.+:fix/\"",
     "lint:markdown:check": "markdownlint-cli2 \"**/*.md\"",
     "lint:markdown:fix": "markdownlint-cli2 --fix \"**/*.md\"",
-    "lint:oxlint:check": "oxlint",
-    "lint:oxlint:fix": "oxlint --fix",
-    "lint:prettier:check": "pnpm run prettier -cu",
-    "lint:prettier:fix": "pnpm run prettier -uw",
-    "prettier": "prettier --cache --log-level=warn \"./**/*\"",
     "publish": "pnpm -r publish",
     "publish:next": "pnpm -r publish --tag next",
     "test": "pnpm run lint"
   },
-  "prettier": "@kurone-kito/prettier-config",
   "devDependencies": {
-    "@commitlint/cli": "^19.6.0",
-    "@commitlint/config-conventional": "^19.6.0",
-    "@cspell/cspell-types": "^8.16.1",
+    "@biomejs/biome": "^1.9.4",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@cspell/cspell-types": "^9.0.2",
+    "@kurone-kito/biome-config": "workspace:^",
     "@kurone-kito/commitlint-config": "workspace:^",
     "@kurone-kito/cspell-config": "workspace:^",
     "@kurone-kito/eslint-config-base": "workspace:^",
@@ -62,22 +56,22 @@
     "@kurone-kito/prettier-config": "workspace:^",
     "@kurone-kito/typescript-config": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "@typescript-eslint/parser": "^8.18.0",
-    "cspell": "^8.16.1",
-    "eslint": "^9.17.0",
+    "@typescript-eslint/parser": "^8.32.1",
+    "cspell": "^9.0.2",
+    "eslint": "^9.27.0",
     "eslint-formatter-codeframe": "^7.32.1",
     "husky": "^9.1.7",
-    "lint-staged": "^15.2.11",
-    "markdownlint-cli2": "^0.16.0",
-    "oxlint": "^0.15.2",
-    "prettier": "^3.4.2",
-    "rimraf": "^5.0.10",
-    "typescript": "~5.7.2",
+    "lint-staged": "^16.0.0",
+    "markdownlint-cli2": "^0.18.1",
+    "oxlint": "^0.16.11",
+    "prettier": "^3.5.3",
+    "rimraf": "^6.0.1",
+    "typescript": "~5.8.3",
     "typescript-eslint-language-service": "^5.0.5"
   },
-  "packageManager": "pnpm@9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c",
+  "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977",
   "engines": {
-    "node": "^18.20 || ^20.10 || >=22"
+    "node": "^20.11 || >=22"
   },
   "publishConfig": {
     "access": "public"

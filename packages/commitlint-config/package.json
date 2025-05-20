@@ -1,11 +1,8 @@
 {
   "name": "@kurone-kito/commitlint-config",
-  "version": "0.17.3",
+  "version": "0.18.0-alpha.6",
   "description": "My commitlint configuration for general projects",
-  "keywords": [
-    "commitlint",
-    "config"
-  ],
+  "keywords": ["commitlint", "config"],
   "homepage": "https://github.com/kurone-kito/lints-config#readme",
   "bugs": "https://github.com/kurone-kito/lints-config/issues",
   "repository": {
@@ -23,10 +20,7 @@
     "./commitlint.config.mjs": "./commitlint.config.mjs"
   },
   "main": ".commitlintrc.json",
-  "files": [
-    ".commitlintrc.*",
-    "commitlint.config.*"
-  ],
+  "files": [".commitlintrc.*", "commitlint.config.*"],
   "scripts": {
     "build": "js-yaml .commitlintrc.yml > .commitlintrc.json",
     "clean": "rimraf -g \"*.tgz\" .commitlintrc.json LICENSE",
@@ -34,12 +28,12 @@
     "prepack": "pnpm run clean && pnpm run build"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^19.6.0",
+    "@commitlint/config-conventional": "^19.8.1",
     "@kurone-kito/typescript-config": "workspace:^",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
-    "rimraf": "^5.0.10",
-    "typescript": "~5.7.2"
+    "rimraf": "^6.0.1",
+    "typescript": "~5.8.3"
   },
   "peerDependencies": {
     "@commitlint/config-conventional": ">=19.x.x"
@@ -50,7 +44,7 @@
     }
   },
   "engines": {
-    "node": "^18.20 || ^20.10 || >=22"
+    "node": "^20.11 || >=22"
   },
   "publishConfig": {
     "access": "public"

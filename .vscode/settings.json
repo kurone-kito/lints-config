@@ -27,6 +27,7 @@
   },
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "yaml.schemas": {
+    "https://biomejs.dev/schemas/1.9.4/schema.json": ["biome.yml"],
     "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/packages/cspell-types/cspell.schema.json": [
       "cspell.config.yml"
     ],

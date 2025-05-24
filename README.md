@@ -35,6 +35,16 @@ My configuration for the ESLint / Prettier / TypeScript
   - Iron LTS (`^20.11.x`)
   - Jod LTS or latest (`>=22.x.x`)
 
+## Development
+
+Run `pnpm run build` before `pnpm run lint`.
+Skipping the build step causes the lint command to fail.
+
+```sh
+pnpm run build
+pnpm run lint
+```
+
 ## Contributing
 
 Welcome to contribute to this repository! For more details,

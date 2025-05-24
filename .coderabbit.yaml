@@ -8,3 +8,5 @@ reviews:
   path_instructions:
     - instructions: When making a pull request to the main branch, please warn that the pre-release notation should be removed if the version is a pre-release.
       path: package.json
+    - instructions: When making a pull request to the main branch, please warn that the pre-release notation should be removed if the version is a pre-release.
+      path: packages/**/package.json

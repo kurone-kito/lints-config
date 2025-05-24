@@ -1,7 +1,7 @@
 import type { Linter } from 'eslint';
 import { compat } from './utils.mjs';
 
-/** Additional configuration for ESLint to React */
+/** Additional ESLint configuration for React. */
 export const additionalReactConfig: readonly Linter.Config[] = [
   {
     rules: {
@@ -41,7 +41,7 @@ export const additionalReactConfig: readonly Linter.Config[] = [
   },
 ];
 
-/** Configuration for ESLint to React */
+/** The ESLint configuration for React. */
 export const reactConfig: readonly Linter.Config[] = [
   ...compat.extends('plugin:react-hooks/recommended'),
   ...additionalReactConfig,

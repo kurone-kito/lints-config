@@ -1,0 +1,78 @@
+name: Build and release
+on:
+  workflow_call:
+    inputs:
+      next:
+        default: false
+        description: Publish the alpha version
+        type: boolean
+    secrets:
+      NPM_TOKEN:
+        required: true
+permissions:
+  contents: read
+  packages: write
+jobs:
+  build:
+    name: The build process
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Stages the pushed branch
+        uses: actions/checkout@v4
+      - name: Pre-prepare the Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - name: Install the latest corepack explicitly
+        run: npm install --force -g corepack@latest
+      - name: Enable the corepack
+        run: corepack enable
+      - name: Post-prepare the Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          cache: pnpm
+          node-version-file: .node-version
+      - env:
+          HUSKY: 0
+        name: Install the dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build the project explicitly. The workaround is provisional because the publish command does not perform topological sorting.
+        run: pnpm run build
+      - env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        name: Setting the npmjs registry and the token
+        run: |
+          cat << EOF > "${HOME}/.npmrc"
+            @kurone-kito:registry=https://registry.npmjs.org/
+            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          EOF
+      - env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        if: ${{ inputs.next != true }}
+        name: Publish the packages
+        run: pnpm run publish --no-git-check
+      - env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        if: ${{ inputs.next == true }}
+        name: Publish the packages as the alpha version
+        run: pnpm run publish:next --no-git-check
+      - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: Setting the GitHub registry and the token
+        run: |
+          cat << EOF > "${HOME}/.npmrc"
+            registry=https://npm.pkg.github.com/
+            @kurone-kito:registry=https://npm.pkg.github.com/
+            //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN
+          EOF
+      - env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        if: ${{ !inputs.next }}
+        name: Publish the packages
+        run: pnpm run publish --no-git-check
+      - env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        if: ${{ inputs.next }}
+        name: Publish the packages as the alpha version
+        run: pnpm run publish:next --no-git-check

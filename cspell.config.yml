@@ -5,7 +5,6 @@ cache:
   useCache: true
 import:
   - '@kurone-kito/cspell-config'
-usePnP: true
 version: '0.2'
 words:
   - mdast

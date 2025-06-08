@@ -10,12 +10,15 @@
     ".markdownlint.*": ".markdownlint-cli2.*",
     ".tool-versions": ".node-version, .nvmrc",
     "package.json": ".npmrc, pnpm-lock.yaml, pnpm-workspace.yaml",
-    "tsconfig.json": "${capture}.tsbuildinfo"
+    "tsconfig.json": "*.tsbuildinfo"
   },
   "files.associations": {
     "*.map": "json",
     ".imgbotconfig": "json",
     "LICENSE": "plaintext"
+  },
+  "files.readonlyInclude": {
+    "**/node_modules/**/*": true
   },
   "files.watcherExclude": {
     "**/node_modules/**/*": true,

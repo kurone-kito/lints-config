@@ -15,12 +15,11 @@ export const additionalTsConfig: readonly Linter.Config[] = [
     linterOptions: { reportUnusedDisableDirectives: 'warn' },
     rules: {
       /**
-       * With a warning, allow use standard import syntax to import for
-       * type-only. The default is to enable it unconditionally.
+       * Allows the regular `import` syntax for type-only imports with a
+       * warning. The default setting strictly enforces `import type`.
        *
-       * Tree shaking at build time needs to work correctly to reduce
-       * bundle size, and active use of the type import syntax can
-       * contribute significantly to this.
+       * Correct use of `import type` can help tree shaking reduce bundle
+       * size, but occasionally the regular syntax is more convenient.
        */
       '@typescript-eslint/consistent-type-imports': 'warn',
       /**

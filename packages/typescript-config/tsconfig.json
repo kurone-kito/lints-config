@@ -10,6 +10,7 @@
     "esModuleInterop": true,
     "exactOptionalPropertyTypes": true,
     "isolatedModules": true,
+    "lib": ["ES2023"],
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "noEmitOnError": true,
@@ -26,7 +27,7 @@
     "sourceMap": true,
     "strict": true,
     "stripInternal": true,
-    "target": "ES2022"
+    "target": "ES2023"
   },
   "typeAcquisition": {
     "enable": true

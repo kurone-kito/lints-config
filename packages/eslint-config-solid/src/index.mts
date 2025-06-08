@@ -21,7 +21,7 @@ const exceptedStylelintConfig = (
 });
 
 /**
- * The ESLint configuration for the base rules.
+ * The ESLint configuration for Solid.js projects.
  *
  * @see {@link https://github.com/microsoft/TypeScript/issues/47663}
  */

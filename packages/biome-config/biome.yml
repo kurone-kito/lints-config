@@ -8,15 +8,18 @@ files:
     - yarn.lock
   ignoreUnknown: true
 formatter:
+  # Compatible with Prettier
   indentStyle: space
 javascript:
   formatter:
+    # Compatible with Prettier
     quoteStyle: single
 linter:
   enabled: true
   rules:
     complexity:
-      useLiteralKeys: warn
+      # Tweak for TS4111
+      useLiteralKeys: 'off'
     recommended: true
 organizeImports:
   enabled: true

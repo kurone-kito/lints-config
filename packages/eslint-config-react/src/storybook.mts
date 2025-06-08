@@ -1,6 +1,6 @@
 import type { Linter } from 'eslint';
 
-/** The configuration for ESLint to Storybook */
+/** The ESLint configuration for Storybook. */
 export const storybookConfig: readonly Linter.Config[] = [
   {
     files: ['**/*.stories.?([cm])[jt]s?(x)'],
@@ -15,9 +15,8 @@ export const storybookConfig: readonly Linter.Config[] = [
        */
       'import/no-anonymous-default-export': 'off',
       /**
-       * Exporting code that depends `on devDependencies is` allowed only
-       * for specific packages on an exception basis, and it is prohibited
-       * by default.
+       * Allow code that depends on `devDependencies` only for specific
+       * packages; otherwise it is prohibited.
        *
        * To organize dependencies, only packages that directly depend on
        * the product code should be listed in the dependencies list, so

@@ -65,10 +65,11 @@ export const additionalImportConfig: readonly Linter.Config[] = [
         },
       ],
       /**
-       * Allow with a warning that the arbitrary reordering in the
-       * import syntax. The default is to allow it unconditionally.
+       * Warn when import declarations are arbitrarily reordered.
+       * The default configuration allows any ordering.
        *
-       * in order to deal with the snowballing problem of the import part.
+       * This helps to keep the import section organized and
+       * prevents it from becoming cluttered.
        */
       'import/order': [
         'warn',
@@ -87,10 +88,10 @@ export const additionalImportConfig: readonly Linter.Config[] = [
         },
       ],
       /**
-       * Allow with a warning that the arbitrary reordering in the
-       * import syntax. The default is to allow it unconditionally.
+       * Warn when import declarations are arbitrarily reordered.
+       * The default configuration allows any ordering.
        *
-       * To deal with the snowballing problem of the import part.
+       * This also helps organize import statements.
        */
       'sort-imports': [
         'warn',

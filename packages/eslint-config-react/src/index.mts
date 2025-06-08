@@ -22,7 +22,7 @@ const exceptedStylelintConfig = (
 });
 
 /**
- * The ESLint configuration for the base rules.
+ * The ESLint configuration for React projects.
  *
  * @see {@link https://github.com/microsoft/TypeScript/issues/47663}
  */

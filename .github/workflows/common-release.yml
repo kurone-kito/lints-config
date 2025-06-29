@@ -44,8 +44,9 @@ jobs:
         name: Setting the npmjs registry and the token
         run: |
           cat << EOF > "${HOME}/.npmrc"
-            @kurone-kito:registry=https://registry.npmjs.org/
-            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          registry=https://registry.npmjs.org/
+          @kurone-kito:registry=https://registry.npmjs.org/
+          //registry.npmjs.org/:_authToken=$NPM_TOKEN
           EOF
       - env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -62,9 +63,9 @@ jobs:
         name: Setting the GitHub registry and the token
         run: |
           cat << EOF > "${HOME}/.npmrc"
-            registry=https://npm.pkg.github.com/
-            @kurone-kito:registry=https://npm.pkg.github.com/
-            //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN
+          registry=https://npm.pkg.github.com/
+          @kurone-kito:registry=https://npm.pkg.github.com/
+          //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN
           EOF
       - env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

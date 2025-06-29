@@ -36,7 +36,7 @@ jobs:
       - env:
           HUSKY: 0
         name: Install the dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --prefer-offline
       - name: Build the project explicitly. The workaround is provisional because the publish command does not perform topological sorting.
         run: pnpm run build
       - env:

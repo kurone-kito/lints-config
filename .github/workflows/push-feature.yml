@@ -1,5 +1,7 @@
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 name: The CI workflow on push as a feature branch
-run-name: Push the feature branch by @${{ github.actor }}
 on:
   push:
     branches:
@@ -7,9 +9,7 @@ on:
       - '!main'
 permissions:
   contents: read
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+run-name: Push the feature branch by @${{ github.actor }}
 jobs:
   build:
     defaults:
@@ -42,7 +42,7 @@ jobs:
       - env:
           HUSKY: 0
         name: Install the dependencies
-        run: pnpm i --frozen-lockfile
+        run: pnpm install --frozen-lockfile --prefer-offline
       - name: Run the build
         run: pnpm run build
       - name: Run the tests
@@ -52,7 +52,6 @@ jobs:
         node-version:
           - 20.x
           - 22.x
-          - 23.x
           - 24.x
         platform:
           - os: ubuntu-latest

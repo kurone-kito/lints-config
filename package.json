@@ -28,13 +28,14 @@
     "clean": "pnpm run --no-bail \"/^clean:.+/\"",
     "clean:root": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" node_modules/.cache",
     "clean:sub": "pnpm run --parallel --workspace-concurrency=Infinity -r clean",
-    "lint": "pnpm run \"/^lint:.+:check/\"",
+    "lint": "pnpm run \"/lint:.+:check/\"",
     "lint:biome:check": "biome check",
     "lint:biome:fix": "biome check --write",
     "lint:cspell:check": "cspell lint --no-progress --show-suggestions -u \"./**/*\"",
-    "lint:fix": "pnpm run \"lint:cspell:check\" && pnpm run \"/^lint:.+:fix/\"",
+    "lint:fix": "pnpm run \"/lint:.+:fix/\"",
     "lint:markdown:check": "markdownlint-cli2 \"**/*.md\"",
     "lint:markdown:fix": "markdownlint-cli2 --fix \"**/*.md\"",
+    "postlint:fix": "pnpm run lint:cspell:check",
     "prepare": "husky",
     "publish": "pnpm -r publish",
     "publish:next": "pnpm -r publish --tag next",
@@ -44,7 +45,7 @@
     "@biomejs/biome": "^1.9.4",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
-    "@cspell/cspell-types": "^9.0.2",
+    "@cspell/cspell-types": "^9.1.2",
     "@kurone-kito/biome-config": "workspace:^",
     "@kurone-kito/commitlint-config": "workspace:^",
     "@kurone-kito/cspell-config": "workspace:^",
@@ -57,11 +58,11 @@
     "@kurone-kito/typescript-config": "workspace:^",
     "@types/eslint": "^9.6.1",
     "@typescript-eslint/parser": "^8.33.1",
-    "cspell": "^9.0.2",
+    "cspell": "^9.1.2",
     "eslint": "^9.28.0",
     "eslint-formatter-codeframe": "^7.32.1",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.0",
+    "lint-staged": "^16.1.2",
     "markdownlint-cli2": "^0.18.1",
     "oxlint": "^0.18.0",
     "prettier": "^3.5.3",
@@ -69,9 +70,9 @@
     "typescript": "~5.8.3",
     "typescript-eslint-language-service": "^5.0.5"
   },
-  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac",
+  "packageManager": "pnpm@10.12.3+sha512.467df2c586056165580ad6dfb54ceaad94c5a30f80893ebdec5a44c5aa73c205ae4a5bb9d5ed6bb84ea7c249ece786642bbb49d06a307df218d03da41c317417",
   "engines": {
-    "node": "^20.11 || >=22"
+    "node": "^20.11 || ^22 || >=24"
   },
   "publishConfig": {
     "access": "public"

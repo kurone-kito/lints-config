@@ -33,7 +33,8 @@ My configuration for the ESLint / Prettier / TypeScript
 
 - Node.js: Any of the following versions
   - Iron LTS (`^20.11.x`)
-  - Jod LTS or latest (`>=22.x.x`)
+  - Jod LTS (`^22.x.x`)
+  - Latest (`>=24.x.x`)
 
 ## Development
 
@@ -56,4 +57,4 @@ rule is applied to discourage committing messages that violate conventions.
 
 ## LICENSE
 
-MIT
+[MIT](./LICENSE)

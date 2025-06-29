@@ -77,3 +77,12 @@ jobs:
         if: ${{ inputs.next }}
         name: Publish the packages as the alpha version
         run: pnpm run publish:next --no-git-check
+      - if: ${{ github.event_name == 'release' }}
+        name: pack the packages
+        run: pnpm --filter "!*lints-config" -r pack
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        if: ${{ github.event_name == 'release' }}
+        name: attach the packages to the release assets
+        run: gh release upload "$TAG_NAME" ./*.tgz --clobber

@@ -1,5 +1,6 @@
 onlyBuiltDependencies:
   - '@biomejs/biome'
+  - esbuild
   - unrs-resolver
 packages:
   - packages/*

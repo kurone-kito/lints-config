@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/eslint-config-solid",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "description": "My ESLint configuration for Solid.js projects",
   "keywords": ["config", "eslint", "eslintconfig", "eslintrc", "solid-js"],
   "homepage": "https://github.com/kurone-kito/lints-config#readme",
@@ -24,26 +24,26 @@
     "start": "tsc --watch"
   },
   "dependencies": {
-    "@cspell/eslint-plugin": "^9.0.2",
+    "@cspell/eslint-plugin": "^9.1.2",
     "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.28.0",
+    "@eslint/js": "^9.30.0",
     "@kurone-kito/eslint-config-base": "workspace:^",
-    "@typescript-eslint/eslint-plugin": "^8.33.1",
-    "@typescript-eslint/parser": "^8.33.1",
+    "@typescript-eslint/eslint-plugin": "^8.35.0",
+    "@typescript-eslint/parser": "^8.35.0",
     "eslint-config-stylelint": "^24.0.0",
-    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-solid": "^0.14.5",
-    "eslint-plugin-storybook": "^9.0.6",
-    "typescript-eslint": "^8.33.1"
+    "eslint-plugin-storybook": "^9.0.14",
+    "typescript-eslint": "^8.35.0"
   },
   "devDependencies": {
-    "@kurone-kito/typescript-config": "workspace:^",
+    "@kurone-kito/typescript-config": "^0.20.0",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.15.30",
-    "@typescript-eslint/utils": "^8.33.1",
-    "concurrently": "^9.1.2",
+    "@types/node": "^24.0.7",
+    "@typescript-eslint/utils": "^8.35.0",
+    "concurrently": "^9.2.0",
     "cpy-cli": "^5.0.0",
-    "eslint": "^9.28.0",
+    "eslint": "^9.30.0",
     "rimraf": "^6.0.1",
     "typescript": "~5.8.3"
   },
@@ -60,7 +60,7 @@
     }
   },
   "engines": {
-    "node": "^20.11 || >=22"
+    "node": "^20.11 || ^22 || >=24"
   },
   "publishConfig": {
     "access": "public"

@@ -6,10 +6,12 @@
 
 <!-- markdownlint-enable MD045 -->
 
-My configuration for the ESLint / Prettier / TypeScript
+My configuration for the ESLint / Prettier / TypeScript and other tools
 
 ## Structure of the monorepo
 
+- [`packages/biome-config`](packages/biome-config/README.md):
+  My Biome configuration for general projects.
 - [`packages/commitlint-config`](packages/commitlint-config/README.md):
   My commitlint configuration for general projects.
 - [`packages/cspell-config`](packages/cspell-config/README.md):
@@ -26,14 +28,22 @@ My configuration for the ESLint / Prettier / TypeScript
   My Markdownlint configuration for general projects.
 - [`packages/prettier-config`](packages/prettier-config/README.md):
   My Prettier configuration for general projects.
-- [`packages/typescript-config`](packages/typescript-config/README.md):
-  My TypeScript configuration for general projects.
+
+### Moved packages
+
+Build-related packages have been moved to a separate repository and
+consolidated:
+[`kurone-kito/builder-config`](https://github.com/kurone-kito/builder-config)
+
+- `packages/typescript-config`: My TypeScript configuration for general
+  projects.
 
 ## System Requirements
 
 - Node.js: Any of the following versions
   - Iron LTS (`^20.11.x`)
-  - Jod LTS or latest (`>=22.x.x`)
+  - Jod LTS (`^22.x.x`)
+  - Latest (`>=24.x.x`)
 
 ## Development
 
@@ -56,4 +66,4 @@ rule is applied to discourage committing messages that violate conventions.
 
 ## LICENSE
 
-MIT
+[MIT](./LICENSE)

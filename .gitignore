@@ -267,5 +267,8 @@ packages/lint-staged-config/lint-staged.config.json
 packages/markdownlint-config/.markdownlint.json
 packages/prettier-config/.prettierrc.json
 
+# pnpm
+pnpm-lock.yaml.*
+
 ### Text ###
 packages/**/LICENSE

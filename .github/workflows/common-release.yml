@@ -36,7 +36,7 @@ jobs:
       - env:
           HUSKY: 0
         name: Install the dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --prefer-offline
       - name: Build the project explicitly. The workaround is provisional because the publish command does not perform topological sorting.
         run: pnpm run build
       - env:
@@ -44,8 +44,9 @@ jobs:
         name: Setting the npmjs registry and the token
         run: |
           cat << EOF > "${HOME}/.npmrc"
-            @kurone-kito:registry=https://registry.npmjs.org/
-            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          registry=https://registry.npmjs.org/
+          @kurone-kito:registry=https://registry.npmjs.org/
+          //registry.npmjs.org/:_authToken=$NPM_TOKEN
           EOF
       - env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -62,9 +63,9 @@ jobs:
         name: Setting the GitHub registry and the token
         run: |
           cat << EOF > "${HOME}/.npmrc"
-            registry=https://npm.pkg.github.com/
-            @kurone-kito:registry=https://npm.pkg.github.com/
-            //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN
+          registry=https://npm.pkg.github.com/
+          @kurone-kito:registry=https://npm.pkg.github.com/
+          //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN
           EOF
       - env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -76,3 +77,12 @@ jobs:
         if: ${{ inputs.next }}
         name: Publish the packages as the alpha version
         run: pnpm run publish:next --no-git-check
+      - if: ${{ github.event_name == 'release' }}
+        name: pack the packages
+        run: pnpm --filter "!*lints-config" -r pack
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        if: ${{ github.event_name == 'release' }}
+        name: attach the packages to the release assets
+        run: gh release upload "$TAG_NAME" ./*.tgz --clobber

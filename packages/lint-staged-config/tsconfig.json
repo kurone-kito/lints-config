@@ -4,5 +4,5 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "extends": "@kurone-kito/typescript-config/tsconfig.json"
+  "extends": "@kurone-kito/typescript-config"
 }

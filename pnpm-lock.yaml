@@ -48,8 +48,8 @@ importers:
         specifier: workspace:^
         version: link:packages/prettier-config
       '@kurone-kito/typescript-config':
-        specifier: workspace:^
-        version: link:packages/typescript-config
+        specifier: ^0.20.0
+        version: 0.20.0(typescript@5.8.3)
       '@types/eslint':
         specifier: ^9.6.1
         version: 9.6.1
@@ -112,8 +112,8 @@ importers:
         specifier: ^19.8.1
         version: 19.8.1
       '@kurone-kito/typescript-config':
-        specifier: workspace:^
-        version: link:../typescript-config
+        specifier: ^0.20.0
+        version: 0.20.0(typescript@5.8.3)
       cpy-cli:
         specifier: ^5.0.0
         version: 5.0.0
@@ -219,8 +219,8 @@ importers:
         version: 8.33.1(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)
     devDependencies:
       '@kurone-kito/typescript-config':
-        specifier: workspace:^
-        version: link:../typescript-config
+        specifier: ^0.20.0
+        version: 0.20.0(typescript@5.8.3)
       '@types/eslint':
         specifier: ^9.6.1
         version: 9.6.1
@@ -304,8 +304,8 @@ importers:
         version: 8.33.1(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)
     devDependencies:
       '@kurone-kito/typescript-config':
-        specifier: workspace:^
-        version: link:../typescript-config
+        specifier: ^0.20.0
+        version: 0.20.0(typescript@5.8.3)
       '@types/eslint':
         specifier: ^9.6.1
         version: 9.6.1
@@ -371,8 +371,8 @@ importers:
         version: 8.33.1(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)
     devDependencies:
       '@kurone-kito/typescript-config':
-        specifier: workspace:^
-        version: link:../typescript-config
+        specifier: ^0.20.0
+        version: 0.20.0(typescript@5.8.3)
       '@types/eslint':
         specifier: ^9.6.1
         version: 9.6.1
@@ -408,8 +408,8 @@ importers:
         version: 16.1.2
     devDependencies:
       '@kurone-kito/typescript-config':
-        specifier: workspace:^
-        version: link:../typescript-config
+        specifier: ^0.20.0
+        version: 0.20.0(typescript@5.8.3)
       cpy-cli:
         specifier: ^5.0.0
         version: 5.0.0
@@ -447,18 +447,6 @@ importers:
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
-
-  packages/typescript-config:
-    devDependencies:
-      cpy-cli:
-        specifier: ^5.0.0
-        version: 5.0.0
-      rimraf:
-        specifier: ^6.0.1
-        version: 6.0.1
-      typescript:
-        specifier: ~5.8.3
-        version: 5.8.3
 
 packages:
 
@@ -1155,6 +1143,15 @@ packages:
     peerDependenciesMeta:
       eslint-config-airbnb:
         optional: true
+      typescript:
+        optional: true
+
+  '@kurone-kito/typescript-config@0.20.0':
+    resolution: {integrity: sha512-i36Ch1P8FntbzOTZTJQ3IGGIjokcqm3TwwFIYnJMxRuH+iD5IJWoNG46xFOsMlQyc8IOmWTqN+rXbF1l93MZiQ==}
+    engines: {node: ^20.11 || ^22 || >=24}
+    peerDependencies:
+      typescript: '>=5.7.x'
+    peerDependenciesMeta:
       typescript:
         optional: true
 
@@ -4608,6 +4605,10 @@ snapshots:
       eslint-config-airbnb-base: 15.0.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.28.0(jiti@2.4.2)))(eslint@9.28.0(jiti@2.4.2))
     optionalDependencies:
       eslint-config-airbnb: 19.0.4(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.33.1(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.28.0(jiti@2.4.2)))(eslint-plugin-jsx-a11y@6.10.2(eslint@9.28.0(jiti@2.4.2)))(eslint-plugin-react-hooks@5.2.0(eslint@9.28.0(jiti@2.4.2)))(eslint-plugin-react@7.37.5(eslint@9.28.0(jiti@2.4.2)))(eslint@9.28.0(jiti@2.4.2))
+      typescript: 5.8.3
+
+  '@kurone-kito/typescript-config@0.20.0(typescript@5.8.3)':
+    optionalDependencies:
       typescript: 5.8.3
 
   '@napi-rs/wasm-runtime@0.2.11':

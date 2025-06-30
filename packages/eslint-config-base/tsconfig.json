@@ -6,5 +6,5 @@
     "skipLibCheck": true,
     "types": ["node"]
   },
-  "extends": "@kurone-kito/typescript-config/tsconfig.json"
+  "extends": "@kurone-kito/typescript-config"
 }

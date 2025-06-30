@@ -50,7 +50,7 @@
     "typescript-eslint": "^8.33.1"
   },
   "devDependencies": {
-    "@kurone-kito/typescript-config": "workspace:^",
+    "@kurone-kito/typescript-config": "^0.20.0",
     "@types/eslint": "^9.6.1",
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/mdast": "^4.0.4",

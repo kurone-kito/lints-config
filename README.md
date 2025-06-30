@@ -28,8 +28,15 @@ My configuration for the ESLint / Prettier / TypeScript and other tools
   My Markdownlint configuration for general projects.
 - [`packages/prettier-config`](packages/prettier-config/README.md):
   My Prettier configuration for general projects.
-- [`packages/typescript-config`](packages/typescript-config/README.md):
-  My TypeScript configuration for general projects.
+
+### Moved packages
+
+Build-related packages have been moved to a separate repository and
+consolidated:
+[`kurone-kito/builder-config`](https://github.com/kurone-kito/builder-config)
+
+- `packages/typescript-config`: My TypeScript configuration for general
+  projects.
 
 ## System Requirements
 

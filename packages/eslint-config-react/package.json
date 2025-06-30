@@ -42,7 +42,7 @@
     "typescript-eslint": "^8.33.1"
   },
   "devDependencies": {
-    "@kurone-kito/typescript-config": "workspace:^",
+    "@kurone-kito/typescript-config": "^0.20.0",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.15.30",
     "@typescript-eslint/utils": "^8.33.1",

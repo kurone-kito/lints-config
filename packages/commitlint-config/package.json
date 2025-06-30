@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^19.8.1",
-    "@kurone-kito/typescript-config": "workspace:^",
+    "@kurone-kito/typescript-config": "^0.20.0",
     "cpy-cli": "^5.0.0",
     "js-yaml": "^4.1.0",
     "rimraf": "^6.0.1",

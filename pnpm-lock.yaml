@@ -206,8 +206,8 @@ importers:
         specifier: ^1.4.0
         version: 1.4.0
       eslint-plugin-yaml:
-        specifier: ~1.0.3
-        version: 1.0.3
+        specifier: ~1.1.2
+        version: 1.1.2
       globals:
         specifier: ^16.1.0
         version: 16.2.0
@@ -1247,6 +1247,9 @@ packages:
   '@types/eslint@9.6.1':
     resolution: {integrity: sha512-FXx2pKgId/WyYo2jXw63kk7/+TY7u7AziEJxJAnSFzHlqTAS3Ync6SvgYAN/k4/PQpnnVuzoMuVnByKK2qp0ag==}
 
+  '@types/estree@1.0.7':
+    resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
+
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
@@ -2201,8 +2204,8 @@ packages:
       eslint: '>=8'
       storybook: ^9.0.14
 
-  eslint-plugin-yaml@1.0.3:
-    resolution: {integrity: sha512-PNA2P38xFIrIdb82W0k66UPtpn0UHbPs8LxwtmZqG03PUzV1RE6OYFUi0pxL4LsFndHjgOyNlLqK2N5lGdX8ew==}
+  eslint-plugin-yaml@1.1.2:
+    resolution: {integrity: sha512-SV6fQ/+rI3caRyQy9RSNhE6IxSAqH1Pmpnj3AtcgEwmzfzhcOHgMTbUbaKytrpo/XxCtois7w9Ugbcd4URjJ6g==}
     engines: {node: '>=12'}
 
   eslint-scope@7.2.2:
@@ -2261,6 +2264,9 @@ packages:
   estraverse@5.3.0:
     resolution: {integrity: sha512-MMdARuVEQziNTeJD8DgMqmhwR11BRQ/cBP+pLtYdSTnf3MIO8fFeiINEbX36ZdNlfU/7A9f3gUw49B3oQsvwBA==}
     engines: {node: '>=4.0'}
+
+  estree-util-value-to-estree@3.3.2:
+    resolution: {integrity: sha512-hYH1aSvQI63Cvq3T3loaem6LW4u72F187zW4FHpTrReJSm6W66vYTFNO1vH/chmcOulp1HlAj1pxn8Ag0oXI5Q==}
 
   esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
@@ -4624,6 +4630,8 @@ snapshots:
       '@types/estree': 1.0.8
       '@types/json-schema': 7.0.15
 
+  '@types/estree@1.0.7': {}
+
   '@types/estree@1.0.8': {}
 
   '@types/json-schema@7.0.15': {}
@@ -5820,8 +5828,11 @@ snapshots:
       - supports-color
       - typescript
 
-  eslint-plugin-yaml@1.0.3:
+  eslint-plugin-yaml@1.1.2:
     dependencies:
+      '@types/estree': 1.0.7
+      eslint-plugin-yaml: 'link:'
+      estree-util-value-to-estree: 3.3.2
       js-yaml: 4.1.0
       jshint: 2.13.6
 
@@ -5947,6 +5958,10 @@ snapshots:
       estraverse: 5.3.0
 
   estraverse@5.3.0: {}
+
+  estree-util-value-to-estree@3.3.2:
+    dependencies:
+      '@types/estree': 1.0.8
 
   esutils@2.0.3: {}
 

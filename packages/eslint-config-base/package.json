@@ -44,7 +44,7 @@
     "eslint-plugin-markdownlint": "^0.9.0",
     "eslint-plugin-n": "^17.20.0",
     "eslint-plugin-oxlint": "^1.4.0",
-    "eslint-plugin-yaml": "~1.0.3",
+    "eslint-plugin-yaml": "~1.1.2",
     "globals": "^16.1.0",
     "mdast": "^3.0.0",
     "typescript-eslint": "^8.35.0"

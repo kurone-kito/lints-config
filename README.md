@@ -6,10 +6,12 @@
 
 <!-- markdownlint-enable MD045 -->
 
-My configuration for the ESLint / Prettier / TypeScript
+My configuration for the ESLint / Prettier / TypeScript and other tools
 
 ## Structure of the monorepo
 
+- [`packages/biome-config`](packages/biome-config/README.md):
+  My Biome configuration for general projects.
 - [`packages/commitlint-config`](packages/commitlint-config/README.md):
   My commitlint configuration for general projects.
 - [`packages/cspell-config`](packages/cspell-config/README.md):

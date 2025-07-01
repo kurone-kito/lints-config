@@ -57,7 +57,7 @@
     "@kurone-kito/prettier-config": "workspace:^",
     "@kurone-kito/typescript-config": "^0.20.0",
     "@types/eslint": "^9.6.1",
-    "@typescript-eslint/parser": "^8.35.0",
+    "@typescript-eslint/parser": "^8.35.1",
     "cspell": "^9.1.2",
     "eslint": "^9.30.0",
     "eslint-formatter-codeframe": "^7.32.1",

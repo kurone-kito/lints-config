@@ -4,8 +4,9 @@
 
 if [ ! -e packages/biome-config/biome.json ]; then
   corepack enable
-  corepack up
+  corepack install
+  pnpm install --prefer-frozen-lockfile --prefer-offline
   pnpm run build
 fi
 
-pnpm exec lint-staged
+pnpm exec lint-staged -r

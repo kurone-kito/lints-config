@@ -47,9 +47,6 @@ importers:
       '@kurone-kito/prettier-config':
         specifier: workspace:^
         version: link:packages/prettier-config
-      '@kurone-kito/typescript-config':
-        specifier: ^0.20.0
-        version: 0.20.0(typescript@5.8.3)
       '@types/eslint':
         specifier: ^9.6.1
         version: 9.6.1

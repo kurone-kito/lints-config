@@ -6,7 +6,7 @@
 
 <!-- markdownlint-enable MD045 -->
 
-My configuration for the ESLint / Prettier / TypeScript and other tools
+My configuration for the Biome / ESLint / Prettier and other tools
 
 ## Structure of the monorepo
 

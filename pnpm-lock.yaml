@@ -38,6 +38,9 @@ importers:
       '@kurone-kito/prettier-config':
         specifier: workspace:^
         version: link:packages/prettier-config
+      '@types/semver':
+        specifier: ^7.7.1
+        version: 7.7.1
       cspell:
         specifier: ^9.2.1
         version: 9.2.1
@@ -56,6 +59,9 @@ importers:
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
+      semver:
+        specifier: ^7.7.2
+        version: 7.7.2
       typescript:
         specifier: ~5.9.3
         version: 5.9.3
@@ -573,6 +579,9 @@ packages:
 
   '@types/node@24.0.7':
     resolution: {integrity: sha512-YIEUUr4yf8q8oQoXPpSlnvKNVKDQlPMWrmOcgzoduo7kvA2UF0/BwJ/eMKFTiTtkNL17I0M6Xe2tvwFU7be6iw==}
+
+  '@types/semver@7.7.1':
+    resolution: {integrity: sha512-FmgJfu+MOcQ370SD0ev7EI8TlCAfKYU+B4m5T3yXc1CiRN94g/SZPtsCkk506aUDtlMnFZvasDwHHUcZUEaYuA==}
 
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
@@ -1911,6 +1920,8 @@ snapshots:
   '@types/node@24.0.7':
     dependencies:
       undici-types: 7.8.0
+
+  '@types/semver@7.7.1': {}
 
   '@types/unist@2.0.11': {}
 

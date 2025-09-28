@@ -34,7 +34,7 @@
     "prepack": "pnpm run clean && pnpm run build"
   },
   "devDependencies": {
-    "cpy-cli": "^5.0.0",
+    "cpy-cli": "^6.0.0",
     "js-yaml": "^4.1.0",
     "rimraf": "^6.0.1"
   },

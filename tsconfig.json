@@ -2,9 +2,6 @@
   "files": [],
   "references": [
     { "path": "./packages/commitlint-config/tsconfig.json" },
-    { "path": "./packages/eslint-config-base/tsconfig.json" },
-    { "path": "./packages/eslint-config-react/tsconfig.json" },
-    { "path": "./packages/eslint-config-solid/tsconfig.json" },
     { "path": "./packages/lint-staged-config/tsconfig.json" }
   ]
 }

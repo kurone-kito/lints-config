@@ -17,17 +17,7 @@ Then, create a `.lintstagedrc.mjs` file.
 If exists, merge the following configuration into it:
 
 ```js
-import { useEslint } from '@kurone-kito/lint-staged-config';
-
-export default useEslint;
-```
-
-or
-
-```js
-import { useBiome } from '@kurone-kito/lint-staged-config';
-
-export default useBiome;
+export { default } from '@kurone-kito/lint-staged-config';
 ```
 
 ## License

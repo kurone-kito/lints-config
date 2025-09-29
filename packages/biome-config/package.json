@@ -37,7 +37,7 @@
     "rimraf": "^6.0.1"
   },
   "peerDependencies": {
-    "@biomejs/biome": "*"
+    "@biomejs/biome": ">=2.x.x"
   },
   "peerDependenciesMeta": {
     "@biomejs/biome": {

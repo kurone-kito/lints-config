@@ -1,12 +1,17 @@
-'$schema': https://biomejs.dev/schemas/1.9.4/schema.json
+'$schema': https://biomejs.dev/schemas/2.2.5/schema.json
+assist:
+  actions:
+    source:
+      organizeImports: 'on'
 files:
-  ignore:
-    - .*ignore
-    - biome.json
-    - package-lock.json
-    - pnpm-lock.yaml
-    - yarn.lock
   ignoreUnknown: true
+  includes:
+    - '**'
+    - '!**/.*ignore'
+    - '!**/biome.json'
+    - '!**/package-lock.json'
+    - '!**/pnpm-lock.yaml'
+    - '!**/yarn.lock'
 formatter:
   # Compatible with Prettier
   indentStyle: space
@@ -20,9 +25,10 @@ linter:
     complexity:
       # Tweak for TS4111
       useLiteralKeys: 'off'
-    recommended: true
-organizeImports:
-  enabled: true
+    suspicious:
+      # Tweak for Tailwind CSS v4+ (It'll fix in a Biome v2.3)
+      noUnknownAtRules: 'off'
+root: false
 vcs:
   clientKind: git
   enabled: true

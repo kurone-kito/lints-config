@@ -6,7 +6,7 @@
 
 <!-- markdownlint-enable MD045 -->
 
-My configuration for the Biome / CSpell / Prettier and other tools
+My configuration for the Biome / CSpell / lint-staged and other tools
 
 ## Structure of the monorepo
 
@@ -20,8 +20,6 @@ My configuration for the Biome / CSpell / Prettier and other tools
   My lint-staged configuration for general projects.
 - [`packages/markdownlint-config`](packages/markdownlint-config/README.md):
   My Markdownlint configuration for general projects.
-- [`packages/prettier-config`](packages/prettier-config/README.md):
-  My Prettier configuration for general projects.
 
 ### Moved packages
 

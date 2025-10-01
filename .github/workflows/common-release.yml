@@ -21,7 +21,7 @@ jobs:
       - name: Stages the pushed branch
         uses: actions/checkout@v4
       - name: Pre-prepare the Node.js environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version-file: .node-version
       - name: Install the latest corepack explicitly
@@ -29,7 +29,7 @@ jobs:
       - name: Enable the corepack
         run: corepack enable
       - name: Post-prepare the Node.js environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           cache: pnpm
           node-version-file: .node-version

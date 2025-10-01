@@ -39,7 +39,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-storybook": "^9.0.14",
-    "typescript-eslint": "^8.35.0"
+    "typescript-eslint": "^8.45.0"
   },
   "devDependencies": {
     "@kurone-kito/typescript-config": "^0.20.0",

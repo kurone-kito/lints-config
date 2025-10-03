@@ -6,7 +6,7 @@
 
 <!-- markdownlint-enable MD045 -->
 
-My configuration for the ESLint / Prettier / TypeScript and other tools
+My configuration for the Biome / CSpell / lint-staged and other tools
 
 ## Structure of the monorepo
 
@@ -16,18 +16,10 @@ My configuration for the ESLint / Prettier / TypeScript and other tools
   My commitlint configuration for general projects.
 - [`packages/cspell-config`](packages/cspell-config/README.md):
   My CSpell configuration for general projects.
-- [`packages/eslint-config-base`](packages/eslint-config-base/README.md):
-  My ESLint configuration for general projects.
-- [`packages/eslint-config-react`](packages/eslint-config-react/README.md):
-  My ESLint configuration for React projects.
-- [`packages/eslint-config-solid`](packages/eslint-config-solid/README.md):
-  My ESLint configuration for Solid.js projects.
 - [`packages/lint-staged-config`](packages/lint-staged-config/README.md):
   My lint-staged configuration for general projects.
 - [`packages/markdownlint-config`](packages/markdownlint-config/README.md):
   My Markdownlint configuration for general projects.
-- [`packages/prettier-config`](packages/prettier-config/README.md):
-  My Prettier configuration for general projects.
 
 ### Moved packages
 

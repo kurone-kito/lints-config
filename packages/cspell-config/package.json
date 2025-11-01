@@ -41,7 +41,7 @@
   "devDependencies": {
     "cpy-cli": "^6.0.0",
     "js-yaml": "^4.1.0",
-    "rimraf": "^6.0.1"
+    "rimraf": "^6.1.0"
   },
   "peerDependencies": {
     "cspell": "*"

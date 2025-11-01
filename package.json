@@ -58,7 +58,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.3",
     "markdownlint-cli2": "^0.18.1",
-    "rimraf": "^6.0.1",
+    "rimraf": "^6.1.0",
     "semver": "^7.7.2",
     "typescript": "~5.9.3"
   },

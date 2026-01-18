@@ -1,11 +1,5 @@
 # ⚙️ lints-config
 
-<!-- markdownlint-disable MD045 -->
-
-![](logo.png)
-
-<!-- markdownlint-enable MD045 -->
-
 My configuration for the Biome / CSpell / lint-staged and other tools
 
 ## Structure of the monorepo

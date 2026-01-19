@@ -23,8 +23,10 @@ dictionaries:
   - npm
   - powershell
   - php
+  - sql
   - shell
   - softwareTerms
+  - terraform
   - typescript
 enableGlobDot: true
 features:
@@ -58,3 +60,4 @@ words:
   - npmjs
   - oxlint
   - piyo
+  - solidjs

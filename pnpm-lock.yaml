@@ -29,15 +29,15 @@ importers:
       '@kurone-kito/cspell-config':
         specifier: workspace:^
         version: link:packages/cspell-config
+      '@kurone-kito/is-prerelease':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@kurone-kito/lint-staged-config':
         specifier: workspace:^
         version: link:packages/lint-staged-config
       '@kurone-kito/markdownlint-config':
         specifier: workspace:^
         version: link:packages/markdownlint-config
-      '@types/semver':
-        specifier: ^7.7.1
-        version: 7.7.1
       cspell:
         specifier: ^9.6.0
         version: 9.6.0
@@ -53,9 +53,6 @@ importers:
       rimraf:
         specifier: ^6.1.2
         version: 6.1.2
-      semver:
-        specifier: ^7.7.2
-        version: 7.7.3
       typescript:
         specifier: ~5.9.3
         version: 5.9.3
@@ -509,6 +506,11 @@ packages:
     resolution: {integrity: sha512-ZT55BDLV0yv0RBm2czMiZ+SqCGO7AvmOM3G/w2xhVPH+te0aKgFjmBvGlL1dH+ql2tgGO3MVrbb3jCKyvpgnxA==}
     engines: {node: 20 || >=22}
 
+  '@kurone-kito/is-prerelease@0.1.0':
+    resolution: {integrity: sha512-+borQVaj0WocBjGrhGjFjqNlSLxvbyOJ808mtIRZa4K8fe9eVLU1YF43qUIzCi6WtyF4z5jtHaAXiwtgJ8tQfg==}
+    engines: {node: ^20.11 || ^22 || >=24}
+    hasBin: true
+
   '@kurone-kito/typescript-config@0.20.0':
     resolution: {integrity: sha512-i36Ch1P8FntbzOTZTJQ3IGGIjokcqm3TwwFIYnJMxRuH+iD5IJWoNG46xFOsMlQyc8IOmWTqN+rXbF1l93MZiQ==}
     engines: {node: ^20.11 || ^22 || >=24}
@@ -517,6 +519,14 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  '@kurone-kito/web-toybox-node@0.1.0-alpha.11':
+    resolution: {integrity: sha512-YihUvTaHCLwgOFmH9Sa9XzhZKuE0ZlblK0l9RsJ5/tAY32jr5HzmFY1VaN8YLuFEFLrbkUXdOXXmVNaYikG4Ig==}
+    engines: {node: ^20.11 || ^22 || >=24}
+
+  '@kurone-kito/web-toybox@0.1.0-alpha.11':
+    resolution: {integrity: sha512-OV6sgclo8lZ2eGGHiCNHeFDL2XIMQYRzQcYEsdrL3yab2mjin4HuqKxpXWPxUQOc6zn1GIksU/8pcppvTMqosg==}
+    engines: {node: ^20.11 || ^22 || >=24}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -552,9 +562,6 @@ packages:
 
   '@types/node@24.6.2':
     resolution: {integrity: sha512-d2L25Y4j+W3ZlNAeMKcy7yDsK425ibcAOO2t7aPTz6gNMH0z2GThtwENCDc0d/Pw9wgyRqE5Px1wkV7naz8ang==}
-
-  '@types/semver@7.7.1':
-    resolution: {integrity: sha512-FmgJfu+MOcQ370SD0ev7EI8TlCAfKYU+B4m5T3yXc1CiRN94g/SZPtsCkk506aUDtlMnFZvasDwHHUcZUEaYuA==}
 
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
@@ -1340,6 +1347,10 @@ packages:
     resolution: {integrity: sha512-gmBGslpoQJtgnMAvOVqGZpEz9dyoKTCzy2nfz/n8aIFhN/jCE/rCmcxabB6jOOHV+0WNnylOxaxBQPSvcWklhA==}
     engines: {node: '>=12'}
 
+  tagged-tag@1.0.0:
+    resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
+    engines: {node: '>=20'}
+
   text-extensions@2.4.0:
     resolution: {integrity: sha512-te/NtwBwfiNRLf9Ijqx3T0nlqZiQ2XrrtBvu+cLL8ZRrGkO0NHTug8MYFKyoSrv/sHTaSKfilUkizV6XhxMJ3g==}
     engines: {node: '>=8'}
@@ -1357,6 +1368,10 @@ packages:
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
+
+  type-fest@5.4.1:
+    resolution: {integrity: sha512-xygQcmneDyzsEuKZrFbRMne5HDqMs++aFzefrJTgEIKjQ3rekM+RPfFCVq2Gp1VIDqddoYeppCj4Pcb+RZW0GQ==}
+    engines: {node: '>=20'}
 
   typescript@5.9.3:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
@@ -1791,9 +1806,22 @@ snapshots:
     dependencies:
       '@isaacs/balanced-match': 4.0.1
 
+  '@kurone-kito/is-prerelease@0.1.0':
+    dependencies:
+      '@kurone-kito/web-toybox-node': 0.1.0-alpha.11
+      semver: 7.7.3
+
   '@kurone-kito/typescript-config@0.20.0(typescript@5.9.3)':
     optionalDependencies:
       typescript: 5.9.3
+
+  '@kurone-kito/web-toybox-node@0.1.0-alpha.11':
+    dependencies:
+      '@kurone-kito/web-toybox': 0.1.0-alpha.11
+
+  '@kurone-kito/web-toybox@0.1.0-alpha.11':
+    dependencies:
+      type-fest: 5.4.1
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -1826,8 +1854,6 @@ snapshots:
   '@types/node@24.6.2':
     dependencies:
       undici-types: 7.13.0
-
-  '@types/semver@7.7.1': {}
 
   '@types/unist@2.0.11': {}
 
@@ -2689,6 +2715,8 @@ snapshots:
     dependencies:
       ansi-regex: 6.2.2
 
+  tagged-tag@1.0.0: {}
+
   text-extensions@2.4.0: {}
 
   through@2.3.8: {}
@@ -2703,6 +2731,10 @@ snapshots:
   to-regex-range@5.0.1:
     dependencies:
       is-number: 7.0.0
+
+  type-fest@5.4.1:
+    dependencies:
+      tagged-tag: 1.0.0
 
   typescript@5.9.3: {}
 

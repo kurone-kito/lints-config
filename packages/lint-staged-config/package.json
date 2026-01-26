@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/lint-staged-config",
-  "version": "0.21.0",
+  "version": "0.22.0-alpha.4",
   "description": "My lint-staged configuration for general projects",
   "keywords": [
     "config",
@@ -31,9 +31,9 @@
     "start": "tsc --watch"
   },
   "devDependencies": {
-    "@kurone-kito/typescript-config": "^0.20.0",
+    "@kurone-kito/typescript-config": "^0.22.0-alpha.4",
     "cpy-cli": "^6.0.0",
-    "rimraf": "^6.0.1",
+    "rimraf": "^6.1.2",
     "typescript": "~5.9.3"
   },
   "peerDependencies": {

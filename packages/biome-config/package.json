@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/biome-config",
-  "version": "0.21.0",
+  "version": "0.22.0-alpha.4",
   "description": "My Biome configuration for general projects",
   "keywords": [
     "biome",
@@ -33,11 +33,11 @@
   },
   "devDependencies": {
     "cpy-cli": "^6.0.0",
-    "js-yaml": "^4.1.0",
-    "rimraf": "^6.0.1"
+    "js-yaml": "^4.1.1",
+    "rimraf": "^6.1.2"
   },
   "peerDependencies": {
-    "@biomejs/biome": ">=2.x.x"
+    "@biomejs/biome": ">=2.3.x"
   },
   "peerDependenciesMeta": {
     "@biomejs/biome": {

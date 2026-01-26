@@ -1,4 +1,5 @@
 {
+  "editor.defaultFormatter": "biomejs.biome",
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
@@ -21,16 +22,26 @@
     "**/node_modules/**/*": true
   },
   "files.watcherExclude": {
+    "**/*.tgz": true,
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/.husky/_/**": true,
     "**/node_modules/**/*": true,
     "**/packages/**/*.tsbuildinfo": true
   },
   "git.branchProtection": ["main"],
+  "material-icon-theme.files.associations": {
+    ".imgbotconfig": "robots"
+  },
+  "material-icon-theme.folders.associations": {
+    ".vim": "command"
+  },
   "search.exclude": {
     "**/node_modules/**/*": true
   },
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "yaml.schemas": {
-    "https://biomejs.dev/schemas/2.2.5/schema.json": ["biome.yml"],
+    "https://biomejs.dev/schemas/2.3.12/schema.json": ["biome.yml"],
     "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/packages/cspell-types/cspell.schema.json": [
       "cspell.config.yml"
     ],

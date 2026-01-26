@@ -25,13 +25,13 @@ jobs:
           git config --global core.autocrlf false
           git config --global core.eol lf
       - name: Stages the pushed branch
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Setup the pnpm
         uses: pnpm/action-setup@v4
         with:
           run_install: false
       - name: Prepare the Node.js version ${{ matrix.node-version }} environment
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           cache: pnpm
           check-latest: true
@@ -50,6 +50,7 @@ jobs:
           - 20.x
           - 22.x
           - 24.x
+          - 25.x
         platform:
           - os: ubuntu-latest
             shell: bash

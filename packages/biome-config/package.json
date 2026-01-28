@@ -33,9 +33,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.9",
-    "cpy-cli": "^6.0.0",
+    "cpy-cli": "^7.0.0",
     "js-yaml": "^4.1.1",
-    "rimraf": "^6.1.2"
+    "rimraf": "^6.1.3"
   },
   "peerDependencies": {
     "@biomejs/biome": ">=2.4.x"

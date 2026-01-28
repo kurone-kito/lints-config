@@ -35,11 +35,11 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^20.3.1",
-    "@kurone-kito/typescript-config": "^0.22.0-alpha.4",
-    "cpy-cli": "^6.0.0",
+    "@kurone-kito/typescript-config": "^0.22.0-alpha.8",
+    "cpy-cli": "^7.0.0",
     "js-yaml": "^4.1.1",
-    "rimraf": "^6.1.2",
-    "typescript": "~5.9.3"
+    "rimraf": "^6.1.3",
+    "typescript": "~6.0.2"
   },
   "peerDependencies": {
     "@commitlint/config-conventional": ">=19.x.x"

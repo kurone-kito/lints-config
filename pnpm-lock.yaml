@@ -60,11 +60,10 @@ importers:
         version: 6.0.2
 
   packages/biome-config:
-    dependencies:
-      '@biomejs/biome':
-        specifier: '>=2.3.x'
-        version: 2.4.9
     devDependencies:
+      '@biomejs/biome':
+        specifier: ^2.4.9
+        version: 2.4.9
       cpy-cli:
         specifier: ^6.0.0
         version: 6.0.0

@@ -1,5 +1,11 @@
 # `@kurone-kito/cspell-config`
 
+![NPM Version](https://img.shields.io/npm/v/%40kurone-kito%2Fcspell-config)
+![Node Current](https://img.shields.io/node/v/%40kurone-kito%2Fcspell-config)
+![NPM Last Update](https://img.shields.io/npm/last-update/%40kurone-kito%2Fcspell-config)
+![NPM Downloads](https://img.shields.io/npm/dy/%40kurone-kito%2Fcspell-config)
+![npms.io](https://img.shields.io/npms-io/final-score/%40kurone-kito/cspell-config)
+
 My CSpell configuration for general Node.js projects.
 
 ## Usage

@@ -1,18 +1,25 @@
 # ⚙️ lints-config
 
+![GitHub package.json version](https://img.shields.io/github/package-json/v/kurone-kito/lints-config)
+
 My configuration for the Biome / CSpell / lint-staged and other tools
 
 ## Structure of the monorepo
 
-- [`packages/biome-config`](packages/biome-config/README.md):
+- ![NPM Downloads](https://img.shields.io/npm/dy/%40kurone-kito%2Fbiome-config)
+  [`packages/biome-config`](packages/biome-config/README.md):
   My Biome configuration for general projects.
-- [`packages/commitlint-config`](packages/commitlint-config/README.md):
+- ![NPM Downloads](https://img.shields.io/npm/dy/%40kurone-kito%2Fcommitlint-config)
+  [`packages/commitlint-config`](packages/commitlint-config/README.md):
   My commitlint configuration for general projects.
-- [`packages/cspell-config`](packages/cspell-config/README.md):
+- ![NPM Downloads](https://img.shields.io/npm/dy/%40kurone-kito%2Fcspell-config)
+  [`packages/cspell-config`](packages/cspell-config/README.md):
   My CSpell configuration for general projects.
-- [`packages/lint-staged-config`](packages/lint-staged-config/README.md):
+- ![NPM Downloads](https://img.shields.io/npm/dy/%40kurone-kito%2Flint-staged-config)
+  [`packages/lint-staged-config`](packages/lint-staged-config/README.md):
   My lint-staged configuration for general projects.
-- [`packages/markdownlint-config`](packages/markdownlint-config/README.md):
+- ![NPM Downloads](https://img.shields.io/npm/dy/%40kurone-kito%2Fmarkdownlint-config)
+  [`packages/markdownlint-config`](packages/markdownlint-config/README.md):
   My Markdownlint configuration for general projects.
 
 ### Moved packages

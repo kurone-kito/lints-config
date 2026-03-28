@@ -1,5 +1,11 @@
 # `@kurone-kito/lint-staged-config`
 
+![NPM Version](https://img.shields.io/npm/v/%40kurone-kito%2Flint-staged-config)
+![Node Current](https://img.shields.io/node/v/%40kurone-kito%2Flint-staged-config)
+![NPM Last Update](https://img.shields.io/npm/last-update/%40kurone-kito%2Flint-staged-config)
+![NPM Downloads](https://img.shields.io/npm/dy/%40kurone-kito%2Flint-staged-config)
+![npms.io](https://img.shields.io/npms-io/final-score/%40kurone-kito/lint-staged-config)
+
 My lint-staged configuration for any projects
 
 ## Usage

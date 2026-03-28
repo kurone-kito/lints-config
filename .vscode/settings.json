@@ -7,7 +7,7 @@
     "*.d.mts": "${capture}.d.mts*, ${capture}.mjs*",
     "*.md": "${capture}.*.md",
     "*.yml": "${capture}.json",
-    ".gitattributes": ".gitignore",
+    ".gitattributes": ".gitignore, .gitmessage",
     ".markdownlint.*": ".markdownlint-cli2.*",
     ".tool-versions": ".node-version, .nvmrc",
     "package.json": ".npmrc, pnpm-lock.yaml, pnpm-workspace.yaml",
@@ -15,6 +15,7 @@
   },
   "files.associations": {
     "*.map": "json",
+    ".gitmessage": "git-commit",
     ".imgbotconfig": "json",
     "LICENSE": "plaintext"
   },
@@ -42,11 +43,7 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "yaml.schemas": {
     "https://biomejs.dev/schemas/2.3.12/schema.json": ["biome.yml"],
-    "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/packages/cspell-types/cspell.schema.json": [
-      "cspell.config.yml"
-    ],
-    "https://storage.googleapis.com/coderabbit_public_assets/schema.v2.json": [
-      ".coderabbit.yaml"
-    ]
+    "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/packages/cspell-types/cspell.schema.json": ".cspell.config.yml",
+    "https://storage.googleapis.com/coderabbit_public_assets/schema.v2.json": ".coderabbit.yaml"
   }
 }

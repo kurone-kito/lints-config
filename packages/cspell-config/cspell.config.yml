@@ -3,6 +3,7 @@ dictionaries:
   - bash
   - companies
   - cpp
+  - cpp-compound-words
   - csharp
   - css
   - docker
@@ -46,18 +47,15 @@ ignorePaths:
 ignoreRegExpList:
   # Ignore the scope name of the packages.
   - '@[a-zA-Z0-9_-]+/'
-language: en,eo,ja
+  - kuroné?
+language: en,ja
 useGitignore: true
 version: '0.2'
 words:
   - fuga
   - hoge
   - kito
-  - kuron
-  - kuroné
   - lintstagedrc
-  - noconflict
-  - npmjs
   - oxlint
   - piyo
   - solidjs

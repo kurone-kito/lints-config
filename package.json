@@ -46,7 +46,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.3.13",
     "@commitlint/cli": "^20.3.1",
-    "@commitlint/config-conventional": "^20.3.1",
+    "@commitlint/config-conventional": "^20.5.3",
     "@cspell/cspell-types": "^9.6.2",
     "@kurone-kito/biome-config": "workspace:^",
     "@kurone-kito/commitlint-config": "workspace:^",

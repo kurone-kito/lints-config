@@ -13,7 +13,7 @@ importers:
         version: 2.3.13
       '@commitlint/cli':
         specifier: ^20.3.1
-        version: 20.3.1(@types/node@25.0.10)(typescript@5.9.3)
+        version: 20.3.1(@types/node@25.0.10)(typescript@6.0.3)
       '@commitlint/config-conventional':
         specifier: ^20.3.1
         version: 20.3.1
@@ -54,8 +54,8 @@ importers:
         specifier: ^6.1.2
         version: 6.1.2
       typescript:
-        specifier: ~5.9.3
-        version: 5.9.3
+        specifier: ~6.0.3
+        version: 6.0.3
 
   packages/biome-config:
     dependencies:
@@ -80,7 +80,7 @@ importers:
         version: 20.3.1
       '@kurone-kito/typescript-config':
         specifier: ^0.22.0-alpha.4
-        version: 0.22.0-alpha.4(typescript@5.9.3)
+        version: 0.22.0-alpha.4(typescript@6.0.3)
       cpy-cli:
         specifier: ^6.0.0
         version: 6.0.0
@@ -91,8 +91,8 @@ importers:
         specifier: ^6.1.2
         version: 6.1.2
       typescript:
-        specifier: ~5.9.3
-        version: 5.9.3
+        specifier: ~6.0.3
+        version: 6.0.3
 
   packages/cspell-config:
     dependencies:
@@ -121,7 +121,7 @@ importers:
     devDependencies:
       '@kurone-kito/typescript-config':
         specifier: ^0.22.0-alpha.4
-        version: 0.22.0-alpha.4(typescript@5.9.3)
+        version: 0.22.0-alpha.4(typescript@6.0.3)
       cpy-cli:
         specifier: ^6.0.0
         version: 6.0.0
@@ -129,8 +129,8 @@ importers:
         specifier: ^6.1.2
         version: 6.1.2
       typescript:
-        specifier: ~5.9.3
-        version: 5.9.3
+        specifier: ~6.0.3
+        version: 6.0.3
 
   packages/markdownlint-config:
     devDependencies:
@@ -1378,8 +1378,8 @@ packages:
     resolution: {integrity: sha512-xygQcmneDyzsEuKZrFbRMne5HDqMs++aFzefrJTgEIKjQ3rekM+RPfFCVq2Gp1VIDqddoYeppCj4Pcb+RZW0GQ==}
     engines: {node: '>=20'}
 
-  typescript@5.9.3:
-    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
+  typescript@6.0.3:
+    resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -1481,11 +1481,11 @@ snapshots:
   '@biomejs/cli-win32-x64@2.3.13':
     optional: true
 
-  '@commitlint/cli@20.3.1(@types/node@25.0.10)(typescript@5.9.3)':
+  '@commitlint/cli@20.3.1(@types/node@25.0.10)(typescript@6.0.3)':
     dependencies:
       '@commitlint/format': 20.3.1
       '@commitlint/lint': 20.3.1
-      '@commitlint/load': 20.3.1(@types/node@25.0.10)(typescript@5.9.3)
+      '@commitlint/load': 20.3.1(@types/node@25.0.10)(typescript@6.0.3)
       '@commitlint/read': 20.3.1
       '@commitlint/types': 20.3.1
       tinyexec: 1.0.2
@@ -1532,15 +1532,15 @@ snapshots:
       '@commitlint/rules': 20.3.1
       '@commitlint/types': 20.3.1
 
-  '@commitlint/load@20.3.1(@types/node@25.0.10)(typescript@5.9.3)':
+  '@commitlint/load@20.3.1(@types/node@25.0.10)(typescript@6.0.3)':
     dependencies:
       '@commitlint/config-validator': 20.3.1
       '@commitlint/execute-rule': 20.0.0
       '@commitlint/resolve-extends': 20.3.1
       '@commitlint/types': 20.3.1
       chalk: 5.6.2
-      cosmiconfig: 9.0.0(typescript@5.9.3)
-      cosmiconfig-typescript-loader: 6.2.0(@types/node@25.0.10)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3)
+      cosmiconfig: 9.0.0(typescript@6.0.3)
+      cosmiconfig-typescript-loader: 6.2.0(@types/node@25.0.10)(cosmiconfig@9.0.0(typescript@6.0.3))(typescript@6.0.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -1822,9 +1822,9 @@ snapshots:
       '@kurone-kito/web-toybox-node': 0.1.0-alpha.11
       semver: 7.7.3
 
-  '@kurone-kito/typescript-config@0.22.0-alpha.4(typescript@5.9.3)':
+  '@kurone-kito/typescript-config@0.22.0-alpha.4(typescript@6.0.3)':
     optionalDependencies:
-      typescript: 5.9.3
+      typescript: 6.0.3
 
   '@kurone-kito/web-toybox-node@0.1.0-alpha.11':
     dependencies:
@@ -1981,21 +1981,21 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
-  cosmiconfig-typescript-loader@6.2.0(@types/node@25.0.10)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3):
+  cosmiconfig-typescript-loader@6.2.0(@types/node@25.0.10)(cosmiconfig@9.0.0(typescript@6.0.3))(typescript@6.0.3):
     dependencies:
       '@types/node': 25.0.10
-      cosmiconfig: 9.0.0(typescript@5.9.3)
+      cosmiconfig: 9.0.0(typescript@6.0.3)
       jiti: 2.6.1
-      typescript: 5.9.3
+      typescript: 6.0.3
 
-  cosmiconfig@9.0.0(typescript@5.9.3):
+  cosmiconfig@9.0.0(typescript@6.0.3):
     dependencies:
       env-paths: 2.2.1
       import-fresh: 3.3.1
       js-yaml: 4.1.1
       parse-json: 5.2.0
     optionalDependencies:
-      typescript: 5.9.3
+      typescript: 6.0.3
 
   cpy-cli@6.0.0:
     dependencies:
@@ -2740,7 +2740,7 @@ snapshots:
     dependencies:
       tagged-tag: 1.0.0
 
-  typescript@5.9.3: {}
+  typescript@6.0.3: {}
 
   uc.micro@2.1.0: {}
 

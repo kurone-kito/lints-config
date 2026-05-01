@@ -34,7 +34,7 @@
     "@kurone-kito/typescript-config": "^0.22.0-alpha.4",
     "cpy-cli": "^6.0.0",
     "rimraf": "^6.1.2",
-    "typescript": "~5.9.3"
+    "typescript": "~6.0.3"
   },
   "peerDependencies": {
     "cspell": ">=5.7.x",

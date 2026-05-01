@@ -79,8 +79,8 @@ importers:
         specifier: ^20.3.1
         version: 20.3.1
       '@kurone-kito/typescript-config':
-        specifier: ^0.22.0-alpha.4
-        version: 0.22.0-alpha.4(typescript@5.9.3)
+        specifier: ^0.22.0-alpha.9
+        version: 0.22.0-alpha.9(typescript@5.9.3)
       cpy-cli:
         specifier: ^6.0.0
         version: 6.0.0
@@ -120,8 +120,8 @@ importers:
         version: 16.2.7
     devDependencies:
       '@kurone-kito/typescript-config':
-        specifier: ^0.22.0-alpha.4
-        version: 0.22.0-alpha.4(typescript@5.9.3)
+        specifier: ^0.22.0-alpha.9
+        version: 0.22.0-alpha.9(typescript@5.9.3)
       cpy-cli:
         specifier: ^6.0.0
         version: 6.0.0
@@ -523,11 +523,11 @@ packages:
     engines: {node: ^20.11 || ^22 || >=24}
     hasBin: true
 
-  '@kurone-kito/typescript-config@0.22.0-alpha.4':
-    resolution: {integrity: sha512-3Etbn6PCPxFyV5BKgZB+2+zGJxSvUF2IObshxXsnefcNShfrHnb0+ImvLBGCizzRmd5Q7xZ32rh1+FtMzgt35w==}
-    engines: {node: ^20.11 || ^22 || >=24}
+  '@kurone-kito/typescript-config@0.22.0-alpha.9':
+    resolution: {integrity: sha512-DUezgnyxb06RIMdf99/6cG6zovzA3DOECPH8OQjoAcSz5U9OXSV1lXqE9NmhvAowU3ugauBbW3Is/bXB9q98WQ==}
+    engines: {node: ^20.18 || ^22 || >=24}
     peerDependencies:
-      typescript: '>=5.7.x'
+      typescript: '>=6.0.x'
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -1822,7 +1822,7 @@ snapshots:
       '@kurone-kito/web-toybox-node': 0.1.0-alpha.11
       semver: 7.7.3
 
-  '@kurone-kito/typescript-config@0.22.0-alpha.4(typescript@5.9.3)':
+  '@kurone-kito/typescript-config@0.22.0-alpha.9(typescript@5.9.3)':
     optionalDependencies:
       typescript: 5.9.3
 

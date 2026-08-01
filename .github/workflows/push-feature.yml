@@ -40,8 +40,8 @@ jobs:
           HUSKY: 0
         name: Install the dependencies and build the project
         run: pnpm install --frozen-lockfile --prefer-offline
-      - name: Check the code style
-        run: pnpm run lint
+      - name: Check the code style and run the test suite
+        run: pnpm run test
     strategy:
       matrix:
         node-version:

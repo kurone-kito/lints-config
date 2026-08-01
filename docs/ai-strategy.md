@@ -42,4 +42,5 @@ of issues from claim through merge — see `docs/idd-policy.md`.
   instruction file for any agent.
 - When updating AI guidance, review `README.md`,
   `.github/copilot-instructions.md`, `AGENTS.md`, `CLAUDE.md`,
-  `GEMINI.md`, and `docs/idd-policy.md` together.
+  `GEMINI.md`, `docs/idd-policy.md`, and `.github/instructions/`
+  together.

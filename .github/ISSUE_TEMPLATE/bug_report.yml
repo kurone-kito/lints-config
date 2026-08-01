@@ -52,8 +52,10 @@ body:
     id: environment
     attributes:
       label: Environment Details
-      description: Please provide details about your environment.
-      value: |
+      description: Please provide details about your environment. Remove
+        any secrets, credentials, tokens, or personal data before
+        submitting.
+      placeholder: |
         - Target deployment platform: [e.g. AWS/GCP/local cluster/etc...]
         - Target OS: [e.g. RHEL 9/Ubuntu 24.04/etc...]
         - Version of this project or specific commit: [e.g. 1.4.3/commit hash]
@@ -65,5 +67,7 @@ body:
     id: context
     attributes:
       label: Additional Context
-      description: Add any other context about the problem here.
+      description: Add any other context about the problem here. Remove
+        any secrets, credentials, tokens, or personal data before
+        submitting.
       placeholder: Feel free to add any other context/information/screenshots/etc... that you think might be relevant to this issue in here.

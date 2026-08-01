@@ -11,11 +11,18 @@ jobs:
     steps:
       - uses: actions/stale@v10
         with:
+          # IDD (see docs/idd-policy.md) relies on long-lived, deliberately
+          # inactive issues: roadmap coordination nodes and tracks blocked
+          # on siblings or a maintainer decision. The labels below are
+          # IDD's reserved label taxonomy (docs/idd-policy.md § Label
+          # Names) plus the issue-authoring hold label — keep this list in
+          # sync with that taxonomy rather than pruning it casually.
           days-before-close: 14
+          days-before-pr-stale: -1
           days-before-stale: 60
           close-issue-message: StaleBot closed the issue due to prolonged inactivity.
           close-pr-message: StaleBot closed the pull request due to prolonged inactivity.
-          exempt-issue-labels: bug,enhancement
+          exempt-issue-labels: bug,enhancement,roadmap,status:blocked-by-human,status:needs-decision,status:authoring,idd:ready
           exempt-pr-labels: bug,enhancement
           stale-issue-label: stale
           stale-issue-message: StaleBot marked the issue as stale because there has been no activity.

@@ -63,9 +63,55 @@ no longer denies `node scripts/idd-merge-execute.mjs` /
 `pnpm-lock.yaml` are the evidence).
 
 The helper package (`@kurone-kito/idd-skill`) is not published to npm,
-so it resolves from a GitHub archive URL. The archive **must be
-pinned** to a reviewed commit or tag rather than `refs/heads/main` —
-tracked by #174.
+so it resolves from a GitHub archive URL. `devDependencies` pins it
+(wired in issue #174) to a reviewed commit archive rather than
+`refs/heads/main`:
+
+```text
+https://codeload.github.com/kurone-kito/idd-skill/tar.gz/f515fc34befc9026bdce4686fc6e41cc90e15c1d
+```
+
+**Why pinned**: `refs/heads/main` is a floating ref — its content
+changes on every upstream merge, so a `pnpm-lock.yaml` entry recorded
+against it goes stale silently. `pnpm install --frozen-lockfile` in CI
+would then either keep resolving a months-old integrity hash or start
+failing after an unrelated upstream push. Upstream's own manifest
+generator flags this directly: *"Pass `--package-spec` with a pinned
+tarball URL or reviewed commit archive when you need reproducible
+helper imports."*
+
+**Bump procedure**: review the upstream diff between the current pin
+and the target commit/tag, then regenerate the manifest against the
+new spec and reapply it:
+
+This repository has no local `scripts/` directory — the
+`package-manager` profile installs the manifest generator as a wired
+bin instead, so invoke it that way rather than the upstream source
+repository's own `node scripts/helper-runtime-manifest.mjs` form:
+
+```sh
+pnpm exec idd-helper-bundle-manifest --profile package-manager \
+  --package-manager pnpm \
+  --package-spec https://codeload.github.com/kurone-kito/idd-skill/tar.gz/<new-commit-sha>
+```
+
+Apply the manifest's `managedDependencies` and
+`managedPackageJsonScripts` output to `package.json` **in full** (not
+a hand-picked subset — a trimmed copy makes the manifest's own
+`--from-profile` diffing report phantom changes when switching
+profiles later), refresh `pnpm-lock.yaml`, and re-verify `pnpm run
+idd:doctor` emits a real verdict. `pnpm-workspace.yaml`'s
+`allowBuilds` entry for this package must be updated to the new pinned
+spec string in the same change, or the install fails closed with an
+`ERR_PNPM_GIT_DEP_PREPARE_NOT_ALLOWED` error.
+
+**Trade-offs accepted, not overlooked** (recorded per #174): `pnpm
+install` now depends on GitHub's codeload archive endpoint being
+reachable on every CI matrix job. The 38 `idd:*` scripts this profile
+adds are a real footprint increase for an otherwise small root
+`package.json` — the `instructions-only` alternative (zero dependency,
+zero scripts, at the cost of losing helper-collected evidence) was
+considered and rejected on 2026-07-27.
 
 ## Issue-Author Approval Gate
 

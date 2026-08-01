@@ -80,7 +80,8 @@
     "prepare": "husky && pnpm run build",
     "publish": "pnpm -r publish",
     "publish:next": "pnpm -r publish --tag next",
-    "test": "pnpm run lint"
+    "test": "pnpm run lint && pnpm run test:packaging",
+    "test:packaging": "node --test --test-concurrency=1 test/pack-contents.test.mjs test/exports-resolution.test.mjs test/lint-staged-shape.test.mjs test/tool-integration.test.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.2",

@@ -1,12 +1,26 @@
 version: 2
 updates:
   - directory: /
+    groups:
+      actions-minor:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
     labels:
       - dependencies
     package-ecosystem: github-actions
     schedule:
       interval: monthly
   - directory: /
+    groups:
+      npm-minor:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
     labels:
       - dependencies
     package-ecosystem: npm

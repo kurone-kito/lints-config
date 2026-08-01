@@ -77,7 +77,7 @@
     "lint:markdown:check": "markdownlint-cli2 \"**/*.md\"",
     "lint:markdown:fix": "markdownlint-cli2 --fix \"**/*.md\"",
     "postlint:fix": "pnpm run lint:cspell:check",
-    "prepare": "husky",
+    "prepare": "husky && pnpm run build",
     "publish": "pnpm -r publish",
     "publish:next": "pnpm -r publish --tag next",
     "test": "pnpm run lint"

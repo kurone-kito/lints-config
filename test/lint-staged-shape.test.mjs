@@ -1,10 +1,13 @@
 import { strict as assert } from 'node:assert';
 import { test } from 'node:test';
-import lintStagedConfig, {
-  useBiome,
-} from '../packages/lint-staged-config/dist/index.mjs';
 
-test("lint-staged-config's default export is a glob-to-commands map", () => {
+test("lint-staged-config's default export is a glob-to-commands map", async () => {
+  // Imported inside the test body, not at module scope: `dist/index.mjs` is
+  // a build artifact, and a static top-level import would abort the whole
+  // file before this test can report a normal assertion failure.
+  const { default: lintStagedConfig, useBiome } = await import(
+    '../packages/lint-staged-config/dist/index.mjs'
+  );
   assert.equal(lintStagedConfig, useBiome);
   assert.equal(typeof lintStagedConfig, 'object');
   const globs = Object.keys(lintStagedConfig);

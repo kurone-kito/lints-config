@@ -1,5 +1,5 @@
 {
-  "$comment": "Opt-in curated Claude Code permission baseline for repositories that import this template. See docs/permissions.md#claude-code-permission-baseline before adopting it. This baseline deliberately excludes merge-capable operations by default: no `gh pr merge` allow, and a deny on `node scripts/idd-merge-execute.mjs` / `node bin/idd-merge-execute.mjs` so the broad scripts/bin helper allow below does not casually reintroduce that same merge capability via --apply -- see docs/permissions.md for this deny's known path-alias limitation (it is not adversarial-proof, only a default-off guard). Add `gh pr merge` and remove that deny yourself only after your repository records `fully_autonomous_merge` (see docs/permissions.md#merge-policy-profiles). `gh api` is deliberately NOT allowlisted here at all -- see the gh-api DELETE-verb trap in docs/permissions.md before adding any `gh api` entry yourself. Personal additions belong in .claude/settings.local.json, which layers on top of this file.",
+  "$comment": "Curated Claude Code permission baseline for this repository, upgraded from the opt-in template baseline once this repository recorded `fully_autonomous_merge` (see docs/idd-policy.md and docs/permissions.md#merge-policy-profiles). See docs/permissions.md#claude-code-permission-baseline for the rationale, scope, and known flag/path matching gotchas. `gh api` is deliberately NOT allowlisted here (see the gh-api DELETE-verb trap in the doc); the DELETE-verb deny entries below are defense in depth if a future edit adds one back. Personal additions belong in .claude/settings.local.json, which layers on top of this file.",
   "permissions": {
     "allow": [
       "Bash(git status*)",
@@ -28,6 +28,7 @@
       "Bash(gh pr comment*)",
       "Bash(gh pr edit*)",
       "Bash(gh pr review*)",
+      "Bash(gh pr merge*)",
       "Bash(gh label list*)",
       "Bash(gh label create*)",
       "Bash(gh search*)",
@@ -47,9 +48,7 @@
       "Bash(gh issue delete*)",
       "Bash(gh api -X DELETE*)",
       "Bash(gh api --method DELETE*)",
-      "Bash(gh api --method=DELETE*)",
-      "Bash(node scripts/idd-merge-execute.mjs*)",
-      "Bash(node bin/idd-merge-execute.mjs*)"
+      "Bash(gh api --method=DELETE*)"
     ]
   }
 }

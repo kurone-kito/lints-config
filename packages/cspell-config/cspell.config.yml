@@ -50,16 +50,33 @@ language: en,eo,ja
 useGitignore: true
 version: '0.2'
 words:
+  - dedup
+  - deprioritize
   - desync
+  - desynced
+  - esync
   - fuga
   - hoge
+  - isort
   - kito
   - kuron
   - kuroné
   - lintstagedrc
   - noconflict
   - npmjs
+  - onnx
   - oxlint
   - piyo
+  - pylint
+  - pyproject
+  - pytest
+  - qwen
   - solidjs
+  - toctou
   - undispositioned
+  - unioned
+  - unpushed
+  - unreplied
+  - unscored
+  - unwaived
+  - waivable

@@ -11,6 +11,6 @@ pmOnFail: warn
 shellEmulator: true
 
 # Prevent parallel execution of publish. Since no `--workspace-concurrency`
-# option exists for pnpm publish, we're increasing the number from 1 as
-# necessary.
+# option exists for pnpm publish, keep this at 1 to serialize publishes;
+# only raise it if that policy changes.
 workspaceConcurrency: 1

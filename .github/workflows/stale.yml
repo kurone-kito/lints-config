@@ -13,10 +13,12 @@ jobs:
         with:
           # IDD (see docs/idd-policy.md) relies on long-lived, deliberately
           # inactive issues: roadmap coordination nodes and tracks blocked
-          # on siblings or a maintainer decision. The labels below are
-          # IDD's reserved label taxonomy (docs/idd-policy.md § Label
-          # Names) plus the issue-authoring hold label — keep this list in
-          # sync with that taxonomy rather than pruning it casually.
+          # on siblings or a maintainer decision. exempt-issue-labels below
+          # keeps bug/enhancement plus IDD's reserved label taxonomy
+          # (docs/idd-policy.md § Label Names: roadmap, status:blocked-by-
+          # human, status:needs-decision, idd:ready) and the issue-
+          # authoring hold label (status:authoring) — keep the IDD portion
+          # in sync with that taxonomy rather than pruning it casually.
           days-before-close: 14
           days-before-pr-stale: -1
           days-before-stale: 60

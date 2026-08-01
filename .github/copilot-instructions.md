@@ -16,11 +16,25 @@ compatibility entry points for Codex, Claude Code, and Gemini CLI.
 Keep this file as the canonical, fully detailed guide across tools.
 
 This repository also runs Issue-Driven Development (IDD) for
-autonomous execution. When acting as an unattended IDD agent, follow
-`docs/idd-policy.md` and the phase instructions under
-`.github/instructions/` — those govern claim, review, and merge
-behavior and take precedence over the general guidance below for
-that workflow.
+autonomous execution — see the IDD Workflow section below.
+
+## IDD Workflow
+
+This project uses Issue-Driven Development (IDD) with parallel AI
+agents. Start with [docs/idd-workflow.md](../docs/idd-workflow.md)
+for the cross-agent entry path and phase routing, and
+[docs/idd-policy.md](../docs/idd-policy.md) for this repository's
+recorded policy decisions.
+
+When acting as an unattended IDD agent, open
+`.github/instructions/idd-overview-core.instructions.md` before
+starting IDD work, and open the routed phase file manually when the
+current step changes. Those phase instructions govern claim, review,
+and merge behavior and take precedence over the general guidance in
+this file for that workflow. `idd-overview-core.instructions.md` sets
+`excludeAgent: "code-review"`, so repository-wide Copilot guidance in
+this file still applies during code review — the IDD-specific
+guidance is scoped to autonomous execution, not review.
 
 ## Packages
 

@@ -16,7 +16,7 @@ jobs:
       run:
         shell: ${{ matrix.platform.shell }}
     env:
-      COREPACK_INTEGRITY_KEYS: 0
+      PNPM_CONFIG_ENABLE_GLOBAL_VIRTUAL_STORE: 'false'
     name: The build process
     runs-on: ${{ matrix.platform.os }}
     steps:
@@ -47,10 +47,9 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 20.x
           - 22.x
           - 24.x
-          - 25.x
+          - 26.x
         platform:
           - os: ubuntu-latest
             shell: bash
@@ -59,4 +58,4 @@ jobs:
           - os: windows-latest
             shell: powershell
       fail-fast: false
-    timeout-minutes: 30
+    timeout-minutes: 5

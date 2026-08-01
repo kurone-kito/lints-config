@@ -10,13 +10,13 @@ const cspell =
   'cspell lint --no-must-find-files --no-progress --show-suggestions -u';
 
 /**
- * The lint-staged configuration which runs cspell, and biome on all staged
+ * The lint-staged configuration which runs cspell and Biome on all staged
  * files.
  */
 export const useBiome: LintStagedConfig = { '*': [cspell, biome] };
 
 /**
- * The lint-staged configuration which runs cspell, and biome on all staged
+ * The lint-staged configuration which runs cspell and Biome on all staged
  * files.
  */
 export default useBiome;

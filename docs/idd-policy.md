@@ -25,8 +25,10 @@ re-confirm this choice still applies before relying on it.
 
 ## PR Review Policy
 
-**Profile**: `copilot-advisory`. CodeRabbit auto-review stays enabled
-and its comments are triaged as normal review feedback.
+**Profile**: `copilot-advisory` — the copilot advisory review
+posture. GitHub Copilot's automated review and CodeRabbit's
+auto-review both stay enabled; both bots' comments are triaged as
+advisory feedback rather than a merge-blocking gate.
 
 ## Review-Thread Resolution Policy
 
@@ -139,7 +141,10 @@ considered and rejected on 2026-07-27.
 
 This repository keeps the distributed defaults: `labels.roadmapLabelName`
 (`roadmap`), `labels.blockedByHumanLabelName` (`status:blocked-by-human`),
-`labels.needsDecisionLabelName` (`status:needs-decision`).
+`labels.needsDecisionLabelName` (`status:needs-decision`), and
+`approvalSignals.readyLabelName` (`idd:ready`). All five reserved
+labels (including `status:authoring` from the Issue-Authoring
+Companion section above) exist in the repository as of #170.
 
 ## Instruction Profile
 
@@ -149,6 +154,29 @@ default routing. No `instructionProfile` key is set in
 `.github/idd/config.json` — the published policy schema's root object
 rejects unknown properties, so the key would fail `idd-doctor`
 validation outright rather than sitting inert.
+
+## Deliberately Unadopted Extensions
+
+These optional template extensions are recorded as intentionally not
+adopted, rather than silently absent, per the #170 verification pass:
+
+- **`idd-advisory-convergence` required-check CI workflow**: deferred
+  (recorded 2026-07-27). The concept and job id are referenced by the
+  imported instruction files, but
+  `.github/workflows/idd-advisory-convergence.yml` itself was not
+  added — this repository does not host advisory-convergence checking
+  as a required GitHub status check.
+- **Worktree guard** (`.githooks/_idd-worktree-guard.sh`): imported
+  but inactive. This repository's active hook manager is Husky
+  (`core.hooksPath` = `.husky/_`), not `.githooks`, and Husky's hooks
+  do not source the guard script. Even if wired, the guard is opt-in
+  by design and stays off unless `worktreeGuard.enabled` is `true` in
+  `.github/idd/config.json`, which it is not.
+- **`linguist-vendored` marking**: not applicable. This attribute only
+  matters for the `vendored-node` helper runtime profile, which copies
+  third-party helper files into the repository. This repository uses
+  the `package-manager` profile (a pinned npm dependency, wired in
+  #174) instead, so there is no vendored helper bundle to mark.
 
 ## Bootstrap note (historical)
 

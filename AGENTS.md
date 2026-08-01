@@ -59,6 +59,26 @@ A `.gitmessage` template is available at the repository root.
 Write user-facing, lowercase subjects, keep them under 72 characters,
 and split unrelated changes into separate atomic commits.
 
+## IDD Workflow
+
+This project uses Issue-Driven Development (IDD) with parallel AI
+agents. Start with [docs/idd-workflow.md](docs/idd-workflow.md) for
+the cross-agent entry path and phase routing, and
+[docs/idd-policy.md](docs/idd-policy.md) for this repository's
+recorded policy decisions, including the Lite-vs-standard routing
+decision.
+
+Before starting IDD work, open
+`.github/instructions/idd-overview-core.instructions.md`. Open the
+routed phase file manually when the current step changes.
+
+This file is the shared agents.md-standard entry for both Codex CLI
+and OpenCode: each auto-loads `AGENTS.md` from the repository root
+natively, so this single file covers both runtimes and OpenCode
+needs no dedicated root file of its own. Codex CLI and OpenCode
+agents should both manually open the instruction file above and the
+routed phase file before starting IDD work.
+
 ## Canonical reference
 
 The full, Copilot-first project guidance lives in

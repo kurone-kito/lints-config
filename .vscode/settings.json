@@ -7,7 +7,8 @@
     "*.d.mts": "${capture}.d.mts*, ${capture}.mjs*",
     "*.md": "${capture}.*.md",
     "*.yml": "${capture}.json",
-    ".gitattributes": ".gitignore",
+    "AGENTS.md": "CLAUDE.md, GEMINI.md",
+    ".gitattributes": ".gitignore, .gitmessage",
     ".markdownlint.*": ".markdownlint-cli2.*",
     ".tool-versions": ".node-version, .nvmrc",
     "package.json": ".npmrc, pnpm-lock.yaml, pnpm-workspace.yaml",
@@ -15,6 +16,7 @@
   },
   "files.associations": {
     "*.map": "json",
+    ".gitmessage": "git-commit",
     ".imgbotconfig": "json",
     "LICENSE": "plaintext"
   },
@@ -37,7 +39,8 @@
     ".vim": "command"
   },
   "search.exclude": {
-    "**/node_modules/**/*": true
+    "**/node_modules/**/*": true,
+    "**/pnpm-lock.yaml.*": true
   },
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "yaml.schemas": {

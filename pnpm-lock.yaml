@@ -52,6 +52,9 @@ importers:
       '@kurone-kito/cspell-config':
         specifier: workspace:^
         version: link:packages/cspell-config
+      '@kurone-kito/idd-skill':
+        specifier: https://codeload.github.com/kurone-kito/idd-skill/tar.gz/f515fc34befc9026bdce4686fc6e41cc90e15c1d
+        version: https://codeload.github.com/kurone-kito/idd-skill/tar.gz/f515fc34befc9026bdce4686fc6e41cc90e15c1d
       '@kurone-kito/is-prerelease':
         specifier: ^0.1.0
         version: 0.1.0
@@ -716,6 +719,12 @@ packages:
   '@cspell/url@9.6.2':
     resolution: {integrity: sha512-625EiP1jUOQZ6UQuTUV1XB8Bxa18z3EtC1qA6PJyM3TqUD8PD8Tz183j9av6d/Dq52+7w0F4ovuqjUcTXTfD6g==}
     engines: {node: '>=20'}
+
+  '@kurone-kito/idd-skill@https://codeload.github.com/kurone-kito/idd-skill/tar.gz/f515fc34befc9026bdce4686fc6e41cc90e15c1d':
+    resolution: {gitHosted: true, integrity: sha512-Hgw9C809PA+BUCzp1knBaVAvmYDHeApTj7Qj3MCpFNGp+WfvSeEhMg1LL6CCDKzi3GRSqHEvWx36MiloL4CAbg==, tarball: https://codeload.github.com/kurone-kito/idd-skill/tar.gz/f515fc34befc9026bdce4686fc6e41cc90e15c1d}
+    version: 0.4.0
+    engines: {node: ^22.22.2 || >=24.2.0}
+    hasBin: true
 
   '@kurone-kito/is-prerelease@0.1.0':
     resolution: {integrity: sha512-+borQVaj0WocBjGrhGjFjqNlSLxvbyOJ808mtIRZa4K8fe9eVLU1YF43qUIzCi6WtyF4z5jtHaAXiwtgJ8tQfg==}
@@ -2243,6 +2252,8 @@ snapshots:
   '@cspell/url@10.0.1': {}
 
   '@cspell/url@9.6.2': {}
+
+  '@kurone-kito/idd-skill@https://codeload.github.com/kurone-kito/idd-skill/tar.gz/f515fc34befc9026bdce4686fc6e41cc90e15c1d': {}
 
   '@kurone-kito/is-prerelease@0.1.0':
     dependencies:

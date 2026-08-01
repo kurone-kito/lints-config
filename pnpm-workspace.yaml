@@ -1,3 +1,7 @@
+allowBuilds:
+  # kurone-kito/idd-skill's only lifecycle script is `prepare: husky`
+  # (git-hooks setup); reviewed and pinned to a specific commit (#174).
+  '@kurone-kito/idd-skill@https://codeload.github.com/kurone-kito/idd-skill/tar.gz/f515fc34befc9026bdce4686fc6e41cc90e15c1d': true
 configDependencies:
   '@pnpm/plugin-types-fixer': 0.1.0+sha512-bLww63gRHi7siYTqFJb5qNdcXadU0jv20Et6z5AryMZ7FlLolbEJOrXLpg8+amQZNHHNW1dfFUBGVw/9ezQbFg==
 enableGlobalVirtualStore: true

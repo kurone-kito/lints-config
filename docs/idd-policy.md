@@ -143,8 +143,10 @@ This repository keeps the distributed defaults: `labels.roadmapLabelName`
 (`roadmap`), `labels.blockedByHumanLabelName` (`status:blocked-by-human`),
 `labels.needsDecisionLabelName` (`status:needs-decision`), and
 `approvalSignals.readyLabelName` (`idd:ready`). All five reserved
-labels (including `status:authoring` from the Issue-Authoring
-Companion section above) exist in the repository as of #170.
+labels — `roadmap`, `status:authoring` (from the Issue-Authoring
+Companion section above), `status:blocked-by-human`,
+`status:needs-decision`, and `idd:ready` — exist in the repository
+as of #170.
 
 ## Instruction Profile
 
@@ -161,16 +163,20 @@ These optional template extensions are recorded as intentionally not
 adopted, rather than silently absent, per the #170 verification pass:
 
 - **`idd-advisory-convergence` required-check CI workflow**: deferred
-  (recorded 2026-07-27). The concept and job id are referenced by the
+  (recorded 2026-07-27). The concept and job ID are referenced by the
   imported instruction files, but
   `.github/workflows/idd-advisory-convergence.yml` itself was not
   added — this repository does not host advisory-convergence checking
   as a required GitHub status check.
 - **Worktree guard** (`.githooks/_idd-worktree-guard.sh`): imported
-  but inactive. This repository's active hook manager is Husky
-  (`core.hooksPath` = `.husky/_`), not `.githooks`, and Husky's hooks
-  do not source the guard script. Even if wired, the guard is opt-in
-  by design and stays off unless `worktreeGuard.enabled` is `true` in
+  but inactive. This repository's active hook manager is Husky, whose
+  `prepare` script (`package.json`) generates a gitignored
+  `.husky/_/` dispatch directory and points `core.hooksPath` at it —
+  that generated directory won't appear by browsing the repository
+  tree, only after `pnpm install` runs locally. Husky's own tracked
+  hooks (`.husky/pre-commit`, `.husky/commit-msg`) do not source the
+  guard script. Even if wired, the guard is opt-in by design and
+  stays off unless `worktreeGuard.enabled` is `true` in
   `.github/idd/config.json`, which it is not.
 - **`linguist-vendored` marking**: not applicable. This attribute only
   matters for the `vendored-node` helper runtime profile, which copies

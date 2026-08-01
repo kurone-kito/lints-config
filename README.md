@@ -27,10 +27,9 @@ consolidated:
 ## System Requirements
 
 - Node.js: Any of the following versions
-  - Iron LTS (`^20.11.x`)
-  - Jod LTS (`^22.x.x`)
-  - Krypton LTS (`^24.x.x`)
-  - Latest (`>=25.x.x`)
+  - Jod LTS (`^22.23.1`)
+  - Krypton LTS (`^24.2.0`)
+  - Latest (`>=26.0.0`)
 
 ## Development
 

@@ -9,12 +9,12 @@ on:
     secrets:
       NPM_TOKEN:
         required: true
-permissions:
-  contents: read
-  packages: write
 jobs:
   build:
     name: The build process
+    permissions:
+      contents: write
+      packages: write
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -34,14 +34,12 @@ jobs:
           HUSKY: 0
         name: Install the dependencies
         run: pnpm install --frozen-lockfile --prefer-offline
-      - if: ${{ inputs.next == true }}
+      - if: ${{ inputs.next }}
         name: Check the whether the current version is prerelease
         run: pnpm run is:prerelease
-      - if: ${{ inputs.next != true }}
+      - if: ${{ !inputs.next }}
         name: Check the whether the current version is not prerelease
         run: pnpm run is:release
-      - name: Build the project explicitly. The workaround is provisional because the publish command does not perform topological sorting.
-        run: pnpm run build
       - env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         name: Setting the npmjs registry and the token
@@ -53,12 +51,12 @@ jobs:
           EOF
       - env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        if: ${{ inputs.next != true }}
+        if: ${{ !inputs.next }}
         name: Publish the packages
         run: pnpm run publish --no-git-check
       - env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        if: ${{ inputs.next == true }}
+        if: ${{ inputs.next }}
         name: Publish the packages as the alpha version
         run: pnpm run publish:next --no-git-check
       - env:
@@ -70,14 +68,10 @@ jobs:
           @kurone-kito:registry=https://npm.pkg.github.com/
           //npm.pkg.github.com/:_authToken=$GITHUB_TOKEN
           EOF
-      - env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        if: ${{ !inputs.next }}
+      - if: ${{ !inputs.next }}
         name: Publish the packages
         run: pnpm run publish --no-git-check
-      - env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        if: ${{ inputs.next }}
+      - if: ${{ inputs.next }}
         name: Publish the packages as the alpha version
         run: pnpm run publish:next --no-git-check
       - if: ${{ github.event_name == 'release' }}

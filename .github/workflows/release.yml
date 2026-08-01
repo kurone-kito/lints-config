@@ -4,11 +4,11 @@ on:
   release:
     types:
       - published
-permissions:
-  contents: read
-  packages: write
 jobs:
   build:
+    permissions:
+      contents: write
+      packages: write
     uses: ./.github/workflows/common-release.yml
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

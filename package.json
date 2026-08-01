@@ -69,6 +69,7 @@
     "is:prerelease": "is-prerelease $(npm pkg get version) pre",
     "is:release": "is-prerelease $(npm pkg get version)",
     "lint": "pnpm run \"/lint:.+:check/\"",
+    "lint:biome-schema:check": "node scripts/check-biome-schema-pins.mjs",
     "lint:biome:check": "biome check",
     "lint:biome:fix": "biome check --write",
     "lint:cspell:check": "cspell lint --no-progress --show-suggestions -u \"./**/*\"",

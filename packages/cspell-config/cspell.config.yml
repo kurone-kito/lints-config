@@ -50,6 +50,7 @@ language: en,eo,ja
 useGitignore: true
 version: '0.2'
 words:
+  - desync
   - fuga
   - hoge
   - kito
@@ -61,3 +62,4 @@ words:
   - oxlint
   - piyo
   - solidjs
+  - undispositioned

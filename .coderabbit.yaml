@@ -1,6 +1,11 @@
 chat:
   auto_reply: true
 early_access: true
+issue_enrichment:
+  auto_enrich:
+    enabled: false
+  labeling:
+    auto_apply_labels: false
 language: en
 reviews:
   auto_review:

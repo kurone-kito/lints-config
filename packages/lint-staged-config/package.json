@@ -31,7 +31,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" dist LICENSE lint-staged.config.json",
+    "clean": "rimraf -g \"*.tgz\" \"*.tsbuildinfo\" dist LICENSE",
     "prebuild": "cpy --flat ../../LICENSE .",
     "prepack": "pnpm run clean && pnpm run build",
     "start": "tsc --watch"

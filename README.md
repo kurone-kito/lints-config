@@ -33,11 +33,11 @@ consolidated:
 
 ## Development
 
-Run `pnpm run build` before `pnpm run lint`.
-Skipping the build step causes the lint command to fail.
+`pnpm install` builds the workspace automatically, so `pnpm run lint`
+and `pnpm test` work immediately afterward.
 
 ```sh
-pnpm run build
+pnpm install
 pnpm run lint
 ```
 

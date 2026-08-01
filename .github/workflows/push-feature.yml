@@ -38,10 +38,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - env:
           HUSKY: 0
-        name: Install the dependencies
+        name: Install the dependencies and build the project
         run: pnpm install --frozen-lockfile --prefer-offline
-      - name: Build the project
-        run: pnpm run build
       - name: Check the code style
         run: pnpm run lint
     strategy:

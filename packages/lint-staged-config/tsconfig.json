@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
+    "declarationMap": false,
     "lib": ["ESNext"],
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "sourceMap": false
   },
   "extends": "@kurone-kito/typescript-config"
 }

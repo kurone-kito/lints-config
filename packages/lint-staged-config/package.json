@@ -3,11 +3,10 @@
   "version": "0.22.0",
   "description": "My lint-staged configuration for general projects",
   "keywords": [
+    "biome",
     "config",
     "cspell",
-    "eslint",
-    "lint-staged",
-    "prettier"
+    "lint-staged"
   ],
   "homepage": "https://github.com/kurone-kito/lints-config#readme",
   "bugs": "https://github.com/kurone-kito/lints-config/issues",
@@ -19,7 +18,14 @@
   "license": "MIT",
   "author": "kurone-kito <krone@kit.black> (https://kit.black/)",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
   "main": "dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "files": [
     "dist"
   ],

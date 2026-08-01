@@ -84,8 +84,13 @@ helper imports."*
 and the target commit/tag, then regenerate the manifest against the
 new spec and reapply it:
 
+This repository has no local `scripts/` directory — the
+`package-manager` profile installs the manifest generator as a wired
+bin instead, so invoke it that way rather than the upstream source
+repository's own `node scripts/helper-runtime-manifest.mjs` form:
+
 ```sh
-node scripts/helper-runtime-manifest.mjs --profile package-manager \
+pnpm exec idd-helper-bundle-manifest --profile package-manager \
   --package-manager pnpm \
   --package-spec https://codeload.github.com/kurone-kito/idd-skill/tar.gz/<new-commit-sha>
 ```

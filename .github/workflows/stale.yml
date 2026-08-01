@@ -9,7 +9,7 @@ jobs:
   stale:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/stale@v10
+      - uses: actions/stale@v11
         with:
           # IDD (see docs/idd-policy.md) relies on long-lived, deliberately
           # inactive issues: roadmap coordination nodes and tracks blocked

@@ -88,12 +88,12 @@ moment.
 
 **Why pinned at all (unchanged reasoning)**: `refs/heads/main` is a
 floating ref — its content changes on every upstream merge, so a
-`pnpm-lock.yaml` entry recorded against it goes stale silently. `pnpm
-install --frozen-lockfile` in CI would then either keep resolving a
-months-old integrity hash or start failing after an unrelated upstream
-push. Upstream's own manifest generator flags this directly: *"Pass
-`--package-spec` with a pinned tarball URL or reviewed commit archive
-when you need reproducible helper imports."*
+`pnpm-lock.yaml` entry recorded against it goes stale silently.
+`pnpm install --frozen-lockfile` in CI would then either keep resolving
+a months-old integrity hash or start failing after an unrelated
+upstream push. Upstream's own manifest generator flags this directly:
+*"Pass `--package-spec` with a pinned tarball URL or reviewed commit
+archive when you need reproducible helper imports."*
 
 **Bump procedure**: review the upstream diff between the current pin
 and the target tag, then regenerate the manifest against the new spec
@@ -114,14 +114,14 @@ Apply the manifest's `managedDependencies` and
 `managedPackageJsonScripts` output to `package.json` **in full** (not
 a hand-picked subset — a trimmed copy makes the manifest's own
 `--from-profile` diffing report phantom changes when switching
-profiles later), refresh `pnpm-lock.yaml`, and re-verify `pnpm run
-idd:doctor` emits a real verdict. `pnpm-workspace.yaml`'s
+profiles later), refresh `pnpm-lock.yaml`, and re-verify
+`pnpm run idd:doctor` emits a real verdict. `pnpm-workspace.yaml`'s
 `allowBuilds` entry for this package must be updated to the new pinned
 spec string in the same change, or the install fails closed with an
 `ERR_PNPM_GIT_DEP_PREPARE_NOT_ALLOWED` error.
 
-**Trade-offs accepted, not overlooked** (recorded per #174): `pnpm
-install` now depends on GitHub's codeload archive endpoint being
+**Trade-offs accepted, not overlooked** (recorded per #174):
+`pnpm install` now depends on GitHub's codeload archive endpoint being
 reachable on every CI matrix job. The 40 `idd:*` scripts this profile
 adds (38 at the v0.4.0 pin; v0.6.0 added `idd:onboard` and
 `idd:merged-pr-feedback-sweep`) are a real footprint increase for an

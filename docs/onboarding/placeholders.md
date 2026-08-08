@@ -21,12 +21,12 @@ This page is the detailed companion for:
 Before asking the operator to type values manually, inspect the target
 repository and propose candidate values for the placeholders below.
 
-### `lints-config`
+### `{{REPO_NAME}}`
 
 Read the repository short name from the git remote or GitHub API. The
 remote name is the most reliable source.
 
-### `lints-config`
+### `{{PROJECT_MARKER_PREFIX}}`
 
 Start from the repository name, lowercase it, and normalize it into a
 short hyphenated marker prefix. The final value must match:
@@ -37,7 +37,7 @@ short hyphenated marker prefix. The final value must match:
 
 That means 2-32 characters, lowercase, starting with a letter.
 
-### `kurone-kito`
+### `{{TRUSTED_MARKER_ACTOR}}`
 
 List the GitHub logins allowed to post trusted IDD markers in
 `.github/idd/config.json`. This placeholder is intentionally singular:
@@ -57,7 +57,7 @@ trusted claim, release, watermark, baseline, and advisory markers for
 the target repository. Keep the value aligned with any helper
 invocations that pass `--trusted-marker-logins`.
 
-### `pnpm install --frozen-lockfile`
+### `{{INSTALL_DEPS_COMMAND}}`
 
 Look for the target repository's dependency tooling and propose the
 matching install command:
@@ -79,7 +79,7 @@ matching install command:
 If both `pyproject.toml` and `requirements.txt` are present, confirm
 which workflow should drive the IDD command rows.
 
-### `pnpm run lint:fix && pnpm run lint`
+### `{{FIX_VALIDATE_COMMANDS}}`
 
 Propose an auto-fix plus validate sequence that matches the existing
 tooling. Common patterns:
@@ -93,7 +93,7 @@ tooling. Common patterns:
 - Rust: `cargo fmt`
 - no relevant auto-fix tooling: `true`
 
-### `pnpm run build && pnpm run lint`
+### `{{PRE_PUSH_VALIDATE_COMMANDS}}`
 
 Propose a non-mutating lint/build/test sequence. Common patterns:
 
@@ -106,7 +106,7 @@ Propose a non-mutating lint/build/test sequence. Common patterns:
 - Rust: `cargo check && cargo test`
 - no relevant verification command: `true`
 
-### `pnpm run lint:fix && pnpm run build && pnpm run lint`
+### `{{POST_FIX_VALIDATE_COMMANDS}}`
 
 Usually a superset of `fix-validate` and `pre-push-validate`.
 
@@ -126,13 +126,13 @@ placeholders:
 
 | Placeholder                      | Meaning                                                   | Example                            |
 | -------------------------------- | --------------------------------------------------------- | ---------------------------------- |
-| `lints-config`                  | Repository short name used in worktree examples           | `my-app`                           |
-| `lints-config`      | Hidden issue-body marker prefix                           | `my-app`                           |
-| `kurone-kito`       | Single JSON-escaped login allowed to post trusted markers | `trusted-user-a`                   |
-| `pnpm run lint:fix && pnpm run lint`      | Auto-fix plus validate command row                        | `npm run lint:fix && npm run lint` |
-| `pnpm run build && pnpm run lint` | Non-mutating verify command row                           | `npm run lint && npm run test`     |
-| `pnpm run lint:fix && pnpm run build && pnpm run lint` | Post-fix validate command row                             | `npm run lint:fix && npm test`     |
-| `pnpm install --frozen-lockfile`       | Dependency install command, or `true` when unnecessary    | `npm install`                      |
+| `{{REPO_NAME}}`                  | Repository short name used in worktree examples           | `my-app`                           |
+| `{{PROJECT_MARKER_PREFIX}}`      | Hidden issue-body marker prefix                           | `my-app`                           |
+| `{{TRUSTED_MARKER_ACTOR}}`       | Single JSON-escaped login allowed to post trusted markers | `trusted-user-a`                   |
+| `{{FIX_VALIDATE_COMMANDS}}`      | Auto-fix plus validate command row                        | `npm run lint:fix && npm run lint` |
+| `{{PRE_PUSH_VALIDATE_COMMANDS}}` | Non-mutating verify command row                           | `npm run lint && npm run test`     |
+| `{{POST_FIX_VALIDATE_COMMANDS}}` | Post-fix validate command row                             | `npm run lint:fix && npm test`     |
+| `{{INSTALL_DEPS_COMMAND}}`       | Dependency install command, or `true` when unnecessary    | `npm install`                      |
 
 ### No-op substitution
 
@@ -140,21 +140,21 @@ Only the command placeholders may be set to `true` when a step does not
 apply to the target project. For example:
 
 - no dependency install step →
-  `pnpm install --frozen-lockfile = true`
+  `{{INSTALL_DEPS_COMMAND}} = true`
 - no relevant auto-fix command →
-  `pnpm run lint:fix && pnpm run lint = true`
+  `{{FIX_VALIDATE_COMMANDS}} = true`
 
-Keep `pnpm install --frozen-lockfile` safe to rerun across retries, takeovers,
+Keep `{{INSTALL_DEPS_COMMAND}}` safe to rerun across retries, takeovers,
 and recreated worktrees.
 
 ## Marker prefix notes
 
-`lints-config` appears in two hidden issue-body markers:
+`{{PROJECT_MARKER_PREFIX}}` appears in two hidden issue-body markers:
 
 - roadmap identity marker:
-  `<!-- lints-config-roadmap-id: {unique-id} -->`
+  `<!-- {{PROJECT_MARKER_PREFIX}}-roadmap-id: {unique-id} -->`
 - blocked-by marker:
-  `<!-- lints-config-blocked-by: {roadmap-id} -->`
+  `<!-- {{PROJECT_MARKER_PREFIX}}-blocked-by: {roadmap-id} -->`
 
 Validate a proposed prefix with:
 

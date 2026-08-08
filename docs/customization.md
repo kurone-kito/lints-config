@@ -605,12 +605,12 @@ a `{{placeholder}}`, this table gives the live ↔ template mapping:
 
 | Live value (`.github/instructions/`)                                | Template form (`idd-template/`)  |
 | ------------------------------------------------------------------- | -------------------------------- |
-| `idd-skill` in repo-name contexts                                   | `lints-config`                  |
-| `idd-skill` in marker-prefix contexts (e.g. `idd-skill-roadmap-id`) | `lints-config`      |
-| **fix-validate** command string                                     | `pnpm run lint:fix && pnpm run lint`      |
-| **pre-push-validate** command string                                | `pnpm run build && pnpm run lint` |
-| **post-fix-validate** command string                                | `pnpm run lint:fix && pnpm run build && pnpm run lint` |
-| **install-deps** command string                                     | `pnpm install --frozen-lockfile`       |
+| `idd-skill` in repo-name contexts                                   | `{{REPO_NAME}}`                  |
+| `idd-skill` in marker-prefix contexts (e.g. `idd-skill-roadmap-id`) | `{{PROJECT_MARKER_PREFIX}}`      |
+| **fix-validate** command string                                     | `{{FIX_VALIDATE_COMMANDS}}`      |
+| **pre-push-validate** command string                                | `{{PRE_PUSH_VALIDATE_COMMANDS}}` |
+| **post-fix-validate** command string                                | `{{POST_FIX_VALIDATE_COMMANDS}}` |
+| **install-deps** command string                                     | `{{INSTALL_DEPS_COMMAND}}`       |
 
 Match by the named command row in the Project commands table, not by
 command prefix, to avoid confusing commands that share the same
@@ -1200,7 +1200,7 @@ sources.
 
 - `audit-docs.mjs` enforces synchronization rules defined in
   `sync-manifest.json`
-- Template copies use placeholders like `lints-config` to support
+- Template copies use placeholders like `{{REPO_NAME}}` to support
   repository-specific values during import
 - The `sync-manifest.json` defines source→target mappings and sync modes
   (exact copy vs placeholder substitution)

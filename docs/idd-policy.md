@@ -271,6 +271,31 @@ confirmed directly (#217's drift-check design deliberately does not add
 a content comparison for these paths, since doing so would manufacture
 exactly the false positive this section exists to explain away).
 
+## Onboarding Meta-Doc Placeholder Corruption
+
+**Decision**: manual restoration only, no tooling fix (recorded
+2026-08-08, #224).
+
+`idd-onboard --substitute` performs a blind global find-and-replace of
+the seven onboarding placeholder tokens across every copied file. That
+is correct for files that consume the placeholders, but three meta-docs
+exist specifically to *document the placeholder syntax itself* —
+`docs/onboarding/placeholders.md`, `docs/customization.md`, and
+`docs/onboarding/policy-decisions.md`. Running `--substitute` against
+this repository corrupts their literal `{{...}}` token displays into
+this repository's resolved values, since the tool has no
+escaping or path-exclusion mechanism and upstream's own template has
+the same behavior against its own docs.
+
+If a future `idd-onboard --substitute` re-run touches these three
+files again, the fix is the same manual restoration #224 applied: diff
+the corrupted file against the raw upstream file (at the currently
+pinned tag) with the seven placeholders re-substituted back to this
+repository's resolved values, confirm no other content diverges, and
+copy the raw upstream file back in verbatim. Do not attempt to patch
+the substitution tool itself as part of a routine re-sync; that is a
+separate upstream-facing change outside this repository's scope.
+
 ## Instruction Profile
 
 The Lite instruction bundle (`.github/instructions/lite/`, 11 files) is

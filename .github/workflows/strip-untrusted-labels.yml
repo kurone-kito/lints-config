@@ -1,0 +1,39 @@
+name: Strip untrusted reserved IDD labels
+on:
+  issues:
+    types:
+      - labeled
+  pull_request_target:
+    types:
+      - labeled
+permissions:
+  issues: write
+  pull-requests: write
+concurrency:
+  group: strip-untrusted-labels-${{ github.event.issue.number || github.event.pull_request.number }}-${{ github.event.label.name }}
+  cancel-in-progress: true
+jobs:
+  strip-label:
+    # Reserved set: this repository's four configured IDD reserved
+    # label names -- roadmap, the two policy-decision holds, and the
+    # issue-authoring hold. All four keep the distributed defaults
+    # (.github/idd/config.json has no labels.* / issueAuthoring.
+    # authoringLabelName override), so these are literal, not a
+    # substitution placeholder.
+    if: |-
+      contains(fromJSON('["coderabbitai[bot]"]'), github.event.sender.login) && (github.event.label.name == 'roadmap' || github.event.label.name == 'status:blocked-by-human' || github.event.label.name == 'status:needs-decision' || github.event.label.name == 'status:authoring')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Remove reserved label applied by an untrusted labeler
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          LABEL_NAME: ${{ github.event.label.name }}
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "pull_request_target" ]; then
+            gh pr edit "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --remove-label "$LABEL_NAME"
+          else
+            gh issue edit "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --remove-label "$LABEL_NAME"
+          fi

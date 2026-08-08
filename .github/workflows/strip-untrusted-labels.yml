@@ -21,7 +21,7 @@ jobs:
     # authoringLabelName override), so these are literal, not a
     # substitution placeholder.
     if: |-
-      contains(fromJSON('["coderabbitai[bot]"]'), github.event.sender.login) && (github.event.label.name == 'roadmap' || github.event.label.name == 'status:blocked-by-human' || github.event.label.name == 'status:needs-decision' || github.event.label.name == 'status:authoring')
+      contains(fromJSON('["coderabbitai[bot]"]'), github.event.sender.login) && contains(fromJSON('["roadmap", "status:blocked-by-human", "status:needs-decision", "status:authoring"]'), github.event.label.name)
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:

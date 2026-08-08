@@ -153,6 +153,11 @@ jobs:
 
           if [ "$DRIFT" = "true" ]; then
             REPORT=$(cat verify-report.json)
+            # Recomputed on every drift-detected run (not just at issue
+            # creation) so a long-lived open tracking issue's title keeps
+            # reflecting the current pinned-vs-latest comparison instead
+            # of going stale while upstream keeps advancing underneath it.
+            TITLE="IDD template drift: pinned v${CURRENT} vs upstream v${LATEST}"
             # The backticks below are literal markdown formatting inside a
             # single-quoted printf format string -- correctly protected from
             # command substitution by the single quotes, not an expansion bug.
@@ -165,12 +170,12 @@ jobs:
               "$REPORT" \
               "Run this workflow manually (\`workflow_dispatch\`) after re-syncing to confirm the drift clears; this issue closes automatically on the next drift-free run.")
             if [ -n "$EXISTING" ]; then
-              gh issue edit "$EXISTING" --repo "$GITHUB_REPOSITORY" --body "$BODY"
+              gh issue edit "$EXISTING" --repo "$GITHUB_REPOSITORY" --title "$TITLE" --body "$BODY"
               gh issue comment "$EXISTING" --repo "$GITHUB_REPOSITORY" \
                 --body "Drift check re-ran on $(date -u +%Y-%m-%dT%H:%M:%SZ) -- still drifted (iddVersion \`${CURRENT}\` vs latest \`v${LATEST}\`)."
             else
               gh issue create --repo "$GITHUB_REPOSITORY" \
-                --title "IDD template drift: pinned v${CURRENT} vs upstream v${LATEST}" \
+                --title "$TITLE" \
                 --body "$BODY"
             fi
           else

@@ -1,0 +1,112 @@
+name: IDD advisory-convergence gate
+# Optional, opt-in required-check workflow (see ONBOARDING.md "Optional
+# — host idd-advisory-convergence as a required-check CI workflow" for
+# the full rationale, the required-check Ruleset registration step, and
+# the waiver-after-deadline escape path). Copy this file into your
+# repository's .github/workflows/ to enable it -- it is not wired in
+# automatically by importing the rest of idd-template/, since a new
+# required-status-check-able workflow is a deliberate adopter decision,
+# not a default.
+#
+# Runner override: `runs-on` below reads the `CI_RUNNER_LABEL`
+# repository variable, falling back to `ubuntu-latest` when unset. Set
+# it from Settings > Secrets and variables > Actions > Variables >
+# CI_RUNNER_LABEL -- no workflow file edit needed. The primary
+# motivating case is GitHub Enterprise Server: GHES does not support
+# GitHub-hosted runners at all (self-hosted runners are mandatory
+# there), so `ubuntu-latest` fails outright on GHES regardless of
+# which label this template ships as the fallback. Any organization
+# that mandates self-hosted runners even on github.com/GHEC hits the
+# same wall and can use the same variable. This mechanism works for
+# whatever the shipped fallback value is now or later, not
+# specifically `ubuntu-latest`.
+#
+# Adapted for this repository: `actions/checkout` and `actions/setup-node`
+# are pinned to the commit SHAs already used elsewhere in this repository
+# (issue #183's convention, matching idd-doctor.yml / push-feature.yml),
+# and the invocation step runs `pnpm exec idd-advisory-convergence`
+# (this repository's package-manager helper-runtime profile) instead of
+# the template's vendored-node `node scripts/advisory-convergence.mjs`
+# form -- both changes the template's own comments below call out as
+# expected local adaptation. The portable `runs-on:` CI_RUNNER_LABEL
+# fallback form is kept unchanged, per the issue's explicit instruction
+# not to hardcode a custom runner label.
+concurrency:
+  cancel-in-progress: true
+  # Grouped by PR number, not github.ref: pull_request_review and
+  # pull_request_review_comment are not pull_request-family events, so
+  # github.ref does not resolve the same way for them as it does for a
+  # pull_request-only workflow. workflow_dispatch has no pull_request
+  # context either, so it falls back to its own input.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || inputs.pr_number }}
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  pull_request_review:
+    types: [submitted]
+  pull_request_review_comment:
+    types: [created, edited, deleted]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: PR number to re-check (e.g. after posting a maintainer waiver)
+        required: true
+        type: number
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+jobs:
+  # The job id `idd-advisory-convergence` is the exact check-run context
+  # consumed by the rerun helper, advisory-wait policy, required status
+  # check, and external-check waiver selector. Adding a `name:` display-name
+  # key or changing the job id changes that literal context. This warning is
+  # preventive; no observed incident yet. If either edit is intentional,
+  # update every consumer to the new literal context together.
+  idd-advisory-convergence:
+    # See the header comment above for the CI_RUNNER_LABEL override.
+    runs-on: ${{ vars.CI_RUNNER_LABEL || 'ubuntu-latest' }}
+    # Bounds pathological hangs; adjust to your own observed run duration
+    # once you have history (see idd-doctor.yml/lint.yml in the source
+    # repository for the pattern of sizing this from real run durations).
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Trusted default-branch checkout, not the PR head, for any
+          # trigger type including workflow_dispatch: the enforcement
+          # script (resolved below through the pinned, already-reviewed
+          # @kurone-kito/idd-skill devDependency) and its config
+          # (.github/idd/config.json) must be the trusted copy, not the
+          # PR's own -- otherwise a PR could edit the verdict logic
+          # itself to force `ready: true`. The verdict still correctly
+          # evaluates the intended PR: `--pr <number>` below drives
+          # every live GitHub API call the script makes, independent of
+          # what is checked out locally.
+          ref: main
+          persist-credentials: false
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          run_install: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          cache: pnpm
+          check-latest: true
+          node-version-file: .node-version
+      - env:
+          HUSKY: 0
+        name: Install the dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          # workflow_dispatch's `pr_number` input is `type: number` in the
+          # UI, but that constraint is not strictly enforced for direct API
+          # dispatches, so route it through env: and reference it as a
+          # quoted shell variable rather than interpolating the `${{ }}`
+          # expression directly into the run: script.
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+        # package-manager profile: the wired idd:advisory-convergence bin,
+        # not the template's vendored-node node scripts/... invocation --
+        # per the header comment above, adjusted to this repository's
+        # helper-runtime profile.
+        run: pnpm exec idd-advisory-convergence --pr "$PR_NUMBER" --assert

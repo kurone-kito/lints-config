@@ -1,1 +1,7 @@
 extends: '@kurone-kito/markdownlint-config'
+# Allow non-aligned table columns; the imported IDD docs use them.
+table-column-style: false
+# Stop MD025 treating an OKF frontmatter `title:` as a second level-1
+# heading. docs/index.md ships that frontmatter.
+single-title:
+  front_matter_title: ""

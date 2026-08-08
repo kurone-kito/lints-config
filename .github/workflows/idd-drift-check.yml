@@ -87,15 +87,25 @@ jobs:
       - name: Run idd-onboard --verify against the latest upstream tag
         id: verify
         run: |
+          # Redirect stdout straight to a file (never through a shell
+          # capture) and validate it as JSON with `jq -e` before trusting
+          # it, rather than only checking for emptiness: if stray output
+          # (a log line, a tool banner) ever lands on stdout ahead of or
+          # alongside the JSON, an emptiness-only check would miss it and
+          # the later `jq -r '.blocking'` would hard-fail the whole step
+          # under `set -e`, taking the job red instead of reporting drift
+          # via the tracking issue -- exactly the failure mode this
+          # workflow exists to avoid (#175).
           set +e
-          JSON=$(pnpm exec idd-onboard --verify --source /tmp/idd-skill-latest --target . --profile package-manager)
+          pnpm exec idd-onboard --verify --source /tmp/idd-skill-latest --target . --profile package-manager \
+            > verify-report.json 2> verify-stderr.log
           EXIT=$?
           set -e
-          if [ -z "$JSON" ]; then
-            echo "::warning::idd-onboard --verify produced no output (exit $EXIT); treating as blocking"
-            JSON='{"blocking":true,"manifestCompleteness":{"missingSource":[],"missingTarget":["<no output from idd-onboard>"]},"placeholderResidue":{"residue":[],"unknownTokens":[]},"staleImportSignal":{"missing":[]}}'
+          if ! jq -e . verify-report.json > /dev/null 2>&1; then
+            echo "::warning::idd-onboard --verify produced invalid or non-JSON output (exit $EXIT); treating as blocking"
+            cat verify-stderr.log >&2 || true
+            echo '{"blocking":true,"manifestCompleteness":{"missingSource":[],"missingTarget":["<invalid output from idd-onboard>"]},"placeholderResidue":{"residue":[],"unknownTokens":[]},"staleImportSignal":{"missing":[]}}' > verify-report.json
           fi
-          printf '%s' "$JSON" > verify-report.json
           BLOCKING=$(jq -r '.blocking' verify-report.json)
           echo "blocking=$BLOCKING" >> "$GITHUB_OUTPUT"
       - name: Report drift status

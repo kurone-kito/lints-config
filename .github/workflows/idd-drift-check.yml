@@ -139,11 +139,17 @@ jobs:
           # invocation instead, where --arg is jq's own flag.
           # $marker below is a jq variable (bound via --arg), not a shell
           # variable -- it must stay literal inside the single-quoted jq
-          # filter for jq itself to interpret it.
+          # filter for jq itself to interpret it. --limit raised well past
+          # gh's 30-issue default and the candidate set is sorted by
+          # ascending issue number before taking the first match, so a
+          # coarse tokenized-search hit count that would otherwise push
+          # the real tracking issue past the default limit, or (if the
+          # marker were ever duplicated) an otherwise-arbitrary API-order
+          # pick, both resolve deterministically instead.
           # shellcheck disable=SC2016
-          EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open \
+          EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 100 \
             --search 'in:body "idd-drift-tracking-issue"' --json number,body \
-            | jq --arg marker "$MARKER" '[.[] | select(.body | contains($marker))] | .[0].number // empty')
+            | jq --arg marker "$MARKER" '[.[] | select(.body | contains($marker))] | sort_by(.number) | .[0].number // empty')
 
           if [ "$DRIFT" = "true" ]; then
             REPORT=$(cat verify-report.json)

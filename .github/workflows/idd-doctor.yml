@@ -19,9 +19,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Stages the pull request head
+      - name: Stages the pull request merge result
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          # Deliberately the ephemeral merge commit, not the head commit:
+          # checks repository health as it would look after merging, and
+          # keeps behavior stable if a push trigger is ever added
+          # alongside pull_request (github.sha is correct for both).
           ref: ${{ github.sha }}
           # Full history and tags: the default fetch-depth: 1 shallow
           # checkout hides tag refs, which silently skips idd-doctor's
@@ -37,7 +41,7 @@ jobs:
         with:
           cache: pnpm
           check-latest: true
-          node-version: 24.x
+          node-version-file: .node-version
       - env:
           HUSKY: 0
         name: Install the dependencies

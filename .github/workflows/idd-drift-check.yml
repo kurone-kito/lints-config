@@ -122,13 +122,18 @@ jobs:
           # confirm the exact literal marker is actually present in each
           # candidate's body via jq before trusting a match -- this is the
           # authoritative check, not the search API.
+          # gh's own --jq flag takes a single expression string and does not
+          # forward extra flags like --arg to jq -- passing them after --jq
+          # makes gh itself choke on "unknown arguments" (confirmed
+          # empirically). Pipe gh's JSON output into a standalone jq
+          # invocation instead, where --arg is jq's own flag.
           # $marker below is a jq variable (bound via --arg), not a shell
           # variable -- it must stay literal inside the single-quoted jq
           # filter for jq itself to interpret it.
           # shellcheck disable=SC2016
           EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open \
             --search 'in:body "idd-drift-tracking-issue"' --json number,body \
-            --jq --arg marker "$MARKER" '[.[] | select(.body | contains($marker))] | .[0].number // empty')
+            | jq --arg marker "$MARKER" '[.[] | select(.body | contains($marker))] | .[0].number // empty')
 
           if [ "$DRIFT" = "true" ]; then
             REPORT=$(cat verify-report.json)

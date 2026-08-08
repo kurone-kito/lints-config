@@ -1,0 +1,188 @@
+# Detects drift between this repository's imported IDD template surface
+# and the latest upstream kurone-kito/idd-skill release, so it stops
+# depending on a human noticing (see #217: the v0.4.0 -> v0.6.0 pin went
+# 452 commits stale before anyone looked).
+#
+# Two independent checks, both run every time:
+#   1. Compares .github/idd/config.json's iddVersion against the newest
+#      semver-sorted v* git tag upstream.
+#   2. Downloads that tag's tree and runs `idd-onboard --verify`, which
+#      reports manifestCompleteness (files the current template would
+#      import that this repository lacks), placeholderResidue, and the
+#      informational staleImportSignal.
+#
+# Never fails the job on drift -- see #175: a workflow that is red 100%
+# of the time carries no signal. Drift is reported by opening or
+# updating a single tracking issue instead, identified by a marker in
+# the issue body so re-runs update the same issue rather than piling up
+# duplicates; a later drift-free run closes it.
+#
+# Deliberately does not special-case the doc-lint files
+# (.cspell.config.yml, .markdownlint.yml, .markdownlint-cli2.yaml).
+# --verify's manifestCompleteness only checks existence at the target
+# path, not content, so this repository's deliberate content divergence
+# from the template (it bridges its own published cspell/markdownlint
+# packages instead of importing the template's copies verbatim) never
+# trips a false positive -- adding a content comparison for these paths
+# would manufacture exactly the false positive this note exists to
+# prevent.
+name: IDD template drift check
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: idd-drift-check
+  cancel-in-progress: true
+jobs:
+  drift-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          run_install: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          cache: pnpm
+          check-latest: true
+          node-version-file: .node-version
+      - env:
+          HUSKY: 0
+        name: Install the dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline
+      - name: Resolve the current and latest idd-skill versions
+        id: versions
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          CURRENT=$(jq -r '.iddVersion' .github/idd/config.json)
+          # Semver-sort client-side rather than trusting the tags API's
+          # array order, which GitHub does not document as guaranteed.
+          LATEST=$(gh api repos/kurone-kito/idd-skill/tags --paginate --jq '.[].name' \
+            | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+            | sed 's/^v//' \
+            | sort -V \
+            | tail -1)
+          if [ -z "$LATEST" ]; then
+            echo "::error::Could not resolve any v*.*.* tag from kurone-kito/idd-skill"
+            exit 1
+          fi
+          echo "current=$CURRENT" >> "$GITHUB_OUTPUT"
+          echo "latest=$LATEST" >> "$GITHUB_OUTPUT"
+          echo "Current iddVersion: $CURRENT / Latest upstream tag: v$LATEST"
+      - name: Download and extract the latest upstream tag
+        env:
+          LATEST: ${{ steps.versions.outputs.latest }}
+        run: |
+          mkdir -p /tmp/idd-skill-latest
+          curl -fsSL "https://codeload.github.com/kurone-kito/idd-skill/tar.gz/refs/tags/v${LATEST}" \
+            | tar -xz -C /tmp/idd-skill-latest --strip-components=1
+      - name: Run idd-onboard --verify against the latest upstream tag
+        id: verify
+        run: |
+          # Redirect stdout straight to a file (never through a shell
+          # capture) and validate it as JSON with `jq -e` before trusting
+          # it, rather than only checking for emptiness: if stray output
+          # (a log line, a tool banner) ever lands on stdout ahead of or
+          # alongside the JSON, an emptiness-only check would miss it and
+          # the later `jq -r '.blocking'` would hard-fail the whole step
+          # under `set -e`, taking the job red instead of reporting drift
+          # via the tracking issue -- exactly the failure mode this
+          # workflow exists to avoid (#175).
+          set +e
+          pnpm exec idd-onboard --verify --source /tmp/idd-skill-latest --target . --profile package-manager \
+            > verify-report.json 2> verify-stderr.log
+          EXIT=$?
+          set -e
+          if ! jq -e . verify-report.json > /dev/null 2>&1; then
+            echo "::warning::idd-onboard --verify produced invalid or non-JSON output (exit $EXIT); treating as blocking"
+            cat verify-stderr.log >&2 || true
+            echo '{"blocking":true,"manifestCompleteness":{"missingSource":[],"missingTarget":["<invalid output from idd-onboard>"]},"placeholderResidue":{"residue":[],"unknownTokens":[]},"staleImportSignal":{"missing":[]}}' > verify-report.json
+          fi
+          BLOCKING=$(jq -r '.blocking' verify-report.json)
+          echo "blocking=$BLOCKING" >> "$GITHUB_OUTPUT"
+      - name: Report drift status
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CURRENT: ${{ steps.versions.outputs.current }}
+          LATEST: ${{ steps.versions.outputs.latest }}
+          VERIFY_BLOCKING: ${{ steps.verify.outputs.blocking }}
+        run: |
+          MARKER="<!-- idd-drift-tracking-issue -->"
+          DRIFT=false
+          if [ "$CURRENT" != "$LATEST" ]; then
+            DRIFT=true
+          fi
+          if [ "$VERIFY_BLOCKING" = "true" ]; then
+            DRIFT=true
+          fi
+
+          # GitHub's issue search is tokenized, not phrase-matched, even
+          # inside quotes -- "in:body \"idd-drift-tracking-issue\"" can still
+          # surface unrelated issues that merely share those words (verified
+          # empirically: this repository's own #217 matched the unquoted
+          # form). Use the search only as a coarse candidate filter, then
+          # confirm the exact literal marker is actually present in each
+          # candidate's body via jq before trusting a match -- this is the
+          # authoritative check, not the search API.
+          # gh's own --jq flag takes a single expression string and does not
+          # forward extra flags like --arg to jq -- passing them after --jq
+          # makes gh itself choke on "unknown arguments" (confirmed
+          # empirically). Pipe gh's JSON output into a standalone jq
+          # invocation instead, where --arg is jq's own flag.
+          # $marker below is a jq variable (bound via --arg), not a shell
+          # variable -- it must stay literal inside the single-quoted jq
+          # filter for jq itself to interpret it. --limit raised well past
+          # gh's 30-issue default and the candidate set is sorted by
+          # ascending issue number before taking the first match, so a
+          # coarse tokenized-search hit count that would otherwise push
+          # the real tracking issue past the default limit, or (if the
+          # marker were ever duplicated) an otherwise-arbitrary API-order
+          # pick, both resolve deterministically instead.
+          # shellcheck disable=SC2016
+          EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 100 \
+            --search 'in:body "idd-drift-tracking-issue"' --json number,body \
+            | jq --arg marker "$MARKER" '[.[] | select(.body | contains($marker))] | sort_by(.number) | .[0].number // empty')
+
+          if [ "$DRIFT" = "true" ]; then
+            REPORT=$(cat verify-report.json)
+            # Recomputed on every drift-detected run (not just at issue
+            # creation) so a long-lived open tracking issue's title keeps
+            # reflecting the current pinned-vs-latest comparison instead
+            # of going stale while upstream keeps advancing underneath it.
+            TITLE="IDD template drift: pinned v${CURRENT} vs upstream v${LATEST}"
+            # The backticks below are literal markdown formatting inside a
+            # single-quoted printf format string -- correctly protected from
+            # command substitution by the single quotes, not an expansion bug.
+            # shellcheck disable=SC2016
+            BODY=$(printf '%s\n\n%s\n\n- Pinned \`iddVersion\`: \`%s\`\n- Latest upstream tag: \`v%s\`\n\n%s\n\n\`\`\`json\n%s\n\`\`\`\n\n%s\n' \
+              "$MARKER" \
+              "## IDD template drift detected" \
+              "$CURRENT" "$LATEST" \
+              "\`idd-onboard --verify\` report against the latest upstream tag:" \
+              "$REPORT" \
+              "Run this workflow manually (\`workflow_dispatch\`) after re-syncing to confirm the drift clears; this issue closes automatically on the next drift-free run.")
+            if [ -n "$EXISTING" ]; then
+              gh issue edit "$EXISTING" --repo "$GITHUB_REPOSITORY" --title "$TITLE" --body "$BODY"
+              gh issue comment "$EXISTING" --repo "$GITHUB_REPOSITORY" \
+                --body "Drift check re-ran on $(date -u +%Y-%m-%dT%H:%M:%SZ) -- still drifted (iddVersion \`${CURRENT}\` vs latest \`v${LATEST}\`)."
+            else
+              gh issue create --repo "$GITHUB_REPOSITORY" \
+                --title "$TITLE" \
+                --body "$BODY"
+            fi
+          else
+            echo "No drift: iddVersion ($CURRENT) matches the latest upstream tag, and idd-onboard --verify reports no blocking finding."
+            if [ -n "$EXISTING" ]; then
+              gh issue comment "$EXISTING" --repo "$GITHUB_REPOSITORY" \
+                --body "Resolved: iddVersion (\`${CURRENT}\`) now matches the latest upstream tag (\`v${LATEST}\`), and \`idd-onboard --verify\` reports no blocking finding. Closing."
+              gh issue close "$EXISTING" --repo "$GITHUB_REPOSITORY" --reason completed
+            fi
+          fi

@@ -7,4 +7,18 @@ import:
   - '@kurone-kito/cspell-config'
 version: '0.2'
 words:
+  - GHEC
+  - GHES
+  - idd
+  - Kiro
+  - kurone
+  - minimizable
+  - ministral
+  - nvmrc
+  - rollup
+  - tsfile
+  - unmigrated
+  - unmirrored
+  - unrouted
   - unrs
+  - WHATWG

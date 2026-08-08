@@ -254,14 +254,15 @@ config search order, `.cspell.config.yml` is evaluated *before*
 the template file as a second, separate file would have silently
 shadowed this repository's own config with no error and no warning.
 The fix (#213) renamed the root config to the dot-prefixed path instead
-of adding a second file: `.cspell.config.yml` now `import:
-['@kurone-kito/cspell-config']`, carries this repository's own
+of adding a second file: `.cspell.config.yml` now
+`import: ['@kurone-kito/cspell-config']`, carries this repository's own
 `cache:` block and word list forward, and does not copy the template's
-narrower 9-dictionary list. `.markdownlint.yml` keeps `extends:
-'@kurone-kito/markdownlint-config'` and adds only the two rules the
-published package doesn't already cover (`table-column-style`,
-`single-title`). `.markdownlint-cli2.yaml` needed no change — its
-existing `ignores` list was already a superset of the template's.
+narrower 9-dictionary list. `.markdownlint.yml` keeps
+`extends: '@kurone-kito/markdownlint-config'` and adds only the two
+rules the published package doesn't already cover
+(`table-column-style`, `single-title`). `.markdownlint-cli2.yaml`
+needed no change — its existing `ignores` list was already a superset
+of the template's.
 
 **This is a content divergence only.** All three files exist at their
 template target paths, so `idd-onboard --verify`'s existence-based

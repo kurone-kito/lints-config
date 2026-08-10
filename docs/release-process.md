@@ -75,9 +75,10 @@ IDD agents on parallel branches; every PR editing the same
 guaranteed, repeated merge-conflict source.
 
 Instead, the person or agent preparing a release derives entries in
-three passes: an initial draft when opening the release-prep PR, a
-recompute immediately before merging it, and a final check immediately
-before publishing. All three passes use the same diff command and
+three passes: an initial draft, computed before the version-bump/
+CHANGELOG commit that opens the release-prep PR, a recompute
+immediately before merging it, and a final check immediately before
+publishing. All three passes use the same diff command and
 classification method below.
 
 ### The diff command

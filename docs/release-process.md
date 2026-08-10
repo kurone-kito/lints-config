@@ -78,15 +78,24 @@ Instead, the person or agent preparing a release derives entries in
 three passes: an initial draft, computed before the version-bump/
 CHANGELOG commit that opens the release-prep PR, a recompute
 immediately before merging it, and a final check immediately before
-publishing. All three passes use the same diff command and
-classification method below.
+publishing. All three passes use the same classification method below;
+the initial draft and recompute also share the same diff command,
+while the final gate's differs (see that section).
 
 ### The diff command
 
+Used by the initial draft and the recompute before merging:
+
 ```sh
-git fetch origin main
-git diff --no-renames --name-status "$(git describe --tags --abbrev=0)"..origin/main
+git fetch --tags origin main
+git diff --no-renames --name-status \
+  "$(git describe --tags --abbrev=0 origin/main)"..origin/main
 ```
+
+Resolve the tag from `origin/main`, not local `HEAD`: `git describe`
+without an explicit commit-ish resolves from `HEAD`, which can lag
+behind `origin/main` (for example if a newer release tag lands on
+`main` after this branch was created), reprocessing the wrong release.
 
 Classify each line's path into root vs. package buckets per the
 file-path-attribution method above, then synthesize each affected file
@@ -135,8 +144,8 @@ actual point of no return (see Existing release mechanics below).
 Immediately before publishing:
 
 1. Refresh the `## [x.y.z] - YYYY-MM-DD` date to the publish date.
-2. Diff the release-prep merge commit against `origin/main`'s current
-   tip:
+2. Fetch `origin main` again, then diff the release-prep merge commit
+   against `origin/main`'s current tip:
    `git diff --no-renames --name-status <release-prep-merge-sha>..origin/main`
    — not `<last-tag>` again. Comparing from the merge commit, which is
    already fully accounted for, shows only what landed on `main`

@@ -16,9 +16,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
   `GEMINI.md`, an expanded `.github/copilot-instructions.md`) that reference the
   IDD workflow.
 - Add supporting repo scaffolding re-imported from the upstream template:
-  `.coderabbit.yaml`, `.gitattributes`, GitHub issue templates,
-  `.github/dependabot.yml`, `.gitmessage`, `docs/ai-strategy.md`, and
-  `docs/permissions.md`.
+  GitHub issue templates, `.github/funding.yml`, `.gitmessage`,
+  `docs/ai-strategy.md`, and `docs/permissions.md`.
 - Add five new IDD-related GitHub Actions workflows: `idd-drift-check.yml`
   (detects upstream IDD template drift), `idd-advisory-convergence.yml`
   (exempting bot-authored PRs), `post-merge-cleanup.yml`,
@@ -53,6 +52,10 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Bridge the upstream v0.6.0 doc-lint configs onto this repository's own: rename
   `cspell.config.yml` to `.cspell.config.yml`, extend `.markdownlint.yml`, and
   update `.vscode/settings.json`.
+- Reconcile existing shared meta config files with the upstream template:
+  disable CodeRabbit issue-enrichment auto-labeling (`.coderabbit.yaml`),
+  vendor `pnpm-lock.yaml` and enforce LF line endings (`.gitattributes`), and
+  group Dependabot minor/patch updates (`.github/dependabot.yml`).
 - Record and expand the v0.6.0 IDD policy decisions in `docs/idd-policy.md`,
   re-import the IDD instruction files under `.github/instructions/` from
   upstream v0.6.0, and re-sync `docs/customization.md` and the

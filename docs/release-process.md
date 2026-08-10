@@ -116,9 +116,20 @@ against its current remote tip: `git fetch origin main`, then
 against `origin/main`, not against the release-prep branch's own
 possibly-stale `HEAD`: staying on that branch and diffing
 `<last-tag>..HEAD` again would miss any commit that landed on `main`
-after the branch was created. If the refreshed diff surfaces entries
-not already recorded, append them to the pending `## [x.y.z]` sections
-before merging. If nothing new landed, merge as-is.
+after the branch was created.
+
+Re-derive each affected path's bullet from its actual commits/PRs per
+the Attribution rule above, not merely from whether the path is new to
+the diff — an intervening change can touch a path the first pass
+already covered, and a stale bullet would then miss it. If the
+refreshed set requires a larger SemVer bump than already chosen (for
+example, an intervening breaking change lands after only a patch bump
+was planned), re-evaluate the bump and correct the release draft's
+title and tag (see the release-drafter gap under Existing release
+mechanics below) before merging. Repeat this fetch-and-recompute step
+after every subsequent push to the release-prep PR — pushing a
+refreshed CHANGELOG reopens the same merge window — and merge only
+once a recompute finds nothing new.
 
 ## Non-goal — do not ship in the npm tarball
 

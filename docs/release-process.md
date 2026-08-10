@@ -76,10 +76,17 @@ guaranteed, repeated merge-conflict source.
 
 Instead, the person or agent preparing a release derives the
 since-last-tag entries in one pass immediately before bumping
-`package.json` version(s) and opening the release PR, using the same
-file-path-attribution method above (`git diff --name-only
-<last-tag>..HEAD`, classified by changed path into root vs. package
-buckets). That pass moves the accumulated changes into a new
+`package.json` version(s) and opening the release PR, using
+`git diff --no-renames --name-status <last-tag>..HEAD`, classified by
+changed path into root vs. package buckets per the file-path-attribution
+method above. Use `--no-renames`, not plain `--name-only`: without it, a
+detected rename collapses to a single `R100` line carrying only the
+destination path, so a file moved from one published package's
+directory to another would silently drop the removal note from the
+source package's `CHANGELOG.md`. `--no-renames --name-status` instead
+reports a rename as a separate `A` (destination) and `D` (source) pair,
+so both sides get attributed to their own package's `CHANGELOG.md`.
+That pass moves the accumulated changes into a new
 `## [x.y.z] - YYYY-MM-DD` section at the top of each affected
 `CHANGELOG.md`, leaves `## [Unreleased]` present but empty for the
 next cycle, and includes those `CHANGELOG.md` changes in the same
@@ -89,6 +96,16 @@ release mechanics below — publishing is what triggers the release
 workflow), not the date the release-prep PR was opened or merged. If
 publishing happens on a different day than drafting, refresh the date
 immediately before publishing.
+
+**Recompute immediately before merging, not only before opening the
+PR.** This repository runs multiple parallel IDD agents, so another PR
+can merge to `main` after the since-last-tag diff was first computed
+but before the release-prep PR itself merges. Left unhandled, that
+intervening change lands in the eventual release tag with no
+CHANGELOG entry. Immediately before merging the release-prep PR — not
+only when it was opened — re-run the same diff; if it surfaces entries
+not already recorded, append them to the pending `## [x.y.z]` sections
+before merging. If nothing new landed, merge as-is.
 
 ## Non-goal — do not ship in the npm tarball
 

@@ -2,6 +2,19 @@
 
 My configuration for the Biome / CSpell / lint-staged and other tools
 
+## Features
+
+- [Biome](packages/biome-config/README.md): lint and format rules for
+  general projects.
+- [commitlint](packages/commitlint-config/README.md): Conventional
+  Commits validation for general projects.
+- [CSpell](packages/cspell-config/README.md): spell-checking
+  configuration for general projects.
+- [lint-staged](packages/lint-staged-config/README.md): lint-staged
+  configuration for general projects.
+- [Markdownlint](packages/markdownlint-config/README.md): Markdownlint
+  configuration for general projects.
+
 ## Structure of the monorepo
 
 - [`packages/biome-config`](packages/biome-config/README.md):
@@ -50,6 +63,6 @@ Introduce commit message validation at commit time.
 The “**[Conventional Commits](https://www.conventionalcommits.org/ja/)**”
 rule is applied to discourage committing messages that violate conventions.
 
-## LICENSE
+## License
 
 [MIT](./LICENSE)

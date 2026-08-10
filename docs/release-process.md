@@ -169,10 +169,11 @@ Immediately before publishing:
    only the release-prep merge's own run, but also any triggered by
    an unrelated PR being opened, reopened, or synchronized around the
    same time (`.github/workflows/push-main.yml` runs that job on both
-   triggers). release-drafter regenerates the draft's title and tag
-   from `$NEXT_PATCH_VERSION` on every one of those runs (see the
-   known gap under Existing release mechanics below), so correcting
-   while any run is still in flight does not survive to this point.
+   triggers). The release-drafter action regenerates the draft's
+   title and tag from `$NEXT_PATCH_VERSION` on every one of those
+   runs (see the known gap under Existing release mechanics below),
+   so correcting while any run is still in flight does not survive
+   to this point.
 
 ## Non-goal — do not ship in the npm tarball
 

@@ -100,9 +100,16 @@ next cycle, and includes those `CHANGELOG.md` changes in the same
 release-prep commit/PR that bumps the version. The `YYYY-MM-DD` date
 is the date the GitHub Release is actually published (see Existing
 release mechanics below — publishing is what triggers the release
-workflow), not the date the release-prep PR was opened or merged. If
-publishing happens on a different day than drafting, refresh the date
-immediately before publishing.
+workflow), not the date the release-prep PR was opened or merged.
+Publishing, not the release-prep merge, is the true point of no
+return, so treat "immediately before publishing" as the final gate:
+refresh the date, re-run the recompute check below one more time
+against `origin/main`'s current tip, and re-verify the release
+draft's title and tag are still correct — release-drafter regenerates
+both from `$NEXT_PATCH_VERSION` on every push to `main`, including the
+release-prep merge itself (see the known gap under Existing release
+mechanics below), so a correction made any earlier does not survive
+to publish time.
 
 **Recompute immediately before merging, not only before opening the
 PR.** This repository runs multiple parallel IDD agents, so another PR
@@ -124,12 +131,13 @@ the diff — an intervening change can touch a path the first pass
 already covered, and a stale bullet would then miss it. If the
 refreshed set requires a larger SemVer bump than already chosen (for
 example, an intervening breaking change lands after only a patch bump
-was planned), re-evaluate the bump and correct the release draft's
-title and tag (see the release-drafter gap under Existing release
-mechanics below) before merging. Repeat this fetch-and-recompute step
-after every subsequent push to the release-prep PR — pushing a
-refreshed CHANGELOG reopens the same merge window — and merge only
-once a recompute finds nothing new.
+was planned), re-evaluate the bump now, but defer correcting the
+release draft's title and tag to the publish-time final gate above —
+release-drafter resets both on the release-prep merge itself, so a
+correction made here would not survive to publish time anyway. Repeat
+this fetch-and-recompute step after every subsequent push to the
+release-prep PR — pushing a refreshed CHANGELOG reopens the same merge
+window — and merge once a recompute finds nothing new.
 
 ## Non-goal — do not ship in the npm tarball
 

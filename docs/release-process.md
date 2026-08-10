@@ -109,14 +109,14 @@ but before the release-prep PR itself merges. Left unhandled, that
 intervening change lands in the eventual release tag with no
 CHANGELOG entry. Immediately before merging the release-prep PR — not
 only when it was opened — fetch the latest `main` and re-run the diff
-against its current remote tip (`git fetch origin main && git diff
---no-renames --name-status <last-tag>..origin/main`), not against the
-release-prep branch's own possibly-stale `HEAD`: staying on that
-branch and diffing `<last-tag>..HEAD` again would miss any commit that
-landed on `main` after the branch was created. If the refreshed diff
-surfaces entries not already recorded, append them to the pending
-`## [x.y.z]` sections before merging. If nothing new landed, merge
-as-is.
+against its current remote tip: `git fetch origin main`, then
+`git diff --no-renames --name-status <last-tag>..origin/main`. Diff
+against `origin/main`, not against the release-prep branch's own
+possibly-stale `HEAD`: staying on that branch and diffing
+`<last-tag>..HEAD` again would miss any commit that landed on `main`
+after the branch was created. If the refreshed diff surfaces entries
+not already recorded, append them to the pending `## [x.y.z]` sections
+before merging. If nothing new landed, merge as-is.
 
 ## Non-goal — do not ship in the npm tarball
 

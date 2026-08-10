@@ -2,6 +2,11 @@
 
 My lint-staged configuration for any projects
 
+## Features
+
+- Runs [CSpell](https://cspell.org/) then [Biome](https://biomejs.dev/)
+  on every staged file before commit.
+
 ## Usage
 
 Install this package and its peer dependencies:

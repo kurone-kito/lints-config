@@ -2,6 +2,14 @@
 
 My CSpell configuration for general Node.js projects.
 
+## Features
+
+- A broad set of built-in [CSpell](https://cspell.org/) dictionaries
+  (languages, frameworks, cloud/infra terms, and more).
+- A curated personal word list (placeholder names and cross-language
+  development terms) to cut down on false positives.
+- Compound-word matching enabled.
+
 ## Usage
 
 First, install this package and its peer dependencies:

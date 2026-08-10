@@ -3,6 +3,15 @@
 My [Markdownlint](https://github.com/DavidAnson/markdownlint) configuration
 for any projects
 
+## Features
+
+- Extends Markdownlint's default rule set.
+- Allows line-length limits to be exceeded inside code blocks, tables,
+  and headings, where folding is impractical.
+- Allows duplicate headings (needed for `siblings_only`-unsupported
+  documents).
+- Allows `<details>`/`<summary>` HTML for collapsible sections.
+
 ## Usage
 
 Install this package:

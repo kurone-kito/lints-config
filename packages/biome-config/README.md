@@ -4,9 +4,10 @@ My biome configuration for general Node.js projects.
 
 ## Features
 
-- Biome 2.x lint and format rules, formatting with 2-space indent
-  (matching Prettier's default) and single quotes (a common
-  Prettier-adjacent override, not Prettier's own default).
+- Biome 2.x lint and format rules, formatting with space indentation
+  (Biome's own default width, 2 spaces, matching Prettier's default)
+  and single quotes (a common Prettier-adjacent override, not
+  Prettier's own default).
 - Auto-organizes imports on `biome check --write`.
 
 ## Usage

@@ -143,6 +143,14 @@ Immediately before publishing:
    afterward, so the merge's own version bump and `CHANGELOG.md` edits
    never reappear as if they were newly-changed. Handle anything this
    shows the same way as the recompute-before-merging step above.
+   **Known residual risk**: a PR merged to `main` in the narrow window
+   between the last recompute-before-merging check and the release-prep
+   merge itself is not caught by this diff, since it is already folded
+   into the merge commit's own tree. Keep that window as short as
+   possible — merge immediately after a clean recompute, with no
+   unrelated delay in between — rather than trying to detect it after
+   the fact; closing it completely needs commit-by-commit history
+   inspection this procedure intentionally does not require.
 3. Correct the release draft's title and tag if they do not match the
    bumped `package.json` version — check this regardless of whether
    the bump changed during recomputation, since a release planned as

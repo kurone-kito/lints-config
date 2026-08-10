@@ -160,7 +160,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 - Switch the repository's own linting/formatting tooling from ESLint and
   Prettier to Biome.
-- Require Node.js 20.11 or later (drop Node.js 18 support).
+- Require Node.js `^20.11 || >=22` (was `^18.20 || ^20.10 || >=22`) — drops
+  Node.js 18 support.
 
 ### Fixed
 

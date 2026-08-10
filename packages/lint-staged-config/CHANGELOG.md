@@ -53,7 +53,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 - Rewrite the package as a TypeScript module exporting `useEslint` (default) and
   `useBiome` presets instead of a static YAML/JSON config.
-- Require Node.js 20.11 or later (drop Node.js 18 support).
+- Require Node.js `^20.11 || >=22` (was `^18.20 || ^20.10 || >=22`) — drops
+  Node.js 18 support.
 
 ### Removed
 

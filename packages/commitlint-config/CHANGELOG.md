@@ -28,7 +28,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Require Node.js 20.11 or later (drop Node.js 18 support).
+- Require Node.js `^20.11 || >=22` (was `^18.20 || ^20.10 || >=22`) — drops
+  Node.js 18 support.
 
 ## [0.16.1] - 2024-09-09
 

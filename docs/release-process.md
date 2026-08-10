@@ -2,8 +2,9 @@
 
 This document records the CHANGELOG convention and the release
 mechanics already implemented by this repository's CI. It is the
-canonical, discoverable home for both, replacing the closed issues
-that originally decided them.
+canonical, discoverable home for both, so future releases (and future
+agents) do not have to dig through the issues that originally decided
+them.
 
 As of this writing, no `CHANGELOG.md` file exists yet anywhere in this
 repository — a companion issue tracks the initial historical backfill.

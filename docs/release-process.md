@@ -79,8 +79,8 @@ three passes: an initial draft, computed before the version-bump/
 CHANGELOG commit that opens the release-prep PR, a recompute
 immediately before merging it, and a final check immediately before
 publishing. All three passes use the same classification method below;
-the initial draft and recompute also share the same diff command,
-while the final gate's differs (see that section).
+the initial draft and recompute also share the same diff command, but
+the final gate uses a different one (see that section).
 
 ### The diff command
 

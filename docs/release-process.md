@@ -79,14 +79,19 @@ since-last-tag entries in one pass immediately before bumping
 `package.json` version(s) and opening the release PR, using
 `git diff --no-renames --name-status <last-tag>..HEAD`, classified by
 changed path into root vs. package buckets per the file-path-attribution
-method above. Use `--no-renames`, not plain `--name-only`: without it, a
-detected rename collapses to a single `R100` line carrying only the
-destination path, so a file moved from one published package's
-directory to another would silently drop the removal note from the
-source package's `CHANGELOG.md`. `--no-renames --name-status` instead
-reports a rename as a separate `A` (destination) and `D` (source) pair,
-so both sides get attributed to their own package's `CHANGELOG.md`.
-That pass moves the accumulated changes into a new
+method above. Use `--no-renames --name-status`, not plain `--name-only`:
+`--name-only` prints only the destination path for a detected rename,
+with no way to recover the source path at all, so a file moved from one
+published package's directory to another would silently drop the
+removal note from the source package's `CHANGELOG.md`. Plain
+`--name-status` (without `--no-renames`) does carry both paths for a
+rename, but packs them into a single `R100 <old> <new>` line that needs
+special two-path parsing, unlike every other line's single path.
+`--no-renames` avoids that: it splits each rename into independent `D`
+(source) and `A` (destination) lines, so the same one-path-per-line
+classification the Attribution rule already uses just works, with both
+sides attributed to their own package's `CHANGELOG.md`. That pass moves
+the accumulated changes into a new
 `## [x.y.z] - YYYY-MM-DD` section at the top of each affected
 `CHANGELOG.md`, leaves `## [Unreleased]` present but empty for the
 next cycle, and includes those `CHANGELOG.md` changes in the same
@@ -103,9 +108,15 @@ can merge to `main` after the since-last-tag diff was first computed
 but before the release-prep PR itself merges. Left unhandled, that
 intervening change lands in the eventual release tag with no
 CHANGELOG entry. Immediately before merging the release-prep PR — not
-only when it was opened — re-run the same diff; if it surfaces entries
-not already recorded, append them to the pending `## [x.y.z]` sections
-before merging. If nothing new landed, merge as-is.
+only when it was opened — fetch the latest `main` and re-run the diff
+against its current remote tip (`git fetch origin main && git diff
+--no-renames --name-status <last-tag>..origin/main`), not against the
+release-prep branch's own possibly-stale `HEAD`: staying on that
+branch and diffing `<last-tag>..HEAD` again would miss any commit that
+landed on `main` after the branch was created. If the refreshed diff
+surfaces entries not already recorded, append them to the pending
+`## [x.y.z]` sections before merging. If nothing new landed, merge
+as-is.
 
 ## Non-goal — do not ship in the npm tarball
 

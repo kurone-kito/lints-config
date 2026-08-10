@@ -75,8 +75,9 @@ IDD agents on parallel branches; every PR editing the same
 guaranteed, repeated merge-conflict source.
 
 Instead, the person or agent preparing a release derives the
-since-last-tag entries in one pass immediately before bumping
-`package.json` version(s) and opening the release PR, using
+since-last-tag entries once immediately before bumping `package.json`
+version(s) and opening the release PR — plus once more immediately
+before merging it, per the recompute policy below — using
 `git diff --no-renames --name-status <last-tag>..HEAD`, classified by
 changed path into root vs. package buckets per the file-path-attribution
 method above. Use `--no-renames --name-status`, not plain `--name-only`:

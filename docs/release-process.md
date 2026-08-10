@@ -83,7 +83,8 @@ classification method below.
 ### The diff command
 
 ```sh
-git diff --no-renames --name-status <last-tag>..<ref> \
+git fetch origin main
+git diff --no-renames --name-status <last-tag>..origin/main \
   -- ':(exclude)CHANGELOG.md' ':(exclude)**/CHANGELOG.md'
 ```
 
@@ -103,13 +104,16 @@ independent `D` (source) and `A` (destination) lines, so both sides
 attribute with the same one-path-per-line handling as everything else.
 Exclude `CHANGELOG.md` paths: they are this procedure's own output, not
 release input, so without the exclusion a pass run after an earlier
-pass's `CHANGELOG.md` edits already landed on `<ref>` would treat those
-generated edits as newly-changed source and misattribute them.
+pass's `CHANGELOG.md` edits already landed on `origin/main` would treat
+those generated edits as newly-changed source and misattribute them.
 
-`<ref>` is `HEAD` for the initial draft. It is `origin/main` for both
-recomputes below — diffing the release-prep branch's own `HEAD` again
-would miss any commit that landed on `main` after the branch was
-created.
+All three passes below fetch and diff against `origin/main`'s current
+tip, including the initial draft: before the release-prep branch has
+any commits of its own, its `HEAD` equals `origin/main` anyway, so
+there is no reason to special-case it, and diffing `origin/main`
+uniformly means a rerun never includes the branch's own version-bump
+commit regardless of when that commit was made, and never misses a
+commit that landed on `main` after the branch was created.
 
 Each pass moves its findings into a `## [x.y.z] - YYYY-MM-DD` section
 at the top of each affected `CHANGELOG.md`, leaving `## [Unreleased]`
@@ -123,12 +127,11 @@ This repository runs multiple parallel IDD agents, so another PR can
 merge to `main` after the initial draft but before the release-prep PR
 merges; left unhandled, that change reaches the release tag with no
 CHANGELOG entry. Immediately before merging — not only when the PR was
-opened — fetch `origin/main` and re-run the diff command above. If the
-refreshed set needs a larger SemVer bump than already chosen,
-re-evaluate it now; the release draft's title/tag correction itself
-waits for the final gate below (see why there). Repeat this recompute
-after every subsequent push to the release-prep PR, and merge once it
-finds nothing new.
+opened — re-run the diff command above. If the refreshed set needs a
+larger SemVer bump than already chosen, re-evaluate it now; the
+release draft's title/tag correction itself waits for the final gate
+below (see why there). Repeat this recompute after every subsequent
+push to the release-prep PR, and merge once it finds nothing new.
 
 ### Final gate: immediately before publishing
 
@@ -138,8 +141,11 @@ Immediately before publishing:
 
 1. Refresh the `## [x.y.z] - YYYY-MM-DD` date to the publish date.
 2. Re-run the recompute above once more.
-3. Correct the release draft's title and tag if the SemVer bump
-   changed. Do this here, not at the earlier merge step, and after the
+3. Correct the release draft's title and tag if they do not match the
+   bumped `package.json` version — check this regardless of whether
+   the bump changed during recomputation, since a release planned as
+   minor/major from the very first pass needs the same correction.
+   Do this here, not at the earlier merge step, and after the
    release-prep merge's `update_release_draft` run has finished:
    release-drafter regenerates both from `$NEXT_PATCH_VERSION` on
    every push to `main`, including the release-prep merge itself (see

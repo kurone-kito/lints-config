@@ -45,11 +45,17 @@ for this repository's changelogs — do not create or reference a
 
 A changed path under `packages/<name>/` for one of the five packages
 above goes in that package's `CHANGELOG.md`. A changed path under a
-moved package's former directory (the five names listed above) is
-excluded per the moved-package rule above — never attribute it to the
-root `CHANGELOG.md` either. Every other changed path (root config,
-`.github/`, `docs/`, `scripts/`, `test/`, root `README.md`, etc.) goes
-in the root `CHANGELOG.md`.
+moved package's former directory (the five moved-package names listed
+under File layout) is excluded per that section's rule — never
+attribute it to the root `CHANGELOG.md` either. Every other changed
+path (root config, `.github/`, `docs/`, `scripts/`, `test/`, root
+`README.md`, etc.) goes in the root `CHANGELOG.md`.
+
+A release that touches multiple packages plus root gets one entry per
+affected file group, not one entry per raw commit — synthesize a
+concise, user-facing bullet per group from the commits/PRs touching
+it, skipping pure lockfile-only or CI-only noise with no user-visible
+effect for that group's `CHANGELOG.md`.
 
 Because this repository is lockstep-versioned (all five packages
 always share one version number), a release that only changed some
@@ -76,9 +82,11 @@ buckets). That pass moves the accumulated changes into a new
 `CHANGELOG.md`, leaves `## [Unreleased]` present but empty for the
 next cycle, and includes those `CHANGELOG.md` changes in the same
 release-prep commit/PR that bumps the version. The `YYYY-MM-DD` date
-is the date the GitHub Release is actually published, not the date
-the release-prep PR was opened — if that PR sits open past the day it
-was drafted, refresh the date immediately before merging it.
+is the date the GitHub Release is actually published (see Existing
+release mechanics below — publishing is what triggers the release
+workflow), not the date the release-prep PR was opened or merged. If
+publishing happens on a different day than drafting, refresh the date
+immediately before publishing.
 
 ## Non-goal — do not ship in the npm tarball
 

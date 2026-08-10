@@ -74,70 +74,71 @@ IDD agents on parallel branches; every PR editing the same
 `## [Unreleased]` section of a shared `CHANGELOG.md` file is a
 guaranteed, repeated merge-conflict source.
 
-Instead, the person or agent preparing a release derives the
-since-last-tag entries once immediately before bumping `package.json`
-version(s) and opening the release PR — plus once more immediately
-before merging it, per the recompute policy below — using
-`git diff --no-renames --name-status <last-tag>..HEAD`, classified by
-changed path into root vs. package buckets per the file-path-attribution
-method above. Use `--no-renames --name-status`, not plain `--name-only`:
-`--name-only` prints only the destination path for a detected rename,
-with no way to recover the source path at all, so a file moved from one
-published package's directory to another would silently drop the
-removal note from the source package's `CHANGELOG.md`. Plain
-`--name-status` (without `--no-renames`) does carry both paths for a
-rename, but packs them into a single `R100 <old> <new>` line, which
-needs different parsing from the single-path `A`/`M`/`D` lines this
-command's output otherwise uses. `--no-renames` avoids that special
-case: it splits each rename into independent `D`
-(source) and `A` (destination) lines, so the same one-path-per-line
-classification the Attribution rule already uses just works, with both
-sides attributed to their own package's `CHANGELOG.md`. That pass moves
-the accumulated changes into a new
-`## [x.y.z] - YYYY-MM-DD` section at the top of each affected
-`CHANGELOG.md`, leaves `## [Unreleased]` present but empty for the
-next cycle, and includes those `CHANGELOG.md` changes in the same
-release-prep commit/PR that bumps the version. The `YYYY-MM-DD` date
-is the date the GitHub Release is actually published (see Existing
-release mechanics below — publishing is what triggers the release
-workflow), not the date the release-prep PR was opened or merged.
-Publishing, not the release-prep merge, is the true point of no
-return, so treat "immediately before publishing" as the final gate:
-refresh the date, re-run the recompute check below one more time
-against `origin/main`'s current tip, and re-verify the release
-draft's title and tag are still correct — release-drafter regenerates
-both from `$NEXT_PATCH_VERSION` on every push to `main`, including the
-release-prep merge itself (see the known gap under Existing release
-mechanics below), so a correction made any earlier does not survive
-to publish time.
+Instead, the person or agent preparing a release derives entries in
+three passes: an initial draft when opening the release-prep PR, a
+recompute immediately before merging it, and a final check immediately
+before publishing. All three passes use the same diff command and
+classification method below.
 
-**Recompute immediately before merging, not only before opening the
-PR.** This repository runs multiple parallel IDD agents, so another PR
-can merge to `main` after the since-last-tag diff was first computed
-but before the release-prep PR itself merges. Left unhandled, that
-intervening change lands in the eventual release tag with no
-CHANGELOG entry. Immediately before merging the release-prep PR — not
-only when it was opened — fetch the latest `main` and re-run the diff
-against its current remote tip: `git fetch origin main`, then
-`git diff --no-renames --name-status <last-tag>..origin/main`. Diff
-against `origin/main`, not against the release-prep branch's own
-possibly-stale `HEAD`: staying on that branch and diffing
-`<last-tag>..HEAD` again would miss any commit that landed on `main`
-after the branch was created.
+### The diff command
 
-Re-derive each affected path's bullet from its actual commits/PRs per
-the Attribution rule above, not merely from whether the path is new to
-the diff — an intervening change can touch a path the first pass
-already covered, and a stale bullet would then miss it. If the
-refreshed set requires a larger SemVer bump than already chosen (for
-example, an intervening breaking change lands after only a patch bump
-was planned), re-evaluate the bump now, but defer correcting the
-release draft's title and tag to the publish-time final gate above —
-release-drafter resets both on the release-prep merge itself, so a
-correction made here would not survive to publish time anyway. Repeat
-this fetch-and-recompute step after every subsequent push to the
-release-prep PR — pushing a refreshed CHANGELOG reopens the same merge
-window — and merge once a recompute finds nothing new.
+```sh
+git diff --no-renames --name-status <last-tag>..<ref>
+```
+
+Classify each line's path into root vs. package buckets per the
+file-path-attribution method above, then synthesize each affected
+path's `CHANGELOG.md` bullet from the commits/PRs that actually
+touched it — not merely from the path appearing in this list, so a
+second, unrelated change to an already-listed path still gets counted.
+
+Use `--name-status`, not plain `--name-only`: `--name-only` prints
+only the destination path for a detected rename, dropping the source
+package's removal note entirely. Add `--no-renames`: a rename without
+it still carries both paths, but packed into one `R100 <old> <new>`
+line needing different parsing from the plain `A`/`M`/`D` lines
+everything else uses; `--no-renames` instead splits a rename into
+independent `D` (source) and `A` (destination) lines, so both sides
+attribute with the same one-path-per-line handling as everything else.
+
+`<ref>` is `HEAD` for the initial draft. It is `origin/main` for both
+recomputes below — diffing the release-prep branch's own `HEAD` again
+would miss any commit that landed on `main` after the branch was
+created.
+
+Each pass moves its findings into a `## [x.y.z] - YYYY-MM-DD` section
+at the top of each affected `CHANGELOG.md`, leaving `## [Unreleased]`
+present but empty for the next cycle. The `YYYY-MM-DD` date is the
+publish date (set at the final gate below), not the date the
+release-prep PR was opened or merged.
+
+### Recompute before merging
+
+This repository runs multiple parallel IDD agents, so another PR can
+merge to `main` after the initial draft but before the release-prep PR
+merges; left unhandled, that change reaches the release tag with no
+CHANGELOG entry. Immediately before merging — not only when the PR was
+opened — fetch `origin/main` and re-run the diff command above. If the
+refreshed set needs a larger SemVer bump than already chosen,
+re-evaluate it now; the release draft's title/tag correction itself
+waits for the final gate below (see why there). Repeat this recompute
+after every subsequent push to the release-prep PR, and merge once it
+finds nothing new.
+
+### Final gate: immediately before publishing
+
+Publishing the GitHub Release, not the release-prep merge, is the
+actual point of no return (see Existing release mechanics below).
+Immediately before publishing:
+
+1. Refresh the `## [x.y.z] - YYYY-MM-DD` date to the publish date.
+2. Re-run the recompute above once more.
+3. Correct the release draft's title and tag if the SemVer bump
+   changed. Do this here, not at the earlier merge step:
+   release-drafter regenerates both from `$NEXT_PATCH_VERSION` on
+   every push to `main`, including the release-prep merge itself (see
+   the known gap under Existing release mechanics below), so an
+   earlier correction would not survive to this point.
 
 ## Non-goal — do not ship in the npm tarball
 

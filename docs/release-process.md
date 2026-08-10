@@ -104,12 +104,10 @@ independent `D` (source) and `A` (destination) lines, so both sides
 attribute with the same one-path-per-line handling as everything else.
 
 All three passes below fetch and diff against `origin/main`'s current
-tip, including the initial draft: before the release-prep branch has
-any commits of its own, its `HEAD` equals `origin/main` anyway, so
-there is no reason to special-case it, and diffing `origin/main`
-uniformly means a rerun never includes the branch's own version-bump
-commit regardless of when that commit was made, and never misses a
-commit that landed on `main` after the branch was created.
+tip, including the initial draft: this never includes the release-prep
+branch's own version-bump/CHANGELOG commits regardless of when they
+are made, and never misses a commit that landed on `main` after the
+branch was created.
 
 Each pass moves its findings into a `## [x.y.z] - YYYY-MM-DD` section
 at the top of each affected `CHANGELOG.md`, leaving `## [Unreleased]`
@@ -137,13 +135,13 @@ Immediately before publishing:
 
 1. Refresh the `## [x.y.z] - YYYY-MM-DD` date to the publish date.
 2. Diff the release-prep merge commit against `origin/main`'s current
-   tip — `git diff --no-renames --name-status
-   <release-prep-merge-sha>..origin/main` — not `<last-tag>` again.
-   Comparing from the merge commit, which is already fully accounted
-   for, shows only what landed on `main` afterward, so the merge's own
-   version bump and `CHANGELOG.md` edits never reappear as if they
-   were newly-changed. Handle anything this shows the same way as the
-   recompute-before-merging step above.
+   tip:
+   `git diff --no-renames --name-status <release-prep-merge-sha>..origin/main`
+   — not `<last-tag>` again. Comparing from the merge commit, which is
+   already fully accounted for, shows only what landed on `main`
+   afterward, so the merge's own version bump and `CHANGELOG.md` edits
+   never reappear as if they were newly-changed. Handle anything this
+   shows the same way as the recompute-before-merging step above.
 3. Correct the release draft's title and tag if they do not match the
    bumped `package.json` version — check this regardless of whether
    the bump changed during recomputation, since a release planned as

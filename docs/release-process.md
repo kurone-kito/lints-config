@@ -93,8 +93,8 @@ This repository already implements the following release flow;
 this document describes it as shipped behavior, not a proposal:
 
 1. A maintainer bumps `package.json` version(s) across the workspace
-   and publishes a GitHub Release (or `release-drafter` prepares the
-   draft from merged PRs).
+   and publishes the GitHub Release that `release-drafter` has been
+   continuously drafting from merged PRs.
 2. The `release: published` event triggers
    [`.github/workflows/release.yml`](../.github/workflows/release.yml),
    which calls the reusable

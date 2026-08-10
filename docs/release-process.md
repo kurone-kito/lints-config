@@ -54,8 +54,9 @@ path (root config, `.github/`, `docs/`, `scripts/`, `test/`, root
 A release that touches multiple packages plus root gets one entry per
 affected file group, not one entry per raw commit — synthesize a
 concise, user-facing bullet per group from the commits/PRs touching
-it, skipping pure lockfile-only or CI-only noise with no user-visible
-effect for that group's `CHANGELOG.md`.
+it. Skip pure lockfile-only or CI-only noise that has no user-visible
+effect for a given package's own `CHANGELOG.md`, but do record
+root-scoped CI/tooling changes in the root `CHANGELOG.md`.
 
 Because this repository is lockstep-versioned (all five packages
 always share one version number), a release that only changed some

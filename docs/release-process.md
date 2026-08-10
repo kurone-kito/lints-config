@@ -83,7 +83,8 @@ classification method below.
 ### The diff command
 
 ```sh
-git diff --no-renames --name-status <last-tag>..<ref>
+git diff --no-renames --name-status <last-tag>..<ref> \
+  -- ':(exclude)CHANGELOG.md' ':(exclude)**/CHANGELOG.md'
 ```
 
 Classify each line's path into root vs. package buckets per the
@@ -95,11 +96,15 @@ second, unrelated change to an already-listed path still gets counted.
 Use `--name-status`, not plain `--name-only`: `--name-only` prints
 only the destination path for a detected rename, dropping the source
 package's removal note entirely. Add `--no-renames`: a rename without
-it still carries both paths, but packed into one `R100 <old> <new>`
+it still carries both paths, but packed into one `R<score> <old> <new>`
 line needing different parsing from the plain `A`/`M`/`D` lines
 everything else uses; `--no-renames` instead splits a rename into
 independent `D` (source) and `A` (destination) lines, so both sides
 attribute with the same one-path-per-line handling as everything else.
+Exclude `CHANGELOG.md` paths: they are this procedure's own output, not
+release input, so without the exclusion a pass run after an earlier
+pass's `CHANGELOG.md` edits already landed on `<ref>` would treat those
+generated edits as newly-changed source and misattribute them.
 
 `<ref>` is `HEAD` for the initial draft. It is `origin/main` for both
 recomputes below — diffing the release-prep branch's own `HEAD` again
@@ -134,11 +139,13 @@ Immediately before publishing:
 1. Refresh the `## [x.y.z] - YYYY-MM-DD` date to the publish date.
 2. Re-run the recompute above once more.
 3. Correct the release draft's title and tag if the SemVer bump
-   changed. Do this here, not at the earlier merge step:
+   changed. Do this here, not at the earlier merge step, and after the
+   release-prep merge's `update_release_draft` run has finished:
    release-drafter regenerates both from `$NEXT_PATCH_VERSION` on
    every push to `main`, including the release-prep merge itself (see
    the known gap under Existing release mechanics below), so an
-   earlier correction would not survive to this point.
+   earlier or still-in-flight correction would not survive to this
+   point.
 
 ## Non-goal — do not ship in the npm tarball
 

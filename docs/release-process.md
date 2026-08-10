@@ -85,8 +85,7 @@ classification method below.
 
 ```sh
 git fetch origin main
-git diff --no-renames --name-status <last-tag>..origin/main \
-  -- ':(exclude)CHANGELOG.md' ':(exclude)**/CHANGELOG.md'
+git diff --no-renames --name-status <last-tag>..origin/main
 ```
 
 Classify each line's path into root vs. package buckets per the
@@ -103,10 +102,6 @@ line needing different parsing from the plain `A`/`M`/`D` lines
 everything else uses; `--no-renames` instead splits a rename into
 independent `D` (source) and `A` (destination) lines, so both sides
 attribute with the same one-path-per-line handling as everything else.
-Exclude `CHANGELOG.md` paths: they are this procedure's own output, not
-release input, so without the exclusion a pass run after an earlier
-pass's `CHANGELOG.md` edits already landed on `origin/main` would treat
-those generated edits as newly-changed source and misattribute them.
 
 All three passes below fetch and diff against `origin/main`'s current
 tip, including the initial draft: before the release-prep branch has
@@ -141,7 +136,14 @@ actual point of no return (see Existing release mechanics below).
 Immediately before publishing:
 
 1. Refresh the `## [x.y.z] - YYYY-MM-DD` date to the publish date.
-2. Re-run the recompute above once more.
+2. Diff the release-prep merge commit against `origin/main`'s current
+   tip — `git diff --no-renames --name-status
+   <release-prep-merge-sha>..origin/main` — not `<last-tag>` again.
+   Comparing from the merge commit, which is already fully accounted
+   for, shows only what landed on `main` afterward, so the merge's own
+   version bump and `CHANGELOG.md` edits never reappear as if they
+   were newly-changed. Handle anything this shows the same way as the
+   recompute-before-merging step above.
 3. Correct the release draft's title and tag if they do not match the
    bumped `package.json` version — check this regardless of whether
    the bump changed during recomputation, since a release planned as

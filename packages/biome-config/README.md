@@ -18,7 +18,7 @@ npm install --save-dev @biomejs/biome @kurone-kito/biome-config
 ```
 
 Then, create a Biome 2.x config file (e.g. `biome.jsonc`).
-If exists, merge the following configuration into it:
+If it already exists, merge the following configuration into it:
 
 ```jsonc
 {

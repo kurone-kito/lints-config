@@ -22,7 +22,7 @@ npm install --save-dev \
 ```
 
 Then, create a `cspell.config.yml` file.
-If exists, merge the following configuration into it:
+If it already exists, merge the following configuration into it:
 
 ```yaml
 import:

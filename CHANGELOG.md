@@ -47,9 +47,9 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Re-import the runtime baseline from `pnpm-project-template`: raise the minimum
   supported Node.js version (root and all five published packages) from
   `^20.11 || ^22 || >=24` to `^22.23.1 || ^24.2.0 || >=26.0.0` — breaking, drops
-  Node.js 20/21 support — bump the pinned `packageManager` from pnpm 10.28.2 to
-  11.15.1, and remove the standalone `.npmrc` in favor of `pnpm-workspace.yaml`
-  settings.
+  Node.js 20 and 25 support — bump the pinned `packageManager` from pnpm 10.28.2
+  to 11.15.1, and remove the standalone `.npmrc` in favor of
+  `pnpm-workspace.yaml` settings.
 - Bridge the upstream v0.6.0 doc-lint configs onto this repository's own: rename
   `cspell.config.yml` to `.cspell.config.yml`, extend `.markdownlint.yml`, and
   update `.vscode/settings.json`.
@@ -94,7 +94,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Bump the root Biome dependency and schema reference to `2.3.12`.
+- Bump the root Biome dependency and schema reference to `2.3.13`.
 - Replace the local `scripts/isPrerelease.mjs` with the published
   `@kurone-kito/is-prerelease` package for prerelease-version checks in CI.
 
@@ -148,10 +148,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 - Refactor the release CI into a shared reusable workflow (`common-release.yml`)
   and add a pre-release (`release-next`) workflow.
-
-### Removed
-
-- Remove the Dependabot configuration.
+- Remove the `reviewers`/`assignees` fields from `.github/dependabot.yml`.
 
 ## [0.18.0] - 2025-05-20
 
@@ -321,7 +318,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
   line.
 - Add `export-ignore` git attributes for repo-internal files (`.github/`,
   `.husky/`, `reviewpad.yml`) so they're excluded from published archives.
-- Update the required Node.js (18.19.1) and Yarn (4.1.0) versions.
+- Update the required Node.js (18.19.1) and Yarn (4.1.1) versions.
 - Update the `release-drafter` GitHub Action to v6.
 - Enable Markdownlint for the repository's own Markdown files, extending the new
   `markdownlint-config` package.

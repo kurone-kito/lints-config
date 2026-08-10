@@ -15,7 +15,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 - Raise the minimum supported Node.js version to
   `^22.23.1 || ^24.2.0 || >=26.0.0` (was `^20.11 || ^22 || >=24`) — breaking,
-  drops Node.js 20/21 support.
+  drops Node.js 20 and 25 support.
 
 ## [0.20.0] - 2025-07-01
 

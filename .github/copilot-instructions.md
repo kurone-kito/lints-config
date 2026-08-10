@@ -36,6 +36,11 @@ this file for that workflow. `idd-overview-core.instructions.md` sets
 this file still applies during code review — the IDD-specific
 guidance is scoped to autonomous execution, not review.
 
+See [docs/release-process.md](../docs/release-process.md) for the
+CHANGELOG convention and the existing release mechanics; it also
+explains why CHANGELOG entries are batched at release time instead of
+being added per-PR.
+
 ## Packages
 
 | path                           | package name                       | description                                         |

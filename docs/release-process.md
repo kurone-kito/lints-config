@@ -85,9 +85,10 @@ with no way to recover the source path at all, so a file moved from one
 published package's directory to another would silently drop the
 removal note from the source package's `CHANGELOG.md`. Plain
 `--name-status` (without `--no-renames`) does carry both paths for a
-rename, but packs them into a single `R100 <old> <new>` line that needs
-special two-path parsing, unlike every other line's single path.
-`--no-renames` avoids that: it splits each rename into independent `D`
+rename, but packs them into a single `R100 <old> <new>` line, which
+needs different parsing from the single-path `A`/`M`/`D` lines this
+command's output otherwise uses. `--no-renames` avoids that special
+case: it splits each rename into independent `D`
 (source) and `A` (destination) lines, so the same one-path-per-line
 classification the Attribution rule already uses just works, with both
 sides attributed to their own package's `CHANGELOG.md`. That pass moves

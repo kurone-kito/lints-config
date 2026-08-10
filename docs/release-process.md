@@ -85,14 +85,15 @@ classification method below.
 
 ```sh
 git fetch origin main
-git diff --no-renames --name-status <last-tag>..origin/main
+git diff --no-renames --name-status "$(git describe --tags --abbrev=0)"..origin/main
 ```
 
 Classify each line's path into root vs. package buckets per the
-file-path-attribution method above, then synthesize each affected
-path's `CHANGELOG.md` bullet from the commits/PRs that actually
-touched it — not merely from the path appearing in this list, so a
-second, unrelated change to an already-listed path still gets counted.
+file-path-attribution method above, then synthesize each affected file
+group's `CHANGELOG.md` bullet from the commits/PRs that actually
+touched any path in that group, per the Attribution rule above — not
+merely from a path appearing in this list, so a second, unrelated
+change to an already-covered group still gets counted.
 
 Use `--name-status`, not plain `--name-only`: `--name-only` prints
 only the destination path for a detected rename, dropping the source
@@ -146,13 +147,15 @@ Immediately before publishing:
    bumped `package.json` version — check this regardless of whether
    the bump changed during recomputation, since a release planned as
    minor/major from the very first pass needs the same correction.
-   Do this here, not at the earlier merge step, and after the
-   release-prep merge's `update_release_draft` run has finished:
-   release-drafter regenerates both from `$NEXT_PATCH_VERSION` on
-   every push to `main`, including the release-prep merge itself (see
-   the known gap under Existing release mechanics below), so an
-   earlier or still-in-flight correction would not survive to this
-   point.
+   Do this here, not at the earlier merge step, and only after every
+   `update_release_draft` run currently in flight has finished — not
+   only the release-prep merge's own run, but also any triggered by
+   an unrelated PR being opened, reopened, or synchronized around the
+   same time (`.github/workflows/push-main.yml` runs that job on both
+   triggers). release-drafter regenerates the draft's title and tag
+   from `$NEXT_PATCH_VERSION` on every one of those runs (see the
+   known gap under Existing release mechanics below), so correcting
+   while any run is still in flight does not survive to this point.
 
 ## Non-goal — do not ship in the npm tarball
 

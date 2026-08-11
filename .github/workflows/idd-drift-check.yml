@@ -130,9 +130,13 @@ jobs:
           # safety net for any reason this workflow doesn't know how to
           # parse (e.g. a future upstream version adding a fourth blocking
           # signal this filter has no field for): `blocking` is only
-          # cleared when the *pre-filter* report already fully explains it
-          # via missingSource/missingTarget/residue-before-filter, i.e. the
-          # exempted residue was the only thing making it true. An
+          # cleared when the *pre-filter* report is already fully explained
+          # by the three known fields, i.e. the exempted residue was the
+          # only *known* signal making it true -- this cannot rule out an
+          # unknown future signal that happened to be true at the same
+          # time as the exempted residue, since idd-onboard's own output
+          # doesn't break `blocking` down by cause; closing that residual
+          # gap needs upstream support this workflow doesn't have. An
           # unexplained `blocking: true` (empty known fields, but the tool
           # still said blocking) passes through unchanged instead of being
           # silently cleared. Defaults the fields read below to empty

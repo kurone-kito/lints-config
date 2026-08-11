@@ -141,6 +141,8 @@ push to the release-prep PR, and merge once it finds nothing new.
 
 Publishing the GitHub Release, not the release-prep merge, is the
 actual point of no return (see Existing release mechanics below).
+Merge the release-prep PR and publish on the same calendar day, so
+this gate is normally a read-only confirmation that finds nothing new.
 Immediately before publishing:
 
 1. Refresh the `## [x.y.z] - YYYY-MM-DD` date to the publish date.
@@ -174,6 +176,11 @@ Immediately before publishing:
    runs (see the known gap under Existing release mechanics below),
    so correcting while any run is still in flight does not survive
    to this point.
+
+If this gate finds something to fix anyway (the same-day requirement
+above was missed), apply it through a normal follow-up PR — open,
+review, merge — then repeat this gate before publishing. Never commit
+directly to `main` to patch a release in progress.
 
 ## Non-goal — do not ship in the npm tarball
 

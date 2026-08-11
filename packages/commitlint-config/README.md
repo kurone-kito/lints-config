@@ -44,6 +44,7 @@ npm install --save-dev @commitlint/cli husky
 npx husky init
 rm -f .husky/pre-commit
 printf '#!/bin/sh\nnpx commitlint --edit "${1}"\n' > .husky/commit-msg
+chmod +x .husky/commit-msg
 ```
 
 `husky init` also creates a sample `.husky/pre-commit` hook that runs

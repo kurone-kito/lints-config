@@ -41,6 +41,7 @@ setup yet:
 npm install --save-dev husky
 npx husky init
 printf '#!/bin/sh\nnpx lint-staged\n' > .husky/pre-commit
+chmod +x .husky/pre-commit
 ```
 
 If Husky is already set up, `husky init` overwrites the `prepare`

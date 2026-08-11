@@ -141,7 +141,11 @@ push to the release-prep PR, and merge once it finds nothing new.
 
 Publishing the GitHub Release, not the release-prep merge, is the
 actual point of no return (see Existing release mechanics below).
-Immediately before publishing:
+Merge the release-prep PR — or, if a follow-up was needed per the rule
+below, its latest follow-up — on the same calendar day as the publish
+date that ends up in step 1's `YYYY-MM-DD`, so this gate is normally a
+read-only confirmation that finds nothing new. Immediately before
+publishing:
 
 1. Refresh the `## [x.y.z] - YYYY-MM-DD` date to the publish date.
 2. Fetch `origin main` again, then diff the release-prep merge commit
@@ -174,6 +178,23 @@ Immediately before publishing:
    runs (see the known gap under Existing release mechanics below),
    so correcting while any run is still in flight does not survive
    to this point.
+
+If this gate finds a repository change that needs correction (a stale
+date, a missing `CHANGELOG.md` entry, a wrong SemVer bump), apply it
+through a normal follow-up PR — open, review, merge. Immediately
+before merging it, re-run step 2 once more from the previous baseline
+and fold in anything newly found, the same way the
+recompute-before-merging step does; only then advance step 2's
+baseline to the follow-up PR's own merge commit, then repeat this
+gate — including
+step 1, so the refreshed `YYYY-MM-DD` matches the follow-up merge's
+own calendar day, per the requirement above. Never commit directly to
+`main` to patch a release in progress.
+
+Step 3's release-draft title/tag correction is GitHub metadata, not
+repository content, so it falls outside this follow-up-PR rule —
+correct it directly there, once every in-flight `update_release_draft`
+run has settled.
 
 ## Non-goal — do not ship in the npm tarball
 

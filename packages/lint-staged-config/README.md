@@ -34,13 +34,18 @@ export { default } from '@kurone-kito/lint-staged-config';
 
 To run it automatically before a commit, also install a Git hook
 manager such as [Husky](https://typicode.github.io/husky/), then run
-`lint-staged` from a `pre-commit` hook. For example:
+`lint-staged` from a `pre-commit` hook. For a project with no Husky
+setup yet:
 
 ```sh
 npm install --save-dev husky
 npx husky init
 printf '#!/bin/sh\nnpx lint-staged\n' > .husky/pre-commit
 ```
+
+If Husky is already set up, `husky init` overwrites the `prepare`
+script and `.husky/pre-commit` — skip it and just add or merge the
+`pre-commit` hook by hand instead.
 
 ## License
 

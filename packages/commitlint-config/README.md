@@ -36,19 +36,22 @@ extends:
 To validate commit messages at commit time, also install
 [`@commitlint/cli`](https://www.npmjs.com/package/@commitlint/cli) and
 a Git hook manager such as [Husky](https://typicode.github.io/husky/),
-then run `commitlint --edit` from a `commit-msg` hook. For example:
+then run `commitlint --edit` from a `commit-msg` hook. For a project
+with no Husky setup yet:
 
 ```sh
 npm install --save-dev @commitlint/cli husky
 npx husky init
-rm .husky/pre-commit
+rm -f .husky/pre-commit
 printf '#!/bin/sh\nnpx commitlint --edit "${1}"\n' > .husky/commit-msg
 ```
 
 `husky init` also creates a sample `.husky/pre-commit` hook that runs
 `npm test`; the example above removes it, since this setup only wires
 up commit-message validation. Keep it (or replace its content) if the
-project also wants a pre-commit hook.
+project also wants a pre-commit hook. If Husky is already set up,
+`husky init` overwrites the `prepare` script and `.husky/pre-commit` —
+skip it and just add or merge the `commit-msg` hook by hand instead.
 
 ## License
 

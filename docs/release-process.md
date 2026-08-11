@@ -183,9 +183,10 @@ If this gate finds a repository change that needs correction (a stale
 date, a missing `CHANGELOG.md` entry, a wrong SemVer bump), apply it
 through a normal follow-up PR — open, review, merge. Immediately
 before merging it, re-run step 2 once more from the previous baseline
-and fold in anything newly found, the same way the recompute-before-
-merging step does; only then advance step 2's baseline to the
-follow-up PR's own merge commit, then repeat this gate — including
+and fold in anything newly found, the same way the
+recompute-before-merging step does; only then advance step 2's
+baseline to the follow-up PR's own merge commit, then repeat this
+gate — including
 step 1, so the refreshed `YYYY-MM-DD` matches the follow-up merge's
 own calendar day, per the requirement above. Never commit directly to
 `main` to patch a release in progress.

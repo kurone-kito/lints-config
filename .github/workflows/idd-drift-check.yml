@@ -168,7 +168,17 @@ jobs:
           # `.[]` on a missing/null field abort this jq call under `set -e`
           # and take the job red -- the exact failure mode the
           # JSON-validity check above already guards against for the
-          # whole-output case.
+          # whole-output case. `//=` only substitutes a `null`/`false`
+          # value, so it cannot repair a wrong-*type* value (e.g. upstream
+          # emitting `"manifestCompleteness": []` instead of an object) --
+          # indexing that with a string key is a jq type error, not
+          # something a default can paper over. Rather than hand-write a
+          # type check for every field this filter touches, the whole `jq`
+          # call runs the same fail-safe-to-blocking pattern as the
+          # JSON-validity check above: on any nonzero exit (including a
+          # type error), fall through to the same blocking sentinel instead
+          # of letting `set -e` take the job red.
+          set +e
           jq --argjson exempt '["docs/customization.md","docs/onboarding/placeholders.md","docs/onboarding/policy-decisions.md"]' '
             .manifestCompleteness //= {}
             | .placeholderResidue //= {}
@@ -181,8 +191,16 @@ jobs:
                 (.manifestCompleteness.missingTarget | length > 0) or
                 (.placeholderResidue.residue | length > 0)
               )
-          ' verify-report.json > verify-report.filtered.json
-          mv verify-report.filtered.json verify-report.json
+          ' verify-report.json > verify-report.filtered.json 2> verify-filter-stderr.log
+          FILTER_EXIT=$?
+          set -e
+          if [ "$FILTER_EXIT" -eq 0 ] && jq -e . verify-report.filtered.json > /dev/null 2>&1; then
+            mv verify-report.filtered.json verify-report.json
+          else
+            echo "::warning::residue filter failed on an unexpected verify-report.json shape (exit $FILTER_EXIT); treating as blocking"
+            cat verify-filter-stderr.log >&2 || true
+            echo '{"blocking":true,"manifestCompleteness":{"missingSource":[],"missingTarget":["<unexpected shape from idd-onboard>"]},"placeholderResidue":{"residue":[],"unknownTokens":[]},"staleImportSignal":{"missing":[]}}' > verify-report.json
+          fi
           BLOCKING=$(jq -r '.blocking' verify-report.json)
           echo "blocking=$BLOCKING" >> "$GITHUB_OUTPUT"
       - name: Report drift status

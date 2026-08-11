@@ -13,6 +13,10 @@ My commitlint configuration for general Node.js projects.
 
 ## Usage
 
+This package only provides the commitlint configuration; wiring it up
+to actually validate commit messages (installing `@commitlint/cli` and
+running it from a Git hook) is the consumer's responsibility.
+
 First, install this package and its peer dependencies:
 
 ```sh
@@ -28,6 +32,33 @@ If it already exists, merge the following configuration into it:
 extends:
   - '@kurone-kito/commitlint-config'
 ```
+
+To validate commit messages at commit time, also install
+[`@commitlint/cli`](https://www.npmjs.com/package/@commitlint/cli) and
+a Git hook manager such as [Husky](https://typicode.github.io/husky/),
+then run `commitlint --edit` from a `commit-msg` hook. For a project
+with no Husky setup yet:
+
+```sh
+npm install --save-dev @commitlint/cli husky
+npx --no -- husky init
+rm -f .husky/pre-commit
+printf '#!/bin/sh\nnpx --no -- commitlint --edit "${1}"\n' > .husky/commit-msg
+chmod +x .husky/commit-msg
+```
+
+`--no` stops `npx` from silently downloading and running an unpinned
+registry package if `@commitlint/cli` is somehow missing locally,
+instead of failing.
+
+`husky init` also creates a sample `.husky/pre-commit` hook that runs
+`npm test`; the example above removes it, since this setup only wires
+up commit-message validation. Keep it (or replace its content) if the
+project also wants a pre-commit hook. `husky init` also unconditionally
+overwrites the `scripts.prepare` entry (even in a project that has one
+for something else, like a build step) and, if Husky is already set
+up, `.husky/pre-commit` too — check `package.json` first and merge by
+hand instead of running it blindly.
 
 ## License
 

@@ -42,8 +42,10 @@
 # repository's own content decision, not a general-purpose rule every
 # adopter would want. The recomputed `blocking` is derived only from the
 # three fields idd-onboard's current formula actually uses (verified by
-# reading scripts/idd-onboard.mjs's `runVerify`), not from trying to
-# preserve --verify's own top-level `blocking` boolean as a catch-all --
+# reading upstream idd-skill's scripts/idd-onboard.mjs, its `runVerify`
+# function -- not a file in this repository; this workflow only runs the
+# published `idd-onboard` CLI), not from trying to preserve --verify's
+# own top-level `blocking` boolean as a catch-all --
 # a single flattened boolean can't be safely unmixed once these
 # deliberately-residual meta-doc tokens are present alongside some other,
 # unrelated blocking reason, so treating it as a safety net would risk
@@ -139,20 +141,21 @@ jobs:
           # meta-docs that deliberately keep literal `{{...}}` tokens (see
           # the workflow header comment / docs/idd-policy.md), then
           # recompute `blocking` from only the three fields idd-onboard's
-          # current formula actually uses (verified by reading
-          # scripts/idd-onboard.mjs's `runVerify`: missingSource.length>0
-          # || missingTarget.length>0 || placeholderResidue.residue.length>0
+          # current formula actually uses (verified by reading upstream
+          # idd-skill's scripts/idd-onboard.mjs, its `runVerify` function --
+          # not a file in this repository: missingSource.length>0 ||
+          # missingTarget.length>0 || placeholderResidue.residue.length>0
           # -- nothing else feeds it today). Deliberately does NOT fall
           # back to --verify's own top-level `blocking` boolean as a
-          # catch-all for a hypothetical future fourth signal: that was
-          # tried and reverted after review (kurone-kito/lints-config#248)
-          # surfaced a concrete failure case -- these meta-docs routinely
-          # produce non-exempt-file-free residue, so *any* safety net keyed
-          # off "was blocking already fully explained by the pre-filter
-          # fields" ends up gated on residue being empty, which it usually
-          # isn't here; a coexisting unrelated future blocking reason would
-          # have been silently cleared right alongside the residue this
-          # filter is actually meant to exempt. The header comment's Check
+          # catch-all for a hypothetical future fourth signal: an earlier
+          # revision of this workflow tried that and hit a concrete failure
+          # case in review -- these meta-docs routinely produce
+          # non-exempt-file-free residue, so *any* safety net keyed off
+          # "was blocking already fully explained by the pre-filter fields"
+          # ends up gated on residue being empty, which it usually isn't
+          # here; a coexisting unrelated future blocking reason would have
+          # been silently cleared right alongside the residue this filter
+          # is actually meant to exempt. The header comment's Check
           # 1 (`iddVersion` vs. the latest tag) is the real backstop for
           # that scenario instead: `--verify` here always runs against the
           # newest tag, so reaching a genuinely new blocking check almost

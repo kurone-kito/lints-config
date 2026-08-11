@@ -167,7 +167,9 @@ jobs:
           # JSON-validity check above already guards against for the
           # whole-output case.
           jq --argjson exempt '["docs/customization.md","docs/onboarding/placeholders.md","docs/onboarding/policy-decisions.md"]' '
-            .manifestCompleteness.missingSource //= []
+            .manifestCompleteness //= {}
+            | .placeholderResidue //= {}
+            | .manifestCompleteness.missingSource //= []
             | .manifestCompleteness.missingTarget //= []
             | .placeholderResidue.residue //= []
             | .placeholderResidue.residue |= [.[] | select(.file as $f | $exempt | index($f) | not)]

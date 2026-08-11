@@ -41,8 +41,14 @@ then run `commitlint --edit` from a `commit-msg` hook. For example:
 ```sh
 npm install --save-dev @commitlint/cli husky
 npx husky init
-echo 'npx commitlint --edit "${1}"' > .husky/commit-msg
+rm .husky/pre-commit
+printf '#!/bin/sh\nnpx commitlint --edit "${1}"\n' > .husky/commit-msg
 ```
+
+`husky init` also creates a sample `.husky/pre-commit` hook that runs
+`npm test`; the example above removes it, since this setup only wires
+up commit-message validation. Keep it (or replace its content) if the
+project also wants a pre-commit hook.
 
 ## License
 

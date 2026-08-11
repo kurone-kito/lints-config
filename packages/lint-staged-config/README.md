@@ -12,10 +12,10 @@ My lint-staged configuration for any projects
 This package only provides the lint-staged configuration; wiring it up
 to actually run before a commit (installing a Git hook) is the
 consumer's responsibility. The configuration also runs
-[Biome](https://biomejs.dev/), which is not one of the packages
-installed below and must be added separately.
+[Biome](https://biomejs.dev/), which this package does not declare as
+a dependency, so it is included in the install command below.
 
-Install this package and its peer dependencies:
+Install this package, its peer dependencies, and Biome:
 
 ```sh
 npm install --save-dev \
@@ -39,7 +39,7 @@ manager such as [Husky](https://typicode.github.io/husky/), then run
 ```sh
 npm install --save-dev husky
 npx husky init
-echo 'npx lint-staged' > .husky/pre-commit
+printf '#!/bin/sh\nnpx lint-staged\n' > .husky/pre-commit
 ```
 
 ## License

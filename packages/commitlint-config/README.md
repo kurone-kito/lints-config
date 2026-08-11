@@ -13,6 +13,10 @@ My commitlint configuration for general Node.js projects.
 
 ## Usage
 
+This package only provides the commitlint configuration; wiring it up
+to actually validate commit messages (installing `@commitlint/cli` and
+running it from a Git hook) is the consumer's responsibility.
+
 First, install this package and its peer dependencies:
 
 ```sh
@@ -27,6 +31,17 @@ If it already exists, merge the following configuration into it:
 ```yaml
 extends:
   - '@kurone-kito/commitlint-config'
+```
+
+To validate commit messages at commit time, also install
+[`@commitlint/cli`](https://www.npmjs.com/package/@commitlint/cli) and
+a Git hook manager such as [Husky](https://typicode.github.io/husky/),
+then run `commitlint --edit` from a `commit-msg` hook. For example:
+
+```sh
+npm install --save-dev @commitlint/cli husky
+npx husky init
+echo 'npx commitlint --edit "${1}"' > .husky/commit-msg
 ```
 
 ## License

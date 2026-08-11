@@ -178,13 +178,21 @@ publishing:
    so correcting while any run is still in flight does not survive
    to this point.
 
-If this gate finds anything that requires correction, apply it through
-a normal follow-up PR — open, review, merge — then repeat this gate
-before publishing, using the follow-up PR's own merge commit as
-step 2's baseline instead of the original release-prep merge commit
-(otherwise the follow-up PR's own changes would show up as "new" again
-on every repeat). Never commit directly to `main` to patch a release
-in progress.
+If this gate finds a repository change that needs correction (a stale
+date, a missing `CHANGELOG.md` entry, a wrong SemVer bump), apply it
+through a normal follow-up PR — open, review, merge. Immediately
+before merging it, re-run step 2 once more from the previous baseline
+and fold in anything newly found, the same way the recompute-before-
+merging step does; only then advance step 2's baseline to the
+follow-up PR's own merge commit. Publish on the same calendar day as
+that latest merge, not necessarily the original release-prep merge,
+and repeat this gate. Never commit directly to `main` to patch a
+release in progress.
+
+Step 3's release-draft title/tag correction is GitHub metadata, not
+repository content, so it falls outside this follow-up-PR rule —
+correct it directly there, once every in-flight `update_release_draft`
+run has settled.
 
 ## Non-goal — do not ship in the npm tarball
 

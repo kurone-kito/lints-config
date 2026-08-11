@@ -123,30 +123,42 @@ jobs:
           fi
           # Drop placeholderResidue entries for the three onboarding
           # meta-docs that deliberately keep literal `{{...}}` tokens (see
-          # the workflow header comment / docs/idd-policy.md), then
-          # recompute `blocking` with the same formula idd-onboard itself
-          # currently uses (scripts/idd-onboard.mjs's `runVerify`:
-          # missingSource.length>0 || missingTarget.length>0 ||
-          # placeholderResidue.residue.length>0) -- hard-coded here, so if
-          # upstream ever changes what counts as blocking, this workflow's
-          # copy of the formula needs a matching update, it won't track
-          # upstream automatically. Default the three fields the filter
-          # reads to empty arrays first: this step's own verify-report.json
-          # always has them today, but the source is "the latest upstream
-          # tag" (resolved dynamically above, not pinned), so a future
-          # upstream shape change could otherwise make `.[]` on a
-          # missing/null field abort this jq call under `set -e` and take
-          # the job red -- the exact failure mode the JSON-validity check
-          # above already guards against for the whole-output case.
+          # the workflow header comment / docs/idd-policy.md), then decide
+          # whether to clear `blocking`. Does NOT just recompute `blocking`
+          # from missingSource/missingTarget/residue-after-filter alone --
+          # idd-onboard's own top-level `blocking` field is kept as a
+          # safety net for any reason this workflow doesn't know how to
+          # parse (e.g. a future upstream version adding a fourth blocking
+          # signal this filter has no field for): `blocking` is only
+          # cleared when the *pre-filter* report already fully explains it
+          # via missingSource/missingTarget/residue-before-filter, i.e. the
+          # exempted residue was the only thing making it true. An
+          # unexplained `blocking: true` (empty known fields, but the tool
+          # still said blocking) passes through unchanged instead of being
+          # silently cleared. Defaults the fields read below to empty
+          # arrays/false first: this step's own verify-report.json always
+          # has them today, but the source is "the latest upstream tag"
+          # (resolved dynamically above, not pinned), so a future upstream
+          # shape change could otherwise make `.[]` on a missing/null field
+          # abort this jq call under `set -e` and take the job red -- the
+          # exact failure mode the JSON-validity check above already
+          # guards against for the whole-output case.
           jq --argjson exempt '["docs/customization.md","docs/onboarding/placeholders.md","docs/onboarding/policy-decisions.md"]' '
-            .manifestCompleteness.missingSource //= []
-            | .manifestCompleteness.missingTarget //= []
-            | .placeholderResidue.residue //= []
-            | .placeholderResidue.residue |= [.[] | select(.file as $f | $exempt | index($f) | not)]
+            . as $orig
+            | ($orig.manifestCompleteness.missingSource // []) as $missingSource
+            | ($orig.manifestCompleteness.missingTarget // []) as $missingTarget
+            | ($orig.placeholderResidue.residue // []) as $residueBefore
+            | ($orig.blocking // false) as $blockingBefore
+            | ($residueBefore | map(select(.file as $f | $exempt | index($f) | not))) as $residueAfter
+            | ($blockingBefore and ($missingSource | length == 0) and ($missingTarget | length == 0) and ($residueBefore | length == 0)) as $unexplainedBlocking
+            | .manifestCompleteness.missingSource = $missingSource
+            | .manifestCompleteness.missingTarget = $missingTarget
+            | .placeholderResidue.residue = $residueAfter
             | .blocking = (
-                (.manifestCompleteness.missingSource | length > 0) or
-                (.manifestCompleteness.missingTarget | length > 0) or
-                (.placeholderResidue.residue | length > 0)
+                ($missingSource | length > 0) or
+                ($missingTarget | length > 0) or
+                ($residueAfter | length > 0) or
+                $unexplainedBlocking
               )
           ' verify-report.json > verify-report.filtered.json
           mv verify-report.filtered.json verify-report.json

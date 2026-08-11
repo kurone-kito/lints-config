@@ -43,16 +43,22 @@ with no Husky setup yet:
 npm install --save-dev @commitlint/cli husky
 npx husky init
 rm -f .husky/pre-commit
-printf '#!/bin/sh\nnpx commitlint --edit "${1}"\n' > .husky/commit-msg
+printf '#!/bin/sh\nnpx --no -- commitlint --edit "${1}"\n' > .husky/commit-msg
 chmod +x .husky/commit-msg
 ```
+
+`--no` stops `npx` from silently downloading and running an unpinned
+registry package if `@commitlint/cli` is somehow missing locally,
+instead of failing.
 
 `husky init` also creates a sample `.husky/pre-commit` hook that runs
 `npm test`; the example above removes it, since this setup only wires
 up commit-message validation. Keep it (or replace its content) if the
-project also wants a pre-commit hook. If Husky is already set up,
-`husky init` overwrites the `prepare` script and `.husky/pre-commit` —
-skip it and just add or merge the `commit-msg` hook by hand instead.
+project also wants a pre-commit hook. `husky init` also unconditionally
+overwrites the `scripts.prepare` entry (even in a project that has one
+for something else, like a build step) and, if Husky is already set
+up, `.husky/pre-commit` too — check `package.json` first and merge by
+hand instead of running it blindly.
 
 ## License
 

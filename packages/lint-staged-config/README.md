@@ -40,13 +40,18 @@ setup yet:
 ```sh
 npm install --save-dev husky
 npx husky init
-printf '#!/bin/sh\nnpx lint-staged\n' > .husky/pre-commit
+printf '#!/bin/sh\nnpx --no -- lint-staged\n' > .husky/pre-commit
 chmod +x .husky/pre-commit
 ```
 
-If Husky is already set up, `husky init` overwrites the `prepare`
-script and `.husky/pre-commit` — skip it and just add or merge the
-`pre-commit` hook by hand instead.
+`--no` stops `npx` from silently downloading and running an unpinned
+registry package if `lint-staged` is somehow missing locally, instead
+of failing.
+
+`husky init` unconditionally overwrites the `scripts.prepare` entry
+(even in a project that has one for something else, like a build step)
+and, if Husky is already set up, `.husky/pre-commit` too — check
+`package.json` first and merge by hand instead of running it blindly.
 
 ## License
 

@@ -39,7 +39,7 @@ setup yet:
 
 ```sh
 npm install --save-dev husky
-npx husky init
+npx --no -- husky init
 printf '#!/bin/sh\nnpx --no -- lint-staged\n' > .husky/pre-commit
 chmod +x .husky/pre-commit
 ```

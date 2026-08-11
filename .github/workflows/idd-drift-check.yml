@@ -40,7 +40,21 @@
 # computing `blocking`, rather than fixed upstream in --verify itself,
 # for the same reason the doc-lint files above aren't: it is this
 # repository's own content decision, not a general-purpose rule every
-# adopter would want.
+# adopter would want. The recomputed `blocking` is derived only from the
+# three fields idd-onboard's current formula actually uses (verified by
+# reading scripts/idd-onboard.mjs's `runVerify`), not from trying to
+# preserve --verify's own top-level `blocking` boolean as a catch-all --
+# a single flattened boolean can't be safely unmixed once these
+# deliberately-residual meta-doc tokens are present alongside some other,
+# unrelated blocking reason, so treating it as a safety net would risk
+# silently clearing a real one (see the inline comment below the `jq`
+# call for the concrete failure case this avoids). Check 1 above
+# (`iddVersion` vs. the latest tag) is the backstop for a future upstream
+# blocking signal this doesn't know about yet: `--verify` here always
+# runs against the newest tag, and reaching a genuinely new blocking
+# check almost always means this repository's own pinned `iddVersion`
+# has fallen behind that tag too, which Check 1 already flags
+# independently of anything `--verify` reports.
 name: IDD template drift check
 on:
   schedule:
@@ -123,46 +137,44 @@ jobs:
           fi
           # Drop placeholderResidue entries for the three onboarding
           # meta-docs that deliberately keep literal `{{...}}` tokens (see
-          # the workflow header comment / docs/idd-policy.md), then decide
-          # whether to clear `blocking`. Does NOT just recompute `blocking`
-          # from missingSource/missingTarget/residue-after-filter alone --
-          # idd-onboard's own top-level `blocking` field is kept as a
-          # safety net for any reason this workflow doesn't know how to
-          # parse (e.g. a future upstream version adding a fourth blocking
-          # signal this filter has no field for): `blocking` is only
-          # cleared when the *pre-filter* report is already fully explained
-          # by the three known fields, i.e. the exempted residue was the
-          # only *known* signal making it true -- this cannot rule out an
-          # unknown future signal that happened to be true at the same
-          # time as the exempted residue, since idd-onboard's own output
-          # doesn't break `blocking` down by cause; closing that residual
-          # gap needs upstream support this workflow doesn't have. An
-          # unexplained `blocking: true` (empty known fields, but the tool
-          # still said blocking) passes through unchanged instead of being
-          # silently cleared. Defaults the fields read below to empty
-          # arrays/false first: this step's own verify-report.json always
-          # has them today, but the source is "the latest upstream tag"
-          # (resolved dynamically above, not pinned), so a future upstream
-          # shape change could otherwise make `.[]` on a missing/null field
-          # abort this jq call under `set -e` and take the job red -- the
-          # exact failure mode the JSON-validity check above already
-          # guards against for the whole-output case.
+          # the workflow header comment / docs/idd-policy.md), then
+          # recompute `blocking` from only the three fields idd-onboard's
+          # current formula actually uses (verified by reading
+          # scripts/idd-onboard.mjs's `runVerify`: missingSource.length>0
+          # || missingTarget.length>0 || placeholderResidue.residue.length>0
+          # -- nothing else feeds it today). Deliberately does NOT fall
+          # back to --verify's own top-level `blocking` boolean as a
+          # catch-all for a hypothetical future fourth signal: that was
+          # tried and reverted after review (kurone-kito/lints-config#248)
+          # surfaced a concrete failure case -- these meta-docs routinely
+          # produce non-exempt-file-free residue, so *any* safety net keyed
+          # off "was blocking already fully explained by the pre-filter
+          # fields" ends up gated on residue being empty, which it usually
+          # isn't here; a coexisting unrelated future blocking reason would
+          # have been silently cleared right alongside the residue this
+          # filter is actually meant to exempt. The header comment's Check
+          # 1 (`iddVersion` vs. the latest tag) is the real backstop for
+          # that scenario instead: `--verify` here always runs against the
+          # newest tag, so reaching a genuinely new blocking check almost
+          # always means this repository's own pin has fallen behind that
+          # same tag too, which Check 1 already flags on its own. Defaults
+          # the three fields read below to empty arrays first: this step's
+          # own verify-report.json always has them today, but the source is
+          # "the latest upstream tag" (resolved dynamically above, not
+          # pinned), so a future upstream shape change could otherwise make
+          # `.[]` on a missing/null field abort this jq call under `set -e`
+          # and take the job red -- the exact failure mode the
+          # JSON-validity check above already guards against for the
+          # whole-output case.
           jq --argjson exempt '["docs/customization.md","docs/onboarding/placeholders.md","docs/onboarding/policy-decisions.md"]' '
-            . as $orig
-            | ($orig.manifestCompleteness.missingSource // []) as $missingSource
-            | ($orig.manifestCompleteness.missingTarget // []) as $missingTarget
-            | ($orig.placeholderResidue.residue // []) as $residueBefore
-            | ($orig.blocking // false) as $blockingBefore
-            | ($residueBefore | map(select(.file as $f | $exempt | index($f) | not))) as $residueAfter
-            | ($blockingBefore and ($missingSource | length == 0) and ($missingTarget | length == 0) and ($residueBefore | length == 0)) as $unexplainedBlocking
-            | .manifestCompleteness.missingSource = $missingSource
-            | .manifestCompleteness.missingTarget = $missingTarget
-            | .placeholderResidue.residue = $residueAfter
+            .manifestCompleteness.missingSource //= []
+            | .manifestCompleteness.missingTarget //= []
+            | .placeholderResidue.residue //= []
+            | .placeholderResidue.residue |= [.[] | select(.file as $f | $exempt | index($f) | not)]
             | .blocking = (
-                ($missingSource | length > 0) or
-                ($missingTarget | length > 0) or
-                ($residueAfter | length > 0) or
-                $unexplainedBlocking
+                (.manifestCompleteness.missingSource | length > 0) or
+                (.manifestCompleteness.missingTarget | length > 0) or
+                (.placeholderResidue.residue | length > 0)
               )
           ' verify-report.json > verify-report.filtered.json
           mv verify-report.filtered.json verify-report.json

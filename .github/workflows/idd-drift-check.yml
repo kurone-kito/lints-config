@@ -26,6 +26,21 @@
 # trips a false positive -- adding a content comparison for these paths
 # would manufacture exactly the false positive this note exists to
 # prevent.
+#
+# Does special-case placeholderResidue for three onboarding meta-docs
+# (docs/customization.md, docs/onboarding/placeholders.md,
+# docs/onboarding/policy-decisions.md): per docs/idd-policy.md's
+# "Onboarding Meta-Doc Placeholder Corruption" decision (#224), these
+# files exist specifically to document the placeholder syntax itself, so
+# they deliberately keep the literal `{{...}}` tokens verbatim rather
+# than substituted. --verify's placeholderResidue check has no way to
+# know that distinction and always reports their tokens as residue,
+# permanently keeping `blocking: true` for a condition that will never
+# change and is not actual drift (#241). Filtered out below before
+# computing `blocking`, rather than fixed upstream in --verify itself,
+# for the same reason the doc-lint files above aren't: it is this
+# repository's own content decision, not a general-purpose rule every
+# adopter would want.
 name: IDD template drift check
 on:
   schedule:
@@ -106,6 +121,24 @@ jobs:
             cat verify-stderr.log >&2 || true
             echo '{"blocking":true,"manifestCompleteness":{"missingSource":[],"missingTarget":["<invalid output from idd-onboard>"]},"placeholderResidue":{"residue":[],"unknownTokens":[]},"staleImportSignal":{"missing":[]}}' > verify-report.json
           fi
+          # Drop placeholderResidue entries for the three onboarding
+          # meta-docs that deliberately keep literal `{{...}}` tokens (see
+          # the workflow header comment / docs/idd-policy.md), then
+          # recompute `blocking` with the exact same formula idd-onboard
+          # itself uses (scripts/idd-onboard.mjs's `runVerify`:
+          # missingSource.length>0 || missingTarget.length>0 ||
+          # placeholderResidue.residue.length>0) so this stays correct if
+          # upstream ever adds another blocking signal -- only the residue
+          # input changes, not the decision rule.
+          jq --argjson exempt '["docs/customization.md","docs/onboarding/placeholders.md","docs/onboarding/policy-decisions.md"]' '
+            .placeholderResidue.residue |= [.[] | select(.file as $f | $exempt | index($f) | not)]
+            | .blocking = (
+                (.manifestCompleteness.missingSource | length > 0) or
+                (.manifestCompleteness.missingTarget | length > 0) or
+                (.placeholderResidue.residue | length > 0)
+              )
+          ' verify-report.json > verify-report.filtered.json
+          mv verify-report.filtered.json verify-report.json
           BLOCKING=$(jq -r '.blocking' verify-report.json)
           echo "blocking=$BLOCKING" >> "$GITHUB_OUTPUT"
       - name: Report drift status

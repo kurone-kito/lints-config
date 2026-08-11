@@ -141,10 +141,11 @@ push to the release-prep PR, and merge once it finds nothing new.
 
 Publishing the GitHub Release, not the release-prep merge, is the
 actual point of no return (see Existing release mechanics below).
-Merge the release-prep PR on the same calendar day as the publish date
-that ends up in step 1's `YYYY-MM-DD`, so this gate is normally a
-read-only confirmation that finds nothing new. Immediately before
-publishing:
+Merge the most recent repository-changing PR — the release-prep PR
+itself, or its latest follow-up per the rule below — on the same
+calendar day as the publish date that ends up in step 1's
+`YYYY-MM-DD`, so this gate is normally a read-only confirmation that
+finds nothing new. Immediately before publishing:
 
 1. Refresh the `## [x.y.z] - YYYY-MM-DD` date to the publish date.
 2. Fetch `origin main` again, then diff the release-prep merge commit
@@ -184,10 +185,10 @@ through a normal follow-up PR — open, review, merge. Immediately
 before merging it, re-run step 2 once more from the previous baseline
 and fold in anything newly found, the same way the recompute-before-
 merging step does; only then advance step 2's baseline to the
-follow-up PR's own merge commit. Publish on the same calendar day as
-that latest merge, not necessarily the original release-prep merge,
-and repeat this gate. Never commit directly to `main` to patch a
-release in progress.
+follow-up PR's own merge commit, then repeat this gate — including
+step 1, so the refreshed `YYYY-MM-DD` matches the follow-up merge's
+own calendar day, per the requirement above. Never commit directly to
+`main` to patch a release in progress.
 
 Step 3's release-draft title/tag correction is GitHub metadata, not
 repository content, so it falls outside this follow-up-PR rule —

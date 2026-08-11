@@ -141,11 +141,11 @@ push to the release-prep PR, and merge once it finds nothing new.
 
 Publishing the GitHub Release, not the release-prep merge, is the
 actual point of no return (see Existing release mechanics below).
-Merge the most recent repository-changing PR — the release-prep PR
-itself, or its latest follow-up per the rule below — on the same
-calendar day as the publish date that ends up in step 1's
-`YYYY-MM-DD`, so this gate is normally a read-only confirmation that
-finds nothing new. Immediately before publishing:
+Merge the release-prep PR — or, if a follow-up was needed per the rule
+below, its latest follow-up — on the same calendar day as the publish
+date that ends up in step 1's `YYYY-MM-DD`, so this gate is normally a
+read-only confirmation that finds nothing new. Immediately before
+publishing:
 
 1. Refresh the `## [x.y.z] - YYYY-MM-DD` date to the publish date.
 2. Fetch `origin main` again, then diff the release-prep merge commit

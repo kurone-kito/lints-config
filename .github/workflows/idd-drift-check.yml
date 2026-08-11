@@ -124,14 +124,25 @@ jobs:
           # Drop placeholderResidue entries for the three onboarding
           # meta-docs that deliberately keep literal `{{...}}` tokens (see
           # the workflow header comment / docs/idd-policy.md), then
-          # recompute `blocking` with the exact same formula idd-onboard
-          # itself uses (scripts/idd-onboard.mjs's `runVerify`:
+          # recompute `blocking` with the same formula idd-onboard itself
+          # currently uses (scripts/idd-onboard.mjs's `runVerify`:
           # missingSource.length>0 || missingTarget.length>0 ||
-          # placeholderResidue.residue.length>0) so this stays correct if
-          # upstream ever adds another blocking signal -- only the residue
-          # input changes, not the decision rule.
+          # placeholderResidue.residue.length>0) -- hard-coded here, so if
+          # upstream ever changes what counts as blocking, this workflow's
+          # copy of the formula needs a matching update, it won't track
+          # upstream automatically. Default the three fields the filter
+          # reads to empty arrays first: this step's own verify-report.json
+          # always has them today, but the source is "the latest upstream
+          # tag" (resolved dynamically above, not pinned), so a future
+          # upstream shape change could otherwise make `.[]` on a
+          # missing/null field abort this jq call under `set -e` and take
+          # the job red -- the exact failure mode the JSON-validity check
+          # above already guards against for the whole-output case.
           jq --argjson exempt '["docs/customization.md","docs/onboarding/placeholders.md","docs/onboarding/policy-decisions.md"]' '
-            .placeholderResidue.residue |= [.[] | select(.file as $f | $exempt | index($f) | not)]
+            .manifestCompleteness.missingSource //= []
+            | .manifestCompleteness.missingTarget //= []
+            | .placeholderResidue.residue //= []
+            | .placeholderResidue.residue |= [.[] | select(.file as $f | $exempt | index($f) | not)]
             | .blocking = (
                 (.manifestCompleteness.missingSource | length > 0) or
                 (.manifestCompleteness.missingTarget | length > 0) or

@@ -132,7 +132,9 @@ helper-collected evidence) was considered and rejected on 2026-07-27.
 ## New v0.6.0 Policy Fields
 
 Three fields the v0.6.0 policy schema added, and this repository's
-position on each (recorded 2026-08-08, #218):
+position on each. The first two were recorded 2026-08-08 (#218); the
+third was revisited and recorded separately on 2026-08-12, per its own
+bullet below:
 
 - **`helperRuntime.packageSpec`** — now set, mirroring the pin above
   (`refs/tags/v0.6.0`). Absent under the v0.4.0 pin; the field exists
@@ -167,18 +169,21 @@ position on each (recorded 2026-08-08, #218):
 **Decision**: disabled (recorded 2026-08-08, ONBOARDING Step 1B
 decision 13).
 
-Matches both the current factual state — `required_status_checks` is
-`null` and this repository has zero rulesets — and upstream's own
-recommendation. An up-to-date-head requirement forces a `main`-sync
-merge on every merely-`BEHIND` (not conflicting) PR before it can
-merge; upstream's measured before/after sample recorded the sync-merge
-share falling from ~27% to ~3.7% once the requirement was disabled
+Matched the factual state at the time this decision was recorded —
+`required_status_checks` was `null` and this repository had zero
+rulesets — and upstream's own recommendation. An up-to-date-head
+requirement forces a `main`-sync merge on every merely-`BEHIND` (not
+conflicting) PR before it can merge; upstream's measured before/after
+sample recorded the sync-merge share falling from ~27% to ~3.7% once
+the requirement was disabled
 ([kurone-kito/idd-skill#1817](https://github.com/kurone-kito/idd-skill/issues/1817)).
 
-This is a **constraint on issue #209's implementation**
+This was a **constraint on issue #209's implementation**
 (repository-settings: required status checks), not merely a preference
-recorded ahead of it — that work must not introduce an up-to-date-head
-requirement as a side effect of registering required checks.
+recorded ahead of it — that work had to avoid introducing an
+up-to-date-head requirement as a side effect of registering required
+checks. #209 closed 2026-08-12 with `required_status_checks.strict:
+false`, confirming the constraint held.
 
 ## Issue-Author Approval Gate
 

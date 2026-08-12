@@ -132,7 +132,9 @@ helper-collected evidence) was considered and rejected on 2026-07-27.
 ## New v0.6.0 Policy Fields
 
 Three fields the v0.6.0 policy schema added, and this repository's
-position on each (recorded 2026-08-08, #218):
+position on each. The first two were recorded 2026-08-08 (#218); the
+third was revisited and recorded separately on 2026-08-12, per its own
+bullet below:
 
 - **`helperRuntime.packageSpec`** — now set, mirroring the pin above
   (`refs/tags/v0.6.0`). Absent under the v0.4.0 pin; the field exists
@@ -144,31 +146,45 @@ position on each (recorded 2026-08-08, #218):
   PRs carry no claim history; without the exemption, advisory
   convergence's `idd-claimed` scoping would have nothing to resolve
   them against.
-- **`ciGate.trustSourcePinnedRequiredChecks`** — deliberately **not**
-  set. This repository's branch protection carries no required status
-  checks and zero rulesets (confirmed 2026-08-08: `required_status_checks`
-  is `null`, `rulesets` returns an empty array), so a source-pinned
-  required check is not yet a state that exists here for this knob to
-  act on. Record this as a placeholder to revisit once #209 (repository
-  settings: required status checks) lands, not as an oversight.
+- **`ciGate.trustSourcePinnedRequiredChecks`** — **enabled** (recorded
+  2026-08-12, operator decision after #209 landed). #209 (repository
+  settings: required status checks) closed 2026-08-12 and configured all
+  11 required checks on `main`'s branch protection as source-pinned
+  entries (`app_id: 15368` — GitHub Actions' own app). The operator
+  verified out-of-band that every required check-run's producer
+  `app.id` matches that pin
+  (`gh api repos/{owner}/{repo}/branches/main/protection` and the
+  Checks API on a representative merge commit), so the source-pinning
+  is trustworthy and this knob no longer needs to fail closed. Before
+  this change
+  landed, `pre-merge-readiness` and `idd-merge-execute` downgraded every
+  required check to `unknown`/`source-pinned` regardless of its actual
+  pass state, forcing a manual Checks-API read and a written-rules
+  merge instead of the automated F2/F3 gate on every PR after #209
+  closed (first hit while merging #254 for issue #251) — this was the
+  placeholder-revisit condition the previous paragraph's now-superseded
+  text anticipated.
 
 ## Up-to-Date-Head Ruleset
 
 **Decision**: disabled (recorded 2026-08-08, ONBOARDING Step 1B
 decision 13).
 
-Matches both the current factual state — `required_status_checks` is
-`null` and this repository has zero rulesets — and upstream's own
-recommendation. An up-to-date-head requirement forces a `main`-sync
-merge on every merely-`BEHIND` (not conflicting) PR before it can
-merge; upstream's measured before/after sample recorded the sync-merge
-share falling from ~27% to ~3.7% once the requirement was disabled
+This decision matched the factual state at the time it was recorded —
+`required_status_checks` was `null` and this repository had zero
+rulesets — and upstream's own recommendation. An up-to-date-head
+requirement forces a `main`-sync merge on every merely-`BEHIND` (not
+conflicting) PR before it can merge; upstream's measured before/after
+sample recorded the sync-merge share falling from ~27% to ~3.7% once
+the requirement was disabled
 ([kurone-kito/idd-skill#1817](https://github.com/kurone-kito/idd-skill/issues/1817)).
 
-This is a **constraint on issue #209's implementation**
+This was a **constraint on issue #209's implementation**
 (repository-settings: required status checks), not merely a preference
-recorded ahead of it — that work must not introduce an up-to-date-head
-requirement as a side effect of registering required checks.
+recorded ahead of it — that work had to avoid introducing an
+up-to-date-head requirement as a side effect of registering required
+checks. #209 closed 2026-08-12 with `required_status_checks.strict: false`,
+confirming the constraint held.
 
 ## Issue-Author Approval Gate
 

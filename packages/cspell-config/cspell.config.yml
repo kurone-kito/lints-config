@@ -50,6 +50,7 @@ words:
   - deprioritize
   - desync
   - desynced
+  - dprint
   - esync
   - hoge
   - isort
@@ -58,6 +59,7 @@ words:
   - kuroné
   - lintstagedrc
   - noconflict
+  - npmjs
   - onnx
   - oxlint
   - piyo

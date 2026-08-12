@@ -12,10 +12,13 @@ My lint-staged configuration for any projects
 This package only provides the lint-staged configuration; wiring it up
 to actually run before a commit (installing a Git hook) is the
 consumer's responsibility. The configuration also runs
-[Biome](https://biomejs.dev/), which this package does not declare as
-a dependency, so it is included in the install command below.
+[Biome](https://biomejs.dev/) on every staged file, so it is required
+in practice even though this package marks it as an optional peer
+dependency (so installers don't hard-require it). Biome is not
+installed automatically, so it is included in the install command
+below.
 
-Install this package, its peer dependencies, and Biome:
+Install this package and its peer dependencies:
 
 ```sh
 npm install --save-dev \

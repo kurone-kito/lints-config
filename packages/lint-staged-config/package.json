@@ -43,10 +43,14 @@
     "typescript": "~7.0.2"
   },
   "peerDependencies": {
-    "cspell": ">=5.7.x",
+    "@biomejs/biome": ">=2.3.x",
+    "cspell": ">=8.x.x",
     "lint-staged": ">=12.1.0"
   },
   "peerDependenciesMeta": {
+    "@biomejs/biome": {
+      "optional": true
+    },
     "cspell": {
       "optional": true
     },

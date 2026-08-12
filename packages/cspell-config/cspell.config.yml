@@ -9,7 +9,6 @@ dictionaries:
   - dotnet
   - en_US
   - en-gb
-  - eo
   - filetypes
   - fonts
   - fsharp
@@ -17,14 +16,11 @@ dictionaries:
   - git
   - html
   - lorem-ipsum
-  - markdown
-  - misc
   - node
   - npm
   - powershell
   - php
   - sql
-  - shell
   - softwareTerms
   - terraform
   - typescript
@@ -55,7 +51,6 @@ words:
   - desync
   - desynced
   - esync
-  - fuga
   - hoge
   - isort
   - kito
@@ -63,7 +58,6 @@ words:
   - kuroné
   - lintstagedrc
   - noconflict
-  - npmjs
   - onnx
   - oxlint
   - piyo

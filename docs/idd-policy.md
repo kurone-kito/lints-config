@@ -152,10 +152,11 @@ bullet below:
   11 required checks on `main`'s branch protection as source-pinned
   entries (`app_id: 15368` — GitHub Actions' own app). The operator
   verified out-of-band that every required check-run's producer
-  `app.id` matches that pin (`gh api
-  repos/{owner}/{repo}/branches/main/protection` and the Checks API on
-  a representative merge commit), so the source-pinning is trustworthy
-  and this knob no longer needs to fail closed. Before this change
+  `app.id` matches that pin
+  (`gh api repos/{owner}/{repo}/branches/main/protection` and the
+  Checks API on a representative merge commit), so the source-pinning
+  is trustworthy and this knob no longer needs to fail closed. Before
+  this change
   landed, `pre-merge-readiness` and `idd-merge-execute` downgraded every
   required check to `unknown`/`source-pinned` regardless of its actual
   pass state, forcing a manual Checks-API read and a written-rules

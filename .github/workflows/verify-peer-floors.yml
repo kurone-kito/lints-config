@@ -308,6 +308,17 @@ jobs:
           printf 'export const   x=1\n' > src/fixable.mjs
           git add src/fixable.mjs
           ./node_modules/.bin/lint-staged --config .lintstagedrc.mjs
+          # A zero exit alone doesn't prove Biome's floor was actually
+          # exercised -- cspell staying silent on this file would also
+          # exit 0 even if the exported task list stopped invoking
+          # Biome entirely. Assert the file was actually rewritten to
+          # Biome's expected output.
+          EXPECTED='export const x = 1;'
+          ACTUAL=$(cat src/fixable.mjs)
+          if [ "$ACTUAL" != "$EXPECTED" ]; then
+            echo "::error::lint-staged-config floor verification failed at @biomejs/biome@${{ steps.floor.outputs.biome }}: expected Biome to reformat src/fixable.mjs to '$EXPECTED', got '$ACTUAL'"
+            exit 1
+          fi
           # Commit the now Biome-fixed file so the next assertion below
           # starts from a clean index and its result is attributable
           # only to the newly staged file, not this one too.

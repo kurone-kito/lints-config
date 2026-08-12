@@ -144,13 +144,23 @@ position on each (recorded 2026-08-08, #218):
   PRs carry no claim history; without the exemption, advisory
   convergence's `idd-claimed` scoping would have nothing to resolve
   them against.
-- **`ciGate.trustSourcePinnedRequiredChecks`** — deliberately **not**
-  set. This repository's branch protection carries no required status
-  checks and zero rulesets (confirmed 2026-08-08: `required_status_checks`
-  is `null`, `rulesets` returns an empty array), so a source-pinned
-  required check is not yet a state that exists here for this knob to
-  act on. Record this as a placeholder to revisit once #209 (repository
-  settings: required status checks) lands, not as an oversight.
+- **`ciGate.trustSourcePinnedRequiredChecks`** — **enabled** (recorded
+  2026-08-12, operator decision after #209 landed). #209 (repository
+  settings: required status checks) closed 2026-08-12 and configured all
+  11 required checks on `main`'s branch protection as source-pinned
+  entries (`app_id: 15368` — GitHub Actions' own app). The operator
+  verified out-of-band that every required check-run's producer
+  `app.id` matches that pin (`gh api
+  repos/{owner}/{repo}/branches/main/protection` and the Checks API on
+  a representative merge commit), so the source-pinning is trustworthy
+  and this knob no longer needs to fail closed. Before this change
+  landed, `pre-merge-readiness` and `idd-merge-execute` downgraded every
+  required check to `unknown`/`source-pinned` regardless of its actual
+  pass state, forcing a manual Checks-API read and a written-rules
+  merge instead of the automated F2/F3 gate on every PR after #209
+  merged (first hit while merging #254 for issue #251) — this was the
+  placeholder-revisit condition the previous paragraph's now-superseded
+  text anticipated.
 
 ## Up-to-Date-Head Ruleset
 

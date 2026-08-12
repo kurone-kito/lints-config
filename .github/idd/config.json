@@ -31,5 +31,8 @@
   },
   "autopilotSuitability": {
     "floor": 3
+  },
+  "ciGate": {
+    "trustSourcePinnedRequiredChecks": true
   }
 }

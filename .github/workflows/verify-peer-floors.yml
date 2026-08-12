@@ -1,0 +1,397 @@
+# Every published @kurone-kito/*-config package declares a
+# peerDependencies floor (the oldest version of the underlying tool the
+# config claims to support), but nothing in this repository's regular
+# CI ever installs that floor version -- push-feature.yml always tests
+# against whatever the current devDependency happens to be, which is
+# routinely much newer than the declared floor. A floor is therefore an
+# assertion, not a verified fact: if a future config change silently
+# required a newer minimum version, nothing would catch it (#253).
+#
+# For each package, this reads its *currently declared* peer floor
+# straight from package.json (never a hardcoded version number here --
+# a hardcoded copy would itself drift the same way the floors already
+# had) and runs the relevant tool at that exact floor version against a
+# representative fixture: this repository's own source tree for the
+# three packages that naturally lint it already (biome, cspell,
+# markdownlint), and a small synthetic fixture for the two that aren't
+# naturally self-applicable (commitlint lints commit messages;
+# lint-staged operates on a git index).
+#
+# Mirrors idd-drift-check.yml's own precedent: weekly cron plus a
+# workflow_dispatch fallback, and deliberately never added to branch
+# protection's required-checks list, so a floor regression here never
+# blocks an ordinary PR merge. Unlike idd-drift-check.yml, a genuine
+# floor failure here means a job simply goes red (no tracking-issue
+# machinery) -- each job/step name and log already name the exact
+# package/tool/version combination that broke, which is all the
+# acceptance criteria ask for, and a floor mismatch is directly
+# actionable (raise the floor, or fix the config) rather than the
+# routine, expected drift idd-drift-check.yml exists to tolerate.
+name: Verify declared peerDependency floors
+on:
+  schedule:
+    # One hour before idd-drift-check.yml's own Monday run, so the two
+    # scheduled workflows don't contend for the same runner minute.
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: verify-peer-floors
+  cancel-in-progress: true
+jobs:
+  biome-config:
+    name: 'Verify peer floor: biome-config (@biomejs/biome)'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Stages the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup the pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          run_install: false
+      - name: Prepare the Node.js environment
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          cache: pnpm
+          check-latest: true
+          node-version-file: .node-version
+      - env:
+          HUSKY: 0
+        name: Install the dependencies and build the compiled configs
+        run: |
+          pnpm install --frozen-lockfile --prefer-offline
+          pnpm run build
+      - name: Resolve the declared @biomejs/biome peer floor
+        id: floor
+        run: |
+          # This repo's peerDependencies ranges are always ">=X.Y.Z" or
+          # ">=X.Y.x" -- strip the prefix and turn any literal "x"
+          # component into "0" to get one concrete installable version.
+          RANGE=$(jq -r '.peerDependencies["@biomejs/biome"]' packages/biome-config/package.json)
+          FLOOR=$(node -e "
+            const raw = process.argv[1];
+            console.log(raw.replace(/^>=\s*/, '').split('.').map((p) => (p === 'x' || p === 'X' ? '0' : p)).join('.'));
+          " "$RANGE")
+          # Fail loudly rather than silently installing a moving-target
+          # range if the declared range ever uses different syntax
+          # (caret, tilde, a bare major, a hyphen range, ...) this
+          # resolver doesn't understand -- an unnoticed miss here would
+          # let npm install the newest matching version instead of the
+          # floor, defeating the whole point of this workflow.
+          if ! [[ "$FLOOR" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Could not resolve a concrete floor version from declared peer range '$RANGE' (got '$FLOOR'). This workflow's resolver only understands '>=X.Y.Z' / '>=X.Y.x' ranges -- update it if the range syntax changed."
+            exit 1
+          fi
+          echo "Declared peer range: $RANGE -> testing floor version: $FLOOR"
+          echo "version=$FLOOR" >> "$GITHUB_OUTPUT"
+      - name: Install the floor-pinned @biomejs/biome, isolated from the workspace devDependency
+        run: npm install --prefix "$RUNNER_TEMP/biome-floor" --no-save --no-audit --no-fund "@biomejs/biome@${{ steps.floor.outputs.version }}"
+      - name: Verify biome-config against this repository's own source tree at the floor version
+        run: '"$RUNNER_TEMP/biome-floor/node_modules/.bin/biome" check .'
+  commitlint-config:
+    name: 'Verify peer floor: commitlint-config (@commitlint/config-conventional)'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Stages the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup the pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          run_install: false
+      - name: Prepare the Node.js environment
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          cache: pnpm
+          check-latest: true
+          node-version-file: .node-version
+      - env:
+          HUSKY: 0
+        name: Install the dependencies and build the compiled configs
+        run: |
+          pnpm install --frozen-lockfile --prefer-offline
+          pnpm run build
+      - name: Resolve the declared @commitlint/config-conventional peer floor
+        id: floor
+        run: |
+          RANGE=$(jq -r '.peerDependencies["@commitlint/config-conventional"]' packages/commitlint-config/package.json)
+          FLOOR=$(node -e "
+            const raw = process.argv[1];
+            console.log(raw.replace(/^>=\s*/, '').split('.').map((p) => (p === 'x' || p === 'X' ? '0' : p)).join('.'));
+          " "$RANGE")
+          if ! [[ "$FLOOR" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Could not resolve a concrete floor version from declared peer range '$RANGE' (got '$FLOOR'). This workflow's resolver only understands '>=X.Y.Z' / '>=X.Y.x' ranges -- update it if the range syntax changed."
+            exit 1
+          fi
+          echo "Declared peer range: $RANGE -> testing floor version: $FLOOR"
+          echo "version=$FLOOR" >> "$GITHUB_OUTPUT"
+      - name: Pack the package's own compiled output
+        run: pnpm --filter @kurone-kito/commitlint-config pack --pack-destination "$RUNNER_TEMP"
+      - name: Build a fixture consuming the package's own published entry point
+        env:
+          FLOOR_VERSION: ${{ steps.floor.outputs.version }}
+        run: |
+          FIXTURE="$RUNNER_TEMP/commitlint-floor"
+          mkdir -p "$FIXTURE"
+          cd "$FIXTURE"
+          # Install and `extends` the packed tarball itself -- the same
+          # way a real consumer (including this repository's own root
+          # .commitlintrc.yml) resolves it -- rather than copying the
+          # source .commitlintrc.yml directly. Copying the source would
+          # only exercise the rule *content*, not the package's actual
+          # entry point (the built .commitlintrc.json, package exports,
+          # and commitlint's own shareable-config module resolution),
+          # so a packaging regression at the floor version could pass
+          # unnoticed (Copilot review on PR #261).
+          printf "extends:\n  - '@kurone-kito/commitlint-config'\n" > .commitlintrc.yml
+          npm init -y --silent > /dev/null
+          TARBALL=$(ls "$RUNNER_TEMP"/kurone-kito-commitlint-config-*.tgz)
+          # @commitlint/cli isn't a declared peer of this package (only
+          # config-conventional is), so pin it to the exact same version
+          # as the floor under test -- commitlint's own packages release
+          # in lockstep at identical version numbers, and pinning the
+          # exact version (not just the major) keeps this reproducible:
+          # a floating later patch could otherwise diverge in a way
+          # unrelated to config-conventional's own floor and misattribute
+          # a failure to the wrong package.
+          npm install --no-save --no-audit --no-fund \
+            "@commitlint/cli@${FLOOR_VERSION}" \
+            "@commitlint/config-conventional@${FLOOR_VERSION}" \
+            "$TARBALL"
+      - name: Verify commitlint-config accepts a valid commit message at the floor version
+        run: |
+          cd "$RUNNER_TEMP/commitlint-floor"
+          echo 'feat: add a sample feature' | ./node_modules/.bin/commitlint --config .commitlintrc.yml
+      - name: Verify commitlint-config rejects an invalid commit message at the floor version
+        run: |
+          cd "$RUNNER_TEMP/commitlint-floor"
+          if echo 'this message violates conventional commits' | ./node_modules/.bin/commitlint --config .commitlintrc.yml; then
+            echo "::error::commitlint-config floor verification failed at @commitlint/config-conventional@${{ steps.floor.outputs.version }}: an invalid commit message was incorrectly accepted"
+            exit 1
+          fi
+  cspell-config:
+    name: 'Verify peer floor: cspell-config (cspell)'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Stages the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup the pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          run_install: false
+      - name: Prepare the Node.js environment
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          cache: pnpm
+          check-latest: true
+          node-version-file: .node-version
+      - env:
+          HUSKY: 0
+        name: Install the dependencies and build the compiled configs
+        run: |
+          pnpm install --frozen-lockfile --prefer-offline
+          pnpm run build
+      - name: Resolve the declared cspell peer floor
+        id: floor
+        run: |
+          RANGE=$(jq -r '.peerDependencies["cspell"]' packages/cspell-config/package.json)
+          FLOOR=$(node -e "
+            const raw = process.argv[1];
+            console.log(raw.replace(/^>=\s*/, '').split('.').map((p) => (p === 'x' || p === 'X' ? '0' : p)).join('.'));
+          " "$RANGE")
+          if ! [[ "$FLOOR" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Could not resolve a concrete floor version from declared peer range '$RANGE' (got '$FLOOR'). This workflow's resolver only understands '>=X.Y.Z' / '>=X.Y.x' ranges -- update it if the range syntax changed."
+            exit 1
+          fi
+          echo "Declared peer range: $RANGE -> testing floor version: $FLOOR"
+          echo "version=$FLOOR" >> "$GITHUB_OUTPUT"
+      - name: Install the floor-pinned cspell, isolated from the workspace devDependency
+        run: npm install --prefix "$RUNNER_TEMP/cspell-floor" --no-save --no-audit --no-fund "cspell@${{ steps.floor.outputs.version }}"
+      # This uses the root .cspell.config.yml (which imports
+      # @kurone-kito/cspell-config and layers this repository's own
+      # extra `words:` list on top), not the package's config in
+      # isolation -- accepted per the issue's own guidance that this
+      # repository's tree is a reasonable fixture. Confirmed this
+      # doesn't mask the package's own floor: cspell@8.0.0 still
+      # correctly flags real words ("dprint", "npmjs") that the current
+      # devDependency (^10.0.1) recognizes via newer bundled
+      # dictionaries, so this job is expected to fail on its first run
+      # until a follow-up either raises the floor or extends the word
+      # list (tracked separately; not this issue's scope).
+      - name: Verify cspell-config against this repository's own source tree at the floor version
+        run: '"$RUNNER_TEMP/cspell-floor/node_modules/.bin/cspell" lint --no-progress --show-suggestions -u "./**/*"'
+  lint-staged-config:
+    name: 'Verify peer floor: lint-staged-config (@biomejs/biome, cspell, lint-staged)'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Stages the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup the pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          run_install: false
+      - name: Prepare the Node.js environment
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          cache: pnpm
+          check-latest: true
+          node-version-file: .node-version
+      - env:
+          HUSKY: 0
+        name: Install the dependencies and build the package
+        run: |
+          pnpm install --frozen-lockfile --prefer-offline
+          pnpm run build
+      - name: Resolve the declared peer floors
+        id: floor
+        run: |
+          floor_of() {
+            local range="$1"
+            local floor
+            floor=$(node -e "
+              const raw = process.argv[1];
+              console.log(raw.replace(/^>=\s*/, '').split('.').map((p) => (p === 'x' || p === 'X' ? '0' : p)).join('.'));
+            " "$range")
+            if ! [[ "$floor" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "::error::Could not resolve a concrete floor version from declared peer range '$range' (got '$floor'). This workflow's resolver only understands '>=X.Y.Z' / '>=X.Y.x' ranges -- update it if the range syntax changed." >&2
+              exit 1
+            fi
+            echo "$floor"
+          }
+          BIOME_RANGE=$(jq -r '.peerDependencies["@biomejs/biome"]' packages/lint-staged-config/package.json)
+          CSPELL_RANGE=$(jq -r '.peerDependencies["cspell"]' packages/lint-staged-config/package.json)
+          LINT_STAGED_RANGE=$(jq -r '.peerDependencies["lint-staged"]' packages/lint-staged-config/package.json)
+          BIOME_FLOOR=$(floor_of "$BIOME_RANGE")
+          CSPELL_FLOOR=$(floor_of "$CSPELL_RANGE")
+          LINT_STAGED_FLOOR=$(floor_of "$LINT_STAGED_RANGE")
+          echo "Declared peer ranges: @biomejs/biome $BIOME_RANGE, cspell $CSPELL_RANGE, lint-staged $LINT_STAGED_RANGE"
+          echo "Testing floor versions: @biomejs/biome@$BIOME_FLOOR, cspell@$CSPELL_FLOOR, lint-staged@$LINT_STAGED_FLOOR"
+          {
+            echo "biome=$BIOME_FLOOR"
+            echo "cspell=$CSPELL_FLOOR"
+            echo "lint_staged=$LINT_STAGED_FLOOR"
+          } >> "$GITHUB_OUTPUT"
+      - name: Pack the package's own compiled output
+        run: pnpm --filter @kurone-kito/lint-staged-config pack --pack-destination "$RUNNER_TEMP"
+      - name: Build a synthetic git fixture with the floor-pinned peers installed
+        env:
+          BIOME_FLOOR: ${{ steps.floor.outputs.biome }}
+          CSPELL_FLOOR: ${{ steps.floor.outputs.cspell }}
+          LINT_STAGED_FLOOR: ${{ steps.floor.outputs.lint_staged }}
+        run: |
+          # lint-staged operates on the git index, not a source tree, so
+          # (unlike biome/cspell/markdownlint above) it has no natural
+          # "lint this repo" fixture -- a throwaway git repo is the
+          # smallest realistic stand-in.
+          FIXTURE="$RUNNER_TEMP/lint-staged-floor"
+          mkdir -p "$FIXTURE/src"
+          cd "$FIXTURE"
+          git init -q
+          git config user.email floor-check@example.invalid
+          git config user.name 'peer-floor-verify'
+          npm init -y --silent > /dev/null
+          TARBALL=$(ls "$RUNNER_TEMP"/kurone-kito-lint-staged-config-*.tgz)
+          npm install --no-save --no-audit --no-fund \
+            "lint-staged@${LINT_STAGED_FLOOR}" \
+            "@biomejs/biome@${BIOME_FLOOR}" \
+            "cspell@${CSPELL_FLOOR}" \
+            "$TARBALL"
+          echo "export { default } from '@kurone-kito/lint-staged-config';" > .lintstagedrc.mjs
+          printf 'node_modules\n*.tgz\n' > .gitignore
+          git add .gitignore package.json .lintstagedrc.mjs
+          git commit -q -m 'chore: init fixture' --no-verify
+      - name: Verify a clean staged file passes at the floor versions
+        run: |
+          cd "$RUNNER_TEMP/lint-staged-floor"
+          printf 'export const   x=1\n' > src/fixable.mjs
+          git add src/fixable.mjs
+          ./node_modules/.bin/lint-staged --config .lintstagedrc.mjs
+          # A zero exit alone doesn't prove Biome's floor was actually
+          # exercised -- cspell staying silent on this file would also
+          # exit 0 even if the exported task list stopped invoking
+          # Biome entirely. Assert the file was actually rewritten to
+          # Biome's expected output.
+          EXPECTED='export const x = 1;'
+          ACTUAL=$(cat src/fixable.mjs)
+          if [ "$ACTUAL" != "$EXPECTED" ]; then
+            echo "::error::lint-staged-config floor verification failed at @biomejs/biome@${{ steps.floor.outputs.biome }}: expected Biome to reformat src/fixable.mjs to '$EXPECTED', got '$ACTUAL'"
+            exit 1
+          fi
+          # Commit the now Biome-fixed file so the next assertion below
+          # starts from a clean index and its result is attributable
+          # only to the newly staged file, not this one too.
+          git commit -q -m 'chore: add the fixable file' --no-verify
+      - name: Verify a staged file with a real spelling issue is rejected at the floor versions
+        run: |
+          cd "$RUNNER_TEMP/lint-staged-floor"
+          # cspell:disable-next-line -- deliberately misspelled fixture data, not prose
+          printf '// This has an obviosuly misspeled wrod\nexport const y = 2;\n' > src/typo.mjs
+          git add src/typo.mjs
+          if ./node_modules/.bin/lint-staged --config .lintstagedrc.mjs; then
+            echo "::error::lint-staged-config floor verification failed at lint-staged@${{ steps.floor.outputs.lint_staged }} / @biomejs/biome@${{ steps.floor.outputs.biome }} / cspell@${{ steps.floor.outputs.cspell }}: a file with a genuine spelling issue was incorrectly accepted"
+            exit 1
+          fi
+  markdownlint-config:
+    name: 'Verify peer floor: markdownlint-config (markdownlint-cli2)'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Stages the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Setup the pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          run_install: false
+      - name: Prepare the Node.js environment
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          cache: pnpm
+          check-latest: true
+          node-version-file: .node-version
+      - env:
+          HUSKY: 0
+        name: Install the dependencies and build the compiled configs
+        run: |
+          pnpm install --frozen-lockfile --prefer-offline
+          pnpm run build
+      - name: Resolve the declared markdownlint-cli2 peer floor
+        id: floor
+        run: |
+          RANGE=$(jq -r '.peerDependencies["markdownlint-cli2"]' packages/markdownlint-config/package.json)
+          FLOOR=$(node -e "
+            const raw = process.argv[1];
+            console.log(raw.replace(/^>=\s*/, '').split('.').map((p) => (p === 'x' || p === 'X' ? '0' : p)).join('.'));
+          " "$RANGE")
+          if ! [[ "$FLOOR" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Could not resolve a concrete floor version from declared peer range '$RANGE' (got '$FLOOR'). This workflow's resolver only understands '>=X.Y.Z' / '>=X.Y.x' ranges -- update it if the range syntax changed."
+            exit 1
+          fi
+          echo "Declared peer range: $RANGE -> testing floor version: $FLOOR"
+          echo "version=$FLOOR" >> "$GITHUB_OUTPUT"
+      - name: Install the floor-pinned markdownlint-cli2, isolated from the workspace devDependency
+        run: npm install --prefix "$RUNNER_TEMP/markdownlint-floor" --no-save --no-audit --no-fund "markdownlint-cli2@${{ steps.floor.outputs.version }}"
+      # As with cspell-config above, this exercises the root
+      # .markdownlint.yml, which extends @kurone-kito/markdownlint-config
+      # and then disables one of its rules (table-column-style) for this
+      # repository's own docs. A floor-version regression specific to
+      # that one disabled rule would stay invisible for files outside
+      # packages/markdownlint-config/ -- but markdownlint-cli2 resolves
+      # config per-directory, so files under that package's own
+      # directory are still linted with its own config as-is, and
+      # every other rule stays exercised repository-wide either way.
+      - name: Verify markdownlint-config against this repository's own Markdown tree at the floor version
+        run: '"$RUNNER_TEMP/markdownlint-floor/node_modules/.bin/markdownlint-cli2" "**/*.md"'

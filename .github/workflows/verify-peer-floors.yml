@@ -131,20 +131,27 @@ jobs:
           fi
           echo "Declared peer range: $RANGE -> testing floor version: $FLOOR"
           echo "version=$FLOOR" >> "$GITHUB_OUTPUT"
-      - name: Build a minimal fixture consuming the package's own shareable config
+      - name: Pack the package's own compiled output
+        run: pnpm --filter @kurone-kito/commitlint-config pack --pack-destination "$RUNNER_TEMP"
+      - name: Build a fixture consuming the package's own published entry point
         env:
           FLOOR_VERSION: ${{ steps.floor.outputs.version }}
         run: |
           FIXTURE="$RUNNER_TEMP/commitlint-floor"
           mkdir -p "$FIXTURE"
-          # The package's own .commitlintrc.yml *is* the shareable
-          # config content (it extends @commitlint/config-conventional
-          # and layers this repo's rule overrides on top) -- copy it
-          # verbatim rather than re-deriving an equivalent fixture, so
-          # the fixture never drifts from what actually ships.
-          cp packages/commitlint-config/.commitlintrc.yml "$FIXTURE/.commitlintrc.yml"
           cd "$FIXTURE"
+          # Install and `extends` the packed tarball itself -- the same
+          # way a real consumer (including this repository's own root
+          # .commitlintrc.yml) resolves it -- rather than copying the
+          # source .commitlintrc.yml directly. Copying the source would
+          # only exercise the rule *content*, not the package's actual
+          # entry point (the built .commitlintrc.json, package exports,
+          # and commitlint's own shareable-config module resolution),
+          # so a packaging regression at the floor version could pass
+          # unnoticed (Copilot review on PR #261).
+          printf "extends:\n  - '@kurone-kito/commitlint-config'\n" > .commitlintrc.yml
           npm init -y --silent > /dev/null
+          TARBALL=$(ls "$RUNNER_TEMP"/kurone-kito-commitlint-config-*.tgz)
           # @commitlint/cli isn't a declared peer of this package (only
           # config-conventional is), so pin it to the exact same version
           # as the floor under test -- commitlint's own packages release
@@ -153,7 +160,10 @@ jobs:
           # a floating later patch could otherwise diverge in a way
           # unrelated to config-conventional's own floor and misattribute
           # a failure to the wrong package.
-          npm install --no-save --no-audit --no-fund "@commitlint/cli@${FLOOR_VERSION}" "@commitlint/config-conventional@${FLOOR_VERSION}"
+          npm install --no-save --no-audit --no-fund \
+            "@commitlint/cli@${FLOOR_VERSION}" \
+            "@commitlint/config-conventional@${FLOOR_VERSION}" \
+            "$TARBALL"
       - name: Verify commitlint-config accepts a valid commit message at the floor version
         run: |
           cd "$RUNNER_TEMP/commitlint-floor"

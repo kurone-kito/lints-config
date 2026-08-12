@@ -12,6 +12,7 @@ files:
     - '**'
     - '!**/.*ignore'
     - '!**/biome.json'
+    - '!**/biome.jsonc'
     - '!**/package-lock.json'
     - '!**/pnpm-lock.yaml'
     - '!**/yarn.lock'

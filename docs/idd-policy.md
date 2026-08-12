@@ -160,7 +160,7 @@ bullet below:
   required check to `unknown`/`source-pinned` regardless of its actual
   pass state, forcing a manual Checks-API read and a written-rules
   merge instead of the automated F2/F3 gate on every PR after #209
-  merged (first hit while merging #254 for issue #251) — this was the
+  closed (first hit while merging #254 for issue #251) — this was the
   placeholder-revisit condition the previous paragraph's now-superseded
   text anticipated.
 
@@ -169,7 +169,7 @@ bullet below:
 **Decision**: disabled (recorded 2026-08-08, ONBOARDING Step 1B
 decision 13).
 
-Matched the factual state at the time this decision was recorded —
+This decision matched the factual state at the time it was recorded —
 `required_status_checks` was `null` and this repository had zero
 rulesets — and upstream's own recommendation. An up-to-date-head
 requirement forces a `main`-sync merge on every merely-`BEHIND` (not
@@ -182,8 +182,8 @@ This was a **constraint on issue #209's implementation**
 (repository-settings: required status checks), not merely a preference
 recorded ahead of it — that work had to avoid introducing an
 up-to-date-head requirement as a side effect of registering required
-checks. #209 closed 2026-08-12 with `required_status_checks.strict:
-false`, confirming the constraint held.
+checks. #209 closed 2026-08-12 with `required_status_checks.strict: false`,
+confirming the constraint held.
 
 ## Issue-Author Approval Gate
 

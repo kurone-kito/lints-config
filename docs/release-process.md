@@ -49,8 +49,8 @@ or reference a `CHANGELOG.md` for them here.
 ## Attribution rule
 
 A changed path under `packages/<name>/` for one of the five packages
-above goes in that package's `CHANGELOG.md`. A changed path under a
-moved package's former directory (the five moved-package names listed
+above goes in that package's `CHANGELOG.md`. A changed path under one
+of the five moved-or-discontinued packages' former directories (listed
 under File layout) is excluded per that section's rule — never
 attribute it to the root `CHANGELOG.md` either. Every other changed
 path (root config, `.github/`, `docs/`, `scripts/`, `test/`, root

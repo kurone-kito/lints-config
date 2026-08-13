@@ -14,6 +14,22 @@ categories:
   - title: 🧰 Maintenance
     label: dependencies
     collapse-after: 5
+# Derives the categories above from this repository's enforced
+# Conventional Commits PR-title convention, since nothing else applies
+# enhancement/bug/documentation to a pull request (Dependabot applies
+# `dependencies` itself). Matches only these three category labels —
+# IDD's reserved labels (roadmap, status:*, idd:ready) are deliberately
+# never targeted here, same constraint as the categories block above.
+autolabeler:
+  - label: enhancement
+    title:
+      - '/^feat(\(.+\))?!?:/i'
+  - label: bug
+    title:
+      - '/^fix(\(.+\))?!?:/i'
+  - label: documentation
+    title:
+      - '/^docs(\(.+\))?!?:/i'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&'
 template: |

@@ -38,12 +38,6 @@ jobs:
       - if: ${{ !inputs.next }}
         name: Check the whether the current version is not prerelease
         run: pnpm run is:release
-      - name: Setting the npmjs registry
-        run: |
-          cat << EOF > "${HOME}/.npmrc"
-          registry=https://registry.npmjs.org/
-          @kurone-kito:registry=https://registry.npmjs.org/
-          EOF
       - if: ${{ !inputs.next }}
         name: Publish the packages
         run: pnpm run publish --no-git-check

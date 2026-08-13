@@ -12,6 +12,9 @@ on:
       - edited
     branches:
       - main
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 permissions:
   contents: write
 jobs:
@@ -35,7 +38,7 @@ jobs:
           for label in enhancement bug documentation; do
             gh pr edit "${{ github.event.pull_request.number }}" \
               --repo "${{ github.repository }}" \
-              --remove-label "$label" || true
+              --remove-label "$label"
           done
       - if: ${{ github.event_name == 'pull_request' }}
         name: Apply the autolabeler rules to this pull request

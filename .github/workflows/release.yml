@@ -14,5 +14,3 @@ jobs:
     uses: ./.github/workflows/common-release.yml
     with:
       next: ${{ github.event_name == 'workflow_dispatch' || github.event.release.prerelease }}
-    secrets:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -164,6 +164,25 @@ bullet below:
   closed (first hit while merging #254 for issue #251) — this was the
   placeholder-revisit condition the previous paragraph's now-superseded
   text anticipated.
+- **`ciGate.trustEmptyProtectionReads`** — **enabled** (recorded
+  2026-08-13, operator decision after `main`'s branch protection moved
+  from classic protection to GitHub Rulesets). `pre-merge-readiness`
+  reads both `rules/branches/main` (the effective-merged-rules
+  endpoint) and the classic-only `branches/main/protection` endpoint,
+  and treats a `404` on either as unreadable unless this flag is set.
+  Once classic protection was replaced by Rulesets, the classic
+  endpoint began 404ing permanently, while `rules/branches/main`
+  continued returning the correct merged rules successfully in the
+  same run — proving the token has working governance-read access and
+  that the classic endpoint's `404` reflects nothing configured there
+  rather than an unreadable state, the exact precondition this flag
+  requires. Before this change landed, `pre-merge-readiness` reported
+  `{"gate": "ci", "detail": "cannot determine required checks:
+  protection/ruleset unreadable"}` on effectively every PR, forcing a
+  manual `gh pr checks`/`gh pr view` cross-check on each one instead of
+  the automated F2/F3 gate. This does not affect `idd-doctor`'s
+  separate `branch protection not readable` warning, which comes from
+  a different code path with no equivalent config opt-in.
 
 ## Up-to-Date-Head Ruleset
 

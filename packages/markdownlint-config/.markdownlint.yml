@@ -6,10 +6,12 @@ line-length:
   code_blocks: false
   headings: false
   tables: false
-# Allows the use of duplicate headings. The default is unconditional
-# prohibition. Due to the `siblings_only` flag not working, it is necessary
-# to enable duplicate headings in the entire document.
-no-duplicate-heading: false
+# Detects duplicate headings only among siblings sharing the same parent
+# section (MD024's `siblings_only` option), which allows the same heading
+# text to repeat under different parents (e.g. changelog entries). Reproduced
+# as working correctly against the pinned markdownlint toolchain; see #252.
+no-duplicate-heading:
+  siblings_only: true
 # Allows embedding of the specified HTML tag. The default is unconditional
 # prohibition. Allow for some valuable features, such as folding.
 no-inline-html:

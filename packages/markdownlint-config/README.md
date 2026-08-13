@@ -8,9 +8,10 @@ for any projects
 - Extends Markdownlint's default rule set.
 - Allows line-length limits to be exceeded inside code blocks, tables,
   and headings, where folding is impractical.
-- Allows duplicate headings document-wide, since Markdownlint's
-  `siblings_only` option (which would otherwise scope the check to
-  sibling headings only) does not work as expected.
+- Allows duplicate headings only under different parent sections
+  (Markdownlint's `siblings_only` option), so the same heading text can
+  repeat across sections without tripping `MD024`, while a genuine
+  same-parent duplicate is still flagged.
 - Allows `<details>`/`<summary>` HTML for collapsible sections.
 
 ## Usage

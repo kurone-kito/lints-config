@@ -6,9 +6,6 @@ on:
         default: false
         description: Publish the alpha version
         type: boolean
-    secrets:
-      NPM_TOKEN:
-        required: true
 jobs:
   build:
     name: The build process
@@ -41,23 +38,16 @@ jobs:
       - if: ${{ !inputs.next }}
         name: Check the whether the current version is not prerelease
         run: pnpm run is:release
-      - env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        name: Setting the npmjs registry and the token
+      - name: Setting the npmjs registry
         run: |
           cat << EOF > "${HOME}/.npmrc"
           registry=https://registry.npmjs.org/
           @kurone-kito:registry=https://registry.npmjs.org/
-          //registry.npmjs.org/:_authToken=$NPM_TOKEN
           EOF
-      - env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        if: ${{ !inputs.next }}
+      - if: ${{ !inputs.next }}
         name: Publish the packages
         run: pnpm run publish --no-git-check
-      - env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        if: ${{ inputs.next }}
+      - if: ${{ inputs.next }}
         name: Publish the packages as the alpha version
         run: pnpm run publish:next --no-git-check
       - env:

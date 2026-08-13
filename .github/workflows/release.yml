@@ -10,5 +10,7 @@ jobs:
       contents: write
       packages: write
     uses: ./.github/workflows/common-release.yml
+    with:
+      next: ${{ github.event.release.prerelease }}
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -183,9 +183,9 @@ third and fourth were each revisited and recorded separately, on
   same-token evidence of working Administration-read access on this
   endpoint, so the `404` it now returns reflects nothing configured
   there — the resource was replaced, not that access was lost — rather
-  than an unreadable state. Before this change landed, `pre-merge-
-  readiness` reported `{"gate": "ci", "detail": "cannot determine
-  required checks: protection/ruleset unreadable"}` on effectively
+  than an unreadable state. Before this change landed,
+  `pre-merge-readiness` reported `{"gate": "ci", "detail": "cannot
+  determine required checks: protection/ruleset unreadable"}` on effectively
   every PR, forcing a manual `gh pr checks`/`gh pr view` cross-check on
   each one instead of the automated F2/F3 gate. This does not affect
   `idd-doctor`'s separate `branch protection not readable` warning,

@@ -27,6 +27,14 @@ If it already exists, merge the following configuration into it:
 }
 ```
 
+## Notes
+
+This package also exports `./biome.yml`. It is the human-readable YAML
+source that `biome.json` — the config actually resolved by the `.`
+export above — is compiled from via `js-yaml` at publish time. Biome
+itself cannot parse YAML config files, so `./biome.yml` is for
+reference and inspection only; do not point `extends` at it directly.
+
 ## License
 
 MIT

@@ -175,9 +175,10 @@ publishing:
    Do this here, not at the earlier merge step, and only after every
    `update_release_draft` run currently in flight has finished — not
    only the release-prep merge's own run, but also any triggered by
-   an unrelated PR being opened, reopened, or synchronized around the
-   same time (`.github/workflows/push-main.yml` runs that job on both
-   triggers). The release-drafter action regenerates the draft's
+   an unrelated PR being opened, reopened, synchronized, or having its
+   title edited around the same time (`.github/workflows/push-main.yml`
+   runs that job on all of those, plus a push to `main`). The
+   release-drafter action regenerates the draft's
    title and tag from `$NEXT_PATCH_VERSION` on every one of those
    runs (see the known gap under Existing release mechanics below),
    so correcting while any run is still in flight does not survive

@@ -12,15 +12,20 @@ on:
       - edited
     branches:
       - main
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 permissions:
   contents: write
 jobs:
-  update_release_draft:
+  # Runs only for a pull_request event. Serialized per pull request (not
+  # globally) -- an older run's clear-then-add sequence must never
+  # complete after a newer run's for the *same* PR, but two different
+  # PRs relabeling at the same time don't conflict with each other, so
+  # they don't need to wait on one another.
+  label_pull_request:
+    if: ${{ github.event_name == 'pull_request' }}
+    concurrency:
+      group: ${{ github.workflow }}-label-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
     permissions:
-      contents: write
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
@@ -30,8 +35,7 @@ jobs:
       # (feat: -> fix:, etc.) always ends with exactly the label(s) the
       # current title matches, not a stale label left from an earlier
       # title alongside the new one.
-      - if: ${{ github.event_name == 'pull_request' }}
-        name: Clear the managed category labels before relabeling
+      - name: Clear the managed category labels before relabeling
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -40,11 +44,23 @@ jobs:
               --repo "${{ github.repository }}" \
               --remove-label "$label"
           done
-      - if: ${{ github.event_name == 'pull_request' }}
-        name: Apply the autolabeler rules to this pull request
+      - name: Apply the autolabeler rules to this pull request
         uses: release-drafter/release-drafter/autolabeler@34d80673e067bdc0c24568d3af899c216adcfaa9 # v7.7.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # Every run (from any pull request, or a push to main) writes the same
+  # single draft release, so this job shares one global, queued
+  # (cancel-in-progress: false) concurrency group across all of them --
+  # unlike labeling above, these runs must never run in parallel with
+  # each other, or a race can leave the draft with a stale snapshot.
+  update_release_draft:
+    concurrency:
+      group: ${{ github.workflow }}-draft
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
       - uses: release-drafter/release-drafter@34d80673e067bdc0c24568d3af899c216adcfaa9 # v7.7.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

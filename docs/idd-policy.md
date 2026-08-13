@@ -131,10 +131,10 @@ helper-collected evidence) was considered and rejected on 2026-07-27.
 
 ## New v0.6.0 Policy Fields
 
-Three fields the v0.6.0 policy schema added, and this repository's
+Four fields the v0.6.0 policy schema added, and this repository's
 position on each. The first two were recorded 2026-08-08 (#218); the
-third was revisited and recorded separately on 2026-08-12, per its own
-bullet below:
+third and fourth were each revisited and recorded separately, on
+2026-08-12 and 2026-08-13 respectively, per their own bullets below:
 
 - **`helperRuntime.packageSpec`** — now set, mirroring the pin above
   (`refs/tags/v0.6.0`). Absent under the v0.4.0 pin; the field exists
@@ -170,18 +170,26 @@ bullet below:
   reads both `rules/branches/main` (the effective-merged-rules
   endpoint) and the classic-only `branches/main/protection` endpoint,
   and treats a `404` on either as unreadable unless this flag is set.
-  Once classic protection was replaced by Rulesets, the classic
-  endpoint began 404ing permanently, while `rules/branches/main`
-  continued returning the correct merged rules successfully in the
-  same run — proving the token has working governance-read access and
-  that the classic endpoint's `404` reflects nothing configured there
-  rather than an unreadable state, the exact precondition this flag
-  requires. Before this change landed, `pre-merge-readiness` reported
-  `{"gate": "ci", "detail": "cannot determine required checks:
-  protection/ruleset unreadable"}` on effectively every PR, forcing a
-  manual `gh pr checks`/`gh pr view` cross-check on each one instead of
-  the automated F2/F3 gate. This does not affect `idd-doctor`'s
-  separate `branch protection not readable` warning, which comes from
+  GitHub's REST permission model scopes these two endpoints
+  differently (`rules/branches/{branch}` under Metadata read,
+  `branches/{branch}/protection` under Administration read), so a
+  successful `rules/branches/main` read does not by itself prove read
+  access to the classic endpoint too — the operator verified this
+  precondition directly instead, against the same automation token:
+  `idd:doctor` successfully read `branches/main/protection` with real
+  content (11 configured required status checks) at the start of this
+  session, before the Rulesets migration removed classic protection
+  from this repository entirely. That prior success is direct,
+  same-token evidence of working Administration-read access on this
+  endpoint, so the `404` it now returns reflects nothing configured
+  there — the resource was replaced, not that access was lost — rather
+  than an unreadable state. Before this change landed, `pre-merge-
+  readiness` reported `{"gate": "ci", "detail": "cannot determine
+  required checks: protection/ruleset unreadable"}` on effectively
+  every PR, forcing a manual `gh pr checks`/`gh pr view` cross-check on
+  each one instead of the automated F2/F3 gate. This does not affect
+  `idd-doctor`'s separate `branch protection not readable` warning,
+  which comes from
   a different code path with no equivalent config opt-in.
 
 ## Up-to-Date-Head Ruleset

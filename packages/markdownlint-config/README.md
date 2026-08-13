@@ -11,7 +11,7 @@ for any projects
 - Allows duplicate headings only under different parent sections
   (Markdownlint's `siblings_only` option), so the same heading text can
   repeat across sections without tripping `MD024`, while a genuine
-  same-level duplicate is still flagged.
+  same-parent duplicate is still flagged.
 - Allows `<details>`/`<summary>` HTML for collapsible sections.
 
 ## Usage

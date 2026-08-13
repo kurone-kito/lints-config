@@ -21,6 +21,22 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
+      # The autolabeler below only ever adds a label, never removes one
+      # (release-drafter v7.7.0). Clearing the three category labels it
+      # manages first, every run, means a re-run after a title edit
+      # (feat: -> fix:, etc.) always ends with exactly the label(s) the
+      # current title matches, not a stale label left from an earlier
+      # title alongside the new one.
+      - if: ${{ github.event_name == 'pull_request' }}
+        name: Clear the managed category labels before relabeling
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for label in enhancement bug documentation; do
+            gh pr edit "${{ github.event.pull_request.number }}" \
+              --repo "${{ github.repository }}" \
+              --remove-label "$label" || true
+          done
       - if: ${{ github.event_name == 'pull_request' }}
         name: Apply the autolabeler rules to this pull request
         uses: release-drafter/release-drafter/autolabeler@34d80673e067bdc0c24568d3af899c216adcfaa9 # v7.7.0

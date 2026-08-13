@@ -1,6 +1,6 @@
 {
   "name": "@kurone-kito/lints-config",
-  "version": "0.23.0-pre.2",
+  "version": "0.23.0-pre.3",
   "private": true,
   "description": "My configuration for the Biome / CSpell / lint-staged and other tools",
   "keywords": [

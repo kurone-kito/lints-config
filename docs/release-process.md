@@ -35,18 +35,22 @@ published package directories:
 - `packages/lint-staged-config/CHANGELOG.md`
 - `packages/markdownlint-config/CHANGELOG.md`
 
-Packages that moved to
-[`kurone-kito/builder-config`](https://github.com/kurone-kito/builder-config)
-(`eslint-config-base`, `eslint-config-react`, `eslint-config-solid`,
-`prettier-config`, `typescript-config`) are permanently out of scope
-for this repository's changelogs — do not create or reference a
-`CHANGELOG.md` for them here.
+`typescript-config` moved to
+[`kurone-kito/builder-config`](https://github.com/kurone-kito/builder-config).
+`eslint-config-base`, `eslint-config-react`, `eslint-config-solid`, and
+`prettier-config` were discontinued outright in
+[#134](https://github.com/kurone-kito/lints-config/pull/134) — not
+moved anywhere — when this repository migrated its own linting and
+formatting tooling to Biome (see the README's "Discontinued packages"
+section for the full context). All five packages are permanently out
+of scope for this repository's changelogs either way — do not create
+or reference a `CHANGELOG.md` for them here.
 
 ## Attribution rule
 
 A changed path under `packages/<name>/` for one of the five packages
-above goes in that package's `CHANGELOG.md`. A changed path under a
-moved package's former directory (the five moved-package names listed
+above goes in that package's `CHANGELOG.md`. A changed path under one
+of the five moved-or-discontinued packages' former directories (listed
 under File layout) is excluded per that section's rule — never
 attribute it to the root `CHANGELOG.md` either. Every other changed
 path (root config, `.github/`, `docs/`, `scripts/`, `test/`, root

@@ -26,6 +26,7 @@ jobs:
       group: ${{ github.workflow }}-label-${{ github.event.pull_request.number }}
       cancel-in-progress: true
     permissions:
+      contents: read
       pull-requests: write
     runs-on: ubuntu-latest
     steps:

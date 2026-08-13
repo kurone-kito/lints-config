@@ -37,6 +37,27 @@ consolidated:
 - `packages/typescript-config`: My TypeScript configuration for general
   projects.
 
+### Discontinued packages
+
+The following packages were removed in [#134](https://github.com/kurone-kito/lints-config/pull/134),
+when this project migrated its own linting and formatting tooling to
+Biome. The ESLint-based configurations' build had grown notably
+complicated and was dragging down the maintainability of the whole
+project, prompting their removal alongside the Biome migration.
+`prettier-config` itself caused no particular problems, but it was no
+longer in active use and there was no remaining reason to keep it
+differentiated from the already-removed ESLint configurations, so it
+was dropped in the same release.
+
+They remain published on npmjs.com only for backward compatibility
+with existing consumers pinned to an old version; no further updates
+will be published.
+
+- [`@kurone-kito/eslint-config-base`](https://www.npmjs.com/package/@kurone-kito/eslint-config-base)
+- [`@kurone-kito/eslint-config-react`](https://www.npmjs.com/package/@kurone-kito/eslint-config-react)
+- [`@kurone-kito/eslint-config-solid`](https://www.npmjs.com/package/@kurone-kito/eslint-config-solid)
+- [`@kurone-kito/prettier-config`](https://www.npmjs.com/package/@kurone-kito/prettier-config)
+
 ## System Requirements
 
 - Node.js: Any of the following versions

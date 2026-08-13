@@ -243,6 +243,11 @@ this document describes it as shipped behavior, not a proposal:
    uploads the resulting `.tgz` files as release assets via
    `gh release upload`.
 
-A separate `release-next.yml` workflow (not covered by the flow above)
-publishes an alpha/prerelease build under the `next` npm tag without
-creating a git tag.
+`release.yml` also accepts a manual `workflow_dispatch` trigger, used
+to publish an alpha/prerelease build under the `next` npm dist-tag
+without creating a git tag or a GitHub Release (the packing/asset-
+upload step stays gated to the `release` event, so a manual dispatch
+skips it). This used to be a separate `release-next.yml` workflow;
+it was folded into `release.yml` so both trigger paths share one
+workflow filename, since npm Trusted Publisher configuration allows
+only one registered workflow filename per package.

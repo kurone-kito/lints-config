@@ -20,8 +20,20 @@ jobs:
   # complete after a newer run's for the *same* PR, but two different
   # PRs relabeling at the same time don't conflict with each other, so
   # they don't need to wait on one another.
+  #
+  # Fork-originated pull requests are intentionally excluded (the second
+  # `if:` clause): GitHub always downgrades `GITHUB_TOKEN` to read-only
+  # for a `pull_request` run triggered from a fork, regardless of the
+  # permissions declared below, so the clear-label step would fail
+  # outright. Moving this job to `pull_request_target` would restore
+  # write access for forks, but that trades in a distinct security
+  # posture (base-repo credentials against a fork-controlled event
+  # payload) that deserves its own deliberate design decision rather
+  # than a silent change bundled into this fix -- tracked separately in
+  # #289. Until that's decided, a fork PR is simply left unlabeled
+  # instead of failing this job.
   label_pull_request:
-    if: ${{ github.event_name == 'pull_request' }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
     concurrency:
       group: ${{ github.workflow }}-label-${{ github.event.pull_request.number }}
       cancel-in-progress: true

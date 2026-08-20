@@ -18,7 +18,12 @@ an afterthought once a marker is already half-drafted.
   `idd-skill` in an installed bundle; use it only when the target
   repository actually configured that value.
 - If the prefix is not discoverable from the repository docs or user
-  context, stop and ask instead of emitting a guessed marker.
+  context, stop and ask instead of emitting a guessed marker
+  (preventive; no observed incident yet). A prefix the operator already
+  confirmed during an onboarding hearing (Steps 1A-1C of
+  `idd-template/ONBOARDING.md`) counts as a resolved value under "user
+  context" — even before it is committed anywhere in the target
+  repository's tree — and does not require asking again.
 
 ## Trigger policy
 
@@ -386,6 +391,100 @@ Ask these checks:
    taxonomy. An owner/CODEOWNERS marker or a referenced tracking issue may
    also serve, but the code-comment convention is the recommended default.
    Do not hard-code any single consumer's divergence-tracking mechanism.
+4. When an issue drafts a **template resync or reimport** (pulling a
+   newer `idd-template/` revision into a repository that already
+   adopted IDD), consult the **upstream target ref's** copy of
+   `docs/customization.md`'s "Documentation lint compatibility"
+   section (added 2026-08-05, commit `6ceaa6dd`) before treating
+   `.markdownlint.yml` / `.markdownlint-cli2.yaml` / `.cspell.config.yml`
+   as unchanged. `docs/customization.md` is itself part of the
+   imported core file set, so it resolves in an installed or adopter
+   context once present — but an adopter whose prior import predates
+   that commit has no such section in their own local copy yet, which
+   is exactly the named gap to document in the resync issue, not a
+   documentation-consultation failure. Either the target ref's
+   `docs/customization.md` section or, from a source checkout of
+   `idd-skill` itself, `idd-template/ONBOARDING.md`'s "Re-importing"
+   section, documents the same named gap: an adopter's own rule
+   customizations for these files need a by-hand merge into the new
+   import rather than an assumed carry-forward, and
+   `idd-onboard.mjs --import` reports a `blockedOverwrites` finding
+   instead of silently keeping a same-named local file as-is, unless
+   the import used `--force`, which still writes the file and reports
+   it in the verdict JSON (`plan` as an `overwrite` entry,
+   `filesChanged`, and `written`) but omits it from
+   `blockedOverwrites` so the import is not blocked (observed
+   2026-08-12/13 on an
+   adopter repository, `setup.ubuntu`, kurone-kito/idd-skill#2012).
+5. When drafting a resync issue's Background, run a mechanical
+   placeholder diff against the **upstream `idd-skill` source
+   repository's** `idd-template/` trees at the two relevant refs —
+   never a tree inside the target/adopter repository itself, which
+   retains no local `idd-template/` directory of its own once IDD is
+   imported.
+   - **Baseline ref.** Use the exact tag or commit SHA actually
+     imported at the adopter's prior onboarding when it is explicitly
+     recorded (for example in the original onboarding PR/commit
+     message) or when the operator can confirm it directly. Do not
+     infer it from the adopter's current file content: neither a diff
+     against the import commit nor a reverse- or forward-substitution
+     content-match against a candidate upstream tree reliably pins a
+     single ref — onboarding substitutes placeholder values and
+     permits legitimate post-substitution edits, an import commit's
+     diff itself only records the already-transformed adopter
+     snapshot, and more than one upstream commit can plausibly yield
+     the same imported subset. When no explicit record or operator
+     confirmation is available, report the baseline as
+     unresolved/ambiguous in the resync issue itself rather than
+     guessing one from content alone. Do not construct `v<iddVersion>`
+     (`.github/idd/config.json`) as the baseline without this check:
+     `iddVersion` is only a coarse signal and can be stale, an adopter
+     still on `0.1.0` has no matching tag at all (`CHANGELOG.md`
+     records that `0.1.0` predates the tag discipline), and an adopter
+     who pinned a raw
+     commit SHA at import time instead of a tag may have no
+     `v<iddVersion>` tag matching what they actually imported either.
+   - **Target ref.** The new release/ref the resync targets.
+   - **Scope.** Intersect both trees with the Step 2 "File list" core
+     file set as it reads **at the target ref**
+     (`idd-template/ONBOARDING.md`'s generated file-list block) plus
+     whichever optional profile artifacts the adopter selected, not
+     the complete `idd-template/` tree — a file such as
+     `idd-template/ONBOARDING.md` itself is never copied into an
+     adopter, so reporting it as changed is noise. Use the target
+     ref's manifest, not the baseline ref's: a file the target release
+     newly added to the core or a selected profile is exactly the kind
+     of change a resync issue must report, and the baseline ref's own
+     manifest predates it.
+   - **Token filter.** Compare each ref's own placeholder table in
+     effect at that ref, not today's list applied to both — a
+     placeholder added or removed between the two refs is itself
+     exactly the kind of token-identity change this check exists to
+     report, and reusing one ref's list for the other's tree would
+     hide that change. At a ref from commit `e55ccd9c` (2026-05-12)
+     onward, that table is Onboarding Reference — Placeholder Values'
+     "Final placeholder meanings" table
+     (`docs/onboarding/placeholders.md`). An older ref has no such
+     file — the placeholders were documented directly inside
+     `idd-template/ONBOARDING.md`'s own "Step 1C — Collect placeholder
+     values" section instead; use that section's list as the
+     allowlist for a baseline ref that old. Never match every
+     `{{...}}`-shaped span unfiltered either way — an unrestricted
+     match also catches ordinary GitHub Actions expressions such as
+     `${{ github.token }}` in an imported workflow file.
+   - **Excluded paths.** Skip `docs/onboarding/placeholders.md`,
+     `docs/customization.md`, and `docs/onboarding/policy-decisions.md`
+     — these deliberately keep `{{...}}` tokens literal to document
+     the placeholder syntax itself, so diffing them misidentifies
+     literal documentation as an outstanding substitution.
+
+   Compare the actual token identities per changed file, not only the
+   aggregate occurrence count: a same-count one-for-one placeholder
+   swap changes what an adopter must substitute without changing the
+   count. Name any file whose placeholder tokens changed, rather than
+   asserting a file needs no placeholder substitution as an unverified
+   default (observed 2026-08-12/13 on an adopter repository,
+   `setup.ubuntu`, kurone-kito/idd-skill#2012).
 
 ## Dependency minimization
 
@@ -418,6 +517,36 @@ availability, or ordering constraint.
   track reports startable the moment its build foundation closes, and
   claiming it then means either failing its acceptance criteria or doing
   the siblings' unmerged work
+- once a `Blocked by #NNN` / `Depends on #NNN` reference resolves —
+  the referenced issue closes **with its required outcome verified as
+  delivered**, not merely closed as not-planned, superseded without an
+  equivalent implementation, or later reopened — revisit the blocked
+  issue's own body and remove that reference and its explanatory wait
+  prose, rather than leaving it in place as inert history, but keep
+  any prose identifying the delivered artifact or interface this
+  issue's own scope depends on. A line naming several references
+  (`Blocked by #10, #11`) keeps the still-open ones — remove only the
+  resolved reference, and remove the whole line only once every
+  reference on it has resolved. When the
+  underlying constraint is not actually met, reopen the prerequisite
+  issue or repoint the dependency line at an open replacement issue
+  instead of leaving a stale edge in place:
+  `discover-readiness-check` blocks only on an `OPEN` referenced
+  issue, regardless of why it closed, so retaining the edge alone does
+  not keep the dependent issue blocked. (Observed 2026-08-13 on issue
+  #1994's `Blocked by #1985` note, after #1985 closed; reported in
+  #2002.) This cleanup is more than tidiness: stale wait-explaining
+  prose can trip `checkVerifiability`'s subjective-approval heuristic
+  in
+  `suitability-triage.mts`, which matches either a single line
+  combining a subjective-subject word (`maintainer`, `stakeholder`,
+  `human`, `opinion`, `judgment`/`judgement`, `ux`, or `feel` — not
+  only authority nouns) with a gate word (`approval`, `sign-off`/
+  `signoff`, `decision`, or `preference`), or a gate word followed
+  within 80 characters — including across lines — by a
+  subjective-subject word.
+  This still fires even though the structural dependency filter
+  already correctly treats the closed reference as unblocking
 
 When an issue keeps a dependency edge, justify each dependency edge in
 the surrounding issue body and confirm that the split still preserves
@@ -545,6 +674,32 @@ Validation expectations:
   marker; a score of `1` also carries `status:blocked-by-human`
 - passes the `audit-authored-issue` mechanical pre-publish gate for the
   `child` shape (see [Mechanical pre-publish gate](#mechanical-pre-publish-gate))
+
+## Drafted issue prose language
+
+A drafted issue's human-readable prose sections — `## Background` (or
+`## Goal`/`## Why this matters`), `## Proposed change`,
+`## Acceptance criteria`, and the roadmap shape's `## Tracks` /
+`## Success criteria` — follow the target repository's resolved
+`authoringLanguage` value from `.github/idd/config.json`:
+
+- A fixed BCP-47-shaped tag (for example `en`, `ja`, `fr`) makes the
+  drafted prose use that language.
+- The literal `match-source` matches the operator's live conversational
+  language during an interactive/hearing issue-authoring session.
+- An absent field defaults to English, codifying today's actual
+  emergent behavior.
+
+See `docs/customization.md`'s Authoring Language section for the full
+field definition.
+
+**Marker/footer carve-out**: this never changes any HTML-comment
+marker's machine-parsed format, nor any visible-line mirror whose exact
+wording a mechanical regex parses. Concretely, the autopilot-suitability
+and effort footers' visible lines (`_Autopilot suitability: N / 5 ...`
+/ `_Effort: S | M | L ...`) must stay in their exact canonical English
+wording regardless of `authoringLanguage`, since `audit-authored-issue`
+matches them against a fixed English-phrase regex.
 
 ## A4.5 Suitability Gate Alignment
 

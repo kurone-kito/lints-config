@@ -95,7 +95,7 @@
     "@kurone-kito/biome-config": "workspace:^",
     "@kurone-kito/commitlint-config": "workspace:^",
     "@kurone-kito/cspell-config": "workspace:^",
-    "@kurone-kito/idd-skill": "https://codeload.github.com/kurone-kito/idd-skill/tar.gz/refs/tags/v0.6.0",
+    "@kurone-kito/idd-skill": "https://codeload.github.com/kurone-kito/idd-skill/tar.gz/refs/tags/v0.7.0",
     "@kurone-kito/is-prerelease": "^0.1.0",
     "@kurone-kito/lint-staged-config": "workspace:^",
     "@kurone-kito/markdownlint-config": "workspace:^",

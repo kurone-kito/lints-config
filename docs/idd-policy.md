@@ -66,11 +66,12 @@ no longer denies `node scripts/idd-merge-execute.mjs` /
 
 The helper package (`@kurone-kito/idd-skill`) is not published to npm,
 so it resolves from a GitHub archive URL. `devDependencies` pins it
-(bumped to v0.6.0 in #211, superseding the v0.4.0 commit-archive pin
-wired in #174) to a tag archive rather than `refs/heads/main`:
+(bumped to v0.7.0 by #284, recorded here in #288, superseding the
+v0.6.0 pin wired in #211) to a tag archive rather than
+`refs/heads/main`:
 
 ```text
-https://codeload.github.com/kurone-kito/idd-skill/tar.gz/refs/tags/v0.6.0
+https://codeload.github.com/kurone-kito/idd-skill/tar.gz/refs/tags/v0.7.0
 ```
 
 The same string is set verbatim in three places: this `devDependencies`
@@ -117,8 +118,16 @@ a hand-picked subset — a trimmed copy makes the manifest's own
 profiles later), refresh `pnpm-lock.yaml`, and re-verify
 `pnpm run idd:doctor` emits a real verdict. `pnpm-workspace.yaml`'s
 `allowBuilds` entry for this package must be updated to the new pinned
-spec string in the same change, or the install fails closed with an
-`ERR_PNPM_GIT_DEP_PREPARE_NOT_ALLOWED` error.
+spec string in the same change. This was originally recorded here as
+failing closed with an `ERR_PNPM_GIT_DEP_PREPARE_NOT_ALLOWED` error on
+a stale key, but that error did not reproduce during the v0.7.0 bump
+(#284) under the currently installed `pnpm@11.15.1`: an unfrozen
+`pnpm install` with a stale `allowBuilds` key installed and built the
+new git dependency silently, with no warning about a skipped or
+ignored build script (recorded here, #288). Update the key regardless
+— to keep the three pin locations character-for-character identical —
+and verify it manually rather than relying on an install failure to
+catch a missed update.
 
 **Trade-offs accepted, not overlooked** (recorded per #174):
 `pnpm install` now depends on GitHub's codeload archive endpoint being
@@ -129,6 +138,21 @@ otherwise small root `package.json` — the `instructions-only`
 alternative (zero dependency, zero scripts, at the cost of losing
 helper-collected evidence) was considered and rejected on 2026-07-27.
 
+**Node.js engines-floor coupling** (discovered during the v0.7.0 bump
+by #284; recorded here, #288): a helper-runtime tag bump can silently
+inherit a new `engines.node` floor from upstream `idd-skill`'s own
+`package.json`. At v0.7.0, upstream raised its floor to `^22.23.2`,
+one patch above this repository's then-current `22.23.1` floor; with
+`pnpm-workspace.yaml`'s `engineStrict: true`, regenerating the
+manifest against the new spec failed closed with
+`ERR_PNPM_UNSUPPORTED_ENGINE` until #287 (bumping this repository's
+own `engines.node` floor) landed first. Roadmap #283 had recorded #287
+as unrelated to the helper-runtime pin with no dependency edge —
+accurate at authoring time, but it stopped holding once upstream moved
+its floor. A future re-sync should check upstream's target-tag
+`engines.node` against this repository's current floor **before**
+assuming no ordering dependency exists.
+
 ## New v0.6.0 Policy Fields
 
 Four fields the v0.6.0 policy schema added, and this repository's
@@ -137,9 +161,9 @@ third and fourth were each revisited and recorded separately, on
 2026-08-12 and 2026-08-13 respectively, per their own bullets below:
 
 - **`helperRuntime.packageSpec`** — now set, mirroring the pin above
-  (`refs/tags/v0.6.0`). Absent under the v0.4.0 pin; the field exists
-  specifically to make the `package-manager` / `ephemeral-npx`
-  invocation spec explicit rather than re-derived from
+  (currently `refs/tags/v0.7.0`). Absent under the v0.4.0 pin; the
+  field exists specifically to make the `package-manager` /
+  `ephemeral-npx` invocation spec explicit rather than re-derived from
   `devDependencies` at runtime.
 - **`advisoryWait.exemptBotAuthoredPrs`** — enabled (#215). Dependabot
   authors the majority of this repository's pull requests, and those
@@ -191,6 +215,45 @@ third and fourth were each revisited and recorded separately, on
   `idd-doctor`'s separate `branch protection not readable` warning,
   which comes from
   a different code path with no equivalent config opt-in.
+
+  **v0.7.0 re-verification** (recorded 2026-08-20, #288): upstream's
+  `v0.7.0` `CHANGELOG.md` records that `idd-doctor` governance reads
+  now natively honor GitHub Rulesets and `trustEmptyProtectionReads`,
+  adding first-class support for the Rulesets-migration scenario this
+  flag was originally recorded above to work around, rather than
+  leaving this entry describing only the pre-v0.7.0 workaround
+  framing. Re-ran `pnpm run idd:doctor` against this repository's
+  current state (Rulesets already migrated, this flag still `true`):
+  `result: passed (1 warning(s))`, the sole warning being the
+  pre-existing, unrelated release-tag-drift notice — no new warning
+  about this flag. The flag's value is unchanged; nothing in the
+  re-verification indicated it is no longer needed.
+
+## New v0.7.0 Policy Fields
+
+Two fields the v0.7.0 policy schema added, and this repository's
+position on each. Both recorded 2026-08-20 (#288):
+
+- **`authoringLanguage`** — set explicitly to `"en"`. The schema's
+  documented fail-safe default when this field is absent is already
+  `"en"` — not the operator's live conversational language; only the
+  literal `"match-source"` value tracks that — so this setting is an
+  explicit recording of already-current behavior: durable and
+  auditable against a future change to the fail-safe default, and
+  consistent with this repository's English-prose convention for
+  issues and docs regardless of a given authoring session's
+  conversational language. Landed vs. pending: PR-submit applies this
+  field to PR body prose and the issue-authoring skill applies it to
+  drafted issue prose; the distributed discover/claim runtime does not
+  read or apply it yet (see `docs/customization.md`'s "Authoring
+  Language" section).
+- **`critiqueLoop.delegate`** — not adopted. This optional field points
+  the C1 self-review pass at a configured external command (for
+  example a local CLI reviewer) instead of the hardcoded per-agent
+  critique table; this repository has no such command configured, so
+  C1 continues to use the per-agent Critique pass invocation table
+  (see "Critique-Loop Profile" above). Recorded as a deliberate
+  non-adoption, not an oversight.
 
 ## Up-to-Date-Head Ruleset
 
@@ -376,13 +439,38 @@ adopted, rather than silently absent, per the #170 verification pass
   third-party helper files into the repository. This repository uses
   the `package-manager` profile (a pinned npm dependency, wired in
   #174) instead, so there is no vendored helper bundle to mark.
+- **`idd-advisory-convergence.yml`'s new `ubuntu-slim` runner-fallback
+  default** (upstream v0.7.0): not adopted (recorded 2026-08-20,
+  #288). The workflow's `runs-on:` fallback stays `ubuntu-latest`, per
+  the workflow's own header comment recording an explicit,
+  issue-referenced (#183) choice to preserve the
+  `CI_RUNNER_LABEL`-override *mechanism* without hardcoding a specific
+  runner label (roadmap #283, decision 4). Standing, deliberate
+  divergence — no runner-value change is part of this track.
+- **`idd-advisory-convergence-comment.yml`** (new upstream v0.7.0
+  companion workflow): not adopted (recorded 2026-08-20, #288). This
+  workflow restores a human-review-comment-triggered refresh of the
+  required `idd-advisory-convergence` check, now that the required
+  workflow itself stopped listening for `pull_request_review_comment`.
+  Its classifier script (`scripts/review-comment-origin.mjs`) is not
+  published as a `package.json` `bin` entry — confirmed against the
+  installed `v0.7.0` package's `bin` map, unlike
+  `rerun-advisory-convergence` (wired here as
+  `idd:rerun-advisory-convergence`) — so this repository's
+  `package-manager` helper-runtime profile has no supported invocation
+  path for it yet (roadmap #283, decision 3). The existing
+  `idd:rerun-advisory-convergence` script remains the documented
+  manual-recovery path for the Copilot-review-race case in the
+  interim. Missing automation, not a correctness regression.
 
 The `idd-advisory-convergence` required-check CI workflow, previously
 recorded here as deferred (2026-07-27), is **no longer unadopted**:
-`.github/workflows/idd-advisory-convergence.yml` was adopted in #215.
-Registering it as a **required** GitHub status check on `main` remains
-a repository-settings change tracked separately in #209 — the workflow
-exists and reports on every PR, but nothing yet makes it non-bypassable.
+`.github/workflows/idd-advisory-convergence.yml` was adopted in #215,
+and is now registered as a **required** GitHub status check on
+`main`'s Ruleset (#209, closed 2026-08-12; this entry's prior sentence
+describing registration as still-pending was stale — corrected
+2026-08-20, #288, confirmed via the Rules API) — non-bypassable, not
+merely reporting.
 
 ## Bootstrap note (historical)
 

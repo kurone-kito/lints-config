@@ -9,12 +9,78 @@ on:
       - opened
       - reopened
       - synchronize
+      - edited
     branches:
       - main
 permissions:
   contents: write
 jobs:
+  # Runs only for a pull_request event. Serialized per pull request (not
+  # globally) -- an older run's clear-then-add sequence must never
+  # complete after a newer run's for the *same* PR, but two different
+  # PRs relabeling at the same time don't conflict with each other, so
+  # they don't need to wait on one another.
+  #
+  # Fork-originated pull requests are intentionally excluded (the second
+  # `if:` clause): GitHub always downgrades `GITHUB_TOKEN` to read-only
+  # for a `pull_request` run triggered from a fork, regardless of the
+  # permissions declared below, so the clear-label step would fail
+  # outright. Moving this job to `pull_request_target` would restore
+  # write access for forks, but that trades in a distinct security
+  # posture (base-repo credentials against a fork-controlled event
+  # payload) that deserves its own deliberate design decision rather
+  # than a silent change bundled into this fix -- tracked separately in
+  # #289. Until that's decided, a fork PR is simply left unlabeled
+  # instead of failing this job.
+  #
+  # Dependabot PRs are excluded too (the third `if:` clause), even
+  # though their head repository is this one, not a fork: GitHub also
+  # downgrades `GITHUB_TOKEN` to read-only for a `pull_request` run
+  # triggered by Dependabot. They already carry the `dependencies`
+  # label from Dependabot itself and never match this job's
+  # feat/fix/docs title patterns anyway, so skipping them costs
+  # nothing. Checked against the PR's author
+  # (`github.event.pull_request.user.login`), not `github.actor`: a
+  # maintainer editing or reopening a Dependabot PR would otherwise be
+  # the event's actor, silently defeating this guard for that PR.
+  label_pull_request:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.login != 'dependabot[bot]' }}
+    concurrency:
+      group: ${{ github.workflow }}-label-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      # The autolabeler below only ever adds a label, never removes one
+      # (release-drafter v7.7.0). Clearing the three category labels it
+      # manages first, every run, means a re-run after a title edit
+      # (feat: -> fix:, etc.) always ends with exactly the label(s) the
+      # current title matches, not a stale label left from an earlier
+      # title alongside the new one.
+      - name: Clear the managed category labels before relabeling
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for label in enhancement bug documentation; do
+            gh pr edit "${{ github.event.pull_request.number }}" \
+              --repo "${{ github.repository }}" \
+              --remove-label "$label"
+          done
+      - name: Apply the autolabeler rules to this pull request
+        uses: release-drafter/release-drafter/autolabeler@34d80673e067bdc0c24568d3af899c216adcfaa9 # v7.7.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # Every run (from any pull request, or a push to main) writes the same
+  # single draft release, so this job shares one global, queued
+  # (cancel-in-progress: false) concurrency group across all of them --
+  # unlike labeling above, these runs must never run in parallel with
+  # each other, or a race can leave the draft with a stale snapshot.
   update_release_draft:
+    concurrency:
+      group: ${{ github.workflow }}-draft
+      cancel-in-progress: false
     permissions:
       contents: write
       pull-requests: read

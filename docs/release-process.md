@@ -181,6 +181,47 @@ publishing:
    `$NEXT_PATCH_VERSION` on every push run (see the known gap under
    Existing release mechanics below), so correcting while a run is
    still in flight does not survive to this point.
+4. **Known limitation — merge-vs-relabel race (#290).** A merge's
+   `push`-triggered `update_release_draft` run can start while that
+   same pull request's own `pull_request`-triggered `label_pull_request`
+   run (opened/reopened/synchronize/edited — see `label_pull_request`
+   in `.github/workflows/push-main.yml`) is still applying its category
+   label: the two jobs have no `needs:` dependency across their
+   separate trigger events, and `update_release_draft` regenerates the
+   *entire* draft from every merged PR's current labels on each run
+   rather than patching one entry. When this races, the affected PR's
+   draft entry can come out briefly uncategorized or under a stale
+   category. A later `push`-triggered run corrects it only once it
+   starts after the relevant relabeling job has actually finished —
+   **not necessarily the very next push**: if a different PR merges
+   first, that merge's `push`-triggered run can still find the
+   original PR's `label_pull_request` run in flight and repeat the
+   same stale snapshot for it. This is accepted as a documented
+   limitation rather than fixed with additional workflow coordination
+   — see #290 for the trade-off analysis behind that choice. The one
+   case this gate must still catch: spot-check every recently-merged
+   PR's category on the draft here — not only the last push's — and if
+   any looks wrong, first confirm that PR's own label on GitHub is
+   already correct (i.e. its `label_pull_request` run has settled) —
+   rerunning while relabeling is still in flight just reproduces the
+   same stale snapshot — then re-run the latest **`push`-triggered**
+   `push-main.yml` run from the Actions UI (not simply "the latest
+   run": a `pull_request`-triggered run newer than the last push
+   leaves `update_release_draft` skipped even on rerun, per its
+   `if: github.event_name == 'push'` gate). This re-executes
+   `update_release_draft` against the already-recorded push event with
+   current labels, no new commit needed, so it does not conflict with
+   the "never commit directly to `main`" rule below. **On a minor or
+   major release, repeat step 3's title/tag correction after this
+   rerun** — the rerun regenerates the draft's title and tag from
+   `$NEXT_PATCH_VERSION` too, so it silently reverts step 3's manual
+   fix if nothing redoes that correction afterward. **A rerun alone
+   cannot fix a fork-originated PR's entry**: `label_pull_request`
+   already excludes fork PRs entirely (separate limitation, tracked in
+   #289), so a fork PR with a `feat`/`fix`/`docs` title never gets an
+   automated category label to snapshot correctly in the first place —
+   apply the expected label to that PR by hand before re-running the
+   draft.
 
 If this gate finds a repository change that needs correction (a stale
 date, a missing `CHANGELOG.md` entry, a wrong SemVer bump), apply it

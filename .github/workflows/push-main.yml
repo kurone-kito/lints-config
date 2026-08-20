@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  pull_request:
+  pull_request_target:
     types:
       - opened
       - reopened
@@ -15,36 +15,51 @@ on:
 permissions:
   contents: write
 jobs:
-  # Runs only for a pull_request event. Serialized per pull request (not
-  # globally) -- an older run's clear-then-add sequence must never
-  # complete after a newer run's for the *same* PR, but two different
-  # PRs relabeling at the same time don't conflict with each other, so
-  # they don't need to wait on one another.
+  # Trust model: this job triggers on `pull_request_target` (#289), which
+  # runs with base-repository permissions even for pull requests from
+  # forks -- unlike `pull_request`, where GitHub always downgrades
+  # `GITHUB_TOKEN` to read-only for a fork-originated run regardless of
+  # the `permissions:` declared below. That is safe here only because all
+  # of the following hold, and any future edit to this job must preserve
+  # them:
+  #   - No PR-head content is ever checked out: this job has no
+  #     `actions/checkout` step at all, and must not gain one.
+  #   - No PR-head code, workflow, or action is ever executed. The
+  #     autolabeler step below runs a pinned, commit-SHA-locked upstream
+  #     action (`release-drafter/release-drafter/autolabeler`) that only
+  #     reads the PR title as data via the GitHub API and calls the
+  #     labels API -- it never checks out or executes anything from the
+  #     PR diff.
+  #   - The only PR-controlled value referenced anywhere in this job is
+  #     `github.event.pull_request.number`, an integer from the event
+  #     payload, passed through `env:` (mirroring the `PR_NUMBER`
+  #     pattern `strip-untrusted-labels.yml` already uses for the same
+  #     event field) and referenced as a quoted shell variable, never
+  #     interpolated into a `run:` script as a free-form `${{ }}`
+  #     expression. No PR-controlled string (title, body, branch name,
+  #     etc.) is ever interpolated into a `run:` script.
+  #   - Because this job also evaluates *this workflow file itself* from
+  #     the base branch by `pull_request_target` default (not the PR's
+  #     own copy), a PR editing this file cannot change what the job
+  #     does against its own event -- only a merge to `main` can.
   #
-  # Fork-originated pull requests are intentionally excluded (the second
-  # `if:` clause): GitHub always downgrades `GITHUB_TOKEN` to read-only
-  # for a `pull_request` run triggered from a fork, regardless of the
-  # permissions declared below, so the clear-label step would fail
-  # outright. Moving this job to `pull_request_target` would restore
-  # write access for forks, but that trades in a distinct security
-  # posture (base-repo credentials against a fork-controlled event
-  # payload) that deserves its own deliberate design decision rather
-  # than a silent change bundled into this fix -- tracked separately in
-  # #289. Until that's decided, a fork PR is simply left unlabeled
-  # instead of failing this job.
+  # Serialized per pull request (not globally) -- an older run's
+  # clear-then-add sequence must never complete after a newer run's for
+  # the *same* PR, but two different PRs relabeling at the same time
+  # don't conflict with each other, so they don't need to wait on one
+  # another.
   #
-  # Dependabot PRs are excluded too (the third `if:` clause), even
-  # though their head repository is this one, not a fork: GitHub also
-  # downgrades `GITHUB_TOKEN` to read-only for a `pull_request` run
-  # triggered by Dependabot. They already carry the `dependencies`
-  # label from Dependabot itself and never match this job's
-  # feat/fix/docs title patterns anyway, so skipping them costs
-  # nothing. Checked against the PR's author
+  # Dependabot PRs are excluded (the second `if:` clause), even though
+  # `pull_request_target` no longer downgrades their credentials either:
+  # they already carry the `dependencies` label from Dependabot itself
+  # and never match this job's feat/fix/docs title patterns anyway, so
+  # running the autolabeler against them costs nothing to skip and gains
+  # nothing to run. Checked against the PR's author
   # (`github.event.pull_request.user.login`), not `github.actor`: a
   # maintainer editing or reopening a Dependabot PR would otherwise be
   # the event's actor, silently defeating this guard for that PR.
   label_pull_request:
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.login != 'dependabot[bot]' }}
+    if: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.user.login != 'dependabot[bot]' }}
     concurrency:
       group: ${{ github.workflow }}-label-${{ github.event.pull_request.number }}
       cancel-in-progress: true
@@ -62,9 +77,10 @@ jobs:
       - name: Clear the managed category labels before relabeling
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           for label in enhancement bug documentation; do
-            gh pr edit "${{ github.event.pull_request.number }}" \
+            gh pr edit "$PR_NUMBER" \
               --repo "${{ github.repository }}" \
               --remove-label "$label"
           done
@@ -84,6 +100,15 @@ jobs:
   # queued (cancel-in-progress: false) concurrency group across them --
   # unlike labeling above, these runs must never run in parallel with
   # each other, or a race can leave the draft with a stale snapshot.
+  #
+  # The `if:` below is what actually excludes label_pull_request's
+  # `pull_request_target` runs (#289) from this job -- not the dry-run
+  # behavior described above, which does not apply here:
+  # `pull_request_target` resolves targetCommitish to the real
+  # `refs/heads/main` tip, not an ephemeral merge ref, so a
+  # `pull_request_target` run would NOT be forced into dry-run if it
+  # ever reached this job. Keep the explicit `event_name == 'push'`
+  # check; do not rely on dry-run alone to keep this job push-only.
   update_release_draft:
     if: ${{ github.event_name == 'push' }}
     concurrency:

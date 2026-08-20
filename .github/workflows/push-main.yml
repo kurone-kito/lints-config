@@ -39,9 +39,12 @@ jobs:
   # triggered by Dependabot. They already carry the `dependencies`
   # label from Dependabot itself and never match this job's
   # feat/fix/docs title patterns anyway, so skipping them costs
-  # nothing.
+  # nothing. Checked against the PR's author
+  # (`github.event.pull_request.user.login`), not `github.actor`: a
+  # maintainer editing or reopening a Dependabot PR would otherwise be
+  # the event's actor, silently defeating this guard for that PR.
   label_pull_request:
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.login != 'dependabot[bot]' }}
     concurrency:
       group: ${{ github.workflow }}-label-${{ github.event.pull_request.number }}
       cancel-in-progress: true

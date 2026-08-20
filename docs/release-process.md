@@ -191,17 +191,28 @@ publishing:
    *entire* draft from every merged PR's current labels on each run
    rather than patching one entry. When this races, the affected PR's
    draft entry can come out briefly uncategorized or under a stale
-   category. It self-corrects on the very next `push`-triggered run
-   (the next merge to `main`), so this is accepted as a documented
+   category. A later `push`-triggered run corrects it only once it
+   starts after the relevant relabeling job has actually finished —
+   **not necessarily the very next push**: if a different PR merges
+   first, that merge's `push`-triggered run can still find the
+   original PR's `label_pull_request` run in flight and repeat the
+   same stale snapshot for it. This is accepted as a documented
    limitation rather than fixed with additional workflow coordination
    — see #290 for the trade-off analysis behind that choice. The one
-   case this gate must still catch: if the racing merge was the *last*
-   push before publishing, spot-check that PR's category on the draft
-   here, and if it looks wrong, re-run the latest `push-main.yml` run
-   from the Actions UI — this re-executes `update_release_draft`
-   against the already-recorded push event with current labels, no new
-   commit needed, so it does not conflict with the "never commit
-   directly to `main`" rule below.
+   case this gate must still catch: spot-check every recently-merged
+   PR's category on the draft here — not only the last push's — and if
+   any looks wrong, re-run the latest **`push`-triggered**
+   `push-main.yml` run from the Actions UI (not simply "the latest
+   run": a `pull_request`-triggered run newer than the last push
+   leaves `update_release_draft` skipped even on rerun, per its
+   `if: github.event_name == 'push'` gate). This re-executes
+   `update_release_draft` against the already-recorded push event with
+   current labels, no new commit needed, so it does not conflict with
+   the "never commit directly to `main`" rule below. **On a minor or
+   major release, do this rerun before step 3's title/tag correction,
+   or repeat that correction afterward** — the rerun regenerates the
+   draft's title and tag from `$NEXT_PATCH_VERSION` too, so running it
+   after step 3 would silently revert the manual fix.
 
 If this gate finds a repository change that needs correction (a stale
 date, a missing `CHANGELOG.md` entry, a wrong SemVer bump), apply it

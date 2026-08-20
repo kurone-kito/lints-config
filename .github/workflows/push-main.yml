@@ -32,8 +32,16 @@ jobs:
   # than a silent change bundled into this fix -- tracked separately in
   # #289. Until that's decided, a fork PR is simply left unlabeled
   # instead of failing this job.
+  #
+  # Dependabot PRs are excluded too (the third `if:` clause), even
+  # though their head repository is this one, not a fork: GitHub also
+  # downgrades `GITHUB_TOKEN` to read-only for a `pull_request` run
+  # triggered by Dependabot. They already carry the `dependencies`
+  # label from Dependabot itself and never match this job's
+  # feat/fix/docs title patterns anyway, so skipping them costs
+  # nothing.
   label_pull_request:
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}
     concurrency:
       group: ${{ github.workflow }}-label-${{ github.event.pull_request.number }}
       cancel-in-progress: true

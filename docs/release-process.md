@@ -181,6 +181,25 @@ publishing:
    `$NEXT_PATCH_VERSION` on every push run (see the known gap under
    Existing release mechanics below), so correcting while a run is
    still in flight does not survive to this point.
+4. **Known limitation — merge-vs-relabel race (#290).** A merge's
+   `push`-triggered `update_release_draft` run can start while that
+   same pull request's own `synchronize`/`edited`-triggered
+   `label_pull_request` run (see `label_pull_request` in
+   `.github/workflows/push-main.yml`) is still applying its category
+   label: the two jobs have no `needs:` dependency across their
+   separate trigger events, and `update_release_draft` regenerates the
+   *entire* draft from every merged PR's current labels on each run
+   rather than patching one entry. When this races, the affected PR's
+   draft entry can come out briefly uncategorized or under a stale
+   category. It self-corrects on the very next `push`-triggered run
+   (the next merge to `main`), so this is accepted as a documented
+   limitation rather than fixed with additional workflow coordination
+   — see #290 for the trade-off analysis behind that choice. The one
+   case this gate must still catch: if the racing merge was the *last*
+   push before publishing, spot-check that PR's category on the draft
+   here, and if it looks wrong, re-run the latest `push-main.yml` run
+   from the Actions UI (or push a trivial no-op) to regenerate the
+   draft with current labels before publishing.
 
 If this gate finds a repository change that needs correction (a stale
 date, a missing `CHANGELOG.md` entry, a wrong SemVer bump), apply it

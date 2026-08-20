@@ -72,12 +72,20 @@ jobs:
         uses: release-drafter/release-drafter/autolabeler@34d80673e067bdc0c24568d3af899c216adcfaa9 # v7.7.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  # Every run (from any pull request, or a push to main) writes the same
-  # single draft release, so this job shares one global, queued
-  # (cancel-in-progress: false) concurrency group across all of them --
+  # Restricted to push events only (#291): release-drafter forces
+  # dry-run mode whenever a run's targetCommitish resolves to an
+  # ephemeral refs/pull/*/merge commit instead of a real branch tip --
+  # true of every pull_request-triggered run -- so such a run never
+  # actually mutates the draft release. Worse, it used to share the
+  # same concurrency group as mutating push runs below, so a no-op
+  # pull_request run could displace an already-queued mutating push
+  # run, silently dropping a real update. Consecutive push runs still
+  # write the same single draft release, so this job keeps one global,
+  # queued (cancel-in-progress: false) concurrency group across them --
   # unlike labeling above, these runs must never run in parallel with
   # each other, or a race can leave the draft with a stale snapshot.
   update_release_draft:
+    if: ${{ github.event_name == 'push' }}
     concurrency:
       group: ${{ github.workflow }}-draft
       cancel-in-progress: false

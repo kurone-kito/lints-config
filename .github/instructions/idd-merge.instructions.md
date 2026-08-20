@@ -65,10 +65,10 @@ Before any mutating action in F3, apply the
    execute `gh pr merge` in this pass.
 
    If the carried F2 evidence includes helper-side
-   `dispositionEvidence`, require `dispositionEvidence.route ==
-   "proceed"` and `dispositionEvidence.blockingCount == 0` before merge.
-   If either check fails, stop and return to E1/E4 with the reported
-   missing thread/comment disposition items. Use only the carried
+   `dispositionEvidence`, require `route == "proceed"` and
+   `blockingCount == 0` before merge, except the F2 override when
+   `soleCauseAckOnlyPostDisposition` is true. Any other missing item
+   still returns to E1/E4. Use only the carried
    `pre-merge-readiness` `dispositionEvidence` shape here; E7 verifier
    fields (`passed`, `items[]`) are not merge-gate substitutes.
 
@@ -213,9 +213,20 @@ Before any mutating action in F3, apply the
        time passes between the plain merge's failure and the retry, and
        `--admin` bypasses the entire ruleset), with a fresh GitHub merge
        state of `mergeable: "MERGEABLE"` and `mergeStateStatus` settled
-       to `"CLEAN"` or `"BEHIND"` also required. `idd-merge-execute.mjs
-       --apply` applies this automatically and records the outcome in
-       the verdict's `adminFallbackUsed` field.
+       to `"CLEAN"` or `"BEHIND"` also required.
+       `isSafeSoloCodeownerAdminMergeState` still refuses
+       `mergeStateStatus: "BLOCKED"`. On kurone-kito/idd-skill's
+       current `main` ruleset (`require_code_owner_review: false`), the
+       `status: "clear"` trigger never matches, observed `"BLOCKED"`
+       states have not been a confirmed CODEOWNER deadlock, and the
+       remaining escalation on **this topology** is a human `--admin`
+       (or `hold-and-report`). Distributed `auto-admin-retry` is
+       unchanged when `status: "clear"` with a bypass-available
+       `reason`, `prAuthorIsSoleEligibleCodeowner: true`, and
+       `codeownerEligibilityUnreadable: false` hold. See
+       `docs/permissions.md` (kurone-kito/idd-skill#1663).
+       `idd-merge-execute.mjs --apply` applies this automatically and
+       records the outcome in the verdict's `adminFallbackUsed` field.
 
        ```sh
        gh pr merge {pr-number} --merge --match-head-commit "${PR_HEAD_SHA_F3}" --admin
@@ -345,10 +356,32 @@ Before any mutating action in F3, apply the
      `viewer-cannot-minimize` counts for `applied`, or a converged
      `clean` record) so this run's work is recorded. Proceed to step 3.
 
-     If the apply `status` is `failed` or `incomplete`: post the
-     cleanup-failure comment format instead, including the
-     `viewer-cannot-minimize` count when non-zero. Explicit evidence,
-     not a merge gate — the merge already succeeded. Proceed to step 3.
+     The helper internally retries a whole scan-and-minimize pass, bounded,
+     when a fresh rescan still reports candidates after applying (a
+     candidate that only became eligible after the previous pass, e.g.
+     GraphQL read-after-write lag) — the common case still converges to
+     `applied`/`clean` within this one invocation. If the output also
+     reports `retryBoundExhausted: true` (visible as
+     `retryBoundExhausted=true` in table format), the retry bound was
+     reached while a rescan still found candidates. Route by the apply
+     `status` exactly as above, even then: if `status` is still
+     `applied`/`clean`, follow that evidence-comment path and note the
+     `retryAttempts` count as an informational, non-blocking
+     residual-lag signal rather than a defect; if `status` came back
+     `incomplete` (the fresh rescan found a genuine permission-blocked
+     remainder) or `failed`, follow the `failed`/`incomplete`
+     cleanup-failure path below instead — `retryBoundExhausted: true`
+     never overrides a non-success `status`.
+
+     If the apply `status` is `failed`, `incomplete`, or
+     `rescan-failed`: post the cleanup-failure comment format instead,
+     including the `viewer-cannot-minimize` count when non-zero.
+     `rescan-failed` means the confirming rescan itself errored after a
+     mutation (already-applied work is preserved in the report but
+     convergence was never confirmed) — note that distinction in the
+     comment and re-run `--apply` to confirm convergence. Explicit
+     evidence, not a merge gate — the merge already succeeded. Proceed
+     to step 3.
 
    - **`permission-blocked`**: skipped items exist with
      `viewerCanMinimize: false` and no apply-eligible candidates found.
@@ -368,8 +401,43 @@ Before any mutating action in F3, apply the
    See `docs/idd-comment-minimization.md` for the evidence comment
    format, cleanup-failure comment format, permission-blocked comment
    format, and fallback GraphQL commands.
-3. Delete the local worktree and local branch.
-4. Update the local `main` branch.
+3. Run from the **primary worktree**, never from inside the worktree
+   being removed. Any removal (plain or `--force`) silently discards
+   ignored files too, including inside a submodule. Scope Git
+   commands to `<path>`. Inspect leftover files under a `-`
+   submodule path directly (not a repo).
+
+   Use `--untracked-files=normal` (not `all`). A clean submodule
+   worktree can still hide a stash or unpushed commit:
+
+   - `git -C <path> status --porcelain --ignored --untracked-files=normal`
+   - `git -C <path> submodule status --recursive`
+   - `git -C <path> submodule foreach --recursive 'git status
+     --porcelain --ignored --untracked-files=normal; git stash list;
+     git rev-list --all --not --remotes --count'`
+
+   Generated output is disposable only if a configured project
+   command can reproduce it. Preserve anything else first. Copy
+   secrets (e.g. `.env`) out only — never commit or push them.
+   Non-secret work may go to a **different** ref or be copied out —
+   not to `<branch-name>` itself, which this step deletes next.
+   Immediately before each `worktree remove`, re-validate this
+   session's claim and worktree lock (`idd-claim.instructions.md`);
+   stop if either is no longer ours.
+   Then delete the worktree, then the branch:
+
+   - `git worktree remove <path>`. If it fails with `fatal: working
+     trees containing submodules cannot be moved or removed`, retry
+     with `git worktree remove --force <path>`. Use `--force` only
+     after that review finds nothing worth preserving.
+   - `git branch -d <branch-name>` (the baseline permission profile
+     denies `-D`; see `docs/permissions.md`). If it fails with `error:
+     the branch '<branch-name>' is not fully merged` despite the PR
+     being merged — `fetch --prune` can drop the remote-tracking ref
+     before local `main` fast-forwards — run step 4 first, then retry.
+
+4. Update the local `main` branch (`git fetch origin main && git merge
+   --ff-only origin/main`).
 5. If GitHub auto-delete is disabled: delete the remote branch too.
    (Worktrunk may be used for steps 3–5.)
 

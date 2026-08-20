@@ -208,7 +208,14 @@ loop instead of returning to this D1 rebase path.
    background/rationale only when it materially affects review. Ground
    any background/rationale only in the issue discussion, commits,
    diff, or explicit operator instructions — omit rather than
-   speculate.
+   speculate. The prose sections follow the resolved `authoringLanguage` value
+   from `.github/idd/config.json` (fixed tag, the claimed issue's own body
+   language for `match-source`, or English if absent — see
+   [Authoring Language](../../../docs/customization.md#authoring-language));
+   this never changes any machine-parsed marker or exact-regex-matched visible
+   line, which stays canonical regardless — concretely, the closing keyword line
+   stays canonical English: GitHub's parser and D3.5's verification regex below
+   match only the English keyword forms.
 4. **Closing keyword**: write a plain-text line such as `Closes #N` for
    the claimed issue number, on its own line. GitHub recognizes these
    keyword forms (case-insensitive): `close`, `closes`, `closed`, `fix`,
@@ -226,6 +233,10 @@ loop instead of returning to this D1 rebase path.
 7. If CODEOWNERS or expected reviewers are not auto-assigned, request
    them explicitly: `gh pr edit {pr-number} --add-reviewer
    {reviewer-login}`.
+8. **Do not create follow-up issues directly** — never call `gh issue
+   create` (or the REST issues API) yourself. Recommended follow-ups
+   stay in the PR body prose above; if one is important enough to file
+   now, invoke the `issue-authoring` skill instead.
 
 ### D3.5 — Verify closing keyword detection
 
@@ -364,11 +375,11 @@ than the run it supersedes. Once both have completed, the later
    external target rather than an Actions run; or its entry has `type:
    "check-run"` but an empty `url` (the upstream `detailsUrl` was
    itself absent). Otherwise resolve the rerun
-   decision from the
-   run's own history: `gh run view <run-id-from-url> --json attempt` —
-   GitHub's `attempt` starts at `1` for a never-rerun run, so pass
-   `attempt - 1` as `<count>` to `node scripts/ci-wait-policy.mjs
-   --rerun-count <count>`, never this wait's own memory. If it allows
+   decision directly from the run's own live state:
+   `node scripts/ci-wait-policy.mjs --run-id <run-id-from-url>`
+   (`--owner`/`--repo` when targeting a different repository) — this
+   derives the budget mechanically from the run's own `run_attempt`
+   field, never this wait's own memory. If it allows
    a rerun, rerun that check once as a **whole-run rerun, not
    `--failed`** (`gh run rerun <run-id-from-url>`) — a stalled check
    has no failed jobs to selectively rerun, only a run that never

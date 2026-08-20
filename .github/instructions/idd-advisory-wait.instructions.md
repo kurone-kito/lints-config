@@ -32,14 +32,14 @@ and take the caller's `SATISFIED` action (E14 → E15, F2 → CI check, F3
 one). Enter the full protocol below **only** when
 `LAST_COPILOT_COMMIT != PR_HEAD_SHA`.
 
-Keep the wait itself cheap per the
-[wake-up discipline](idd-ci.instructions.md#wake-up-discipline): a
-single wake at the **expected** completion, or background only if the
-topology-safety condition holds; otherwise wait synchronously — no
-single `gh` command blocks on Copilot review state; run the protocol
-below (helper-first, AW1-AW5 fallback) as a foreground wait, never
-`run_in_background`, absent the confirmed condition. Batch all
-post-wait actions into one turn.
+Keep the wait cheap per the
+[wake-up discipline](idd-ci.instructions.md#wake-up-discipline): one
+wake at the expected completion, or background only if the
+topology-safety condition holds;
+otherwise wait synchronously. No `gh` command blocks on Copilot
+review state — run the protocol (helper-first, AW1-AW5 fallback) in
+the foreground, never `run_in_background` without that condition.
+Batch post-wait actions into one turn.
 
 ## 1. Canonical path (helper-first)
 
@@ -116,7 +116,6 @@ stalled `SATISFIED`) and request procedure:
 exclusively** (the **F3** column reads from it); `Outcome` governs
 **E14**, **F2**, and shell-fallback rows only (no `f3Outcome` there).
 
-- F3 must use `f3Outcome` when helper output is available.
 - If `copilotPending` is `false`, F3 treats advisory wait as satisfied.
 - If `copilotPending` is `true`, F3 must not merge on `WAIT`,
   `REQUEST_NEEDED`, or `RECOVERY_NEEDED`.
@@ -144,6 +143,9 @@ AW3 inputs:
 - `LAST_COPILOT_COMMIT` — `commit_id` of the latest Copilot review
   (empty if none); equals `PR_HEAD_SHA` short-circuits to **SATISFIED**.
 - `COPILOT_PENDING` — `true` if Copilot is in `requested_reviewers`.
+  Observed once: `false` can lag a re-request or empty on submit —
+  not idle proof. `LAST_COPILOT_COMMIT == PR_HEAD_SHA` is
+  **SATISFIED**. A same-head `false` uses the shorter settled window.
 - `COPILOT_PENDING_COVERS_HEAD` — `true` if the latest Copilot
   `review_requested` event follows current HEAD's `committed` event.
 
@@ -319,20 +321,28 @@ this hold and stop:
 
 F2-only (`#1511`) on `sameHeadReroll.eligible`; see
 `docs/idd-helper-scripts.md`. `requestable`: post the marker below
-**before** requesting the review, then poll (not E14's loop).
+**before** requesting review, then poll (not E14's loop).
 `inFlight`: poll only. Else F2's route; `!inFlight`: E1.
 
 ```text
 advisory-reroll: {agent-id} {PR_HEAD_SHA} {ISO8601-requested-at}
 ```
 
-Plain text, no HTML comment (matches `advisory-wait:`/
-`advisory-wait-recovery:`'s shape). Helper-first: the profile-selected
-post-idd-marker command (`--type advisory-reroll --target pr
-<pr-number> --agent-id <id> --head-sha <PR_HEAD_SHA> --timestamp
-<ISO8601> --apply`); manual JSON `POST` is the fallback. If it cannot
-be posted or verified, fail closed to AW4's **Recovery failed** hold
-(mirrors AW3-R's routing on the same failure).
+Plain text, no HTML comment (matches `advisory-wait:`'s shape).
+Helper-first: profile-selected post-idd-marker command (`--type advisory-reroll
+--target pr <pr-number> --agent-id <id> --head-sha <PR_HEAD_SHA>
+--timestamp <ISO8601> --apply`); manual `POST` is fallback. If it
+cannot be posted or verified, fail closed to AW4's **Recovery failed**
+hold.
+
+**`suppressedCount` unvalidated**: `#1511` is `itemCount`-only; reroll
+never zeroed it in `kurone-kito/lints-config` PRs `#243`/`#245`
+(2026-08-10/11). PR #2054 fixes it.
+
+**Already-handled escape hatch**: when the blocking suppressed
+finding(s) have already been read and handled, a reroll is
+unnecessary — post a trusted `review-ack:` marker instead; see
+`idd-review-triage.instructions.md`'s `review-ack:` paragraph (E6).
 
 ## Terminal Copilot stall-recovery contract (state, policy, markers, clock)
 

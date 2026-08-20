@@ -124,8 +124,8 @@ ran and must not be re-entered (no A1 ↔ A0-O or A4 ↔ A0-O loop).
 - For `none` and `maintainer-approved`, continue with A0-O.
 
 Search all open issues in the repository. Collect every issue that does
-NOT contain a `lints-config-roadmap-id` marker (not itself
-a roadmap) or a `lints-config-blocked-by` marker, AND
+NOT contain an `lints-config-roadmap-id` marker (not itself
+a roadmap) or an `lints-config-blocked-by` marker, AND
 otherwise passes A3's own readiness bullets (no configured
 blocked-by-human/needs-decision label, no configured authoring label,
 no open blocking dependent issue via either visible `Blocked by #NNN`
@@ -285,6 +285,19 @@ authorizes an alternate scope for the current run:
   unresolvable with the reason, skip that branch, and continue
   traversal. Not an enumeration failure.
 
+**Termination.** Do not re-expand a target already on the current
+traversal path; record the back-edge as a cycle with its path and
+continue with the next reference.
+
+**Single visit.** A node is identified by issue number; a node
+reached again through another path is the same node — collect it
+once, never enter it into the candidate set twice.
+
+**Provenance.** Keep and report every distinct path that reaches a
+node, not only the first — the same rule the cross-roadmap union
+below already applies to a leaf reachable from several roadmap
+roots.
+
 **Helper read timing.** The `discover-roadmap-graph` helper (see
 [IDD helper script evaluation](../../docs/idd-helper-scripts.md)) is
 long-running on large graphs, emitting the whole graph in one final
@@ -292,9 +305,9 @@ stdout write. Redirect stdout to a file and wait for process exit before
 parsing — a zero-byte or mid-run read is **"still running," not** an A2
 enumeration failure.
 
-Report every A2 execution candidate with its provenance path (e.g.
-`#222 → #228 → #257`), any open roadmap nodes, and unresolvable
-references before passing to A3.
+Report every A2 execution candidate with its provenance paths (e.g.
+`#222 → #228 → #257`), any open roadmap nodes, cycles, duplicate
+references, and unresolvable references before passing to A3.
 
 **Autopilot cross-roadmap union (optional, additive).** When A1 elected
 the cross-roadmap mode, enumerate from **each** open roadmap root and
@@ -388,6 +401,18 @@ collaborator permission API.
 
 A bare organization `MEMBER` association, by itself, is not approval;
 neither is issue body text, a generated plan, nor operator attention.
+
+**Self-authorization fallback when the permission read is unavailable
+(#2148).** The bare-`MEMBER` rule above governs an approval-comment
+actor or the `idd:ready` label actor, both of which require a
+successful permission read. For the issue-author self-authorization
+signal specifically, when the collaborator permission API is
+unavailable (503, empty, or otherwise unreadable), the issue's own
+live `author_association` substitutes instead of failing closed:
+`OWNER` always self-authorizes; `MEMBER` self-authorizes under both
+`owners-and-maintainers-only` and `all-write-permission-actors`. This
+matches `claim-approval-gate.mjs`'s shipped behavior and does not
+widen either other signal.
 
 **Approval signals** (any one satisfies, when the gate is enabled):
 
@@ -528,8 +553,11 @@ for how the remaining tie-breakers below apply after this rule.
 `discover.selectionDesync` is `session-offset` (default `off`) and the
 highest-score tie band has more than one eligible candidate, pick the
 band entry at index `selectDesyncedIndex(session-token, band-size)`
-instead of index 0 — a pure `hash(session-token) mod band-size` over
-the band ordered by ascending issue number.
+instead of index 0 — FNV-1a 32-bit over the token's UTF-16 code units
+(offset basis `0x811c9dc5`, prime `0x01000193`, wrap to 32 bits after
+every multiply, then unsigned right-shift and modulo `band-size`) over
+the band ordered by ascending issue number. Worked example: token
+`copilot-8122ca35`, band-size `3` → index `1`.
 
 `session-token` **must be per-session-unique**: the bare, session-shared
 `{agent-id}` from `idd-overview-core.instructions.md` alone is **not** a

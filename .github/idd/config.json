@@ -5,6 +5,7 @@
   "mergePolicy": "fully_autonomous_merge",
   "reviewPolicy": "copilot-advisory",
   "threadResolutionPolicy": "fast-agent-resolve",
+  "authoringLanguage": "en",
   "claimTiming": {
     "staleAge": "PT24H",
     "heartbeatInterval": "PT12H"

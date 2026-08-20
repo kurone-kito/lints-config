@@ -6,19 +6,29 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.23.0] - 2026-08-21
+
 ### Added
 
 - Expand the shared custom word list with new IDD/tooling-related terms
-  (`dedup`, `deprioritize`, `desync`, `desynced`, `esync`, `isort`, `onnx`,
-  `pylint`, `pyproject`, `pytest`, `qwen`, `toctou`, `undispositioned`,
-  `unioned`, `unpushed`, `unreplied`, `unscored`, `unwaived`, `waivable`).
+  (`dedup`, `deprioritize`, `desync`, `desynced`, `dprint`, `esync`, `isort`,
+  `onnx`, `pylint`, `pyproject`, `pytest`, `qwen`, `toctou`,
+  `undispositioned`, `unioned`, `unpushed`, `unreplied`, `unscored`,
+  `unwaived`, `waivable`).
 - Expand the package README with a new Features section.
 
 ### Changed
 
 - Raise the minimum supported Node.js version to
-  `^22.23.1 || ^24.2.0 || >=26.0.0` (was `^20.11 || ^22 || >=24`) — breaking,
+  `^22.23.2 || ^24.2.0 || >=26.0.0` (was `^20.11 || ^22 || >=24`) — breaking,
   drops Node.js 20 and 25 support.
+- Narrow the declared `language` to `en`, dropping the `eo`/`ja` locale
+  claims that had no matching dictionary coverage.
+
+### Removed
+
+- Remove the `eo`, `markdown`, `misc`, and `shell` built-in dictionaries, and
+  the redundant `fuga` custom word.
 
 ### Fixed
 

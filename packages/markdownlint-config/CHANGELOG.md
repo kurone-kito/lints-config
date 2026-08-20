@@ -6,6 +6,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.23.0] - 2026-08-21
+
 ### Added
 
 - Expand the package README with a new Features section.
@@ -13,8 +15,12 @@ project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 
 - Raise the minimum supported Node.js version to
-  `^22.23.1 || ^24.2.0 || >=26.0.0` (was `^20.11 || ^22 || >=24`) — breaking,
+  `^22.23.2 || ^24.2.0 || >=26.0.0` (was `^20.11 || ^22 || >=24`) — breaking,
   drops Node.js 20 and 25 support.
+- Tighten `no-duplicate-heading` from unconditionally allowing all duplicate
+  headings to `siblings_only: true`, restoring duplicate-heading detection
+  within the same parent section — the upstream `markdownlint-cli2` bug that
+  `siblings_only` previously worked around is now fixed.
 
 ### Fixed
 

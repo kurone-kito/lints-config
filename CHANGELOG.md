@@ -6,6 +6,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.23.0] - 2026-08-21
+
 ### Added
 
 - Import the IDD (Issue-Driven Development) framework end-to-end: worktree-guard
@@ -24,6 +26,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
   `strip-untrusted-labels.yml` (strips reserved IDD labels applied by the
   semantic auto-labeler), and `idd-doctor.yml` (runs as a pull-request health
   gate).
+- Add a weekly `verify-peer-floors.yml` CI job that verifies every package's
+  declared `peerDependency` floors are still satisfiable.
 - Create the IDD coordination GitHub labels and verify the IDD onboarding flow.
 - Wire dozens of `idd:*` npm scripts (claim locking, discovery, CI-wait,
   merge-execute, roadmap-audit, etc.) to a pinned `@kurone-kito/idd-skill`
@@ -39,16 +43,29 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Add `scripts/check-biome-schema-pins.mjs` to keep Biome `$schema` pins in sync
   with the installed Biome version.
 - Add a Features section to the root `README.md` linking to each package's
-  README.
+  README, and a "Discontinued packages" section documenting the four packages
+  removed in [#134](https://github.com/kurone-kito/lints-config/pull/134)
+  (`eslint-config-base`, `eslint-config-react`, `eslint-config-solid`,
+  `prettier-config`) that remain published on npm only for backward
+  compatibility.
+- Add `CHANGELOG.md` files for the root and each of the five published
+  packages, backfilling prior release history.
+- Add prerelease publishing support: `release.yml` accepts a manual
+  `workflow_dispatch` trigger that publishes an alpha/prerelease build under
+  the npm `next` dist-tag without creating a git tag or GitHub Release
+  (originally a separate `release-next.yml` workflow, later consolidated into
+  `release.yml`).
 
 ### Changed
 
 - Re-import the runtime baseline from `pnpm-project-template`: raise the minimum
   supported Node.js version (root and all five published packages) from
   `^20.11 || ^22 || >=24` to `^22.23.1 || ^24.2.0 || >=26.0.0` — breaking, drops
-  Node.js 20 and 25 support — bump the pinned `packageManager` from pnpm 10.28.2
-  to 11.15.1, and remove the standalone `.npmrc` in favor of
-  `pnpm-workspace.yaml` settings.
+  Node.js 20 and 25 support — then further raise the floor to `^22.23.2` to pick
+  up a 2026-07-29 Node.js emergency security release fixing multiple CVEs
+  (including CVE-2026-56846, CVE-2026-56848, and CVE-2026-58043); bump the
+  pinned `packageManager` from pnpm 10.28.2 to 11.22.0, and remove the
+  standalone `.npmrc` in favor of `pnpm-workspace.yaml` settings.
 - Bridge the upstream v0.6.0 doc-lint configs onto this repository's own: rename
   `cspell.config.yml` to `.cspell.config.yml`, extend `.markdownlint.yml`, and
   update `.vscode/settings.json`.
@@ -66,13 +83,24 @@ project adheres to [Semantic Versioning](https://semver.org/).
   versions (`actions/checkout`, `actions/setup-node`, `actions/stale`,
   `pnpm/action-setup`, `release-drafter/release-drafter`) via Dependabot as
   routine maintenance.
+- Trust source-pinned required checks (`ciGate.trustSourcePinnedRequiredChecks`)
+  and empty branch-protection reads (`ciGate.trustEmptyProtectionReads`) in the
+  IDD CI gate, to stop false CI-gate blockers on every PR.
+- Re-sync the IDD workflow, instruction/docs surface, issue-authoring contract,
+  and pinned helper runtime to upstream v0.7.0, and record the v0.7.0 IDD
+  policy decisions in `docs/idd-policy.md`.
+- Harden `docs/release-process.md` against merge-window and rename edge cases,
+  document the follow-up procedure when the release publish-time gate finds a
+  discrepancy, and record the release-draft merge-vs-relabel race as a known
+  limitation.
 
 ### Fixed
 
 - Repair the release workflow so releases stop failing (`common-release.yml`,
   `release.yml`).
 - Align `release-drafter.yml`'s categorization with the repository's actual
-  labels.
+  labels, then make the categories actually engage by adding the missing
+  autolabeler config.
 - Fix the build workflow so it triggers on slash-namespaced branches
   (`push-feature.yml`).
 - Exempt IDD coordination labels from StaleBot auto-staling (`stale.yml`).
@@ -81,12 +109,24 @@ project adheres to [Semantic Versioning](https://semver.org/).
   build step first.
 - Restore literal `{{...}}` placeholder tokens in onboarding meta-docs that had
   been accidentally substituted with real values.
+- Align the published package manifests and metadata across `cspell-config`,
+  `lint-staged-config`, and `markdownlint-config`.
+- Restrict the `update_release_draft` CI job to `push` events — it previously
+  also ran as a no-op dry-run on `pull_request`, which could starve real
+  updates.
+- Label fork-originated pull requests via `pull_request_target` so they
+  receive the same automated category labels as same-repo PRs.
 
 ### Security
 
 - Pin third-party GitHub Actions to commit SHAs across CI workflows
   (`common-release.yml`, `push-feature.yml`, `push-main.yml`, `stale.yml`) to
   reduce supply-chain risk from mutable version tags.
+- Adopt npm trusted publishing (OIDC, `id-token: write`) for the release
+  workflows and remove the long-lived `NPM_TOKEN` secret now that it is no
+  longer needed.
+- Route vulnerability reports through GitHub private security advisories
+  instead of public issues or pull requests.
 
 ## [0.22.0] - 2026-01-27
 

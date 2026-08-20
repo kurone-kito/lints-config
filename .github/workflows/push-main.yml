@@ -30,14 +30,18 @@ jobs:
   #     reads the PR title as data via the GitHub API and calls the
   #     labels API -- it never checks out or executes anything from the
   #     PR diff.
-  #   - The only PR-controlled value referenced anywhere in this job is
+  #   - The only PR-controlled value ever passed into a `run:` step is
   #     `github.event.pull_request.number`, an integer from the event
   #     payload, passed through `env:` (mirroring the `PR_NUMBER`
   #     pattern `strip-untrusted-labels.yml` already uses for the same
   #     event field) and referenced as a quoted shell variable, never
   #     interpolated into a `run:` script as a free-form `${{ }}`
   #     expression. No PR-controlled string (title, body, branch name,
-  #     etc.) is ever interpolated into a `run:` script.
+  #     etc.) is ever interpolated into a `run:` script. (The `if:`
+  #     guard below separately reads
+  #     `github.event.pull_request.user.login` to skip Dependabot, but
+  #     that is evaluated by the Actions runtime itself, never passed
+  #     into a script.)
   #   - Because this job also evaluates *this workflow file itself* from
   #     the base branch by `pull_request_target` default (not the PR's
   #     own copy), a PR editing this file cannot change what the job

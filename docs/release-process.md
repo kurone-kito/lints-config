@@ -174,17 +174,13 @@ publishing:
    minor/major from the very first pass needs the same correction.
    Do this here, not at the earlier merge step, and only after every
    `update_release_draft` run currently in flight has finished — not
-   only the release-prep merge's own run, but also any triggered by
-   an unrelated PR being opened, reopened, synchronized, or edited
-   (GitHub's `edited` activity covers a title change and a body change
-   alike, and this workflow does not distinguish between them) around
-   the same time (`.github/workflows/push-main.yml` runs that job on
-   all of those, plus a push to `main`). The release-drafter action
-   regenerates the draft's
-   title and tag from `$NEXT_PATCH_VERSION` on every one of those
-   runs (see the known gap under Existing release mechanics below),
-   so correcting while any run is still in flight does not survive
-   to this point.
+   only the release-prep merge's own run, but also any other push to
+   `main` around the same time. `.github/workflows/push-main.yml`
+   runs that job only on a push to `main` (#291); the release-drafter
+   action regenerates the draft's title and tag from
+   `$NEXT_PATCH_VERSION` on every push run (see the known gap under
+   Existing release mechanics below), so correcting while a run is
+   still in flight does not survive to this point.
 
 If this gate finds a repository change that needs correction (a stale
 date, a missing `CHANGELOG.md` entry, a wrong SemVer bump), apply it

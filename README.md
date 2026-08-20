@@ -61,7 +61,7 @@ will be published.
 ## System Requirements
 
 - Node.js: Any of the following versions
-  - Jod LTS (`^22.23.1`)
+  - Jod LTS (`^22.23.2`)
   - Krypton LTS (`^24.2.0`)
   - Latest (`>=26.0.0`)
 

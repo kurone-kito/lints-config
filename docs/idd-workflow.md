@@ -9,7 +9,8 @@ tags: [workflow, phase-routing]
 
 This document is the neutral entry point for the repository's
 Issue-Driven Development (IDD) workflow across GitHub Copilot, Codex
-CLI, OpenCode, Claude Code, and Antigravity CLI (formerly Gemini CLI).
+CLI, OpenCode, Grok Build, Claude Code, and Antigravity CLI (formerly
+Gemini CLI).
 
 Use it when you need to answer three questions quickly:
 
@@ -31,17 +32,23 @@ you are reading this guide first, start at step 1.
 
 ## Entry points and auto-load expectations
 
-| Agent / surface         | Read first                        | Automatically available IDD context                                                                                                                                     | Open manually                                                                      |
-| ----------------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| GitHub Copilot surfaces | `.github/copilot-instructions.md` | `.github/instructions/idd-overview-core.instructions.md` for execution surfaces; package-scoped `.instructions.md` files in VS Code Copilot when editing matching paths | The routed phase file when the current step changes                                |
-| Codex CLI               | `AGENTS.md`                       | None from `.github/instructions/`                                                                                                                                       | `.github/instructions/idd-overview-core.instructions.md` and the routed phase file |
-| OpenCode                | `AGENTS.md`                       | `AGENTS.md` itself — OpenCode's native rules mechanism auto-loads it; none from `.github/instructions/`                                                                 | `.github/instructions/idd-overview-core.instructions.md` and the routed phase file |
-| Claude Code             | `CLAUDE.md`                       | None from `.github/instructions/` by default                                                                                                                            | `.github/instructions/idd-overview-core.instructions.md` and the routed phase file |
-| Antigravity CLI         | `GEMINI.md`                       | None from `.github/instructions/`                                                                                                                                       | `.github/instructions/idd-overview-core.instructions.md` and the routed phase file |
+| Agent / surface         | Read first                        | Automatically available IDD context                                                                                                                                     | Open manually                                                                                                                                                                                                                       |
+| ----------------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GitHub Copilot surfaces | `.github/copilot-instructions.md` | `.github/instructions/idd-overview-core.instructions.md` for execution surfaces; package-scoped `.instructions.md` files in VS Code Copilot when editing matching paths | The routed phase file when the current step changes                                                                                                                                                                                 |
+| Codex CLI               | `AGENTS.md`                       | None from `.github/instructions/`                                                                                                                                       | `.github/instructions/idd-overview-core.instructions.md` and the routed phase file                                                                                                                                                  |
+| OpenCode                | `AGENTS.md`                       | `AGENTS.md` itself — OpenCode's native rules mechanism auto-loads it; none from `.github/instructions/`                                                                 | `.github/instructions/idd-overview-core.instructions.md` and the routed phase file                                                                                                                                                  |
+| Grok Build              | `AGENTS.md`                       | `AGENTS.md` and `CLAUDE.md` when both exist (same contract; Grok Build loads every matching filename, unlike OpenCode's first-match); none from `.github/instructions/` | `.github/instructions/idd-overview-core.instructions.md` and the routed phase file; see [B1's harness-native worktree tool caveat](../.github/instructions/idd-work.instructions.md#worktree-creation)                              |
+| Claude Code             | `CLAUDE.md`                       | None from `.github/instructions/` by default                                                                                                                            | `.github/instructions/idd-overview-core.instructions.md` and the routed phase file; see [B1's harness-native worktree tool caveat](../.github/instructions/idd-work.instructions.md#worktree-creation) before using `EnterWorktree` |
+| Antigravity CLI         | `GEMINI.md`                       | None from `.github/instructions/`                                                                                                                                       | `.github/instructions/idd-overview-core.instructions.md` and the routed phase file                                                                                                                                                  |
 
 When the `issue-authoring` companion bundle is installed under
-`.claude/skills/` in a target repository, OpenCode also discovers it
-there through its `.claude/skills/` compatibility.
+`.claude/skills/` in a target repository, OpenCode and Grok Build also
+discover it there through `.claude/skills/` compatibility.
+
+During IDD, do not call Grok Build's `enter_plan_mode` (it blocks
+non-plan-file edits). Do not let the bundled `review`, `pr-babysit`, or
+`execute-plan` skills replace IDD E/F phases or spawn extra worktrees.
+(Preventive; no observed incident yet.)
 
 During onboarding, create or update `CLAUDE.md`, `AGENTS.md`, and
 `GEMINI.md` so each non-Copilot agent listed above has a stable first
@@ -300,16 +307,17 @@ dogfoods its own lite-execution-profile roadmap and this table
 mirrors its current state), or none, depending on when you imported
 and whether your repository has authored any of its own:
 
-| Phase                    | Standard file                       | Lite file                                     |
-| ------------------------ | ----------------------------------- | --------------------------------------------- |
-| A5 Claim                 | `idd-claim.instructions.md`         | `lite/idd-claim-lite.instructions.md`         |
-| B1-C6 Work               | `idd-work.instructions.md`          | `lite/idd-work-lite.instructions.md`          |
-| D1-D4 PR-submit          | `idd-pr-submit.instructions.md`     | `lite/idd-pr-submit-lite.instructions.md`     |
-| E9-E15 Review-fix        | `idd-review-fix.instructions.md`    | `lite/idd-review-fix-lite.instructions.md`    |
-| F1-F2 helper-read subset | `idd-pre-merge.instructions.md`     | `lite/idd-pre-merge-lite.instructions.md`     |
-| F2.5 handoff-stop        | `idd-merge-handoff.instructions.md` | `lite/idd-merge-handoff-lite.instructions.md` |
-| Resume                   | `idd-resume.instructions.md`        | `lite/idd-resume-lite.instructions.md`        |
-| Resume-stall             | `idd-resume-stall.instructions.md`  | `lite/idd-resume-stall-lite.instructions.md`  |
+| Phase                    | Standard file                         | Lite file                                       |
+| ------------------------ | ------------------------------------- | ----------------------------------------------- |
+| A5 Claim                 | `idd-claim.instructions.md`           | `lite/idd-claim-lite.instructions.md`           |
+| B1-C6 Work               | `idd-work.instructions.md`            | `lite/idd-work-lite.instructions.md`            |
+| D1-D4 PR-submit          | `idd-pr-submit.instructions.md`       | `lite/idd-pr-submit-lite.instructions.md`       |
+| E1-E3 Review-snapshot    | `idd-review-snapshot.instructions.md` | `lite/idd-review-snapshot-lite.instructions.md` |
+| E9-E15 Review-fix        | `idd-review-fix.instructions.md`      | `lite/idd-review-fix-lite.instructions.md`      |
+| F1-F2 helper-read subset | `idd-pre-merge.instructions.md`       | `lite/idd-pre-merge-lite.instructions.md`       |
+| F2.5 handoff-stop        | `idd-merge-handoff.instructions.md`   | `lite/idd-merge-handoff-lite.instructions.md`   |
+| Resume                   | `idd-resume.instructions.md`          | `lite/idd-resume-lite.instructions.md`          |
+| Resume-stall             | `idd-resume-stall.instructions.md`    | `lite/idd-resume-stall-lite.instructions.md`    |
 
 The F1-F2 and F2.5 rows cover a **partial** slice of their standard
 files only: the lite F1-F2 file covers just F1's read-only branch
@@ -864,6 +872,7 @@ agent; only the mechanism differs.
 | Claude Code     | `Agent(subagent_type="general-purpose")` with the calling phase's critique checklist                                                                                                                                       |
 | Codex CLI       | Use one bounded read-only native subagent review when supported and suitable; parent waits for and collects the result. Fallback: structured self-critique when delegation is unavailable, disabled, unsuitable, or fails. |
 | OpenCode        | Launch a subagent via OpenCode's Task tool (e.g. the built-in `general` subagent, or a `subtask: true` command) — an independent mechanism                                                                                 |
+| Grok Build      | Independent `spawn_subagent` with the calling phase's critique checklist                                                                                                                                                   |
 | Antigravity CLI | Self-critique or use Antigravity's native multi-step task mechanism if available                                                                                                                                           |
 
 For Codex delegation, the parent collects the reviewer result before
@@ -872,6 +881,40 @@ continuing; if delegation fails, use the structured fallback.
 When a phase file says "run a critique pass", apply the row for your
 agent above. If no subagent mechanism is available, perform the critique
 as a structured self-review step within the same response.
+
+### Repository-configurable critique delegate
+
+A repository may point C1 at a reviewer other than the per-agent
+mechanism above by setting `critiqueLoop.delegate` in
+`.github/idd/config.json` (see
+[Customization Surfaces](customization.md#customization-surfaces) and
+[Configuration Authority Hierarchy](policy-constants.md#configuration-authority-hierarchy)):
+a `command` string is a shell command run against the branch's current
+diff, and `mode` selects `fallback` (default: run `command`; fall
+through to the per-agent mechanism above when it is absent, exits
+non-zero, times out, or its output cannot be read as a findings list)
+or `combined` (run both every pass and union their reported issues).
+Delegate output is read the same way a subagent's critique response is
+read today — free-form findings scored through the existing C3
+High/Medium/Low process; no new machine-readable output schema is
+introduced. Absent `critiqueLoop.delegate` entirely keeps today's
+per-agent-only behavior with zero change.
+
+Configuration-time fail-safe (distinct from the `mode: fallback`
+runtime behavior above): a non-object `critiqueLoop.delegate`, or one
+whose `command` is missing, empty, whitespace-only, or non-string, is
+treated the same as an absent delegate — C1 uses the per-agent
+mechanism, never attempting the delegate at all. A valid `command`
+paired with an unrecognized `mode` value still configures the
+delegate, defaulting `mode` to `fallback`; `.github/idd/config.json`
+schema validation separately rejects an unsupported `mode` value or
+any key other than `command`/`mode` before the file is accepted.
+
+The C-phase's objective diff validation floor described below applies
+**uniformly** whether a delegate is configured or not, in either mode,
+and regardless of what the delegate reports — this surface changes
+which mechanism produces critique findings, never the load-bearing
+`fix-validate` gate.
 
 When a runtime falls back to structured same-response self-review
 instead of an independent subagent mechanism (see the table above; a

@@ -23,6 +23,7 @@ behavior change too.
 | Advisory reviewer                   | Copilot wait and recovery gates                                                                                                                                                                                                                                                                                                                                                                                                                                                           | For `human-required`, `no-advisory`, or `external-bot`, update the review-fix, pre-merge, merge, advisory-wait, snapshot, and triage files named by the selected profile.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | Review threads                      | Agents may resolve handled review threads under the fast default                                                                                                                                                                                                                                                                                                                                                                                                                          | Choose a thread-resolution profile in [IDD review policy profiles](idd-review-policy-profiles.md), then edit the snapshot, triage, review-fix, pre-merge, and merge phase files for stricter profiles.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | Policy constants                    | Distributed timing, wait, and loop defaults                                                                                                                                                                                                                                                                                                                                                                                                                                               | Review [IDD policy constants](policy-constants.md#configuration-authority-hierarchy) before changing claim ownership timing, advisory waits, CI waits, or critique-loop guardrails. The [Configuration Authority Hierarchy](policy-constants.md#configuration-authority-hierarchy) section maps key settings to the file(s) to update. Record the selected critique-loop profile in onboarding notes before unattended operation.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Critique-pass delegate              | Absent — C1 uses the per-agent Critique pass invocation table                                                                                                                                                                                                                                                                                                                                                                                                                             | Set `critiqueLoop.delegate.command` (and optional `mode`) in `.github/idd/config.json`; see [Critique pass invocation](idd-workflow.md#critique-pass-invocation).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | Merge policy                        | Merge gates after CI, review, freshness, and claim checks; distributed default is `fully_autonomous_merge`                                                                                                                                                                                                                                                                                                                                                                                | Review [Permissions and threat model](permissions.md), record the selected policy in repository docs, and keep or customize the F2.5/F3 handoff gates for non-autonomous profiles.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | Solo-CODEOWNER admin fallback       | `mergeGate.soloCodeownerAdminFallback` distributed default `auto-admin-retry`: F3 retries once with `gh pr merge --admin` when the Gate checklist is fully green, the only merge-command failure is the self-CODEOWNER "base branch policy prohibits the merge" error, and `reviewerStates.codeownerSelfApproval.prAuthorIsSoleEligibleCodeowner` proves the PR author is the sole eligible codeowner                                                                                     | Set `mergeGate.soloCodeownerAdminFallback: "hold-and-report"` in `.github/idd/config.json` to opt into the pre-#1521 unconditional hold-and-report behavior instead. See [`idd-merge.instructions.md`](../.github/instructions/idd-merge.instructions.md) F3 step 5 and [Permissions and threat model](permissions.md)'s "Pull-request-only ruleset bypass" for the full decision tree, and [policy constants](policy-constants.md#merge-policy-defaults) for the schema/default inventory. A genuinely outstanding review from a different, non-author codeowner always reports that field as `false` and falls through to hold-and-report, even when a bypass actor is also configured.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | Branch synchronization              | Rebase before the first PR-branch push; after publication, default to merge-from-`main`, keep `BEHIND`-only states read-only, and reserve rebase plus force-push for explicit exceptions                                                                                                                                                                                                                                                                                                  | Keep `.github/copilot-instructions.md`, `.github/instructions/idd-pr-submit.instructions.md`, and [IDD policy constants](policy-constants.md#branch-synchronization-defaults) aligned when local branch-sync policy changes. Also recommend leaving the GitHub ruleset's "Require branches to be up to date before merging" check (`required_status_checks.strict_required_status_checks_policy`) disabled: measured evidence shows enabling it can force a `main`-sync merge on every merely-`BEHIND` PR and multiplies Copilot advisory-review rounds without adding review value — a before/after commit sample measured the sync-merge share fall from ~27% to ~3.7% once this repository disabled it ([kurone-kito/idd-skill#1817](https://github.com/kurone-kito/idd-skill/issues/1817)). That benefit only holds when the automation token can read the ruleset — an unreadable ruleset read still fails closed to forcing the sync path regardless of the live setting (see the "Required-check-read trust" row below). Trade-off: disabling it means the final pre-merge CI run may not reflect the very latest `main`, which IDD's own conflict-triggered `main`-sync merge (E11) and F1/F2 freshness checks still catch when it matters for correctness. |
@@ -36,11 +37,20 @@ behavior change too.
 | IDD label names                     | `roadmap`, `status:blocked-by-human`, and `status:needs-decision` drive roadmap identification, human-gate holds, and decision holds. A semantic issue auto-labeler (for example CodeRabbit's issue enrichment) can auto-apply any of these three label names to an ordinary issue with no error — silently dropping it from execution candidates or parking it behind a hold — and omitting a label from the labeler's own instruction list does not restrict which labels it may apply. | Configure `labels.roadmapLabelName`, `labels.blockedByHumanLabelName`, and `labels.needsDecisionLabelName` in `.github/idd/config.json` when the repository already uses a different label taxonomy for these three roles. Migration note: when renaming an existing label, first create the new label and apply it alongside the old one on the affected open issues, then update the config value, then delete the old label — discovery and triage then never pass through a window where hold labels stop matching; keep all three configured labels present in the repository afterward. If the repository runs a semantic issue auto-labeler, adopt the [reserved-label guard recipe](#reserved-label-guard-recipe) below to stop it from applying these labels.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | Issue authoring guard               | The configured authoring label is both the draft marker for a held issue and the claim-suppression lock Discover enforces; Discover skips issues carrying it and warns when that label appears stale                                                                                                                                                                                                                                                                                      | Configure `issueAuthoring.authoringLabelName` and `issueAuthoring.authoringStaleAge` in `.github/idd/config.json` when local label naming or timing differs from the distributed defaults. Keep the label available in the target repository and keep `authoringStaleAge` less than `claimTiming.staleAge`; see [IDD policy constants](policy-constants.md#issue-authoring-defaults).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | Workshop example repo               | `idd-doctor` checks that the example repository's README back-links to this repo's `docs/workshop/`                                                                                                                                                                                                                                                                                                                                                                                       | Set `workshop.exampleRepository` in `.github/idd/config.json` to `"<owner>/<repo>"` when this repository publishes a workshop and an external example repository should back-link to it. Leave the field empty / unset to skip the check (default for adopter repos that have not published a workshop).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| Worktree guard                      | Advisory only by default — `idd-doctor` warns on a primary-worktree implementation-branch HEAD but nothing blocks the commit, push, or merge                                                                                                                                                                                                                                                                                                                                              | This release adds the opt-in config surface only; the enforcing components (`idd-doctor --strict`, its CI step, and the `core.hooksPath` hook) arrive in follow-up roadmap work, so enabling the flag alone has no effect yet. Opt in by setting `worktreeGuard.enabled: true` in `.github/idd/config.json`; once those components are present, an enabled guard makes them fail or reject a primary-worktree `issue/*` / `roadmap-audit/*` HEAD. Override `worktreeGuard.branchPatterns` to change which branch globs count as implementation branches (default `issue/*`, `roadmap-audit/*`). Absent or `false` keeps the historical advisory-only behavior.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| Worktree guard                      | Advisory only by default — `idd-doctor` warns on a primary-worktree implementation-branch HEAD but nothing blocks the commit, push, or merge                                                                                                                                                                                                                                                                                                                                              | Opt in by setting `worktreeGuard.enabled: true` in `.github/idd/config.json`; `idd-doctor` then enforces the same as its `--strict` flag would, so a primary-worktree `issue/*` / `roadmap-audit/*` HEAD fails outright instead of only warning. Pair it with the local git hook activation steps in [IDD template onboarding](https://github.com/kurone-kito/idd-skill/blob/main/idd-template/ONBOARDING.md#optional--enable-the-local-worktree-guard) for pre-commit/pre-push enforcement — including its [hook-manager coexistence guidance](https://github.com/kurone-kito/idd-skill/blob/main/idd-template/ONBOARDING.md#coexisting-with-an-existing-hook-manager) for a repository where an existing hook manager already owns `core.hooksPath`. Override `worktreeGuard.branchPatterns` to change which branch globs count as implementation branches (default `issue/*`, `roadmap-audit/*`). Absent or `false` keeps the historical advisory-only behavior.                                                                                                                                                                                                                                                                                                 |
 | Instruction profile (lite)          | Standard phase files for every phase — `instructionProfile` absent or `"standard"`                                                                                                                                                                                                                                                                                                                                                                                                        | This document records the `instructionProfile` policy-field surface only; schema support for this field and phase-routing enforcement land in a follow-up change. See [Lite instruction profile opt-in](idd-workflow.md#lite-instruction-profile-opt-in) for the recorded convention and phase mapping, and `docs/weak-model-lite-profile-design.md` for the underlying design (present in the source repository only; not distributed via `idd-template/`). **Do not set `instructionProfile` yet**: the policy schema's root object rejects unknown properties, so a repository that validates `.github/idd/config.json` against it (e.g. `idd-doctor`) fails validation outright on this field until the schema follow-up lands — it is not merely inert.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | Advisory-convergence required check | Hosting the `idd-advisory-convergence` workflow is itself opt-in; once hosted, it reports on every PR but is **not** registered as a required status check by default                                                                                                                                                                                                                                                                                                                     | Add the workflow per [IDD template onboarding](https://github.com/kurone-kito/idd-skill/blob/main/idd-template/ONBOARDING.md#optional--host-idd-advisory-convergence-as-a-required-check-ci-workflow), then register `idd-advisory-convergence` as a required status check in the repository's branch-protection Ruleset to make Copilot-advisory convergence non-bypassable; see [policy constants](policy-constants.md#advisory-review-defaults). Until registered, the hosted workflow still runs and reports but never blocks a merge.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | Required-check-read trust           | Fail-closed by default — a `404` on the branch-protection or ruleset reads is treated as unreadable (same hold as a `403`), because none of those endpoints documents `403` as a possible response and GitHub can mask a permission failure as `404`                                                                                                                                                                                                                                      | Opt in to the pre-`#1377` trusting behavior (a `404` on these reads is genuinely empty) only when the repository operator has verified the automation token carries full read access to these endpoints, by setting `ciGate.trustEmptyProtectionReads: true` in `.github/idd/config.json`. This is a git-committed, human-authorized decision, not a runtime check of the caller's role or token scope. Absent or `false` keeps the fail-closed default; see [`idd-ci.instructions.md`](../.github/instructions/idd-ci.instructions.md) Required-check discovery step 4.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | Source-pinned required-check trust  | Fail-closed by default — a required check whose ruleset or classic branch-protection entry carries an `app_id`/`integration_id` (source-pinned) downgrades an otherwise-passing named check to unresolved (`unknown` in `pre-merge-readiness`, `source-pinned` in the ci-wait-state helper), because no producer-identity data is fetched anywhere in this codebase's check-run reads to verify it                                                                                        | Opt in only when the repository operator has verified out-of-band that the pinned integration is the sole producer of the named required check(s), by setting `ciGate.trustSourcePinnedRequiredChecks: true` in `.github/idd/config.json`. This is a git-committed, human-authorized decision, not a runtime check of actual producer identity. Absent or `false` keeps the fail-closed default; it never relaxes a fully unnamed pinned requirement (e.g. a ruleset `workflows` rule with no enumerable check name). See [`idd-ci.instructions.md`](../.github/instructions/idd-ci.instructions.md) Required-check discovery and the blocker detail in [helper scripts](idd-helper-scripts.md#merge-gate-evidence).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| Authoring language                  | Absent `authoringLanguage` behaves as `en` (fail-safe default)                                                                                                                                                                                                                                                                                                                                                                                                                            | Set `authoringLanguage` in `.github/idd/config.json` to a fixed BCP-47-shaped tag or the literal `match-source`; see [Authoring Language](#authoring-language). Schema-defined and documented now; PR-submit applies it to PR body prose (#1982) and issue-authoring applies it to drafted issue prose (#1983); the distributed discover/claim runtime does not read or apply it yet — unlike `instructionProfile` above, the schema already accepts this field, so setting it is safe even before every consumer lands.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+
+The critique-pass delegate row above is independent of the E-phase's
+required `idd-advisory-convergence` check
+([kurone-kito/idd-skill#909](https://github.com/kurone-kito/idd-skill/issues/909),
+[kurone-kito/idd-skill#1352](https://github.com/kurone-kito/idd-skill/issues/1352)):
+it changes which mechanism produces the C-phase's pre-PR local critique
+findings and never touches required-check scope, the advisory-convergence
+gate, or post-PR merge blocking.
 
 ## Non-Configurable Safety Invariants
 
@@ -167,6 +177,23 @@ authority:
 - `external-bot` when a non-Copilot reviewer has a stable actor identity
   and a current-head completion signal.
 
+`advisory-convergence` reads `reviewPolicy` when deciding
+applicability. `human-required` and `no-advisory` make the check
+`not_applicable` (ready without Copilot clauses). `copilot-advisory`,
+`external-bot`, absent, or an invalid value keep today's
+primary-bot applicability. Do not register
+`idd-advisory-convergence` as a required status check unless the
+chosen policy actually wants an advisory-bot gate.
+
+The shipped hybrid review-reply identity is documented in
+[Hybrid review-reply identity](idd-review-policy-profiles.md#hybrid-review-reply-identity-shipped):
+IDD replies carry `<!-- {markerPrefix}-review-reply -->` after the
+visible disposition body (not an E1 `review-watermark`); unmarked
+human replies on human threads are presence-only and do not let the
+owning session post bare prose on its own items; Copilot threads
+still need an IDD disposition; the required job is not created by
+unmarked human review chatter.
+
 When importing the template, keep the `profiles/` directory with the
 copied docs. For any non-default PR review profile, use the matching
 `profiles/<profile>/README.md` artifact as the reusable patch surface.
@@ -207,6 +234,52 @@ resolution rule, and F2/F3 do not treat agent-handled human threads as
 merge-ready before the selected acknowledgement appears. Branch
 protection conversation-resolution requirements still override any local
 profile.
+
+## Authoring Language
+
+The distributed default is fail-safe: an absent `authoringLanguage`
+behaves as `en`, codifying today's actual emergent behavior, so no
+adopter's existing setup changes. Set `authoringLanguage` in
+`.github/idd/config.json` to make issue/PR body prose language an
+explicit, schema-validated choice instead:
+
+- A fixed BCP-47-shaped language tag (for example `en`, `ja`, `fr`,
+  `zh-Hans`, `pt-BR`) makes every newly-authored issue and PR body's
+  human-readable prose use that language.
+- The literal `match-source` matches the operator's live conversational
+  language during an interactive/hearing session (issue-authoring,
+  onboarding), and the language of the issue body being implemented
+  during unattended execution with no live operator (for example
+  PR-submit implementing an already-claimed issue).
+
+**Scope carve-out**: `authoringLanguage` governs human-readable prose
+sections only (Background, Proposed change, Acceptance criteria, PR
+descriptions, roadmap Goal/Tracks/Success criteria, and similar). It
+never changes any HTML-comment marker's machine-parsed format, nor any
+visible-line mirror whose exact wording a mechanical regex parses —
+concretely, the autopilot-suitability and effort footers' visible lines
+(`_Autopilot suitability: N / 5 ...` / `_Effort: S|M|L ...`), which
+`src/scripts/audit-authored-issue.mts` matches against a fixed
+English-phrase regex, must stay in their exact canonical English wording
+regardless of the configured language.
+
+**Cross-references**:
+
+- Adjacent bot configs keep their own independent language settings —
+  for example this repository's own `.coderabbit.yaml` sets
+  `language: en` — so an operator switching `authoringLanguage` away
+  from English should align those separately.
+- `idd-review-snapshot.instructions.md`'s existing "detect the PR body's
+  language for the visible note" rule already composes correctly with
+  this field with no code change required: now that PR-submit applies
+  `authoringLanguage` (#1982), that rule keeps following whatever
+  language the PR body ends up in.
+
+**Landed vs. pending**: this field is schema-defined and documented now.
+PR-submit's D3 "Create PR" step applies it to PR body prose (#1982), and
+the issue-authoring skill's contract applies it to drafted issue prose
+(#1983); the distributed discover and claim runtime does not read or
+apply it yet.
 
 ## Policy Constants
 
@@ -370,7 +443,15 @@ merges — a maintainer must separately register `idd-advisory-convergence`
 as a **required** status check in the repository's branch-protection
 Ruleset; this is a GitHub-settings action taken outside of IDD
 automation, not something an agent applies on its own. Once
-registered, the check follows the same deadline/waiver escape path as
+registered, ordinary human review-thread replies do **not** re-assert
+that required check. IDD-originated comments refresh the existing
+HEAD-associated required run from the companion
+`idd-advisory-convergence-comment.yml` workflow. This is
+`idd-advisory-convergence`, not `lint.yml`.
+Repositories that want human-led or gradual IDD adoption should not
+register the check as required until they intend the Copilot-advisory
+loop. After that
+registration, the check follows the same deadline/waiver escape path as
 any other external check: while the primary advisory bot has not yet
 reviewed the current PR HEAD, `--assert` exits non-zero and the check
 **shows as failing** (GitHub Actions has no separate non-failing
@@ -384,14 +465,17 @@ once `ciGate.externalCheckWaivers.mode` is `maintainer-authorized`
 **and** `idd-advisory-convergence` is itself listed under
 `ciGate.externalChecks.waivable` — enabling waiver mode for some other
 external check never silently makes this one waivable too. **Posting a
-waiver comment does not by itself turn the check green**: a waiver is a
-regular PR comment, which is not one of the workflow's triggers
-(`pull_request` push, `pull_request_review` submission, or
-`pull_request_review_comment` created/edited/deleted on a review
-thread), so after posting a waiver a maintainer must also **re-run the
-existing** PR-linked check run **for the current HEAD SHA** — the
-Actions UI "Re-run jobs" button, or `gh run rerun <run-id>` — for the
-required check to actually reflect it. `workflow_dispatch` does
+waiver comment does not by itself turn the check green**: a waiver is
+a regular PR conversation comment, which is not one of the required
+workflow's triggers (`pull_request` push or `pull_request_review`
+submission), so after posting a waiver a maintainer must also
+**re-run the existing** PR-linked check run **for the current HEAD
+SHA** — the Actions UI "Re-run jobs" button, or
+`gh run rerun <run-id>` — for the required check to actually
+reflect it. An IDD-originated review-thread comment refreshes that
+same HEAD run via the companion
+`idd-advisory-convergence-comment.yml` workflow. `workflow_dispatch`
+does
 **not** reliably do this:
 a dispatched run has no `pull_request` context of its own, so GitHub
 associates it with the dispatch ref rather than the PR's HEAD SHA, and
@@ -718,11 +802,35 @@ The recipe below adapts that workflow for adopters. Save it as
   labels must guard the names it actually uses.
 - `<labeler-bot-login-1>`, `<labeler-bot-login-2>`, ...: the login(s) of
   whichever semantic issue auto-labeler(s) this repository actually
-  runs, confirmed via the REST simple-user object's `login` and
-  `type: Bot` fields directly on the event's `sender` (not a
-  GraphQL-rendered display name). This is independent of, and not
-  necessarily identical to, any `advisoryBotLogins` configured for PR
-  review — list only the actor(s) that auto-label **issues**.
+  runs. Build the complete list with a full-history sweep, not a single
+  observed event: read the paginated
+  `GET /repos/{owner}/{repo}/issues/events` endpoint to completion,
+  keeping only entries where `event == "labeled"` and the actor's
+  `type` is `Bot`. That endpoint returns issue and pull request events
+  together, so this one sweep needs no separate PR-side pass.
+  Filter the sweep's results down to the actor(s) recognized as an
+  untrusted semantic auto-labeler — exclude any bot already trusted to
+  apply these labels on purpose (for example, this repository's own IDD
+  or CI automation), or the guard will strip a label that automation
+  intentionally applied. The sweep also buys something a single
+  observed event cannot: it can confirm that, as of the sweep, a bot
+  has never labeled, so a configured review bot with no matching
+  history can be left out of this list on that evidence instead of
+  assumption (field-reported 2026-08-11, kurone-kito/idd-skill#1928).
+  That absence is not permanent — re-run the sweep after enabling new
+  automation or after a long gap, since a bot with no history yet can
+  still start labeling later (preventive; no observed incident yet).
+  Between sweeps, validate
+  any single newly observed labeler the same way — confirmed via the
+  REST simple-user object's `login` and `type: Bot` fields directly on
+  the event's `sender` (not a GraphQL-rendered display name). This is
+  independent of, and not necessarily identical to, any
+  `advisoryBotLogins` configured for PR review — list only the
+  actor(s) that auto-label **issues**. (This does not exclude a bot the
+  sweep shows labeling only pull requests: "issues" here contrasts with
+  `advisoryBotLogins`' PR-review role, not the events this actor list
+  guards — the workflow's `pull_request_target: labeled` trigger below
+  reuses this same list.)
 
 This recipe guards the three policy-decision labels only. If this
 repository also configures `issueAuthoring.authoringLabelName`
@@ -772,6 +880,11 @@ jobs:
       - name: Remove reserved label applied by an untrusted labeler
         env:
           GH_TOKEN: ${{ github.token }}
+          # gh reads whichever of these two matches its resolved host
+          # (`gh help environment`), so setting both is inert on
+          # github.com and lets this same step authenticate on a
+          # self-hosted GHES host too.
+          GH_ENTERPRISE_TOKEN: ${{ github.token }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           LABEL_NAME: ${{ github.event.label.name }}
@@ -1039,15 +1152,32 @@ supports these keys:
 Use this mapping when A4.5 rejects a candidate. The goal is to preserve
 non-ready work as explicit outcomes, not to silently drop it.
 
-| A4.5 outcome       | Recommended labels                                 | Default action                                                                                                                                |
-| ------------------ | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ready`            | none                                               | Continue to A5 claim checks.                                                                                                                  |
-| `unclear`          | `status:needs-decision` (preferred), `question`    | Keep the issue open, post a clarification request, remove it from the current A4.5 candidate set, and continue scanning remaining candidates. |
-| `needs-decision`   | `status:needs-decision` (if available), `question` | Keep the issue open, request maintainer decision, remove it from the current candidate set, and continue scanning.                            |
-| `blocked-by-human` | `status:blocked-by-human` (if available)           | Keep the issue open with a hold comment, remove it from the current candidate set, and continue scanning autonomous candidates.               |
-| `duplicate`        | `duplicate`, optional `triage:duplicate`           | Default is read-only triage (comment/link and continue). Only allow close/extra labels after the repository customizes A4.5 mutation policy.  |
-| `out-of-scope`     | optional `triage:out-of-scope`                     | Default is read-only triage (comment-and-stop for that issue). Close/label mutations require explicit A4.5 mutation-policy customization.     |
-| `invalid`          | optional `triage:invalid`                          | Default is read-only triage and immediate stop for `invalid` outcomes. Close/label mutations require explicit A4.5 mutation-policy updates.   |
+| A4.5 outcome       | Recommended labels                                 | Default action                                                                                                                                                                                                                                                                                                                                         |
+| ------------------ | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `ready`            | none                                               | Continue to A5 claim checks.                                                                                                                                                                                                                                                                                                                           |
+| `unclear`          | `status:needs-decision` (preferred), `question`    | Keep the issue open, post a clarification request, remove it from the current A4.5 candidate set, and continue scanning remaining candidates. Applying the recommended label(s) requires the same A4.5 mutation-policy customization as the rows below; the default is the diagnostic comment alone (optionally the transient `triage:unclear` label). |
+| `needs-decision`   | `status:needs-decision` (if available), `question` | Keep the issue open, request maintainer decision, remove it from the current candidate set, and continue scanning. Applying the recommended label(s) requires the same A4.5 mutation-policy customization as the rows below; the default is the diagnostic comment alone (optionally the transient `triage:needs-decision` label).                     |
+| `blocked-by-human` | `status:blocked-by-human` (if available)           | Keep the issue open with a hold comment, remove it from the current candidate set, and continue scanning autonomous candidates. Applying the recommended label requires the same A4.5 mutation-policy customization as the rows below; the default is the diagnostic comment alone (optionally the transient `triage:blocked-by-human` label).         |
+| `duplicate`        | `duplicate`, optional `triage:duplicate`           | Default is read-only triage (comment/link and continue). Only allow close/extra labels after the repository customizes A4.5 mutation policy.                                                                                                                                                                                                           |
+| `out-of-scope`     | optional `triage:out-of-scope`                     | Default is read-only triage (comment-and-stop for that issue). Close/label mutations require explicit A4.5 mutation-policy customization.                                                                                                                                                                                                              |
+| `invalid`          | optional `triage:invalid`                          | Default is read-only triage and immediate stop for `invalid` outcomes. Close/label mutations require explicit A4.5 mutation-policy updates.                                                                                                                                                                                                            |
+
+Every non-`ready` row shares one default: the diagnostic comment plus
+an optional transient `triage:{outcome}` label is the ceiling; any
+other label -- including the ones named in "Recommended labels" above
+-- is an opt-in repository customization of the A4.5 mutation policy,
+never the default (`idd-suitability.instructions.md`'s "Mutation
+Policy and Coordination Rule" section). Turning that customization on
+trades a faster re-scan for a manual-review cost: a wrongly-classified
+rejection then keeps the issue out of the candidate pool on every
+later pass until someone reviews the label by hand, instead of today's
+default of a fresh seven-check re-run each pass. That fresh re-run is
+not a gap left for the customization to fill -- issue #1887 shipped
+`suitability-triage.mjs`'s `existingRejection` field, which already
+surfaces any prior "A4.5 suitability gate rejection" comment from a
+trusted marker actor to every later caller, so a rejected candidate is
+neither silently retried from scratch nor permanently hidden by
+default.
 
 When confidence is low, keep the issue open and route via a concise
 comment. "Uncertain means open" is the safe default, and selection

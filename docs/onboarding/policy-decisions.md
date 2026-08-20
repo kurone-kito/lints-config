@@ -176,8 +176,17 @@ skill ID to multiple runtime roots by default (preventive; no observed incident
 yet); a mixed-runtime target should
 use one native copy plus an explicit manual route unless the operator
 deliberately accepts identical duplicates. The companion helps draft
-IDD-ready issues and roadmaps. It does not authorize publishing issues or
-starting the main execution loop on its own.
+IDD-ready issues and roadmaps. By default, it publishes each drafted
+`ready` body directly under the configured authoring label once it
+passes the mechanical pre-publish gate and the critique pass — no
+separate publish approval step — unless the current request explicitly
+asked for a preview instead. Releasing that authoring hold is the
+single boundary within the companion's own workflow that still needs an
+explicit request: publishing under the hold alone does not start the
+main execution loop, because Discover treats an issue carrying the
+authoring label as not startable while the hold remains. The
+issue-author approval gate described above still applies independently
+once the hold is released.
 
 ### Helper runtime profile
 
@@ -296,6 +305,29 @@ infer), adopt the guard recipe in
 [Customizing IDD — Reserved-label guard recipe](../customization.md#reserved-label-guard-recipe)
 before relying on unattended discovery or hold semantics.
 
+### Bootstrap execution mode
+
+Confirm whether the initial IDD import itself runs through the
+distributed direct-import default or through the optional
+issue-mediated alternate:
+
+- `direct-import` (distributed default, "theirs-flow"): Steps 2, 4, 5,
+  and 6 import the template with a direct, unreviewed commit, then hand
+  off to the normal claim -> work -> PR -> CI -> merge loop for every
+  subsequent change.
+- `issue-mediated`: routes that same import through a reviewable
+  issue -> branch -> PR -> merge cycle instead, using the placeholder
+  values and Step 1B policy decisions already confirmed earlier in the
+  hearing. Choose this when the operator wants every repository
+  mutation — including the very first one — to have a reviewable
+  record, or simply prefers not to grant an agent a direct-commit path.
+
+If the operator does not state a preference, propose `direct-import`
+and only switch modes on explicit confirmation. See
+[Onboarding Reference — Issue-Mediated
+Bootstrap](issue-mediated-bootstrap.md) for the full procedure and
+prerequisites.
+
 ## Related default policies to confirm
 
 The onboarding entry point should also confirm whether the repository
@@ -338,6 +370,35 @@ disabled:
 
 Record whether the repository keeps this setting disabled before
 unattended workers begin running.
+
+It should also confirm that any required status check registered
+through GitHub's classic branch-protection API uses the explicit
+`checks` array rather than a plain string-array `contexts` field:
+
+- Recommended: register required checks with an explicit `checks`
+  array. Use `app_id: -1` (any producer) for `idd-advisory-convergence`
+  specifically — only the adopter's own hosted workflow ever produces a
+  check with that exact name — but not as a blanket choice for every
+  required check: keep a specific `app_id` pin on any check where
+  verifying the producer matters. GitHub's classic API silently
+  rewrites a `contexts` `PUT` into `app_id`-pinned `checks` entries,
+  and a pinned entry is exactly what the fail-closed "Source-pinned
+  required-check trust" default
+  (`ciGate.trustSourcePinnedRequiredChecks` — see the row in
+  [Customizing IDD](../customization.md)) downgrades to unresolved even
+  when green, so an operator who configures branch protection the
+  straightforward way walks into that gate on the very first PR
+  (observed 2026-08-11 onboarding a companion repository;
+  [kurone-kito/idd-skill#1925](https://github.com/kurone-kito/idd-skill/issues/1925)).
+  See [ONBOARDING.md's required-status-check registration
+  step](https://github.com/kurone-kito/idd-skill/blob/main/idd-template/ONBOARDING.md#optional--host-idd-advisory-convergence-as-a-required-check-ci-workflow)
+  for the working `PATCH` snippet, including the merge caveat (`PATCH`
+  replaces the whole `checks` list) and the producer-pinning trade-off
+  of `app_id: -1`.
+
+Record whether the repository's required-check registration avoids the
+string-array `contexts` pinning trap before unattended workers begin
+running.
 
 ## Recording the selected policies
 
@@ -383,6 +444,15 @@ This repository uses the following IDD policies:
 
 **Policy**: `{disabled (recommended) | enabled}`
 
+### Required-Check Registration
+
+- **Classic-API `contexts` pinning trap avoided**:
+  `{yes | no / not applicable}`
+- **Producer-identity choice**: `{app_id: -1 (any producer) |
+  intentionally pinned}`
+- **If intentionally pinned, `ciGate.trustSourcePinnedRequiredChecks`
+  opt-in recorded**: `{yes | no / not applicable}`
+
 ### Credential Scope
 
 **Worker credentials**: `{least-privilege worker scope}`
@@ -417,6 +487,10 @@ This repository uses the following IDD policies:
 
 - **`issueAuthoring.maxClarificationRounds`**:
   `{3 | custom finite bound}`
+
+### Bootstrap Execution Mode
+
+**Mode**: `{direct-import | issue-mediated}`
 ```
 
 When the repository uses a non-default merge, review, or thread policy,

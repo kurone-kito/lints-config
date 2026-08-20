@@ -209,10 +209,10 @@ publishing:
    `update_release_draft` against the already-recorded push event with
    current labels, no new commit needed, so it does not conflict with
    the "never commit directly to `main`" rule below. **On a minor or
-   major release, do this rerun before step 3's title/tag correction,
-   or repeat that correction afterward** — the rerun regenerates the
-   draft's title and tag from `$NEXT_PATCH_VERSION` too, so running it
-   after step 3 would silently revert the manual fix.
+   major release, repeat step 3's title/tag correction after this
+   rerun** — the rerun regenerates the draft's title and tag from
+   `$NEXT_PATCH_VERSION` too, so it silently reverts step 3's manual
+   fix if nothing redoes that correction afterward.
 
 If this gate finds a repository change that needs correction (a stale
 date, a missing `CHANGELOG.md` entry, a wrong SemVer bump), apply it

@@ -16,8 +16,9 @@ categories:
     label: dependencies
     collapse-after: 5
   # Resolver-only entries (no title, so they add no changelog section):
-  # detect a Conventional Commits breaking-change marker (`!`) directly
-  # from the PR title, with no dedicated label required.
+  # the first detects a Conventional Commits breaking-change marker
+  # (`!`) directly from the PR title, with no dedicated label required;
+  # the second is the explicit patch fallback default.
   - type: version-resolver
     semver-increment: major
     when:

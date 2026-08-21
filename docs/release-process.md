@@ -170,7 +170,7 @@ publishing:
    inspection this procedure intentionally does not require.
 3. Correct the release draft's title and tag if they do not match the
    bumped `package.json` version — check this regardless of whether
-   the bump changed during recomputation. release-drafter's Version
+   the bump changed during recomputation. The release-drafter Version
    Resolver (`$RESOLVED_VERSION`, see Existing release mechanics below)
    auto-resolves a minor or patch release correctly, so this check is
    normally a no-op for those; a `!`-marked breaking-change release

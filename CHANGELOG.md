@@ -60,9 +60,9 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 - Re-import the runtime baseline from `pnpm-project-template`: raise the minimum
   supported Node.js version (root and all five published packages) from
-  `^20.11 || ^22 || >=24` to `^22.23.1 || ^24.2.0 || >=26.0.0` — breaking, drops
-  Node.js 20 and 25 support — then further raise the floor to `^22.23.2` to pick
-  up a 2026-07-29 Node.js emergency security release fixing multiple CVEs
+  `^20.11 || ^22 || >=24` to `^22.23.2 || ^24.2.0 || >=26.0.0` — breaking, drops
+  Node.js 20 and 25 support, and later raised further within the `22.x` line to
+  pick up a 2026-07-29 Node.js emergency security release fixing multiple CVEs
   (including CVE-2026-56846, CVE-2026-56848, and CVE-2026-58043); bump the
   pinned `packageManager` from pnpm 10.28.2 to 11.22.0, and remove the
   standalone `.npmrc` in favor of `pnpm-workspace.yaml` settings.
@@ -109,8 +109,6 @@ project adheres to [Semantic Versioning](https://semver.org/).
   build step first.
 - Restore literal `{{...}}` placeholder tokens in onboarding meta-docs that had
   been accidentally substituted with real values.
-- Align the published package manifests and metadata across `cspell-config`,
-  `lint-staged-config`, and `markdownlint-config`.
 - Restrict the `update_release_draft` CI job to `push` events — it previously
   also ran as a no-op dry-run on `pull_request`, which could starve real
   updates.

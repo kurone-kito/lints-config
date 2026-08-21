@@ -6,18 +6,26 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.23.0] - 2026-08-21
+
 ### Added
 
 - Export the `LintStagedConfig` type from the package's public API.
-- Expand the package README with a new Features section.
+- Expand the package README with a new Features section, and document how to
+  wire lint-staged into a pre-commit hook (installing Husky,
+  `npx --no -- lint-staged`) since this package only provides the
+  configuration — also noting that Biome must be installed explicitly
+  despite being an optional peer dependency.
 
 ### Changed
 
 - Raise the minimum supported Node.js version to
-  `^22.23.1 || ^24.2.0 || >=26.0.0` (was `^20.11 || ^22 || >=24`) — breaking,
+  `^22.23.2 || ^24.2.0 || >=26.0.0` (was `^20.11 || ^22 || >=24`) — breaking,
   drops Node.js 20 and 25 support.
 - Update package keywords to reflect the tools actually invoked by the config
   (drop stale `eslint`/`prettier` entries, add `biome`).
+- Declare an optional `@biomejs/biome` peer dependency (`>=2.3.9`), and raise
+  the `cspell` peer dependency floor from `>=5.7.x` to `>=8.x.x`.
 
 ### Fixed
 

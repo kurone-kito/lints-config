@@ -6,23 +6,31 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.23.0] - 2026-08-21
+
 ### Added
 
-- Expand the package README with a new Features section.
+- Expand the package README with new Features and Usage sections, and
+  document the `./biome.yml` export as source-only (a YAML source compiled
+  to `biome.json` at publish time; do not point `extends` at it directly).
 
 ### Changed
 
 - Raise the minimum supported Node.js version to
-  `^22.23.1 || ^24.2.0 || >=26.0.0` (was `^20.11 || ^22 || >=24`) — breaking,
+  `^22.23.2 || ^24.2.0 || >=26.0.0` (was `^20.11 || ^22 || >=24`) — breaking,
   drops Node.js 20 and 25 support.
 - Remove the `suspicious.noUnknownAtRules: 'off'` override that had been a
   Tailwind CSS v4+ workaround, since it is no longer needed with the current
   Biome version — at-rule linting is re-enabled by default.
+- Raise the `@biomejs/biome` peer dependency floor from `>=2.3.x` to
+  `>=2.3.9`.
 
 ### Fixed
 
 - Bump the pinned `$schema` in `biome.yml` from Biome 2.3.12 to 2.5.6 to match
   the installed Biome version.
+- Add `!**/biome.jsonc` to the ignore-list glob, closing a gap where the
+  config's own compiled output could be linted.
 
 ## [0.22.0] - 2026-01-27
 

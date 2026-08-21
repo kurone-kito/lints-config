@@ -6,15 +6,20 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.23.0] - 2026-08-21
+
 ### Added
 
 - Expand the package README with a new Features section documenting the
   `subject-case`/`body-case` relaxation.
+- Document how to wire the CLI and a Git hook (`commitlint --edit` via a
+  `commit-msg` hook, installing `@commitlint/cli` and Husky) in the README,
+  since this package only provides the configuration.
 
 ### Changed
 
 - Raise the minimum supported Node.js version to
-  `^22.23.1 || ^24.2.0 || >=26.0.0` (was `^20.11 || ^22 || >=24`) — breaking,
+  `^22.23.2 || ^24.2.0 || >=26.0.0` (was `^20.11 || ^22 || >=24`) — breaking,
   drops Node.js 20 and 25 support.
 
 ## [0.20.0] - 2025-07-01

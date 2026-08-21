@@ -32,6 +32,7 @@
     "**/packages/**/*.tsbuildinfo": true
   },
   "git.branchProtection": ["main"],
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true,
   "material-icon-theme.files.associations": {
     ".imgbotconfig": "robots"
   },
@@ -42,9 +43,8 @@
     "**/node_modules/**/*": true,
     "**/pnpm-lock.yaml.*": true
   },
-  "typescript.enablePromptUseWorkspaceTsdk": true,
   "yaml.schemas": {
-    "https://biomejs.dev/schemas/2.5.6/schema.json": ["biome.yml"],
+    "./node_modules/@biomejs/biome/configuration_schema.json": ["biome.yml"],
     "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/packages/cspell-types/cspell.schema.json": [
       ".cspell.config.yml"
     ],

@@ -1,5 +1,5 @@
-name-template: v$NEXT_PATCH_VERSION 🌈
-tag-template: v$NEXT_PATCH_VERSION
+name-template: v$RESOLVED_VERSION 🌈
+tag-template: v$RESOLVED_VERSION
 # Categories below must only match labels this repository actually
 # applies. IDD's reserved labels (roadmap, status:*, idd:ready — see
 # docs/idd-policy.md § Label Names) are deliberately not category
@@ -7,6 +7,7 @@ tag-template: v$NEXT_PATCH_VERSION
 categories:
   - title: 🚀 Features
     label: enhancement
+    semver-increment: minor
   - title: 🐛 Bug Fixes
     label: bug
   - title: 📝 Documentation
@@ -14,6 +15,17 @@ categories:
   - title: 🧰 Maintenance
     label: dependencies
     collapse-after: 5
+  # Resolver-only entries (no title, so they add no changelog section):
+  # the first detects a Conventional Commits breaking-change marker
+  # (`!`) directly from the PR title, with no dedicated label required;
+  # the second is the explicit patch fallback default.
+  - type: version-resolver
+    semver-increment: major
+    when:
+      conventional:
+        breaking: true
+  - type: version-resolver
+    semver-increment: patch
 # Derives the categories above from this repository's enforced
 # Conventional Commits PR-title convention, since nothing else applies
 # enhancement/bug/documentation to a pull request (Dependabot applies

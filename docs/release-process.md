@@ -170,16 +170,18 @@ publishing:
    inspection this procedure intentionally does not require.
 3. Correct the release draft's title and tag if they do not match the
    bumped `package.json` version — check this regardless of whether
-   the bump changed during recomputation, since a release planned as
-   minor/major from the very first pass needs the same correction.
+   the bump changed during recomputation. The release-drafter Version
+   Resolver (`$RESOLVED_VERSION`, see Existing release mechanics below)
+   auto-resolves a minor or patch release correctly, so this check is
+   normally a no-op for those; a `!`-marked breaking-change release
+   still needs the manual major-to-minor correction described there.
    Do this here, not at the earlier merge step, and only after every
    `update_release_draft` run currently in flight has finished — not
    only the release-prep merge's own run, but also any other push to
    `main` around the same time. `.github/workflows/push-main.yml`
    runs that job only on a push to `main` (#291); the release-drafter
    action regenerates the draft's title and tag from
-   `$NEXT_PATCH_VERSION` on every push run (see the known gap under
-   Existing release mechanics below), so correcting while a run is
+   `$RESOLVED_VERSION` on every push run, so correcting while a run is
    still in flight does not survive to this point.
 4. **Known limitation — merge-vs-relabel race (#290).** A merge's
    `push`-triggered `update_release_draft` run can start while that
@@ -212,11 +214,13 @@ publishing:
    `if: github.event_name == 'push'` gate). This re-executes
    `update_release_draft` against the already-recorded push event with
    current labels, no new commit needed, so it does not conflict with
-   the "never commit directly to `main`" rule below. **On a minor or
-   major release, repeat step 3's title/tag correction after this
-   rerun** — the rerun regenerates the draft's title and tag from
-   `$NEXT_PATCH_VERSION` too, so it silently reverts step 3's manual
-   fix if nothing redoes that correction afterward. **Fork-originated
+   the "never commit directly to `main`" rule below. **On a `!`-marked
+   breaking-change release, repeat step 3's title/tag correction after
+   this rerun** — the rerun regenerates the draft's title and tag from
+   `$RESOLVED_VERSION` too, which still resolves to a literal major
+   bump for a breaking change, so it silently reverts step 3's manual
+   minor-correction fix if nothing redoes that correction afterward.
+   **Fork-originated
    PRs are no longer a special case here** (#289): `label_pull_request`
    runs via `pull_request_target`, which always executes with the base
    branch's write credentials regardless of the PR's origin, so a fork
@@ -271,14 +275,22 @@ this document describes it as shipped behavior, not a proposal:
 
 1. A maintainer bumps `package.json` version(s) across the workspace
    and publishes the GitHub Release that `release-drafter` has been
-   continuously drafting from merged PRs. **Known gap**:
-   [`.github/release-drafter.yml`](../.github/release-drafter.yml)
-   hard-codes `tag-template: v$NEXT_PATCH_VERSION`, so the draft's
-   name and tag only auto-track a patch bump. On a minor or major
-   version bump, the maintainer must manually correct the draft's
-   release title and tag to the actual bumped `package.json` version
-   before publishing — publishing the draft as-is would tag the
-   release with the wrong version.
+   continuously drafting from merged PRs.
+   [`.github/release-drafter.yml`](../.github/release-drafter.yml) uses
+   `tag-template: v$RESOLVED_VERSION`, so the draft's name and tag
+   auto-resolve via release-drafter's Version Resolver: `minor` when an
+   `enhancement`-labeled PR merged, `major` when a PR titled with a
+   Conventional Commits breaking-change marker (`!`, e.g. `feat!:`)
+   merged, `patch` otherwise. **Remaining known gap**: release-drafter
+   has no awareness of this repository's own SemVer-for-0.x convention
+   (a breaking change while the major version is still `0` bumps
+   `minor`, not `major`). A `!`-marked breaking-change release
+   therefore still needs a maintainer to manually correct the draft's
+   title and tag from the tool's literal major suggestion down to the
+   actual bumped (minor) `package.json` version before publishing —
+   publishing the draft as-is in that case would tag the release with
+   the wrong version. A minor or patch release no longer needs this
+   manual step.
 2. The `release: published` event triggers
    [`.github/workflows/release.yml`](../.github/workflows/release.yml),
    which calls the reusable

@@ -88,10 +88,10 @@
     "test:packaging:pack": "node --test --test-concurrency=1 test/pack-contents.test.mjs test/tool-integration.test.mjs"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.9",
+    "@biomejs/biome": "^2.5.11",
     "@commitlint/cli": "^21.2.2",
     "@commitlint/config-conventional": "^21.2.2",
-    "@cspell/cspell-types": "^10.0.1",
+    "@cspell/cspell-types": "^10.1.1",
     "@kurone-kito/biome-config": "workspace:^",
     "@kurone-kito/commitlint-config": "workspace:^",
     "@kurone-kito/cspell-config": "workspace:^",
@@ -99,9 +99,9 @@
     "@kurone-kito/is-prerelease": "^0.1.0",
     "@kurone-kito/lint-staged-config": "workspace:^",
     "@kurone-kito/markdownlint-config": "workspace:^",
-    "cspell": "^10.0.1",
+    "cspell": "^10.1.1",
     "husky": "^9.1.7",
-    "lint-staged": "^17.3.0",
+    "lint-staged": "^17.4.1",
     "markdownlint-cli2": "^0.23.2",
     "rimraf": "^6.1.3",
     "typescript": "~7.0.2"

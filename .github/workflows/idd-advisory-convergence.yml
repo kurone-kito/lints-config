@@ -76,9 +76,10 @@ concurrency:
   # github.ref to the base branch (the same value for every PR targeting
   # it), so grouping by ref would collapse unrelated PRs into one slot.
   # Review-thread comments and review submissions live in the companion
-  # idd-advisory-convergence-comment.yml workflow (kurone-kito/lints-config#314)
-  # and must not share this group. Isolate workflow_dispatch so a manual re-check cannot
-  # cancel an in-flight PR-linked run.
+  # idd-advisory-convergence-comment.yml workflow
+  # (kurone-kito/lints-config#314) and must not share this group.
+  # Isolate workflow_dispatch so a manual re-check cannot cancel an
+  # in-flight PR-linked run.
   #
   # kurone-kito/idd-skill#2657 (Codex review, PR #2895): also isolate
   # pull_request from pull_request_target (previously grouped together)

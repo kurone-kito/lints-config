@@ -459,8 +459,9 @@ and `idd-advisory-comment-debounce` as `bin` entries (added at v0.9.0,
 still present in `v0.11.0`'s 53-entry `bin` set), both directly
 runnable via `pnpm exec` once the `v0.11.0` pin (#312) was installed,
 with no `package.json` script alias required. `.github/workflows/
-idd-advisory-convergence-comment.yml` was adopted in #314, alongside
-the required workflow's own `pull_request_review` trigger moving from
+idd-advisory-convergence-comment.yml` was adopted (recorded
+2026-09-13, #314), alongside the required workflow's own
+`pull_request_review` trigger moving from
 `idd-advisory-convergence.yml` to this new non-required companion
 (the interim arrangement documented in that file's own header and
 inline comments, kept only until this companion landed). It is

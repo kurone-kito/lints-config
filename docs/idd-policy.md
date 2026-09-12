@@ -293,11 +293,14 @@ decisions inline — not restated here.
 - **`provider`** — not set. Absent resolves to `github`, and no adapter
   exists yet for `gitlab`/`bitbucket`.
 - **`advisoryBotLogins`** — set to `["coderabbitai[bot]"]` (recorded
-  2026-09-12, #316). This field governs which bots' PR review-comment
-  acknowledgements may be classified as structurally ack-only by the
-  helper evidence layer; CodeRabbit is this repository's only
-  configured advisory reviewer (`.coderabbit.yaml`; see "PR Review
-  Policy" above). Separately, the `idd-suggest-untrusted-labelers`
+  2026-09-12, #316). This field governs which **non-Copilot** bots' PR
+  review-comment acknowledgements may be classified as structurally
+  ack-only by the helper evidence layer (Copilot has its own dedicated
+  advisory-wait protocol, scoped separately); CodeRabbit is this
+  repository's only configured **non-Copilot** advisory reviewer
+  (`.coderabbit.yaml`; see "PR Review Policy" above, which keeps both
+  GitHub Copilot and CodeRabbit enabled as advisory reviewers).
+  Separately, the `idd-suggest-untrusted-labelers`
   helper (run 2026-09-12, a read-only scan of this repository's actual
   label history across 2080 scanned events) shows zero observed
   activity from `chatgpt-codex-connector[bot]` — corroborating, not the

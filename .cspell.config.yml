@@ -8,6 +8,7 @@ import:
 version: '0.2'
 words:
   - aicommits
+  - dofork
   - GHEC
   - GHES
   - idd
@@ -15,11 +16,14 @@ words:
   - kurone
   - minimizable
   - ministral
+  - nektos
   - nvmrc
+  - remediations
   - rollup
   - tsfile
   - unmigrated
   - unmirrored
   - unrouted
   - unrs
+  - vrchat
   - WHATWG

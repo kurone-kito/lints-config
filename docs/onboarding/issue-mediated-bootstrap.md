@@ -51,10 +51,11 @@ outside this alternate's own scope.
 
 ## Drafting the bootstrap issue
 
-Draft the bootstrap issue only after Steps 1A-1C conclude ("the
-hearing"): the operator-confirmed placeholder values and the Step 1B
-policy decisions must already be settled, because the issue body has to
-carry them.
+Draft the bootstrap issue only after a confirmed `--hear` transcript
+exists (or, for a session with no helper runtime, after Steps 1A-1C
+conclude by prose — "the hearing"): the operator-confirmed placeholder
+values and the Step 1B policy decisions must already be settled,
+because the issue body has to carry them.
 
 **The issue body must be self-contained.** Unlike a normal IDD issue,
 there is no `.github/idd/config.json` yet in the target repository for
@@ -70,8 +71,13 @@ review-thread resolution policy, and the rest of the list in
 **Pin the process reference.** The issue's process section must point
 at idd-skill's own canonical `idd-template/ONBOARDING.md` Steps 2
 (fetch or copy template files), 4 (replace placeholders), 5 (update
-agent entry files), and 6 (verification checklist) — pinned to a
-specific released tag or commit SHA, for example:
+agent entry files), and 6 (verification checklist), plus
+[Onboarding Reference — Project Tuning](project-tuning.md) for the
+judgment calls those steps do not cover (helper-runtime profile
+wiring, non-default review-policy artifacts, extra trusted marker
+actors, the reserved-label guard, and the issue-authoring companion
+install/destination) — pinned to a specific released tag or commit
+SHA, for example:
 
 ```text
 https://raw.githubusercontent.com/kurone-kito/idd-skill/<tag-or-sha>/idd-template/ONBOARDING.md
@@ -205,6 +211,50 @@ single-file direct download documented in `template-distribution.md`'s
 bundle, so it alone does not satisfy this issue's acceptance criterion
 below.
 
+**Prefer embedding the confirmed `--hear` transcript itself.** If the
+hearing produced a confirmed transcript (`--hear --apply`'s or the TTY
+wizard's printed JSON), paste it verbatim as a fenced JSON block in the
+issue body instead of re-typing the Step 1B list from prose — the
+transcript already carries every placeholder and policy answer this
+issue needs, keyed by catalog `id`, and the executing session reads it
+directly rather than re-deriving anything. Only fall back to the
+per-value list below for a no-helper-runtime hearing that produced no
+transcript.
+
+**The raw transcript is not enough for the issue-authoring companion
+item on its own.** The transcript's `issue-authoring-companion` answer
+only carries the operator's real choice (`installed` / `not
+installed`). This bootstrap issue always defers those files (see
+"Do not draft this" below) and, when the real choice is `installed`,
+also needs the confirmed native destination for the companion
+follow-up issue to read later — neither the forced `not installed`
+core-bootstrap override nor the destination has its own transcript
+field. Add both as an explicit override note directly below the
+embedded transcript:
+
+```markdown
+Issue-authoring companion status (core-bootstrap, temporary): not
+installed (always, regardless of the transcript's real
+`issue-authoring-companion` answer — see the note below).
+Issue-authoring companion target state (the transcript's real answer,
+for the companion follow-up issue to read later): <installed, native
+destination `<value>` | not installed>
+```
+
+**The raw transcript is also not enough for a `repository-override`
+claim-timing or `custom-taxonomy` label-names answer.** The catalog's
+`claim-timing` and `idd-label-names` items only capture whether the
+repository overrides the distributed defaults, not the literal
+override values — no catalog field carries the actual ISO-8601
+duration pair or label strings (see
+[Onboarding Reference — Project Tuning](project-tuning.md#claim-timing-overrides-and-custom-label-names)
+for the same gap on the direct-import path). When either answer is not
+`distributed-defaults`, add the literal values as an explicit override
+block alongside the embedded transcript, using that same reference's
+field names (`claimTiming.staleAge` / `claimTiming.heartbeatInterval`,
+or `labels.roadmapLabelName` / `labels.blockedByHumanLabelName` /
+`labels.needsDecisionLabelName`).
+
 Use these operator-confirmed values, already collected during the
 hearing (Steps 1A-1C), instead of re-deriving them:
 
@@ -319,10 +369,14 @@ placeholder in
 that value is derived. The suitability score of `1` reflects that
 Discover structurally cannot route this issue pre-import, not a quality
 judgment about the change itself; per the issue-authoring skill's
-contract, a score of `1` also carries the `status:blocked-by-human`
-label, which correctly signals that this issue needs a human or a
-narrowly-scoped, pre-authorized agent rather than the ordinary
-autonomous loop. Use the operator-confirmed `labels.blockedByHumanLabelName`
+contract, a score of `1` carries the configured `blocked-by-human` label
+(default `status:blocked-by-human`), unless an
+`authoring-bucket: needs-decision` marker substitutes the
+configured needs-decision label instead (see
+[Authoring-bucket marker](https://github.com/kurone-kito/idd-skill/blob/main/skills/issue-authoring/references/contract.md#authoring-bucket-marker))
+— here the label applies, correctly signaling that this issue needs a
+human or a narrowly-scoped, pre-authorized agent rather than the
+ordinary autonomous loop. Use the operator-confirmed `labels.blockedByHumanLabelName`
 value from Step 1B for both issue publication and label creation below —
 default to `status:blocked-by-human` only when that default was actually
 selected, never unconditionally. A pre-import repository may not have

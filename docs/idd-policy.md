@@ -315,6 +315,19 @@ hours, not minutes. Adopted values:
   declaration policy actually has an effect, making
   `idd-advisory-convergence`'s external-check-waiver path usable during
   a sustained Copilot/Actions outage for the first time.
+- **Scope: advisory-bot outage vs. a GitHub Actions platform outage.**
+  The waiver above only relieves the case where `idd-advisory-convergence`
+  itself keeps running (GitHub Actions is up) but stays blocked because
+  the advisory bot has not reviewed -- there, a real check-run exists for
+  the waiver to override. It does **not** help when GitHub Actions itself
+  is down: no check-run is ever produced to waive, GitHub's required-check
+  topology stays non-waivable by the IDD contract regardless of waiver
+  mode, and `pre-merge-readiness` treats an unavailable required check as
+  informational-only, so the merge still queues
+  (`docs/policy-constants.md`'s External-Check Waiver Defaults and Local
+  Validation Evidence Defaults). An Actions-platform outage is instead
+  handled by `maxParkedChanges` above: sessions stop claiming new issues
+  and let affected pull requests sit parked until the platform recovers.
 
 ## Up-to-Date-Head Ruleset
 

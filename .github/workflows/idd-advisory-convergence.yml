@@ -25,14 +25,22 @@ name: IDD advisory-convergence gate
 # (PowerShell Core on Windows) would otherwise silently misinterpret
 # this file's POSIX shell syntax.
 #
-# Adapted for this repository: `actions/checkout`, `pnpm/action-setup`,
-# and `actions/setup-node` are pinned to the commit SHAs already used
-# elsewhere in this repository (issue #183's convention, matching
-# idd-doctor.yml / push-feature.yml). `pnpm/action-setup` primes the
-# `pnpm` binary so `actions/setup-node`'s `cache: pnpm` option can find
-# it; the actual dependency install still runs entirely through the
-# upstream "Install dependencies (package-manager profile)" step below
-# (unmodified) -- no separate or duplicate install step is added. The
+# Adapted for this repository: `actions/checkout` and `actions/setup-node`
+# are pinned to the commit SHAs already used elsewhere in this repository
+# (issue #183's convention, matching idd-doctor.yml / push-feature.yml),
+# with `actions/setup-node` left at the template's own plain
+# `node-version: 24.x` (no `cache: pnpm`, no `pnpm/action-setup`) rather
+# than this repository's `idd-doctor.yml`/`push-feature.yml` convention --
+# this file's own generic profile/manager resolution runs `vendored-node`,
+# `package-manager` (any of npm/pnpm/yarn), and `ephemeral-npx` adopters
+# through the identical steps, so pinning Node setup to a pnpm-only cache
+# ahead of that resolution would break the non-pnpm branches it is meant
+# to keep supporting (Copilot review, PR #328) even though this
+# repository itself always resolves `package-manager`/pnpm. The actual
+# dependency install still runs entirely through the upstream "Install
+# dependencies (package-manager profile)" step below (only its `pnpm)`
+# case gained this repository's own `HUSKY=0` / `--prefer-offline`
+# hardening) -- no separate or duplicate install step is added. The
 # invocation itself needs no hand-editing: `package.json` declares
 # `"packageManager": "pnpm@..."` explicitly, so the "Detect package
 # manager" step below always resolves `pnpm` deterministically (never
@@ -256,16 +264,10 @@ jobs:
         run: |
           echo "::error::This repository hosts idd-advisory-convergence as a required check but resolves helperRuntime.profile to instructions-only (no runnable helper command). Configure helperRuntime.profile in .github/idd/config.json, or stop hosting this workflow as a required check."
           exit 1
-      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
-        if: steps.profile.outputs.profile != 'instructions-only'
-        with:
-          run_install: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         if: steps.profile.outputs.profile != 'instructions-only'
         with:
-          cache: pnpm
-          check-latest: true
-          node-version-file: .node-version
+          node-version: 24.x
       - name: Detect package manager
         id: manager
         if: steps.profile.outputs.profile == 'package-manager'
@@ -552,10 +554,19 @@ jobs:
           # would leave every other profile's own migration-via-config
           # fix unable to trigger this bypass, the exact trap this
           # mechanism exists to escape.
+          # kurone-kito/lints-config#328 (Copilot review): the upstream
+          # template ships this array with its comment-refresh companion
+          # `idd-advisory-convergence-comment.yml` included, since it
+          # normally ships as part of the same pair -- this repository
+          # deliberately does not adopt that companion workflow
+          # (docs/idd-policy.md), so keeping its path here would let an
+          # unrelated future PR that merely adds or edits that file
+          # (for example, landing #314) receive this check's
+          # self-referential-bootstrap-auto waiver for free, even though
+          # its diff has nothing to do with this checker's own logic.
           ALLOWLIST=(
             ".github/idd/config.json"
             ".github/workflows/idd-advisory-convergence.yml"
-            ".github/workflows/idd-advisory-convergence-comment.yml"
           )
           case "$PROFILE" in
             vendored-node)
@@ -575,6 +586,16 @@ jobs:
                 "package.json"
                 "package-lock.json"
                 "pnpm-lock.yaml"
+                # kurone-kito/lints-config#328 (Copilot review): this
+                # repository's own pnpm-workspace.yaml controls the
+                # allowBuilds entry required to install the Git-hosted
+                # helper (docs/onboarding/policy-decisions.md's
+                # allowBuilds guidance); a PR that only repairs that
+                # entry would otherwise go unrecognized as
+                # self-referential while this job checks out the
+                # trusted `main`, leaving the required check blocked on
+                # the very installation contract that PR fixes.
+                "pnpm-workspace.yaml"
                 "yarn.lock"
               )
               ;;
@@ -620,12 +641,6 @@ jobs:
         if: steps.allowlist.outputs.touched == 'true' && steps.profile.outputs.profile == 'instructions-only'
         run: |
           echo "::notice::helperRuntime.profile resolves to instructions-only (no runnable helper command), so idd-advisory-convergence-self-waiver has nothing to run for this PR and exits successfully without posting a waiver. Configure helperRuntime.profile in .github/idd/config.json to enable auto-posting for PRs that touch this check's own trigger-file allowlist."
-      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
-        # Same allowlist-touch gating as actions/setup-node below -- see
-        # its own comment for why.
-        if: steps.profile.outputs.profile != 'instructions-only' && steps.allowlist.outputs.touched == 'true'
-        with:
-          run_install: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         # kurone-kito/idd-skill#2657 (Copilot review, PR #2895, round 16):
         # also gated on the allowlist-touch result, matching the
@@ -635,9 +650,7 @@ jobs:
         # for a PR this job has no reason to act on at all.
         if: steps.profile.outputs.profile != 'instructions-only' && steps.allowlist.outputs.touched == 'true'
         with:
-          cache: pnpm
-          check-latest: true
-          node-version-file: .node-version
+          node-version: 24.x
       - name: Detect package manager
         id: manager
         # kurone-kito/idd-skill#2657 (Codex review, PR #2895, round 10):

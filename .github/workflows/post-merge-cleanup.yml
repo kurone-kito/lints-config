@@ -2,15 +2,25 @@
 # with base-repository permissions and secrets even for pull requests from
 # forks. That is safe here only because all of the following hold, and any
 # future edit to this file must preserve them:
-#   - No unreviewed PR-head content is ever checked out: the sole
-#     `actions/checkout` step below carries no `ref:` override, so it
-#     resolves to the `pull_request_target` default -- the base branch's
-#     tip at event time. Because the job only proceeds when
-#     `merged == true`, that tip already includes this PR's own merge
-#     (a repository that merges via merge commits typically sees that
-#     merge commit itself) -- it is never the PR's own head SHA, and
-#     never content that has not already passed through the merge
-#     decision.
+#   - No unreviewed PR-head content is ever checked out: for
+#     `pull_request_target`, the sole `actions/checkout` step below
+#     carries no `ref:` override (an empty-string expression, which
+#     `actions/checkout` treats the same as omitting it), so it resolves
+#     to that trigger's own default -- the base branch's tip at event
+#     time. Because the job only proceeds when `merged == true`, that tip
+#     already includes this PR's own merge (a repository that merges via
+#     merge commits typically sees that merge commit itself) -- it is
+#     never the PR's own head SHA, and never content that has not already
+#     passed through the merge decision. For `workflow_dispatch`, that
+#     same default-resolution behavior would instead check out whatever
+#     ref the dispatcher selected -- not necessarily the trusted default
+#     branch -- so the `ref:` expression pins that trigger explicitly to
+#     `main` instead (kurone-kito/lints-config#328, Copilot review):
+#     otherwise a dispatch against an arbitrary feature/PR ref would
+#     install and run that ref's own package scripts and cleanup helper
+#     with this job's `issues: write` / `pull-requests: write`
+#     permissions, defeating the trusted-checkout guarantee this bullet
+#     exists to state.
 #   - No PR-head code, workflow, or action is ever executed; nothing from
 #     the PR diff ever runs. Under `vendored-node` and `package-manager`,
 #     the cleanup-audit invocation names only a script or package this
@@ -44,7 +54,9 @@
 #   - `permissions:` stays least-privilege: `contents: read`,
 #     `issues: write`, `pull-requests: write` -- no `contents: write` and
 #     no elevated or secret-bearing scopes.
-# If a future change adds a `ref:` override on the checkout step, downloads
+# If a future change alters the `ref:` expression above to resolve to
+# anything other than the trusted default branch for `workflow_dispatch`
+# (or the trigger's own safe default for `pull_request_target`), downloads
 # or executes PR-head content, widens `permissions:`, or removes the
 # merged-only guard, re-review this trust model before merging that change.
 #
@@ -100,6 +112,13 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          # kurone-kito/lints-config#328 (Copilot review): explicitly pin
+          # workflow_dispatch to the trusted default branch -- see the
+          # trust-model header comment above for why. Empty string for
+          # every other trigger keeps actions/checkout's own default
+          # resolution (pull_request_target's base-branch tip at event
+          # time), unchanged from before this pin was added.
+          ref: ${{ github.event_name == 'workflow_dispatch' && 'main' || '' }}
           fetch-depth: 1
           persist-credentials: false
       - name: Resolve helper-runtime profile
@@ -210,6 +229,14 @@ jobs:
         if: steps.profile.outputs.profile == 'package-manager' && steps.manager.outputs.manager != 'ambiguous'
         env:
           MANAGER: ${{ steps.manager.outputs.manager }}
+          # kurone-kito/lints-config#328 (Copilot review): this
+          # repository's root install runs a `prepare` script that
+          # invokes husky and writes git-hook configuration -- pure
+          # overhead this ephemeral runner has no use for, and a
+          # potential failure point on a runner that restricts hook
+          # installation. Suppressed the same way idd-advisory-convergence.yml's
+          # own install step already does.
+          HUSKY: 0
         run: |
           case "$MANAGER" in
             pnpm)

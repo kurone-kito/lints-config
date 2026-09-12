@@ -28,34 +28,76 @@ name: IDD advisory-convergence gate
 # Adapted for this repository: `actions/checkout`, `pnpm/action-setup`,
 # and `actions/setup-node` are pinned to the commit SHAs already used
 # elsewhere in this repository (issue #183's convention, matching
-# idd-doctor.yml / push-feature.yml), and the invocation step runs
-# `pnpm exec idd-advisory-convergence` (this repository's
-# package-manager helper-runtime profile) instead of the template's
-# vendored-node `node scripts/advisory-convergence.mjs` form -- both
-# changes the template's own comments below call out as expected local
-# adaptation. The portable `runs-on:` CI_RUNNER_LABEL fallback form is
-# kept at `ubuntu-latest`, not bumped to the template's new
-# `ubuntu-slim` shipped default, per the issue's explicit instruction
-# not to hardcode a custom runner label (roadmap
+# idd-doctor.yml / push-feature.yml). `pnpm/action-setup` primes the
+# `pnpm` binary so `actions/setup-node`'s `cache: pnpm` option can find
+# it; the actual dependency install still runs entirely through the
+# upstream "Install dependencies (package-manager profile)" step below
+# (unmodified) -- no separate or duplicate install step is added. The
+# invocation itself needs no hand-editing: `package.json` declares
+# `"packageManager": "pnpm@..."` explicitly, so the "Detect package
+# manager" step below always resolves `pnpm` deterministically (never
+# the `ambiguous` branch), and the final invocation step's own
+# `package-manager` / `pnpm` case already runs `pnpm exec
+# idd-advisory-convergence` -- both changes the template's own comments
+# below call out as expected local adaptation. The portable `runs-on:`
+# CI_RUNNER_LABEL fallback form is kept at `ubuntu-latest`, not bumped to
+# the template's new `ubuntu-slim` shipped default, per the issue's
+# explicit instruction not to hardcode a custom runner label (roadmap
 # kurone-kito/lints-config#283, decision 4). The upstream companion
 # `idd-advisory-convergence-comment.yml` workflow this version's
 # concurrency comment references is deliberately not adopted in this
 # repository (same roadmap, decision 3) -- see `docs/idd-policy.md`.
+#
+# Profile resolution: mirrors post-merge-cleanup.yml's
+# helperRuntime.profile resolution and per-step `if:` gating (see its
+# header for the full profile contract). This file diverges from that
+# pattern in one place: because this job is the required-check verdict
+# itself (not a best-effort cleanup with an agent-side fallback), an
+# `instructions-only` profile fails the job outright instead of
+# skipping -- a required check whose steps all silently skip would
+# report `success`, turning the merge gate into an unconditional
+# rubber stamp. The same applies when `package-manager` resolves but
+# which package manager to use is ambiguous (see "Detect package
+# manager" below): "Fail closed on ambiguous package manager" stops the
+# job outright rather than silently skipping.
 concurrency:
   cancel-in-progress: true
-  # Grouped by PR number, not github.ref: pull_request_review is not a
-  # pull_request-family event, so github.ref does not resolve the same
-  # way for it as it does for a pull_request-only workflow.
-  # Review-thread comments live in the companion
+  # Grouped by PR number, not github.ref: pull_request_target resolves
+  # github.ref to the base branch (the same value for every PR targeting
+  # it), so grouping by ref would collapse unrelated PRs into one slot.
+  # Review-thread comments and review submissions live in the companion
   # idd-advisory-convergence-comment.yml workflow and must not share
-  # this group. workflow_dispatch has no pull_request context either,
-  # so it falls back to its own input.
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || inputs.pr_number }}
+  # this group. Isolate workflow_dispatch so a manual re-check cannot
+  # cancel an in-flight PR-linked run.
+  #
+  # kurone-kito/idd-skill#2657 (Codex review, PR #2895): also isolate
+  # pull_request from pull_request_target (previously grouped together)
+  # -- both fire on the same opened/synchronize PR event, so whichever
+  # instance started later could cancel the other mid-run, including the
+  # pull_request_target instance's own idd-advisory-convergence-self-
+  # waiver job, which would then never finish posting the bootstrap
+  # marker for that push (a cancelled run is not itself a new trigger,
+  # so recovery would need a manual rerun -- defeating the whole
+  # no-human-click point of that job). A new push still correctly
+  # cancels a STALE run of the SAME event type for the same PR.
+  group: ${{ github.workflow }}-${{ github.event_name == 'workflow_dispatch' && format('dispatch-{0}', inputs.pr_number) || format('{0}-{1}', github.event_name, github.event.pull_request.number || inputs.pr_number) }}
 on:
+  # Trigger-migration transition state: pull_request is evaluated
+  # against the pull request's own merge ref, so a same-repository PR
+  # could edit this file's copy to force its own required check green.
+  # pull_request_target closes that gap -- it is evaluated against the
+  # base branch's own workflow YAML instead -- but cannot fire against
+  # the PR that first adds or edits this trigger, only against PRs
+  # opened afterward, so both stay active together rather than a
+  # single-PR replacement that would leave the implementing PR unable
+  # to satisfy its own required check. Drop pull_request once this has
+  # run cleanly on production PRs for a period. pull_request_review
+  # moved to the companion idd-advisory-convergence-comment.yml
+  # workflow instead of staying here, for the identical reason.
   pull_request:
     types: [opened, reopened, synchronize]
-  pull_request_review:
-    types: [submitted]
+  pull_request_target:
+    types: [opened, reopened, synchronize]
   workflow_dispatch:
     inputs:
       pr_number:
@@ -105,6 +147,40 @@ jobs:
     # once you have history (see idd-doctor.yml/lint.yml in the source
     # repository for the pattern of sizing this from real run durations).
     timeout-minutes: 10
+    # kurone-kito/idd-skill#2657 (Codex review, PR #2895): sequenced after
+    # the self-waiver job below so an allowlisted PR's own bootstrap
+    # marker is guaranteed to exist (posted or definitively not posted)
+    # before this job ever fetches PR comments -- without this ordering,
+    # the two jobs share no dependency and start in parallel, so this
+    # (typically much faster) job can read comments and fail BEFORE the
+    # self-waiver job finishes its diff check, claim resolution, and
+    # posting call. Since posting a PR comment is not one of this
+    # workflow's own trigger events, that race would leave the required
+    # check red until an unrelated push or manual rerun -- defeating the
+    # whole "no human click required" point of the bootstrap path.
+    # `if: ${{ !cancelled() }}` overrides `needs:`'s own default (a
+    # skipped dependency job skips its dependents too) -- this job must
+    # still run on every trigger, including `workflow_dispatch` or a
+    # `pull_request` run where the self-waiver job's own `if:` skips it
+    # outright, and a non-allowlisted PR where it runs but posts nothing.
+    needs: idd-advisory-convergence-self-waiver
+    if: ${{ !cancelled() }}
+    # Job-level override of the workflow-level `permissions:` block above,
+    # adding `actions: read` (Codex review, PR #2895): `port.getWorkflowRun`
+    # (the self-referential-bootstrap-auto trust verification) calls
+    # `GET /repos/{owner}/{repo}/actions/runs/{id}`, which needs this scope
+    # explicitly in a private repository (an unspecified `GITHUB_TOKEN`
+    # permission defaults to `none`, not inherited from the repository's
+    # own default). A job-level block replaces the workflow-level one
+    # entirely rather than adding to it, so every previously-granted scope
+    # is repeated here too. The self-waiver job below never calls this
+    # endpoint, so its own job-level permissions (unaffected by this one)
+    # do not need this scope.
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+      actions: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -120,19 +196,154 @@ jobs:
           # what is checked out locally.
           ref: main
           persist-credentials: false
+      - name: Resolve helper-runtime profile
+        id: profile
+        run: |
+          # Fail-closed default, mirroring idd-doctor.mjs's
+          # resolveConfiguredHelperRuntime: an absent, unreadable, or
+          # invalid config -- or one that simply omits helperRuntime --
+          # resolves to instructions-only (no runnable command), never a
+          # guess at a runnable profile. Validates the WHOLE
+          # helperRuntime object -- object type, only "profile"/
+          # "packageSpec" keys, profile enum membership, packageSpec
+          # shell-safe-character allowlist -- against the same rules as
+          # policy-helpers.mts's inspectHelperRuntimeConfig, instead of
+          # only the "profile" field, so a malformed sibling field
+          # cannot silently activate a profile the canonical validator
+          # would reject.
+          PROFILE="instructions-only"
+          PACKAGE_SPEC=""
+          if ! command -v jq >/dev/null 2>&1; then
+            # Distinguish "jq is missing" from a genuine instructions-only
+            # config: without jq, no config file can be parsed at all, so
+            # this would otherwise silently masquerade as an intentional
+            # instructions-only choice. GitHub-hosted runner images ship
+            # jq by default; this only bites a jq-less self-hosted runner.
+            echo "::warning::jq is not available on this runner, so helperRuntime.profile cannot be resolved; treating as instructions-only. Install jq on this runner, or use a runner image that provides it."
+          else
+            for CANDIDATE in .github/idd/config.json idd-policy.json; do
+              if [ -f "$CANDIDATE" ]; then
+                if RESOLVED=$(jq -r '
+                  (.helperRuntime) as $hr
+                  | ($hr != null and ($hr|type) == "object") as $is_object
+                  | if $is_object then
+                      (($hr | keys) - ["profile","packageSpec"]) as $extra
+                      | ($hr.profile) as $profile
+                      | ($extra | length == 0) as $keys_ok
+                      | ($profile != null and ($profile|type) == "string" and ($profile|length) > 0 and (["vendored-node","package-manager","ephemeral-npx","instructions-only"] | index($profile)) != null) as $profile_ok
+                      | (if ($hr | has("packageSpec")) then
+                           ($hr.packageSpec) as $spec
+                           | ($spec != null and ($spec|type) == "string" and ($spec | test("\\A[A-Za-z0-9@:/_.+^#%-]+\\z")))
+                         else true end) as $spec_ok
+                      | if ($keys_ok and $profile_ok and $spec_ok) then
+                          "\($hr.profile)\t\($hr.packageSpec // "")"
+                        else empty end
+                    else empty end
+                ' "$CANDIDATE" 2>/dev/null) && [ -n "$RESOLVED" ]; then
+                  IFS=$'\t' read -r PROFILE PACKAGE_SPEC <<<"$RESOLVED"
+                fi
+                # First present candidate file wins outright, valid or not
+                # -- never fall through to the legacy idd-policy.json name
+                # once the canonical file has been evaluated.
+                break
+              fi
+            done
+          fi
+          echo "profile=$PROFILE" >> "$GITHUB_OUTPUT"
+          echo "package-spec=$PACKAGE_SPEC" >> "$GITHUB_OUTPUT"
+      - name: Fail closed when no helper runtime is configured
+        if: steps.profile.outputs.profile == 'instructions-only'
+        run: |
+          echo "::error::This repository hosts idd-advisory-convergence as a required check but resolves helperRuntime.profile to instructions-only (no runnable helper command). Configure helperRuntime.profile in .github/idd/config.json, or stop hosting this workflow as a required check."
+          exit 1
       - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        if: steps.profile.outputs.profile != 'instructions-only'
         with:
           run_install: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        if: steps.profile.outputs.profile != 'instructions-only'
         with:
           cache: pnpm
           check-latest: true
           node-version-file: .node-version
-      - env:
-          HUSKY: 0
-        name: Install the dependencies
-        run: pnpm install --frozen-lockfile --prefer-offline
-      - env:
+      - name: Detect package manager
+        id: manager
+        if: steps.profile.outputs.profile == 'package-manager'
+        run: |
+          # Same precedence as helper-runtime-manifest.mts's own
+          # collectHelperRuntimeEvidence for the "declared field" and
+          # "exactly one lockfile" cases: an explicit package.json
+          # "packageManager" field wins, then lockfile presence when
+          # exactly one supported lockfile exists. When more than one
+          # supported lockfile coexists with no declared field, this
+          # mirrors collectHelperRuntimeEvidence's own "do not guess an
+          # install path" stance (ambiguousPackageManager) instead of
+          # silently picking by a fixed pnpm/npm/yarn priority order,
+          # which could select a manager whose lockfile lacks the IDD
+          # helper dependency and fail with a confusing error. When
+          # there is no evidence at all (no declared field, no
+          # lockfile), this is a workflow-specific fallback to npm, NOT
+          # a mirror of collectHelperRuntimeEvidence (which leaves the
+          # manager unset in that case, cascading to instructions-only
+          # via recommendHelperRuntimeProfile) -- npm ships with every
+          # setup-node Node.js install, so defaulting to it here is
+          # safe even though the canonical onboarding recommender is
+          # more conservative about "no evidence" (idd-skill#2392).
+          MANAGER=$(node -e "
+            const fs = require('node:fs');
+            let declared = '';
+            try {
+              const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+              declared = String(pkg.packageManager || '').split('@')[0];
+            } catch {
+              // No readable package.json: fall through to lockfile detection.
+            }
+            if (['npm', 'pnpm', 'yarn'].includes(declared)) {
+              console.log(declared);
+            } else {
+              const lockfiles = [
+                ['pnpm-lock.yaml', 'pnpm'],
+                ['package-lock.json', 'npm'],
+                ['yarn.lock', 'yarn'],
+              ].filter(([file]) => fs.existsSync(file));
+              if (lockfiles.length === 1) {
+                console.log(lockfiles[0][1]);
+              } else if (lockfiles.length === 0) {
+                console.log('npm');
+              } else {
+                console.log('ambiguous');
+              }
+            }
+          ")
+          if [ "$MANAGER" = "ambiguous" ]; then
+            echo "::warning::Multiple package-manager lockfiles were found with no declared \"packageManager\" field in package.json; refusing to guess which one to use. Add a \"packageManager\": \"<name>@<version>\" field to package.json, or remove the stale lockfile(s)."
+          fi
+          echo "manager=$MANAGER" >> "$GITHUB_OUTPUT"
+      - name: Fail closed on ambiguous package manager
+        if: steps.manager.outputs.manager == 'ambiguous'
+        run: |
+          echo "::error::This repository hosts idd-advisory-convergence as a required check with helperRuntime.profile resolved to package-manager, but multiple package-manager lockfiles were found with no declared \"packageManager\" field in package.json, so which manager to use cannot be determined. Add a \"packageManager\": \"<name>@<version>\" field to package.json, or remove the stale lockfile(s)."
+          exit 1
+      - name: Install dependencies (package-manager profile)
+        if: steps.profile.outputs.profile == 'package-manager'
+        env:
+          MANAGER: ${{ steps.manager.outputs.manager }}
+        run: |
+          case "$MANAGER" in
+            pnpm)
+              corepack enable
+              pnpm install --frozen-lockfile
+              ;;
+            yarn)
+              corepack enable
+              yarn install --frozen-lockfile
+              ;;
+            *)
+              npm ci
+              ;;
+          esac
+      - name: Run advisory-convergence check
+        env:
           GH_TOKEN: ${{ github.token }}
           # gh reads whichever of these two matches its resolved host
           # (`gh help environment`), so setting both is inert on
@@ -145,8 +356,510 @@ jobs:
           # quoted shell variable rather than interpolating the `${{ }}`
           # expression directly into the run: script.
           PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
-        # package-manager profile: the wired idd:advisory-convergence bin,
-        # not the template's vendored-node node scripts/... invocation --
-        # per the header comment above, adjusted to this repository's
-        # helper-runtime profile.
-        run: pnpm exec idd-advisory-convergence --pr "$PR_NUMBER" --assert
+          PROFILE: ${{ steps.profile.outputs.profile }}
+          PACKAGE_SPEC: ${{ steps.profile.outputs.package-spec }}
+          MANAGER: ${{ steps.manager.outputs.manager }}
+        run: |
+          if [ -z "$PR_NUMBER" ]; then
+            echo "::error::PR_NUMBER is empty"
+            exit 1
+          fi
+          case "$PROFILE" in
+            vendored-node)
+              node scripts/advisory-convergence.mjs --pr "$PR_NUMBER" --assert
+              ;;
+            package-manager)
+              case "$MANAGER" in
+                pnpm)
+                  pnpm exec idd-advisory-convergence --pr "$PR_NUMBER" --assert
+                  ;;
+                yarn)
+                  yarn idd-advisory-convergence --pr "$PR_NUMBER" --assert
+                  ;;
+                *)
+                  # npm requires a literal `--` before forwarded flags;
+                  # pnpm/yarn above do not.
+                  npm exec idd-advisory-convergence -- --pr "$PR_NUMBER" --assert
+                  ;;
+              esac
+              ;;
+            ephemeral-npx)
+              SPEC="${PACKAGE_SPEC:-https://codeload.github.com/kurone-kito/idd-skill/tar.gz/refs/heads/main}"
+              npx --yes --package "$SPEC" idd-advisory-convergence --pr "$PR_NUMBER" --assert
+              ;;
+            *)
+              # Unreachable by construction (the profile-resolution step
+              # only ever emits one of the four known profile values, and
+              # instructions-only already failed the job above), but a
+              # required check must never silently no-op and report
+              # success on an unexpected profile value.
+              echo "::error::unrecognized helper-runtime profile \"$PROFILE\""
+              exit 1
+              ;;
+          esac
+
+  # kurone-kito/idd-skill#2657: optional companion job -- a PR that fixes
+  # this gate's own checking logic (or a handful of directly-related
+  # files) can never benefit from its own fix while unmerged, because the
+  # verdict job above always runs the version checked out from `main`.
+  # This job auto-posts a narrowly-scoped, run-bound
+  # `idd-external-check-waiver` marker for exactly that case. See
+  # docs/idd-helper-scripts.md's "External-check waiver contract"
+  # (self-referential-bootstrap-auto section) for the full trust model
+  # and the seven acceptance conditions (kurone-kito/idd-skill#2912 added
+  # two run-provenance conditions to the original five)
+  # `advisory-convergence.mts` verifies before ever honoring the marker --
+  # this job's only role is to detect the trigger and post it; trust is
+  # established entirely at consume time, not here.
+  #
+  # `if: pull_request_target` only, never `pull_request`: a
+  # same-repository PR editing this YAML could otherwise also run this
+  # job under a `pull_request`-triggered instance it fully controls. The
+  # consumer's fourth trust condition (the marker's `run-id:` must
+  # resolve to a `pull_request_target`-triggered run) would reject a
+  # marker from that instance anyway, but gating the job itself here
+  # avoids granting `issues: write` under an untrusted-YAML trigger in
+  # the first place.
+  #
+  # This job duplicates the verdict job's own profile-resolution and
+  # dependency-install steps rather than sharing them via `needs:` +
+  # job outputs: this template's workflows are each single-job by
+  # convention, and the duplication keeps this job independently
+  # copy-and-adjustable (or removable) without touching the required
+  # verdict job above.
+  idd-advisory-convergence-self-waiver:
+    if: github.event_name == 'pull_request_target'
+    runs-on: ${{ inputs.runner || vars.CI_RUNNER_LABEL || 'ubuntu-latest' }}
+    timeout-minutes: 10
+    # Narrower than the verdict job's read-only posture above: this job
+    # additionally needs `pull-requests: read` (to diff and fetch the PR)
+    # and `issues: write` (to post the marker, and to read the linked
+    # issue's own comment stream to resolve its active claim -- the
+    # PR-conversation-comment endpoint and the linked-issue-comment
+    # endpoint are both gated under the Issues permission category, same
+    # as the verdict job's own header comment already notes for reads).
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Trusted default-branch checkout, not the PR head -- see the
+          # verdict job's own comment above for the full rationale. This
+          # job's posting logic (external-check-waiver) must be the
+          # trusted copy too, or a PR could edit it to post a
+          # differently-shaped marker or waive an unrelated check.
+          ref: main
+          persist-credentials: false
+      - name: Resolve helper-runtime profile
+        id: profile
+        run: |
+          PROFILE="instructions-only"
+          PACKAGE_SPEC=""
+          if ! command -v jq >/dev/null 2>&1; then
+            echo "::warning::jq is not available on this runner, so helperRuntime.profile cannot be resolved; treating as instructions-only. Install jq on this runner, or use a runner image that provides it."
+          else
+            for CANDIDATE in .github/idd/config.json idd-policy.json; do
+              if [ -f "$CANDIDATE" ]; then
+                if RESOLVED=$(jq -r '
+                  (.helperRuntime) as $hr
+                  | ($hr != null and ($hr|type) == "object") as $is_object
+                  | if $is_object then
+                      (($hr | keys) - ["profile","packageSpec"]) as $extra
+                      | ($hr.profile) as $profile
+                      | ($extra | length == 0) as $keys_ok
+                      | ($profile != null and ($profile|type) == "string" and ($profile|length) > 0 and (["vendored-node","package-manager","ephemeral-npx","instructions-only"] | index($profile)) != null) as $profile_ok
+                      | (if ($hr | has("packageSpec")) then
+                           ($hr.packageSpec) as $spec
+                           | ($spec != null and ($spec|type) == "string" and ($spec | test("\\A[A-Za-z0-9@:/_.+^#%-]+\\z")))
+                         else true end) as $spec_ok
+                      | if ($keys_ok and $profile_ok and $spec_ok) then
+                          "\($hr.profile)\t\($hr.packageSpec // "")"
+                        else empty end
+                    else empty end
+                ' "$CANDIDATE" 2>/dev/null) && [ -n "$RESOLVED" ]; then
+                  IFS=$'\t' read -r PROFILE PACKAGE_SPEC <<<"$RESOLVED"
+                fi
+                break
+              fi
+            done
+          fi
+          echo "profile=$PROFILE" >> "$GITHUB_OUTPUT"
+          echo "package-spec=$PACKAGE_SPEC" >> "$GITHUB_OUTPUT"
+      - name: Detect self-referential trigger-file allowlist touch
+        id: allowlist
+        # kurone-kito/idd-skill#2657 (Codex review, PR #2895, round 10):
+        # runs BEFORE any profile-specific setup below that can fail
+        # closed (ambiguous package manager, a broken lockfile install) --
+        # this step needs only `gh`/`jq`/bash, never node, so nothing
+        # below is a prerequisite for it. Detecting the touch first lets
+        # the profile-specific setup steps skip entirely for the vast
+        # majority of PRs that never touch the allowlist at all (see each
+        # step's own added `steps.allowlist.outputs.touched == 'true'`
+        # condition below), instead of failing this job on every PR for a
+        # repository whose current package-manager setup happens to be
+        # broken. A PR that migrates away from a genuinely broken
+        # package-manager setup (the profile-migration case two commits
+        # ago) still cannot post through THAT profile's own broken
+        # runtime -- unavoidable, since posting still needs a working
+        # `pnpm exec`/`npm exec`/`yarn` invocation for that profile
+        # specifically -- but this ordering at least stops a broken
+        # lockfile from blocking every OTHER allowlisted PR that never
+        # depended on package-manager health in the first place (e.g. one
+        # fixing package.json/the lockfile itself, already an allowlisted
+        # path).
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_ENTERPRISE_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PROFILE: ${{ steps.profile.outputs.profile }}
+        run: |
+          # kurone-kito/idd-skill#2657 (Codex + Copilot review, PR #2895):
+          # the checker's own file surface differs by
+          # helperRuntime.profile -- a vendored-node adopter runs the
+          # COMPILED scripts/*.mjs (this profile never vends the source
+          # repository's own src/scripts/*.mts; see
+          # idd-helper-scripts.md's vendored-node row), and a
+          # package-manager adopter has no local checker file at all,
+          # upgrading it only through its dependency manifest and
+          # lockfile. Using this source repository's own src/scripts/*.mts
+          # paths unconditionally left the mechanism both non-functional
+          # for its intended adopters (a genuine checker upgrade could
+          # never match) and gameable (a PR could touch a path that does
+          # not exist at all in the adopter's own checkout purely to
+          # satisfy the string match). The two workflow paths and the
+          # runtime config are profile-invariant: every profile's own
+          # checker version pin lives in one of these three or in the
+          # profile-specific paths below.
+          #
+          # kurone-kito/idd-skill#2657 (Codex review, PR #2895, round 8):
+          # .github/idd/config.json is in the base set for EVERY profile,
+          # not only ephemeral-npx (whose own checker-version pin lives
+          # there via helperRuntime.packageSpec). Both this job and the
+          # verdict job check out the trusted default branch, never the
+          # PR head, so a PR that fixes a broken checker by migrating
+          # helperRuntime.profile itself (e.g. package-manager to
+          # ephemeral-npx, to work around a broken lockfile/manager
+          # detection) resolves the OLD, still-broken profile here too --
+          # scoping the config file to only the profile it migrates TO
+          # would leave every other profile's own migration-via-config
+          # fix unable to trigger this bypass, the exact trap this
+          # mechanism exists to escape.
+          ALLOWLIST=(
+            ".github/idd/config.json"
+            ".github/workflows/idd-advisory-convergence.yml"
+            ".github/workflows/idd-advisory-convergence-comment.yml"
+          )
+          case "$PROFILE" in
+            vendored-node)
+              ALLOWLIST+=(
+                "scripts/advisory-convergence.mjs"
+                "scripts/advisory-wait-state.mjs"
+                "scripts/advisory-wait-policy.mjs"
+                "scripts/rerun-advisory-convergence.mjs"
+                "scripts/external-check-waiver.mjs"
+                "scripts/marker-helpers.mjs"
+                "scripts/protocol-helpers.mjs"
+                "scripts/provider-adapter-github.mjs"
+              )
+              ;;
+            package-manager)
+              ALLOWLIST+=(
+                "package.json"
+                "package-lock.json"
+                "pnpm-lock.yaml"
+                "yarn.lock"
+              )
+              ;;
+          esac
+          # kurone-kito/idd-skill#2657 (Codex review, PR #2895): `gh pr
+          # diff --name-only` documents itself as "Display only names of
+          # changed files" -- it reports a renamed file only by its NEW
+          # name, never the old one, so a rename away from an allowlisted
+          # path would leave this check false and post no marker at all.
+          # Read the PR files REST endpoint directly instead, which
+          # reports both `filename` and (when present) `previous_filename`
+          # for a renamed entry.
+          CHANGED=$(gh api "repos/${{ github.repository }}/pulls/$PR_NUMBER/files" \
+            --paginate --jq '.[] | .filename, (.previous_filename // empty)')
+          TOUCHED=false
+          for FILE in "${ALLOWLIST[@]}"; do
+            if grep -qxF "$FILE" <<<"$CHANGED"; then
+              TOUCHED=true
+              break
+            fi
+          done
+          echo "touched=$TOUCHED" >> "$GITHUB_OUTPUT"
+      - name: Notice when no helper runtime is configured
+        # kurone-kito/idd-skill#2657 (Copilot review, PR #2895, round 11):
+        # this used to `exit 1` unconditionally whenever helperRuntime
+        # resolved to instructions-only, failing this optional job on
+        # EVERY pull_request_target trigger for the template's own shipped
+        # default config (which omits helperRuntime, per
+        # docs/idd-helper-scripts.md's import-time selection order) --
+        # including PRs that never touch this check's own trigger-file
+        # allowlist and have no reason to invoke this job at all. That
+        # contradicted the already-documented promise
+        # (idd-template/docs/customization.md's "Self-referential
+        # -bootstrap-auto waiver co-requisite" section): out of the box,
+        # this job exits successfully on every allowlisted-touching PR
+        # too, explaining itself with a notice instead of failing. Gating
+        # on the allowlist-touch result (same reasoning as the
+        # package-manager steps below) and downgrading to `::notice::`
+        # with no `exit 1` makes both true: a PR unrelated to this
+        # mechanism never sees this job at all, and an allowlisted-
+        # touching PR on an unconfigured runtime gets a clear, non-failing
+        # explanation instead of a false-alarm required-check failure.
+        if: steps.allowlist.outputs.touched == 'true' && steps.profile.outputs.profile == 'instructions-only'
+        run: |
+          echo "::notice::helperRuntime.profile resolves to instructions-only (no runnable helper command), so idd-advisory-convergence-self-waiver has nothing to run for this PR and exits successfully without posting a waiver. Configure helperRuntime.profile in .github/idd/config.json to enable auto-posting for PRs that touch this check's own trigger-file allowlist."
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
+        # Same allowlist-touch gating as actions/setup-node below -- see
+        # its own comment for why.
+        if: steps.profile.outputs.profile != 'instructions-only' && steps.allowlist.outputs.touched == 'true'
+        with:
+          run_install: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        # kurone-kito/idd-skill#2657 (Copilot review, PR #2895, round 16):
+        # also gated on the allowlist-touch result, matching the
+        # profile-specific steps below -- without it, this step still
+        # downloaded/configured Node for every non-`instructions-only` PR
+        # even when `touched=false`, an avoidable network/failure surface
+        # for a PR this job has no reason to act on at all.
+        if: steps.profile.outputs.profile != 'instructions-only' && steps.allowlist.outputs.touched == 'true'
+        with:
+          cache: pnpm
+          check-latest: true
+          node-version-file: .node-version
+      - name: Detect package manager
+        id: manager
+        # kurone-kito/idd-skill#2657 (Codex review, PR #2895, round 10):
+        # skip entirely when this PR does not touch the allowlist -- see
+        # the allowlist-detection step's own doc comment above for why
+        # this (and the two steps below) moved after it.
+        if: steps.profile.outputs.profile == 'package-manager' && steps.allowlist.outputs.touched == 'true'
+        run: |
+          MANAGER=$(node -e "
+            const fs = require('node:fs');
+            let declared = '';
+            try {
+              const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+              declared = String(pkg.packageManager || '').split('@')[0];
+            } catch {
+              // No readable package.json: fall through to lockfile detection.
+            }
+            if (['npm', 'pnpm', 'yarn'].includes(declared)) {
+              console.log(declared);
+            } else {
+              const lockfiles = [
+                ['pnpm-lock.yaml', 'pnpm'],
+                ['package-lock.json', 'npm'],
+                ['yarn.lock', 'yarn'],
+              ].filter(([file]) => fs.existsSync(file));
+              if (lockfiles.length === 1) {
+                console.log(lockfiles[0][1]);
+              } else if (lockfiles.length === 0) {
+                console.log('npm');
+              } else {
+                console.log('ambiguous');
+              }
+            }
+          ")
+          if [ "$MANAGER" = "ambiguous" ]; then
+            echo "::warning::Multiple package-manager lockfiles were found with no declared \"packageManager\" field in package.json; refusing to guess which one to use. Add a \"packageManager\": \"<name>@<version>\" field to package.json, or remove the stale lockfile(s)."
+          fi
+          echo "manager=$MANAGER" >> "$GITHUB_OUTPUT"
+      - name: Fail closed on ambiguous package manager
+        if: steps.manager.outputs.manager == 'ambiguous'
+        run: |
+          echo "::error::This job resolves helperRuntime.profile to package-manager, but multiple package-manager lockfiles were found with no declared \"packageManager\" field in package.json, so which manager to use cannot be determined. Add a \"packageManager\": \"<name>@<version>\" field to package.json, or remove the stale lockfile(s)."
+          exit 1
+      - name: Install dependencies (package-manager profile)
+        if: steps.profile.outputs.profile == 'package-manager' && steps.allowlist.outputs.touched == 'true'
+        env:
+          MANAGER: ${{ steps.manager.outputs.manager }}
+        run: |
+          case "$MANAGER" in
+            pnpm)
+              corepack enable
+              pnpm install --frozen-lockfile
+              ;;
+            yarn)
+              corepack enable
+              yarn install --frozen-lockfile
+              ;;
+            *)
+              npm ci
+              ;;
+          esac
+      - name: Post the self-referential-bootstrap-auto waiver
+        # Skip a fork PR entirely: the consumer's run-bound trust check
+        # would reject it anyway (a fork's own workflow run never matches
+        # this repository), so this avoids a doomed post and the API
+        # calls it would cost. Also skip instructions-only explicitly
+        # (kurone-kito/idd-skill#2657, Copilot review, PR #2895, round 11)
+        # instead of relying on the `case` statement's `*)` fallthrough
+        # below to catch it -- that fallthrough exists as defense-in-depth
+        # for a genuinely unrecognized future profile string, not as the
+        # intended route for a profile the "Notice" step above already
+        # explained and let pass without failing the job.
+        if: steps.allowlist.outputs.touched == 'true' && steps.profile.outputs.profile != 'instructions-only' && github.event.pull_request.head.repo.full_name == github.repository
+        id: post-waiver
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_ENTERPRISE_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PROFILE: ${{ steps.profile.outputs.profile }}
+          PACKAGE_SPEC: ${{ steps.profile.outputs.package-spec }}
+          MANAGER: ${{ steps.manager.outputs.manager }}
+        # kurone-kito/idd-skill#2912 (round 2, extended round 3, extended
+        # round 4): every profile branch below pipes its own invocation
+        # through the SAME `tee`, so the common post-processing after the
+        # `case` (reading `applied`/`commentId`/`bodyDigest` back out of
+        # the CLI's own JSON report) is written once rather than
+        # duplicated per profile. `node -e` (never `jq`, whose presence on
+        # the runner is never explicitly asserted, unlike Node's own floor
+        # above) parses it defensively: a parse failure (should not
+        # happen, `tee` writes exactly what stdout produced) degrades to
+        # "nothing to record", never a crashed job. `bodyDigest` is the
+        # SHA-256 hex digest of the posted comment's body, taken ONLY from
+        # the `body` field GitHub's create-comment API response returned
+        # for this exact POST -- round 3 originally preferred a LATER,
+        # separate re-read instead, but round 4 removed that in favor of
+        # the POST response alone, which has no window for an intervening
+        # edit; see `ExternalCheckWaiverReport.bodyDigest`'s own doc
+        # comment in `external-check-waiver.mts`. Absent (empty string
+        # here) whenever that response lacked a body -- the two `if:`
+        # conditions below already fail closed on that via
+        # `body-digest != ''`.
+        run: |
+          case "$PROFILE" in
+            vendored-node)
+              node scripts/external-check-waiver.mjs --pr "$PR_NUMBER" --check idd-advisory-convergence --reason self-referential-bootstrap-auto --run-id "$GITHUB_RUN_ID" --auto-bootstrap --apply --yes | tee /tmp/idd-waiver-report.json
+              ;;
+            package-manager)
+              case "$MANAGER" in
+                pnpm)
+                  pnpm exec idd-external-check-waiver --pr "$PR_NUMBER" --check idd-advisory-convergence --reason self-referential-bootstrap-auto --run-id "$GITHUB_RUN_ID" --auto-bootstrap --apply --yes | tee /tmp/idd-waiver-report.json
+                  ;;
+                yarn)
+                  # kurone-kito/idd-skill#2912 (round 4, Codex review, PR
+                  # #2914): Yarn Classic (v1) writes its own banner
+                  # ("yarn run v1.x.x") and trailer ("Done in Ns.") lines
+                  # to stdout around the wrapped script's own output --
+                  # unlike `pnpm exec`/`npm exec` above, neither of which
+                  # does this. Left unsilenced, those lines land inside
+                  # the same `tee`'d file the `node -e` steps below parse
+                  # as JSON, breaking every `JSON.parse` call on this
+                  # profile (including `bodyDigest`, so the provenance
+                  # artifact silently stops being recorded even on a
+                  # successful post). `--silent` (a Yarn 1 global flag,
+                  # placed immediately after `yarn`) suppresses Yarn's own
+                  # console output while leaving the wrapped script's
+                  # stdout untouched -- but Yarn Berry (2+, also matched
+                  # by this same "yarn" branch: `steps.manager` never
+                  # distinguishes majors) already produces clean stdout
+                  # with no banner to suppress, and its clipanion CLI
+                  # parser does not recognize a bare `--silent` before the
+                  # script name at all -- it exits with "Unknown Syntax
+                  # Error" on stdout instead of ever running the script,
+                  # corrupting the capture worse than the bug this exists
+                  # to fix (self-review of this round's own commit caught
+                  # this empirically, running both `yarn@1` and `yarn@4`).
+                  # Detect the installed major at run time and apply
+                  # `--silent` only for v1, never unconditionally.
+                  YARN_MAJOR="$(yarn --version 2>/dev/null | cut -d. -f1)"
+                  if [ "$YARN_MAJOR" = "1" ]; then
+                    yarn --silent idd-external-check-waiver --pr "$PR_NUMBER" --check idd-advisory-convergence --reason self-referential-bootstrap-auto --run-id "$GITHUB_RUN_ID" --auto-bootstrap --apply --yes | tee /tmp/idd-waiver-report.json
+                  else
+                    yarn idd-external-check-waiver --pr "$PR_NUMBER" --check idd-advisory-convergence --reason self-referential-bootstrap-auto --run-id "$GITHUB_RUN_ID" --auto-bootstrap --apply --yes | tee /tmp/idd-waiver-report.json
+                  fi
+                  ;;
+                *)
+                  npm exec idd-external-check-waiver -- --pr "$PR_NUMBER" --check idd-advisory-convergence --reason self-referential-bootstrap-auto --run-id "$GITHUB_RUN_ID" --auto-bootstrap --apply --yes | tee /tmp/idd-waiver-report.json
+                  ;;
+              esac
+              ;;
+            ephemeral-npx)
+              SPEC="${PACKAGE_SPEC:-https://codeload.github.com/kurone-kito/idd-skill/tar.gz/refs/heads/main}"
+              npx --yes --package "$SPEC" idd-external-check-waiver --pr "$PR_NUMBER" --check idd-advisory-convergence --reason self-referential-bootstrap-auto --run-id "$GITHUB_RUN_ID" --auto-bootstrap --apply --yes | tee /tmp/idd-waiver-report.json
+              ;;
+            *)
+              echo "::error::unrecognized helper-runtime profile \"$PROFILE\""
+              exit 1
+              ;;
+          esac
+          APPLIED=$(node -e '
+            try {
+              const report = JSON.parse(require("fs").readFileSync("/tmp/idd-waiver-report.json", "utf8"));
+              process.stdout.write(String(report.applied ?? false));
+            } catch {
+              process.stdout.write("false");
+            }
+          ')
+          COMMENT_ID=$(node -e '
+            try {
+              const report = JSON.parse(require("fs").readFileSync("/tmp/idd-waiver-report.json", "utf8"));
+              process.stdout.write(String(report.commentId ?? ""));
+            } catch {
+              process.stdout.write("");
+            }
+          ')
+          BODY_DIGEST=$(node -e '
+            try {
+              const report = JSON.parse(require("fs").readFileSync("/tmp/idd-waiver-report.json", "utf8"));
+              process.stdout.write(String(report.bodyDigest ?? ""));
+            } catch {
+              process.stdout.write("");
+            }
+          ')
+          echo "applied=$APPLIED" >> "$GITHUB_OUTPUT"
+          echo "comment-id=$COMMENT_ID" >> "$GITHUB_OUTPUT"
+          echo "body-digest=$BODY_DIGEST" >> "$GITHUB_OUTPUT"
+      - name: Record the posted marker's provenance
+        # kurone-kito/idd-skill#2912 (round 2, extended round 3): a
+        # run-scoped Actions artifact naming the EXACT comment id AND body
+        # digest this run's own trusted job just posted -- the binding
+        # primitive `verifySelfReferentialBootstrapWaiverArtifactBinding`
+        # (advisory-convergence.mts) reads to prove a candidate marker
+        # IS the one this run's own execution posted, not merely that no
+        # OTHER candidate is currently visible (round 1's gap) or that
+        # some candidate with a matching id exists regardless of whether
+        # its body was since edited in place (round 2's gap, a
+        # same-repository `issues: write` workflow can rewrite an
+        # existing comment's body without changing its id or createdAt).
+        # Only when a NEW comment was actually posted this run
+        # (`applied == 'true'`) -- the reuse path (an existing valid
+        # waiver found, nothing newly posted) has no comment of THIS
+        # run's own to record. Needs no `permissions:` entry:
+        # `actions/upload-artifact` uses the Actions runtime's own
+        # dedicated upload token, entirely separate from `GITHUB_TOKEN`.
+        if: steps.post-waiver.outputs.applied == 'true' && steps.post-waiver.outputs.comment-id != '' && steps.post-waiver.outputs.body-digest != ''
+        env:
+          COMMENT_ID: ${{ steps.post-waiver.outputs.comment-id }}
+          BODY_DIGEST: ${{ steps.post-waiver.outputs.body-digest }}
+        run: |
+          mkdir -p /tmp/idd-self-waiver-marker
+          printf 'commentId=%s\nbodyDigest=%s\n' "$COMMENT_ID" "$BODY_DIGEST" \
+            > "/tmp/idd-self-waiver-marker/idd-self-waiver-marker-${COMMENT_ID}-${BODY_DIGEST}"
+      - name: Upload the posted marker's provenance artifact
+        # v4+ has no GHES Artifacts backend (GHES needs v3.2.2); see kurone-kito/idd-skill#2918 and docs/onboarding/optional-host-setup.md.
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: steps.post-waiver.outputs.applied == 'true' && steps.post-waiver.outputs.comment-id != '' && steps.post-waiver.outputs.body-digest != ''
+        with:
+          name: idd-self-waiver-marker-${{ steps.post-waiver.outputs.comment-id }}-${{ steps.post-waiver.outputs.body-digest }}
+          path: /tmp/idd-self-waiver-marker/
+          # Loud failure, not a silent empty artifact, if the previous
+          # step somehow produced no file -- the consumer's own binding
+          # check already fails closed on a missing artifact either way,
+          # but this surfaces the CI-side bug immediately instead of only
+          # as a downstream "no auto-waiver" symptom.
+          if-no-files-found: error
+          # Deliberately NOT retention-days: 1 -- a later re-evaluation
+          # (issue_comment-triggered, or rerun-advisory-convergence.mts)
+          # can run well after this run finishes, and the marker's own
+          # validity window (SELF_REFERENTIAL_BOOTSTRAP_AUTO_EXPIRY)
+          # outlives a short artifact retention -- keep the repository
+          # default so the artifact stays listable for the marker's full
+          # validity window.

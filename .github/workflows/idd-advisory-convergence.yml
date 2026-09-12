@@ -328,11 +328,17 @@ jobs:
         if: steps.profile.outputs.profile == 'package-manager'
         env:
           MANAGER: ${{ steps.manager.outputs.manager }}
+          # Suppresses husky's own `prepare` lifecycle script (this
+          # repository's local hardening, carried over from this file's
+          # pre-v0.11.0 dedicated install step): a CI checkout has no
+          # reason to install git hooks, and some sandboxed runners
+          # reject the hook-install step's writes outright.
+          HUSKY: 0
         run: |
           case "$MANAGER" in
             pnpm)
               corepack enable
-              pnpm install --frozen-lockfile
+              pnpm install --frozen-lockfile --prefer-offline
               ;;
             yarn)
               corepack enable
@@ -679,11 +685,17 @@ jobs:
         if: steps.profile.outputs.profile == 'package-manager' && steps.allowlist.outputs.touched == 'true'
         env:
           MANAGER: ${{ steps.manager.outputs.manager }}
+          # Suppresses husky's own `prepare` lifecycle script (this
+          # repository's local hardening, carried over from this file's
+          # pre-v0.11.0 dedicated install step): a CI checkout has no
+          # reason to install git hooks, and some sandboxed runners
+          # reject the hook-install step's writes outright.
+          HUSKY: 0
         run: |
           case "$MANAGER" in
             pnpm)
               corepack enable
-              pnpm install --frozen-lockfile
+              pnpm install --frozen-lockfile --prefer-offline
               ;;
             yarn)
               corepack enable

@@ -447,21 +447,30 @@ adopted, rather than silently absent, per the #170 verification pass
   `CI_RUNNER_LABEL`-override *mechanism* without hardcoding a specific
   runner label (roadmap #283, decision 4). Standing, deliberate
   divergence — no runner-value change is part of this track.
-- **`idd-advisory-convergence-comment.yml`** (new upstream v0.7.0
-  companion workflow): not adopted (recorded 2026-08-20, #288). This
-  workflow restores a human-review-comment-triggered refresh of the
-  required `idd-advisory-convergence` check, now that the required
-  workflow itself stopped listening for `pull_request_review_comment`.
-  Its classifier script (`scripts/review-comment-origin.mjs`) is not
-  published as a `package.json` `bin` entry — confirmed against the
-  installed `v0.7.0` package's `bin` map, unlike
-  `rerun-advisory-convergence` (wired here as
-  `idd:rerun-advisory-convergence`) — so this repository's
-  `package-manager` helper-runtime profile has no supported invocation
-  path for it yet (roadmap #283, decision 3). The existing
-  `idd:rerun-advisory-convergence` script remains the documented
-  manual-recovery path for the Copilot-review-race case in the
-  interim. Missing automation, not a correctness regression.
+
+The `idd-advisory-convergence-comment.yml` companion workflow,
+previously recorded here as not adopted (recorded 2026-08-20, #288,
+roadmap #283 decision 3, because its classifier script
+`scripts/review-comment-origin.mjs` had no published `package.json`
+`bin` entry in the installed `v0.7.0` package), is **no longer
+unadopted**: that blocker is resolved and re-confirmed against
+`v0.11.0` — the upstream package publishes `idd-review-comment-origin`
+and `idd-advisory-comment-debounce` as `bin` entries (added at v0.9.0,
+still present in `v0.11.0`'s 53-entry `bin` set), both directly
+runnable via `pnpm exec` once the `v0.11.0` pin (#312) was installed,
+with no `package.json` script alias required. `.github/workflows/
+idd-advisory-convergence-comment.yml` was adopted in #314, alongside
+the required workflow's own `pull_request_review` trigger moving from
+`idd-advisory-convergence.yml` to this new non-required companion
+(the interim arrangement documented in that file's own header and
+inline comments, kept only until this companion landed). It is
+registered as adopted but **not** added to any GitHub
+branch-protection Ruleset required-checks list — it stays advisory/
+best-effort by design, unlike the required workflow. The
+`idd-advisory-convergence.yml` runner-fallback divergence recorded
+above (`ubuntu-latest`, not `ubuntu-slim`) still holds for this
+companion workflow too, so the two paired workflows do not drift onto
+different runner defaults.
 
 The `idd-advisory-convergence` required-check CI workflow, previously
 recorded here as deferred (2026-07-27), is **no longer unadopted**:

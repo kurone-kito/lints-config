@@ -53,8 +53,10 @@ name: IDD advisory-convergence gate
 # explicit instruction not to hardcode a custom runner label (roadmap
 # kurone-kito/lints-config#283, decision 4). The upstream companion
 # `idd-advisory-convergence-comment.yml` workflow this version's
-# concurrency comment references is deliberately not adopted in this
-# repository (same roadmap, decision 3) -- see `docs/idd-policy.md`.
+# concurrency comment references is now adopted alongside this file
+# (kurone-kito/lints-config#314, superseding the prior deliberate
+# non-adoption recorded for the same roadmap, decision 3) -- see
+# `docs/idd-policy.md`.
 #
 # Profile resolution: mirrors post-merge-cleanup.yml's
 # helperRuntime.profile resolution and per-step `if:` gating (see its
@@ -73,12 +75,9 @@ concurrency:
   # Grouped by PR number, not github.ref: pull_request_target resolves
   # github.ref to the base branch (the same value for every PR targeting
   # it), so grouping by ref would collapse unrelated PRs into one slot.
-  # Review-thread comments live in the companion
-  # idd-advisory-convergence-comment.yml workflow (not adopted here,
-  # per the on: block's own note) and must not share this group; review
-  # submissions (pull_request_review) run here instead and get their
-  # own event-scoped group below, same as every other trigger type.
-  # Isolate workflow_dispatch so a manual re-check cannot
+  # Review-thread comments and review submissions live in the companion
+  # idd-advisory-convergence-comment.yml workflow (kurone-kito/lints-config#314)
+  # and must not share this group. Isolate workflow_dispatch so a manual re-check cannot
   # cancel an in-flight PR-linked run.
   #
   # kurone-kito/idd-skill#2657 (Codex review, PR #2895): also isolate
@@ -102,23 +101,14 @@ on:
   # opened afterward, so both stay active together rather than a
   # single-PR replacement that would leave the implementing PR unable
   # to satisfy its own required check. Drop pull_request once this has
-  # run cleanly on production PRs for a period.
-  #
-  # kurone-kito/lints-config#328 (Copilot review): upstream v0.11.0
-  # moves pull_request_review to the non-required companion
-  # idd-advisory-convergence-comment.yml, on the assumption that both
-  # workflows are adopted together. This repository deliberately does
-  # not adopt that companion (#314), so dropping pull_request_review
-  # here would leave no trigger that reruns this required check after
-  # a review submission or an IDD disposition reply -- the check would
-  # stay stale until an unrelated push or a manual rerun. Kept here
-  # until the companion lands; remove once #314 takes over this role.
+  # run cleanly on production PRs for a period. pull_request_review
+  # moved to the companion idd-advisory-convergence-comment.yml
+  # workflow instead of staying here (kurone-kito/lints-config#314),
+  # for the identical reason.
   pull_request:
     types: [opened, reopened, synchronize]
   pull_request_target:
     types: [opened, reopened, synchronize]
-  pull_request_review:
-    types: [submitted]
   workflow_dispatch:
     inputs:
       pr_number:
@@ -567,19 +557,17 @@ jobs:
           # would leave every other profile's own migration-via-config
           # fix unable to trigger this bypass, the exact trap this
           # mechanism exists to escape.
-          # kurone-kito/lints-config#328 (Copilot review): the upstream
-          # template ships this array with its comment-refresh companion
-          # `idd-advisory-convergence-comment.yml` included, since it
-          # normally ships as part of the same pair -- this repository
-          # deliberately does not adopt that companion workflow
-          # (docs/idd-policy.md), so keeping its path here would let an
-          # unrelated future PR that merely adds or edits that file
-          # (for example, landing #314) receive this check's
-          # self-referential-bootstrap-auto waiver for free, even though
-          # its diff has nothing to do with this checker's own logic.
+          # kurone-kito/lints-config#314: the companion
+          # `idd-advisory-convergence-comment.yml` workflow is now
+          # adopted alongside this file, restoring the upstream
+          # template's own array shape -- kurone-kito/lints-config#328
+          # (Copilot review) had excluded its path here only for the
+          # interim window while that companion stayed deliberately
+          # unadopted (docs/idd-policy.md).
           ALLOWLIST=(
             ".github/idd/config.json"
             ".github/workflows/idd-advisory-convergence.yml"
+            ".github/workflows/idd-advisory-convergence-comment.yml"
           )
           case "$PROFILE" in
             vendored-node)

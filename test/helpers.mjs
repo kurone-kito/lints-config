@@ -1,5 +1,11 @@
 import { spawnSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
+import {
+  closeSync,
+  existsSync,
+  openSync,
+  readFileSync,
+  readSync,
+} from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -73,28 +79,64 @@ export function runBin(binPath, args, options = {}) {
 }
 
 /**
- * `pnpm run` sets `npm_execpath` to pnpm's own JS entry point. Preferring
- * that over the bare `pnpm` command avoids the same shim-resolution problem
- * `resolveBin()` avoids above; it is only unset when this suite is invoked
- * some other way, so fall back to a shell-resolved `pnpm` in that case.
+ * Executable magic numbers for the natively compiled binary pnpm >=12 ships
+ * (ELF on Linux, Mach-O on macOS in either byte order, PE/`MZ` on Windows).
+ * pnpm <12's `npm_execpath` instead points at a shebang'd `.cjs`/`.mjs` shim,
+ * which reads back as ordinary UTF-8 source and matches none of these.
+ */
+const NATIVE_BINARY_MAGIC_NUMBERS = [
+  Buffer.from([0x7f, 0x45, 0x4c, 0x46]), // \x7fELF
+  Buffer.from([0xfe, 0xed, 0xfa, 0xce]), // Mach-O 32-bit BE
+  Buffer.from([0xfe, 0xed, 0xfa, 0xcf]), // Mach-O 64-bit BE
+  Buffer.from([0xce, 0xfa, 0xed, 0xfe]), // Mach-O 32-bit LE
+  Buffer.from([0xcf, 0xfa, 0xed, 0xfe]), // Mach-O 64-bit LE
+  Buffer.from('MZ'), // PE (Windows .exe)
+];
+
+/** Sniffs a file's leading bytes rather than trusting its extension. */
+function isNativeExecutable(path) {
+  const fd = openSync(path, 'r');
+  try {
+    const head = Buffer.alloc(4);
+    readSync(fd, head, 0, 4, 0);
+    return NATIVE_BINARY_MAGIC_NUMBERS.some((magic) =>
+      head.subarray(0, magic.length).equals(magic),
+    );
+  } finally {
+    closeSync(fd);
+  }
+}
+
+/**
+ * `pnpm run` sets `npm_execpath` to pnpm's own entry point, avoiding the same
+ * shim-resolution problem `resolveBin()` avoids above; it is only unset when
+ * this suite is invoked some other way, so fall back to a shell-resolved
+ * `pnpm` in that case. pnpm <12's entry point is a JS shim that must be run
+ * through `node`; pnpm >=12's is a natively compiled binary (see the
+ * `packageManagerDependencies` / `@pnpm/exe.*` entries in `pnpm-lock.yaml`)
+ * that must be run directly instead — running it through `node` fails since
+ * it isn't JavaScript.
  */
 function pnpmInvocation() {
   const execPath = process.env.npm_execpath;
-  return execPath && existsSync(execPath)
-    ? [process.execPath, execPath]
-    : ['pnpm'];
+  if (!execPath || !existsSync(execPath)) {
+    return { command: 'pnpm', prefixArgs: [], shell: true };
+  }
+  return isNativeExecutable(execPath)
+    ? { command: execPath, prefixArgs: [], shell: false }
+    : { command: process.execPath, prefixArgs: [execPath], shell: false };
 }
 
 /** Packs one workspace package and returns `pnpm pack --json`'s result. */
 export function packPackage(name, destDir) {
-  const [command, ...prefixArgs] = pnpmInvocation();
+  const { command, prefixArgs, shell } = pnpmInvocation();
   const result = spawnSync(
     command,
     [...prefixArgs, 'pack', '--pack-destination', destDir, '--json'],
     {
       cwd: packageDir(name),
       encoding: 'utf8',
-      shell: prefixArgs.length === 0,
+      shell,
     },
   );
   if (result.status !== 0) {

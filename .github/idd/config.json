@@ -34,8 +34,21 @@
   "autopilotSuitability": {
     "floor": 3
   },
+  "providerOutage": {
+    "declarationTarget": 329,
+    "maxValidity": "PT6H",
+    "maxParkedChanges": 3
+  },
   "ciGate": {
     "trustSourcePinnedRequiredChecks": true,
-    "trustEmptyProtectionReads": true
+    "trustEmptyProtectionReads": true,
+    "externalChecks": {
+      "waivable": [{ "selector": "idd-advisory-convergence" }]
+    },
+    "externalCheckWaivers": {
+      "mode": "maintainer-authorized",
+      "authorityPolicy": "owners-and-maintainers-only",
+      "maxValidity": "PT24H"
+    }
   }
 }

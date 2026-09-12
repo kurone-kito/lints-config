@@ -255,6 +255,65 @@ position on each. Both recorded 2026-08-20 (#288):
   (see "Critique-Loop Profile" above). Recorded as a deliberate
   non-adoption, not an oversight.
 
+## Provider Outage Policy
+
+**Policy**: adopted, with conservative defaults (recorded 2026-09-07,
+operator decision; re-confirmed 2026-09-12 during the `v0.11.0`
+retarget; #315).
+
+`v0.8.0` added the `providerOutage` declaration/park policy: a
+repository-scoped, time-boxed declaration that substitutes for
+repeatedly posting a per-pull-request external-check waiver while the
+primary advisory bot or GitHub Actions is genuinely unavailable for
+hours, not minutes. Adopted values:
+
+```json
+"providerOutage": {
+  "declarationTarget": 329,
+  "maxValidity": "PT6H",
+  "maxParkedChanges": 3
+},
+"ciGate": {
+  "externalChecks": {
+    "waivable": [{ "selector": "idd-advisory-convergence" }]
+  },
+  "externalCheckWaivers": {
+    "mode": "maintainer-authorized",
+    "authorityPolicy": "owners-and-maintainers-only",
+    "maxValidity": "PT24H"
+  }
+}
+```
+
+- **`providerOutage.maxParkedChanges: 3`** — conservative, given this
+  repository's low pull-request volume and solo-maintainer profile:
+  once three PRs are parked for an unavailable provider service,
+  sessions stop claiming new issues rather than manufacturing more
+  unmergeable pull requests.
+- **`providerOutage.maxValidity: "PT6H"`** — shortened from the
+  schema's `PT24H` default at the operator's explicit request, favoring
+  frequent re-declaration over one long-lived declaration that could
+  silently outlive a resolved outage.
+- **`providerOutage.declarationTarget: 329`** — issue
+  [#329](https://github.com/kurone-kito/lints-config/issues/329),
+  "Provider outage declarations (persistent tracking issue)", created
+  and immediately closed as this policy's permanent bookkeeping
+  mailbox. It stays closed so Discover's orphan and roadmap scans never
+  surface it as a candidate; the declaration helper reads its comment
+  history via the GitHub API regardless of issue state.
+- **`ciGate.externalChecks`/`externalCheckWaivers`** — this
+  repository's only relevant required check is
+  `idd-advisory-convergence` (GitHub Ruleset check, #209). Before this
+  change, `.github/idd/config.json` had no `ciGate.externalChecks`/
+  `externalCheckWaivers` block at all, so the `providerOutage`
+  declaration alone would have relieved nothing: an active declaration
+  only relieves selectors listed in `ciGate.externalChecks.waivable`,
+  and only once `externalCheckWaivers.mode` is
+  `maintainer-authorized`. This track wires both together so the
+  declaration policy actually has an effect, making
+  `idd-advisory-convergence`'s external-check-waiver path usable during
+  a sustained Copilot/Actions outage for the first time.
+
 ## Up-to-Date-Head Ruleset
 
 **Decision**: disabled (recorded 2026-08-08, ONBOARDING Step 1B

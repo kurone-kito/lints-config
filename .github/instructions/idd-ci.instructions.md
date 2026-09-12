@@ -216,17 +216,26 @@ header comment — not present in the portable stub this template
 ships). For a stuck or stale rollup entry, rerun the _existing_
 PR-linked run (`gh run rerun <run-id>`) instead of `workflow_dispatch`.
 
-A second cause: GitHub gates a bot-triggered run (e.g. Copilot's
-`pull_request_review`/`pull_request_review_comment` event) to
-`action_required`, and the bot event alone never refreshes the check.
-Recover by rerunning the _existing_ non-bot `pull_request`-triggered
-run for this HEAD (subject to `ciWait.rerunPolicy`) — never the gated
-bot run itself, which keeps the original actor's privileges and
-re-enters `action_required` (approve via `POST
+A second cause: a `pull_request_review`/`pull_request_review_comment`/
+`issue_comment` event no longer triggers `idd-advisory-convergence`
+directly — it triggers the non-required companion
+`idd-advisory-convergence-comment.yml` workflow instead (adopted
+alongside the required workflow, #314; see `docs/idd-policy.md`).
+GitHub still gates that companion run to `action_required` when the
+triggering actor is a bot (the companion's own header comment
+documents this), and the bot event alone never refreshes the required
+check. Recover the required check by rerunning the _existing_ non-bot
+`pull_request`-triggered run for this HEAD (subject to
+`ciWait.rerunPolicy`) — never the gated companion run itself, which
+keeps the original actor's privileges and re-enters `action_required`
+(approve via `POST
 /repos/{owner}/{repo}/actions/runs/{run_id}/approve` if it must run).
-The check also self-heals on the next non-bot trigger — a push or a
-**review-thread** reply, not a regular PR comment (no `issue_comment`
-subscription).
+The required check also self-heals on the next non-bot trigger — a
+push, or an IDD-originated comment/review-thread reply, which the
+companion refreshes via `idd-rerun-advisory-convergence
+--apply`/`--refresh-latest --apply` against the required check's
+existing run for this HEAD — a plain human comment still does not
+refresh it.
 
 **If rerunning the passing non-bot instance alone does not clear the
 rollup (`#1745`)**: a HEAD can carry several `idd-advisory-convergence`

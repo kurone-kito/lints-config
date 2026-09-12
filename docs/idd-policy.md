@@ -268,19 +268,21 @@ primary advisory bot or GitHub Actions is genuinely unavailable for
 hours, not minutes. Adopted values:
 
 ```json
-"providerOutage": {
-  "declarationTarget": 329,
-  "maxValidity": "PT6H",
-  "maxParkedChanges": 3
-},
-"ciGate": {
-  "externalChecks": {
-    "waivable": [{ "selector": "idd-advisory-convergence" }]
+{
+  "providerOutage": {
+    "declarationTarget": 329,
+    "maxValidity": "PT6H",
+    "maxParkedChanges": 3
   },
-  "externalCheckWaivers": {
-    "mode": "maintainer-authorized",
-    "authorityPolicy": "owners-and-maintainers-only",
-    "maxValidity": "PT24H"
+  "ciGate": {
+    "externalChecks": {
+      "waivable": [{ "selector": "idd-advisory-convergence" }]
+    },
+    "externalCheckWaivers": {
+      "mode": "maintainer-authorized",
+      "authorityPolicy": "owners-and-maintainers-only",
+      "maxValidity": "PT24H"
+    }
   }
 }
 ```

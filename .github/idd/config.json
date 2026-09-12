@@ -1,8 +1,9 @@
 {
   "$schema": "https://kurone-kito.github.io/idd-skill/schemas/policy.schema.json",
-  "iddVersion": "0.7.0",
+  "iddVersion": "0.11.0",
   "markerPrefix": "lints-config",
   "mergePolicy": "fully_autonomous_merge",
+  "mergePolicyAck": "fully_autonomous_merge",
   "reviewPolicy": "copilot-advisory",
   "threadResolutionPolicy": "fast-agent-resolve",
   "authoringLanguage": "en",
@@ -22,7 +23,7 @@
   },
   "helperRuntime": {
     "profile": "package-manager",
-    "packageSpec": "https://codeload.github.com/kurone-kito/idd-skill/tar.gz/refs/tags/v0.7.0"
+    "packageSpec": "https://codeload.github.com/kurone-kito/idd-skill/tar.gz/refs/tags/v0.11.0"
   },
   "issueScope": "roadmap-first",
   "orphanFirstPolicy": "none",

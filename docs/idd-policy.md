@@ -336,8 +336,10 @@ Adopted values:
   check-run is ever produced to waive, and GitHub's required-check
   topology stays non-waivable by the IDD contract regardless of waiver
   mode (`docs/policy-constants.md`'s External-Check Waiver Defaults). A
-  GitHub Actions platform outage is a separate scenario this adoption
-  does not address.
+  GitHub Actions platform outage is a separate scenario this waiver does
+  not address — the pre-existing provider-outage park flow (also
+  bounded by `providerOutage.maxParkedChanges` above, via a `ci-actions`
+  blocker) already covers that case independently of this waiver.
 
 ## New v0.8.0-v0.11.0 Policy Fields
 

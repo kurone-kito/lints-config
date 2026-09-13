@@ -233,12 +233,17 @@ keeps the original actor's privileges and re-enters `action_required`
 The required check also self-heals on the next non-bot trigger — a
 push, an IDD-originated comment/review-thread reply (the companion
 refreshes via `idd-rerun-advisory-convergence --apply` against the
-required check's existing run for this HEAD), or a human review
-submission (the companion's own `pull_request_review` handling always
-proceeds once profile/manager readiness holds, using the stronger
-`idd-rerun-advisory-convergence --refresh-latest --apply` — see the
-companion workflow's own header comment) — a plain human comment still
-does not refresh it.
+required check's existing run for this HEAD), or a same-repository
+human review submission (the companion's own `pull_request_review`
+handling always proceeds once profile/manager readiness holds, using
+the stronger `idd-rerun-advisory-convergence --refresh-latest --apply`
+— see the companion workflow's own header comment) — a plain human
+comment still does not refresh it. A **fork-originated** PR's review
+submission cannot self-heal this way: GitHub gives that run a
+read-only token regardless of the companion's declared `actions:
+write` permission, so its rerun step fails with a 403 (the companion's
+own header documents this); recovery there is the same manual `gh run
+rerun`/push/waiver path as any other stuck rollup.
 
 **If rerunning the passing non-bot instance alone does not clear the
 rollup (`#1745`)**: a HEAD can carry several `idd-advisory-convergence`

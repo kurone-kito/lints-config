@@ -61,7 +61,7 @@ body:
       label: Steps to Reproduce the Bug
       description: Detail the series of steps required to reproduce the bug.
       placeholder: |
-        1. Extend the package's config from my own config file: [paste the relevant snippet]
+        1. Load the selected package's configuration in my project (e.g. `extends`/`import` it, or use it as my `.lintstagedrc.mjs` export, depending on the package): [paste the relevant snippet]
         2. Run: [e.g. `pnpm exec biome check .`/`pnpm exec cspell lint .`/etc...]
         3. The command reports/formats: [actual output]
         4. I expected it to report/format: [expected output]
@@ -71,10 +71,11 @@ body:
   - type: textarea
     id: environment
     attributes:
-      label: Environment Details
-      description: Please provide details about your environment. Remove
-        any secrets, credentials, tokens, or personal data before
-        submitting.
+      label: Version Details
+      description: Please provide the affected package version, the
+        underlying tool version, the package manager version, and the
+        Node.js version. Remove any secrets, credentials, tokens, or
+        personal data before submitting.
       placeholder: |
         - Affected package version: [e.g. @kurone-kito/biome-config@1.4.3]
         - Underlying tool version: [e.g. Biome 2.5.9/CSpell 10.0.1/commitlint 21.2.2/lint-staged 17.3.0/markdownlint-cli2 0.23.2]
@@ -90,4 +91,4 @@ body:
       description: Add any other context about the problem here. Remove
         any secrets, credentials, tokens, or personal data before
         submitting.
-      placeholder: Feel free to add any other context/information/screenshots/etc... that you think might be relevant to this issue in here.
+      placeholder: Feel free to add any other context here, such as a link to your full config file, related CI logs, or a minimal reproduction repository, that you think might be relevant to this bug.

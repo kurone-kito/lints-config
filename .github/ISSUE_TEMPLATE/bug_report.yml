@@ -21,12 +21,28 @@ body:
 
         Before you continue filling out this report, please take a moment to check that your bug has not been [already reported on GitHub](https://github.com/kurone-kito/lints-config/search?q=is%3Aissue&type=issues) 🙌
 
+  - type: dropdown
+    id: package
+    attributes:
+      label: Affected Package
+      description: Which package does this bug affect?
+      options:
+        - '@kurone-kito/biome-config'
+        - '@kurone-kito/commitlint-config'
+        - '@kurone-kito/cspell-config'
+        - '@kurone-kito/lint-staged-config'
+        - '@kurone-kito/markdownlint-config'
+        - Repository tooling / multiple packages
+        - Not sure
+    validations:
+      required: true
+
   - type: textarea
     id: overview
     attributes:
       label: Bug Overview
       description: A clear and concise overview of the bug.
-      placeholder: When I do "X", "Y" happens instead of "Z".
+      placeholder: When I run the lint/format command, "X" happens instead of "Y".
     validations:
       required: true
 
@@ -35,7 +51,7 @@ body:
     attributes:
       label: Expected Behavior
       description: A clear and concise description of what you expected to happen.
-      placeholder: When I do "X", I expect "Z" to happen.
+      placeholder: When I run the lint/format command against my config, I expect "Y" to happen instead.
     validations:
       required: true
 
@@ -44,7 +60,11 @@ body:
     attributes:
       label: Steps to Reproduce the Bug
       description: Detail the series of steps required to reproduce the bug.
-      placeholder: When I run "X" using [...], "X" fails with "Y" error message. If I check the terminal outputs and/or logs, I see the following info.
+      placeholder: |
+        1. Extend the package's config from my own config file: [paste the relevant snippet]
+        2. Run: [e.g. `pnpm exec biome check .`/`pnpm exec cspell lint .`/etc...]
+        3. The command reports/formats: [actual output]
+        4. I expected it to report/format: [expected output]
     validations:
       required: true
 
@@ -56,10 +76,10 @@ body:
         any secrets, credentials, tokens, or personal data before
         submitting.
       placeholder: |
-        - Target deployment platform: [e.g. AWS/GCP/local cluster/etc...]
-        - Target OS: [e.g. RHEL 9/Ubuntu 24.04/etc...]
-        - Version of this project or specific commit: [e.g. 1.4.3/commit hash]
-        - Version of any relevant project languages: [e.g. Kubernetes 1.30/Python 3.9.7/etc...]
+        - Affected package version: [e.g. @kurone-kito/biome-config@1.4.3]
+        - Underlying tool version: [e.g. Biome 2.5.9/CSpell 10.0.1/commitlint 21.2.2/lint-staged 17.3.0/markdownlint-cli2 0.23.2]
+        - Package manager and version: [e.g. pnpm 12.4.0]
+        - Node.js version: [e.g. 22.23.2]
     validations:
       required: true
 

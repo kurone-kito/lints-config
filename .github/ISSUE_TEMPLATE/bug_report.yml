@@ -72,10 +72,9 @@ body:
     id: environment
     attributes:
       label: Version Details
-      description: Please provide the affected package version, the
-        underlying tool version, the package manager version, and the
-        Node.js version. Remove any secrets, credentials, tokens, or
-        personal data before submitting.
+      description: Please provide the affected package, tool, package
+        manager, and Node.js versions. Remove any secrets, credentials,
+        tokens, or personal data before submitting.
       placeholder: |
         - Affected package version: [e.g. @kurone-kito/biome-config@1.4.3]
         - Underlying tool version: [e.g. Biome 2.5.9/CSpell 10.0.1/commitlint 21.2.2/lint-staged 17.3.0/markdownlint-cli2 0.23.2]

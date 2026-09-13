@@ -470,11 +470,17 @@ effect.
 `.github/workflows/idd-advisory-convergence.yml`) leaves ample headroom
 for a 180 s (3 min) internal poll ceiling, comfortably above the
 reported ~70 s delay, without risking the job's own timeout.
+`docs/policy-constants.md`'s own field-evidence note for this same key
+(166-229 s observed on a `vendored-node` adopter) sits above this
+repository's own ~70 s observation but still well under `PT180S`,
+reinforcing that this ceiling has headroom for a slower-landing review
+too, not only the delay actually observed here.
 
 **Out of scope**: `docs/policy-constants.md` documents this field's
-upstream *shipped default* (`PT60S`) only, not a per-repository
-decision; it needs no edit here — this repository's override is
-recorded in this file and in `.github/idd/config.json` alone.
+upstream *shipped default* (`PT60S`) and onboarding guidance, not a
+per-repository decision; it needs no edit here — this repository's own
+override is recorded in this file and in `.github/idd/config.json`
+alone.
 
 ## Up-to-Date-Head Ruleset
 

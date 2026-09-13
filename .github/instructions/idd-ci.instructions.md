@@ -216,23 +216,45 @@ header comment — not present in the portable stub this template
 ships). For a stuck or stale rollup entry, rerun the _existing_
 PR-linked run (`gh run rerun <run-id>`) instead of `workflow_dispatch`.
 
-A second cause: GitHub gates a bot-triggered run (e.g. Copilot's
-`pull_request_review`/`pull_request_review_comment` event) to
-`action_required`, and the bot event alone never refreshes the check.
-Recover by rerunning the _existing_ non-bot `pull_request`-triggered
-run for this HEAD (subject to `ciWait.rerunPolicy`) — never the gated
-bot run itself, which keeps the original actor's privileges and
-re-enters `action_required` (approve via `POST
+A second cause: a `pull_request_review`/`pull_request_review_comment`/
+`issue_comment` event no longer triggers `idd-advisory-convergence`
+directly — it triggers the non-required companion
+`idd-advisory-convergence-comment.yml` workflow instead (adopted
+alongside the required workflow, #314; see `docs/idd-policy.md`).
+GitHub still gates that companion run to `action_required` when the
+triggering actor is a bot (the companion's own header comment
+documents this), and the bot event alone never refreshes the required
+check. Recover the required check by rerunning the _existing_ non-bot
+`pull_request`-triggered run for this HEAD (subject to
+`ciWait.rerunPolicy`) — never the gated companion run itself, which
+keeps the original actor's privileges and re-enters `action_required`
+(approve via `POST
 /repos/{owner}/{repo}/actions/runs/{run_id}/approve` if it must run).
-The check also self-heals on the next non-bot trigger — a push or a
-**review-thread** reply, not a regular PR comment (no `issue_comment`
-subscription).
+The required check also self-heals on the next non-bot trigger — a
+push, an IDD-originated comment/review-thread reply (the companion
+refreshes via `idd-rerun-advisory-convergence --apply` against the
+required check's existing run for this HEAD), or a same-repository
+human review submission (the companion's own `pull_request_review`
+handling always proceeds once profile/manager readiness holds, using
+the stronger `idd-rerun-advisory-convergence --refresh-latest --apply`
+— see the companion workflow's own header comment) — a plain human
+comment still does not refresh it. A **fork-originated** PR's review
+submission cannot self-heal this way: GitHub gives that run a
+read-only token regardless of the companion's declared `actions:
+write` permission, so its rerun step fails with a 403 (the companion's
+own header documents this); recovery there is the same manual `gh run
+rerun`/push/waiver path as any other stuck rollup.
 
 **If rerunning the passing non-bot instance alone does not clear the
 rollup (`#1745`)**: a HEAD can carry several `idd-advisory-convergence`
-check-run instances (the check fires on `pull_request` plus
-`pull_request_review`/`pull_request_review_comment`, and
-`cancel-in-progress` cancels most of them), and GitHub's own required-check
+check-run instances whenever the required workflow's own trigger list
+still fires more than one same-named instance per HEAD (at the time of
+the original `#1745` experiment, `pull_request` plus
+`pull_request_review`/`pull_request_review_comment`; this repository's
+required workflow now fires on `pull_request` plus
+`pull_request_target` instead, #314, and `cancel-in-progress` cancels
+most of them) — the underlying platform quirk below applies to any
+trigger combination, not only the one first observed. GitHub's own required-check
 rollup can stay pinned to a bot-triggered instance whose **conclusion** is
 `CANCELLED`. Unlike `action_required`, a `CANCELLED`-conclusion
 bot-triggered instance is **not** gated: rerunning it completes

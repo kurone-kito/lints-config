@@ -277,10 +277,8 @@ retarget; #315).
 `v0.8.0` added the `providerOutage` declaration/park policy: a
 repository-scoped, time-boxed declaration that substitutes for
 repeatedly posting a per-pull-request external-check waiver while the
-primary advisory bot is genuinely unavailable for hours, not minutes
-(a separate, declaration-independent parking mechanism is the general
-fallback for any unavailable external service, including a GitHub
-Actions platform outage — see the scope bullet below). Adopted values:
+primary advisory bot is genuinely unavailable for hours, not minutes.
+Adopted values:
 
 ```json
 {
@@ -330,27 +328,16 @@ Actions platform outage — see the scope bullet below). Adopted values:
   declaration policy actually has an effect, making
   `idd-advisory-convergence`'s external-check-waiver path usable during
   a sustained Copilot outage for the first time.
-- **Scope: advisory-bot outage vs. a GitHub Actions platform outage** —
-  the waiver above only relieves the case where `idd-advisory-convergence`
-  itself keeps running (GitHub Actions is up) but stays blocked because
-  the advisory bot has not reviewed; there, a real check-run exists for
-  the waiver to override. It does **not** help when GitHub Actions itself
-  is down: no check-run is ever produced to waive, and GitHub's
-  required-check topology stays non-waivable by the IDD contract
-  regardless of waiver mode — an unavailable required check stays a
-  hard CI-gate blocker (only the separate `localValidationEvidence`
-  field is informational-only there), so the merge queues until the
-  platform check rollup is restored, an out-of-band privileged operation
-  (`docs/policy-constants.md`'s External-Check Waiver Defaults and Local
-  Validation Evidence Defaults). An Actions-platform outage instead
-  falls to `maxParkedChanges` above via the parking mechanism, which is
-  a general fallback for any unavailable external service (it also
-  covers an advisory-bot outage the declaration/waiver hasn't resolved,
-  `--service advisory-review` alongside `--service ci-actions` —
-  `docs/idd-helper-scripts.md`'s "Provider outage park helper"),
-  independent of any declaration: sessions stop claiming new issues and
-  let affected pull requests sit parked until the relevant service
-  recovers.
+- **Scope: this waiver covers only an advisory-bot outage.** It relieves
+  `idd-advisory-convergence` only when the check-run itself exists
+  (GitHub Actions is up) but stays blocked because the advisory bot
+  has not reviewed — there, a real check-run exists for the waiver to
+  override. It does **not** help when GitHub Actions itself is down: no
+  check-run is ever produced to waive, and GitHub's required-check
+  topology stays non-waivable by the IDD contract regardless of waiver
+  mode (`docs/policy-constants.md`'s External-Check Waiver Defaults). A
+  GitHub Actions platform outage is a separate scenario this adoption
+  does not address.
 
 ## New v0.8.0-v0.11.0 Policy Fields
 
@@ -426,10 +413,11 @@ decisions inline — not restated here.
   active. As of this recording (2026-09-12), `.github/idd/config.json`
   had no `providerOutage` key yet, so per `docs/customization.md`'s own
   rule ("omit `declarationTarget` to keep the declaration path disabled
-  entirely"), the declaration path stayed disabled until #315 merged;
-  this entry made no claim that it was active at the time. **Update**:
-  #315 has since merged and added `providerOutage` — see "Provider
-  Outage Policy" above for the now-active configuration.
+  entirely"), the declaration path stayed disabled until #315's adoption
+  landed; this entry made no claim that it was active at the time.
+  **Update**: #315's adoption has since landed and added
+  `providerOutage` — see "Provider Outage Policy" above for the
+  now-active configuration.
 - **`package.json` `idd:*` script-alias set** — this bump (#312)
   followed the freshly regenerated `v0.11.0` `package-manager`-profile
   manifest output exactly, per this repository's own recorded bump

@@ -268,6 +268,79 @@ position on each. Both recorded 2026-08-20 (#288):
   (see "Critique-Loop Profile" above). Recorded as a deliberate
   non-adoption, not an oversight.
 
+## Provider Outage Policy
+
+**Policy**: adopted, with conservative defaults (recorded 2026-09-07,
+operator decision; re-confirmed 2026-09-12 during the `v0.11.0`
+retarget; #315).
+
+`v0.8.0` added the `providerOutage` declaration/park policy: a
+repository-scoped, time-boxed declaration that substitutes for
+repeatedly posting a per-pull-request external-check waiver while the
+primary advisory bot is genuinely unavailable for hours, not minutes.
+Adopted values:
+
+```json
+{
+  "providerOutage": {
+    "declarationTarget": 329,
+    "maxValidity": "PT6H",
+    "maxParkedChanges": 3
+  },
+  "ciGate": {
+    "externalChecks": {
+      "waivable": [{ "selector": "idd-advisory-convergence" }]
+    },
+    "externalCheckWaivers": {
+      "mode": "maintainer-authorized",
+      "authorityPolicy": "owners-and-maintainers-only",
+      "maxValidity": "PT24H"
+    }
+  }
+}
+```
+
+- **`providerOutage.maxParkedChanges: 3`** — conservative, given this
+  repository's low pull-request volume and solo-maintainer profile:
+  once three PRs are parked for an unavailable provider service,
+  sessions stop claiming new issues rather than manufacturing more
+  unmergeable pull requests.
+- **`providerOutage.maxValidity: "PT6H"`** — shortened from the
+  schema's `PT24H` default at the operator's explicit request, favoring
+  frequent re-declaration over one long-lived declaration that could
+  silently outlive a resolved outage.
+- **`providerOutage.declarationTarget: 329`** — issue
+  [#329](https://github.com/kurone-kito/lints-config/issues/329),
+  "Provider outage declarations (persistent tracking issue)", created
+  and immediately closed as this policy's permanent bookkeeping
+  mailbox. It stays closed so Discover's orphan and roadmap scans never
+  surface it as a candidate; the declaration helper reads its comment
+  history via the GitHub API regardless of issue state.
+- **`ciGate.externalChecks`/`externalCheckWaivers`** — this
+  repository's only relevant required check is
+  `idd-advisory-convergence` (GitHub Ruleset check, #209). Before this
+  change, `.github/idd/config.json` had no `ciGate.externalChecks`/
+  `externalCheckWaivers` block at all, so the `providerOutage`
+  declaration alone would have relieved nothing: an active declaration
+  only relieves selectors listed in `ciGate.externalChecks.waivable`,
+  and only once `externalCheckWaivers.mode` is
+  `maintainer-authorized`. This track wires both together so the
+  declaration policy actually has an effect, making
+  `idd-advisory-convergence`'s external-check-waiver path usable during
+  a sustained Copilot outage for the first time.
+- **Scope: this waiver covers only an advisory-bot outage.** It relieves
+  `idd-advisory-convergence` only when the check-run itself exists
+  (GitHub Actions is up) but stays blocked because the advisory bot
+  has not reviewed — there, a real check-run exists for the waiver to
+  override. It does **not** help when GitHub Actions itself is down: no
+  check-run is ever produced to waive, and GitHub's required-check
+  topology stays non-waivable by the IDD contract regardless of waiver
+  mode (`docs/policy-constants.md`'s External-Check Waiver Defaults). A
+  GitHub Actions platform outage is a separate scenario this waiver does
+  not address — the pre-existing provider-outage park flow (also
+  bounded by `providerOutage.maxParkedChanges` above, via a `ci-actions`
+  blocker) already covers that case independently of this waiver.
+
 ## New v0.8.0-v0.11.0 Policy Fields
 
 This repository never applied the `v0.9.0` intermediate release: #316
@@ -340,10 +413,13 @@ decisions inline — not restated here.
   area: it is intentionally left out of this deferred list because a
   separate track, #315, owns adopting it — not because it is already
   active. As of this recording (2026-09-12), `.github/idd/config.json`
-  has no `providerOutage` key yet, so per `docs/customization.md`'s own
+  had no `providerOutage` key yet, so per `docs/customization.md`'s own
   rule ("omit `declarationTarget` to keep the declaration path disabled
-  entirely"), the declaration path stays disabled until #315 merges;
-  this entry makes no claim that it is active yet.
+  entirely"), the declaration path stayed disabled until #315's adoption
+  landed; this entry made no claim that it was active at the time.
+  **Update**: #315's adoption has since landed and added
+  `providerOutage` — see "Provider Outage Policy" above for the
+  now-active configuration.
 - **`package.json` `idd:*` script-alias set** — this bump (#312)
   followed the freshly regenerated `v0.11.0` `package-manager`-profile
   manifest output exactly, per this repository's own recorded bump

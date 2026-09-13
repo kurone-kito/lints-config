@@ -231,17 +231,25 @@ keeps the original actor's privileges and re-enters `action_required`
 (approve via `POST
 /repos/{owner}/{repo}/actions/runs/{run_id}/approve` if it must run).
 The required check also self-heals on the next non-bot trigger — a
-push, or an IDD-originated comment/review-thread reply, which the
-companion refreshes via `idd-rerun-advisory-convergence
---apply`/`--refresh-latest --apply` against the required check's
-existing run for this HEAD — a plain human comment still does not
-refresh it.
+push, an IDD-originated comment/review-thread reply (the companion
+refreshes via `idd-rerun-advisory-convergence --apply` against the
+required check's existing run for this HEAD), or a human review
+submission (the companion's own `pull_request_review` handling always
+proceeds once profile/manager readiness holds, using the stronger
+`idd-rerun-advisory-convergence --refresh-latest --apply` — see the
+companion workflow's own header comment) — a plain human comment still
+does not refresh it.
 
 **If rerunning the passing non-bot instance alone does not clear the
 rollup (`#1745`)**: a HEAD can carry several `idd-advisory-convergence`
-check-run instances (the check fires on `pull_request` plus
-`pull_request_review`/`pull_request_review_comment`, and
-`cancel-in-progress` cancels most of them), and GitHub's own required-check
+check-run instances whenever the required workflow's own trigger list
+still fires more than one same-named instance per HEAD (at the time of
+the original `#1745` experiment, `pull_request` plus
+`pull_request_review`/`pull_request_review_comment`; this repository's
+required workflow now fires on `pull_request` plus
+`pull_request_target` instead, #314, and `cancel-in-progress` cancels
+most of them) — the underlying platform quirk below applies to any
+trigger combination, not only the one first observed. GitHub's own required-check
 rollup can stay pinned to a bot-triggered instance whose **conclusion** is
 `CANCELLED`. Unlike `action_required`, a `CANCELLED`-conclusion
 bot-triggered instance is **not** gated: rerunning it completes

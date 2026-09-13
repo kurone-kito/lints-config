@@ -424,10 +424,12 @@ decisions inline — not restated here.
   area: it is intentionally left out of this deferred list because a
   separate track, #315, owns adopting it — not because it is already
   active. As of this recording (2026-09-12), `.github/idd/config.json`
-  has no `providerOutage` key yet, so per `docs/customization.md`'s own
+  had no `providerOutage` key yet, so per `docs/customization.md`'s own
   rule ("omit `declarationTarget` to keep the declaration path disabled
-  entirely"), the declaration path stays disabled until #315 merges;
-  this entry makes no claim that it is active yet.
+  entirely"), the declaration path stayed disabled until #315 merged;
+  this entry made no claim that it was active at the time. **Update**:
+  #315 has since merged and added `providerOutage` — see "Provider
+  Outage Policy" above for the now-active configuration.
 - **`package.json` `idd:*` script-alias set** — this bump (#312)
   followed the freshly regenerated `v0.11.0` `package-manager`-profile
   manifest output exactly, per this repository's own recorded bump

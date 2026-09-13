@@ -471,10 +471,13 @@ effect.
 for a 180 s (3 min) internal poll ceiling, comfortably above the
 reported ~70 s delay, without risking the job's own timeout.
 `docs/policy-constants.md`'s own field-evidence note for this same key
-(166-229 s observed on a `vendored-node` adopter) sits above this
-repository's own ~70 s observation but still well under `PT180S`,
-reinforcing that this ceiling has headroom for a slower-landing review
-too, not only the delay actually observed here.
+records a wider range on a `vendored-node` adopter (166-229 s), whose
+upper end exceeds this repository's `PT180S` choice. This repository's
+own observed delay (~70+ s) is well within `PT180S`; the value is sized
+to that own evidence, not the wider upstream range. If this
+repository's own delays are ever observed approaching the upstream
+range's upper end, revisit this ceiling rather than assuming `PT180S`
+still covers it.
 
 **Out of scope**: `docs/policy-constants.md` documents this field's
 upstream *shipped default* (`PT60S`) and onboarding guidance, not a

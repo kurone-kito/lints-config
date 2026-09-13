@@ -51,7 +51,7 @@ body:
     attributes:
       label: Alternatives Considered
       description: Detail any potential alternative solutions/workarounds you've used or considered.
-      placeholder: I have worked around this by overriding "X" in my own config that extends this package.
+      placeholder: I have worked around this by overriding "X" in my own project config that loads this package (whether via `extends`, `import`, or a re-exported config file).
 
   - type: textarea
     id: context

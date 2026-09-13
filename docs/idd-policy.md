@@ -265,9 +265,9 @@ retarget; #315).
 repository-scoped, time-boxed declaration that substitutes for
 repeatedly posting a per-pull-request external-check waiver while the
 primary advisory bot is genuinely unavailable for hours, not minutes
-(a separate, declaration-independent parking mechanism handles a
-GitHub Actions platform outage instead -- see the scope bullet below).
-Adopted values:
+(a separate, declaration-independent parking mechanism is the general
+fallback for any unavailable external service, including a GitHub
+Actions platform outage — see the scope bullet below). Adopted values:
 
 ```json
 {
@@ -324,15 +324,20 @@ Adopted values:
   the waiver to override. It does **not** help when GitHub Actions itself
   is down: no check-run is ever produced to waive, and GitHub's
   required-check topology stays non-waivable by the IDD contract
-  regardless of waiver mode -- an unavailable required check stays a
+  regardless of waiver mode — an unavailable required check stays a
   hard CI-gate blocker (only the separate `localValidationEvidence`
   field is informational-only there), so the merge queues until the
   platform check rollup is restored, an out-of-band privileged operation
   (`docs/policy-constants.md`'s External-Check Waiver Defaults and Local
-  Validation Evidence Defaults). An Actions-platform outage is instead
-  handled by `maxParkedChanges` above, independently of any declaration:
-  sessions stop claiming new issues and let affected pull requests sit
-  parked until the platform recovers.
+  Validation Evidence Defaults). An Actions-platform outage instead
+  falls to `maxParkedChanges` above via the parking mechanism, which is
+  a general fallback for any unavailable external service (it also
+  covers an advisory-bot outage the declaration/waiver hasn't resolved,
+  `--service advisory-review` alongside `--service ci-actions` —
+  `docs/idd-helper-scripts.md`'s "Provider outage park helper"),
+  independent of any declaration: sessions stop claiming new issues and
+  let affected pull requests sit parked until the relevant service
+  recovers.
 
 ## Up-to-Date-Head Ruleset
 

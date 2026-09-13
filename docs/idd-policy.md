@@ -264,8 +264,10 @@ retarget; #315).
 `v0.8.0` added the `providerOutage` declaration/park policy: a
 repository-scoped, time-boxed declaration that substitutes for
 repeatedly posting a per-pull-request external-check waiver while the
-primary advisory bot or GitHub Actions is genuinely unavailable for
-hours, not minutes. Adopted values:
+primary advisory bot is genuinely unavailable for hours, not minutes
+(a separate, declaration-independent parking mechanism handles a
+GitHub Actions platform outage instead -- see the scope bullet below).
+Adopted values:
 
 ```json
 {
@@ -314,20 +316,23 @@ hours, not minutes. Adopted values:
   `maintainer-authorized`. This track wires both together so the
   declaration policy actually has an effect, making
   `idd-advisory-convergence`'s external-check-waiver path usable during
-  a sustained Copilot/Actions outage for the first time.
-- **Scope: advisory-bot outage vs. a GitHub Actions platform outage.**
-  The waiver above only relieves the case where `idd-advisory-convergence`
+  a sustained Copilot outage for the first time.
+- **Scope: advisory-bot outage vs. a GitHub Actions platform outage** —
+  the waiver above only relieves the case where `idd-advisory-convergence`
   itself keeps running (GitHub Actions is up) but stays blocked because
-  the advisory bot has not reviewed -- there, a real check-run exists for
+  the advisory bot has not reviewed; there, a real check-run exists for
   the waiver to override. It does **not** help when GitHub Actions itself
-  is down: no check-run is ever produced to waive, GitHub's required-check
-  topology stays non-waivable by the IDD contract regardless of waiver
-  mode, and `pre-merge-readiness` treats an unavailable required check as
-  informational-only, so the merge still queues
+  is down: no check-run is ever produced to waive, and GitHub's
+  required-check topology stays non-waivable by the IDD contract
+  regardless of waiver mode -- an unavailable required check stays a
+  hard CI-gate blocker (only the separate `localValidationEvidence`
+  field is informational-only there), so the merge queues until the
+  platform check rollup is restored, an out-of-band privileged operation
   (`docs/policy-constants.md`'s External-Check Waiver Defaults and Local
   Validation Evidence Defaults). An Actions-platform outage is instead
-  handled by `maxParkedChanges` above: sessions stop claiming new issues
-  and let affected pull requests sit parked until the platform recovers.
+  handled by `maxParkedChanges` above, independently of any declaration:
+  sessions stop claiming new issues and let affected pull requests sit
+  parked until the platform recovers.
 
 ## Up-to-Date-Head Ruleset
 

@@ -129,6 +129,7 @@ jobs:
           # workflow exists to avoid (#175).
           set +e
           pnpm exec idd-onboard --verify --source /tmp/idd-skill-latest --target . --profile package-manager \
+            --allow-root /tmp/idd-skill-latest \
             > verify-report.json 2> verify-stderr.log
           EXIT=$?
           set -e

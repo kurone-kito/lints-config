@@ -66,12 +66,12 @@ no longer denies `node scripts/idd-merge-execute.mjs` /
 
 The helper package (`@kurone-kito/idd-skill`) is not published to npm,
 so it resolves from a GitHub archive URL. `devDependencies` pins it
-(bumped to v0.7.0 by #284, recorded here in #288, superseding the
-v0.6.0 pin wired in #211) to a tag archive rather than
-`refs/heads/main`:
+(bumped to v0.11.0 by #312, recorded here in #316, superseding the
+v0.7.0 pin wired by #284/#288, which itself superseded the v0.6.0 pin
+wired in #211) to a tag archive rather than `refs/heads/main`:
 
 ```text
-https://codeload.github.com/kurone-kito/idd-skill/tar.gz/refs/tags/v0.7.0
+https://codeload.github.com/kurone-kito/idd-skill/tar.gz/refs/tags/v0.11.0
 ```
 
 The same string is set verbatim in three places: this `devDependencies`
@@ -131,12 +131,13 @@ catch a missed update.
 
 **Trade-offs accepted, not overlooked** (recorded per #174):
 `pnpm install` now depends on GitHub's codeload archive endpoint being
-reachable on every CI matrix job. The 40 `idd:*` scripts this profile
-adds (38 at the v0.4.0 pin; v0.6.0 added `idd:onboard` and
-`idd:merged-pr-feedback-sweep`) are a real footprint increase for an
-otherwise small root `package.json` — the `instructions-only`
-alternative (zero dependency, zero scripts, at the cost of losing
-helper-collected evidence) was considered and rejected on 2026-07-27.
+reachable on every CI matrix job. The `idd:*` scripts this profile adds
+grew from 38 at the v0.4.0 pin to 40 at v0.6.0 (`idd:onboard` and
+`idd:merged-pr-feedback-sweep`) to 50 at the current v0.11.0 pin
+(#312) — a real footprint increase for an otherwise small root
+`package.json` — the `instructions-only` alternative (zero dependency,
+zero scripts, at the cost of losing helper-collected evidence) was
+considered and rejected on 2026-07-27.
 
 **Node.js engines-floor coupling** (discovered during the v0.7.0 bump
 by #284; recorded here, #288): a helper-runtime tag bump can silently
@@ -153,6 +154,17 @@ its floor. A future re-sync should check upstream's target-tag
 `engines.node` against this repository's current floor **before**
 assuming no ordering dependency exists.
 
+**pnpm engines-floor coupling** (checked ahead of time for the
+`v0.11.0` bump; recorded here, #316): the same coupling risk applies to
+`engines.pnpm`, not just `engines.node`. Unlike the `v0.7.0` cycle
+above, which discovered the Node.js floor coupling mid-flight, this
+re-sync checked the target tag's `engines.pnpm` *before* starting the
+pin bump — confirming the earlier lesson's own recommendation to check
+first rather than discover the hard way. The prerequisite bump
+(`engines.pnpm` raised to `^12.4.0` for the `v0.11.0` pin) landed first,
+via #323, so the `v0.11.0` helper-runtime bump (#312) itself hit no
+`ERR_PNPM_UNSUPPORTED_ENGINE` failure.
+
 ## New v0.6.0 Policy Fields
 
 Four fields the v0.6.0 policy schema added, and this repository's
@@ -161,7 +173,8 @@ third and fourth were each revisited and recorded separately, on
 2026-08-12 and 2026-08-13 respectively, per their own bullets below:
 
 - **`helperRuntime.packageSpec`** — now set, mirroring the pin above
-  (currently `refs/tags/v0.7.0`). Absent under the v0.4.0 pin; the
+  (currently `refs/tags/v0.11.0`, per the v0.11.0 bump recorded above).
+  Absent under the v0.4.0 pin; the
   field exists specifically to make the `package-manager` /
   `ephemeral-npx` invocation spec explicit rather than re-derived from
   `devDependencies` at runtime.
@@ -254,6 +267,93 @@ position on each. Both recorded 2026-08-20 (#288):
   C1 continues to use the per-agent Critique pass invocation table
   (see "Critique-Loop Profile" above). Recorded as a deliberate
   non-adoption, not an oversight.
+
+## New v0.8.0-v0.11.0 Policy Fields
+
+This repository never applied the `v0.9.0` intermediate release: #316
+(recorded here) covers the residual `v0.8.0`-`v0.11.0` policy decisions
+in one pass, following the `v0.11.0` pin (#312) and instruction/docs
+re-import (#313). Sibling tracks #314 and #315 each record their own
+`idd-advisory-convergence-comment.yml` and `providerOutage` adoption
+decisions inline — not restated here.
+
+- **`mergePolicyAck`** — set to `"fully_autonomous_merge"` (#312),
+  matching the already-recorded `mergePolicy` value. Diagnostics-only:
+  it silences `idd-doctor`'s mismatch warning and never participates in
+  F2.5/F3 merge-authority resolution. `mergePolicy` itself was
+  re-confirmed as `fully_autonomous_merge` on 2026-09-12 (#316), despite
+  `v0.8.0`'s flip of the distributed default to `human_merge` for new
+  adopters — this repository's existing, deliberate divergence (see
+  "Merge Policy" above) stands unchanged.
+- **`developmentBranch`** — set to `"main"` (recorded 2026-09-12, #316).
+  Optional; absent would already resolve to the live GitHub default
+  branch (also `main`), so this changes no behavior, but is recorded
+  explicitly for clarity, confirmed via a live `idd-onboard --hear
+  --propose` run on 2026-09-12.
+- **`provider`** — not set. Absent resolves to `github`, and no adapter
+  exists yet for `gitlab`/`bitbucket`.
+- **`advisoryBotLogins`** — set to `["coderabbitai[bot]"]` (recorded
+  2026-09-12, #316). This field governs which **non-Copilot** bots' PR
+  review-comment acknowledgements may be classified as structurally
+  ack-only by the helper evidence layer (Copilot has its own dedicated
+  advisory-wait protocol, scoped separately); CodeRabbit is this
+  repository's only configured **non-Copilot** advisory reviewer
+  (`.coderabbit.yaml`; see "PR Review Policy" above, which keeps both
+  GitHub Copilot and CodeRabbit enabled as advisory reviewers).
+  Separately, the `idd-suggest-untrusted-labelers`
+  helper (run 2026-09-12, a read-only scan of this repository's actual
+  label history across 2080 scanned events) shows zero observed
+  activity from `chatgpt-codex-connector[bot]` — corroborating, not the
+  sole basis for, leaving it out.
+- **`upstreamEscalation.enabled`** — set to `true` (recorded
+  2026-09-12, #316). This repository actively dogfoods `idd-skill`; the
+  operator opted in (confirmed 2026-09-12) to let a worker session flag
+  a high-confidence `idd-skill` upstream defect discovered during this
+  repository's own IDD work as a local `status:upstream-candidate`
+  issue, using the marker mechanism and "Upstream-candidate escalation"
+  appendix subsection the instructions re-import (#313) brought in. Per
+  that subsection, the `status:upstream-candidate` label is created on
+  first use by whichever session first triggers the escalation (the
+  same lazy-creation pattern already used for `status:authoring`) — no
+  pre-creation step is needed here.
+- **`discover.milestoneScope`** — not applicable. Confirmed via the
+  GitHub API (2026-09-12) that this repository has zero milestones
+  configured.
+- **`critiqueLoop.delegate`** — still not adopted (unchanged from the
+  `v0.7.0` decision above); no delegate command is configured.
+- **Deferred this round** (confirmed 2026-09-12, #316; revisit only if
+  a concrete need arises): `labels.untrustedLabelerLogins`
+  (schema-supported metadata only, no runtime enforcement yet),
+  `advisoryWait.secondaryQuietWindow`,
+  `advisoryWait.providerOutage.terminalWindow`,
+  `advisoryConvergence.copilotReviewPollInterval` /
+  `copilotReviewPollMaxWait`, `localValidationEvidence.maxAge`,
+  `providerHealth.minCorroboratingPrs` / `samplingWindow`,
+  `critiqueLoop.deferAfterRounds`, `critiqueLoop.telemetryHook`,
+  `issueAuthoring.heartbeatCoalesceWindow`,
+  `issueAuthoring.journalIssue`,
+  `worktreeGuard.refuseBaseBranchCommits` (`worktreeGuard` itself
+  remains entirely unconfigured/inactive, unchanged — see
+  "Deliberately Unadopted Extensions" below), and
+  `mergeGate.soloCodeownerAdminFallback` (left at its own distributed
+  default). `providerOutage.*` is the one exception in this schema
+  area: it is intentionally left out of this deferred list because a
+  separate track, #315, owns adopting it — not because it is already
+  active. As of this recording (2026-09-12), `.github/idd/config.json`
+  has no `providerOutage` key yet, so per `docs/customization.md`'s own
+  rule ("omit `declarationTarget` to keep the declaration path disabled
+  entirely"), the declaration path stays disabled until #315 merges;
+  this entry makes no claim that it is active yet.
+- **`package.json` `idd:*` script-alias set** — this bump (#312)
+  followed the freshly regenerated `v0.11.0` `package-manager`-profile
+  manifest output exactly, per this repository's own recorded bump
+  procedure ("apply the manifest output in full"; see "Helper Runtime
+  Profile" above).
+- **Optional `idd-spec-audit` skill** (new upstream at `v0.10.0`) — not
+  adopted this round (#316). This repository only re-syncs the
+  already-installed `issue-authoring` skill (see "Issue-Authoring
+  Companion" below). Adopting a new skill is a separate decision, out
+  of scope for this version-bump roadmap.
 
 ## Up-to-Date-Head Ruleset
 
@@ -377,6 +477,19 @@ confirmed directly (#217's drift-check design deliberately does not add
 a content comparison for these paths, since doing so would manufacture
 exactly the false positive this section exists to explain away).
 
+**`v0.11.0` re-verification** (recorded 2026-09-12, #316): confirmed
+this bridge-not-import decision still holds at `v0.11.0`. Diffed all
+three files against the installed `v0.11.0` package's `idd-template/`
+copies directly: `.cspell.config.yml` and `.markdownlint.yml` still
+diverge from the template exactly as described above (`import`/
+`extends` from the published `@kurone-kito/*-config` packages, plus
+this repository's own additions), and `.markdownlint-cli2.yaml` needed
+no change, matching the original decision. The instructions re-import
+(#313) merged this repository's own additions forward into the
+`v0.11.0`-shaped `.cspell.config.yml`, the only content change needed
+this round; the two markdownlint files are unchanged upstream between
+`v0.7.0` and `v0.11.0`.
+
 ## Onboarding Meta-Doc Placeholder Corruption
 
 **Decision**: manual restoration only, no tooling fix (recorded
@@ -439,14 +552,17 @@ adopted, rather than silently absent, per the #170 verification pass
   third-party helper files into the repository. This repository uses
   the `package-manager` profile (a pinned npm dependency, wired in
   #174) instead, so there is no vendored helper bundle to mark.
-- **`idd-advisory-convergence.yml`'s new `ubuntu-slim` runner-fallback
-  default** (upstream v0.7.0): not adopted (recorded 2026-08-20,
-  #288). The workflow's `runs-on:` fallback stays `ubuntu-latest`, per
-  the workflow's own header comment recording an explicit,
-  issue-referenced (#183) choice to preserve the
+- **`idd-advisory-convergence.yml`'s `ubuntu-slim` runner-fallback
+  default** (upstream since v0.7.0): not adopted (recorded 2026-08-20,
+  #288; re-confirmed 2026-09-12, #316). The workflow's `runs-on:`
+  fallback stays `ubuntu-latest`, per the workflow's own header comment
+  recording an explicit, issue-referenced (#183) choice to preserve the
   `CI_RUNNER_LABEL`-override *mechanism* without hardcoding a specific
-  runner label (roadmap #283, decision 4). Standing, deliberate
-  divergence — no runner-value change is part of this track.
+  runner label (roadmap #283, decision 4). Re-verified directly against
+  the installed `v0.11.0` package: upstream's own shipped default is
+  still `ubuntu-slim`, and its rationale is unchanged between `v0.7.0`
+  and `v0.11.0` — no new information forces reconsideration. Standing,
+  deliberate divergence — no runner-value change is part of this track.
 - **`idd-advisory-convergence-comment.yml`** (new upstream v0.7.0
   companion workflow): not adopted (recorded 2026-08-20, #288). This
   workflow restores a human-review-comment-triggered refresh of the

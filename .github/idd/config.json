@@ -33,6 +33,9 @@
     "convergenceScope": "all-prs",
     "exemptBotAuthoredPrs": true
   },
+  "advisoryConvergence": {
+    "copilotReviewPollMaxWait": "PT180S"
+  },
   "autopilotSuitability": {
     "floor": 3
   },

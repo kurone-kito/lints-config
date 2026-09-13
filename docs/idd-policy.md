@@ -399,8 +399,10 @@ decisions inline — not restated here.
   (schema-supported metadata only, no runtime enforcement yet),
   `advisoryWait.secondaryQuietWindow`,
   `advisoryWait.providerOutage.terminalWindow`,
-  `advisoryConvergence.copilotReviewPollInterval` /
-  `copilotReviewPollMaxWait`, `localValidationEvidence.maxAge`,
+  `advisoryConvergence.copilotReviewPollInterval`
+  (`copilotReviewPollMaxWait` adopted separately — see
+  "Advisory-Convergence Copilot-Review Poll Window" below),
+  `localValidationEvidence.maxAge`,
   `providerHealth.minCorroboratingPrs` / `samplingWindow`,
   `critiqueLoop.deferAfterRounds`, `critiqueLoop.telemetryHook`,
   `issueAuthoring.heartbeatCoalesceWindow`,
@@ -430,6 +432,58 @@ decisions inline — not restated here.
   already-installed `issue-authoring` skill (see "Issue-Authoring
   Companion" below). Adopting a new skill is a separate decision, out
   of scope for this version-bump roadmap.
+
+## Advisory-Convergence Copilot-Review Poll Window
+
+**Decision**: `advisoryConvergence.copilotReviewPollMaxWait` set to
+`"PT180S"` (recorded 2026-09-14, #336). `copilotReviewPollInterval`
+stays unset, keeping the shipped 7.5 s
+(`DEFAULT_COPILOT_REVIEW_POLL_INTERVAL_MS`) poll cadence — only the
+total wait ceiling changed.
+
+This revisits, and partially supersedes, the "Deferred this round" note
+under "New v0.8.0-v0.11.0 Policy Fields" above, which had left both
+`advisoryConvergence.copilotReviewPollInterval` and
+`copilotReviewPollMaxWait` unconfigured. `copilotReviewPollInterval`
+stays deferred; only `copilotReviewPollMaxWait` is adopted here.
+
+**Evidence** (as reported during the 2026-09-13 IDD execution of
+roadmap #311 and its follow-ups, not independently reproduced by this
+session): the `idd-advisory-convergence` required check's own short
+bounded poll for a Copilot review
+(`scripts/advisory-convergence.mjs`'s `readCopilotReviewPollPolicy`,
+shipped default `DEFAULT_COPILOT_REVIEW_POLL_MAX_WAIT_MS = 60_000`,
+i.e. 60 s — confirmed against the installed package source)
+repeatedly timed out before Copilot's review actually landed on the
+same HEAD. Once each affected check-run instance had already used its
+one-time `rerun-once` budget (`ciWait.rerunPolicy`), GitHub's
+required-check rollup stayed blocked even though the substantive
+verdict and the latest run were both green, requiring a maintainer to
+manually rerun each stuck instance. This happened on 5 of the 9 PRs
+processed that day (#326, #328, #330, #332, #335). On at least two of
+those occasions, the actual delay before Copilot's review landed was
+reported at roughly 70+ seconds — past the 60 s ceiling then in
+effect.
+
+**Why `PT180S`**: the `idd-advisory-convergence` job's own
+`timeout-minutes: 10` budget (confirmed directly against
+`.github/workflows/idd-advisory-convergence.yml`) leaves ample headroom
+for a 180 s (3 min) internal poll ceiling, comfortably above the
+reported ~70 s delay, without risking the job's own timeout.
+`docs/policy-constants.md`'s own field-evidence note for this same key
+records a wider range on a `vendored-node` adopter (166-229 s), whose
+upper end exceeds this repository's `PT180S` choice. This repository's
+own observed delay (~70+ s) is well within `PT180S`; the value is sized
+to that own evidence, not the wider upstream range. If this
+repository's own delays are ever observed approaching the upstream
+range's upper end, revisit this ceiling rather than assuming `PT180S`
+still covers it.
+
+**Out of scope**: `docs/policy-constants.md` documents this field's
+upstream *shipped default* (`PT60S`) and onboarding guidance, not a
+per-repository decision; it needs no edit here — this repository's own
+override is recorded in this file and in `.github/idd/config.json`
+alone.
 
 ## Up-to-Date-Head Ruleset
 

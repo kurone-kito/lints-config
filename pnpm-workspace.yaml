@@ -13,7 +13,6 @@ minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeStrict: true
 packages:
   - packages/*
-pmOnFail: warn
 shellEmulator: true
 update:
   changeset: true

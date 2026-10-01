@@ -248,8 +248,8 @@ importers:
         specifier: ^21.2.2
         version: 21.2.2
       '@kurone-kito/typescript-config':
-        specifier: ^0.22.0-alpha.9
-        version: 0.22.0-alpha.11(typescript@7.0.2)
+        specifier: ^0.22.0
+        version: 0.22.0(typescript@7.0.2)
       cpy-cli:
         specifier: ^7.0.0
         version: 7.0.0
@@ -292,8 +292,8 @@ importers:
         version: 17.3.0
     devDependencies:
       '@kurone-kito/typescript-config':
-        specifier: ^0.22.0-alpha.9
-        version: 0.22.0-alpha.11(typescript@7.0.2)
+        specifier: ^0.22.0
+        version: 0.22.0(typescript@7.0.2)
       cpy-cli:
         specifier: ^7.0.0
         version: 7.0.0
@@ -717,9 +717,9 @@ packages:
     engines: {node: ^20.11 || ^22 || >=24}
     hasBin: true
 
-  '@kurone-kito/typescript-config@0.22.0-alpha.11':
-    resolution: {integrity: sha512-hmVtXy1baMYftomr0GY2dl5zd19khIS3QN/ovos06mo2fZ7dJlyX9DaTfgdCyDYQMkaK4kcVSyOKvo+IWE/Eng==}
-    engines: {node: ^22.23.1 || ^24.2.0 || >=26.0.0}
+  '@kurone-kito/typescript-config@0.22.0':
+    resolution: {integrity: sha512-UR101c8XGdYUfJT0m4R7GBiBH8y2vVtKb614yptBNFvprUEl84zP17it3vfBl+1LseUfmR2uUCBEhxq3NTJR5A==}
+    engines: {node: ^22.23.2 || ^24.2.0 || >=26.0.0}
     peerDependencies:
       typescript: '>=7.0.0'
     peerDependenciesMeta:
@@ -2016,7 +2016,7 @@ snapshots:
       '@types/semver': 7.8.0
       semver: 7.8.5
 
-  '@kurone-kito/typescript-config@0.22.0-alpha.11(typescript@7.0.2)':
+  '@kurone-kito/typescript-config@0.22.0(typescript@7.0.2)':
     optionalDependencies:
       typescript: 7.0.2
 

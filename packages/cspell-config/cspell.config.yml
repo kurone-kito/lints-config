@@ -44,6 +44,8 @@ ignoreRegExpList:
   - '@[a-zA-Z0-9_-]+/'
 language: en
 useGitignore: true
+useIntlWordSegmentation: true
+validateDirectives: true
 version: '0.2'
 words:
   - dedup
